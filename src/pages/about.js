@@ -52,16 +52,13 @@ const About = () => (
       some friends.
     </p>
     <img
-      class="wp-image-2879"
       src="http://kyleshevlin.com/wp-content/uploads/2011/10/Happymatic-photobooth-0122-X3-768x1024.jpg"
       alt="Anna and Kyle at FINE's Christmas Party"
-      width="450"
-      height="600"
-    />{' '}
-    <caption>
+    />
+    <div>
       My wife trying to eat me with one of those hats that Sherlock Holmes would
       wear. I don't blame her. I'm definitely nom-ible.
-    </caption>
+    </div>
     <h3>More Interested In My Resume?</h3>
     <p>
       You can find my resume on my{' '}
