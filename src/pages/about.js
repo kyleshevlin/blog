@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 
-const IndexPage = () => (
+const About = () => (
   <Layout>
     <SEO title="About" keywords={['About', 'Kyle Shevlin']} />
     <h1>About</h1>
@@ -73,4 +73,4 @@ const IndexPage = () => (
   </Layout>
 )
 
-export default IndexPage
+export default About

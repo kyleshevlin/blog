@@ -7,10 +7,10 @@ import { bs } from '../shevy'
 const LINKS = [
   { to: '/', title: 'Home' },
   { to: '/about', title: 'About' },
-  { to: '/Portfolio', title: 'Portfolio' },
-  { to: '/Podcast', title: 'Podcast' },
+  { to: '/portfolio', title: 'Portfolio' },
+  { to: '/podcast', title: 'Podcast' },
   { href: 'https://kyleshevlin.github.io', title: 'Resume' },
-  { to: '/Contact', title: 'Contact' }
+  { to: '/contact', title: 'Contact' }
 ]
 
 const Wrap = styled.nav`
