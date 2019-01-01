@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Container from './Container'
+import Nav from './Nav'
 
 const Header = ({ subTitle, title }) => (
   <header>
@@ -10,6 +11,7 @@ const Header = ({ subTitle, title }) => (
         <h1>{title}</h1>
         <div>{subTitle}</div>
       </Link>
+      <Nav />
     </Container>
   </header>
 )
