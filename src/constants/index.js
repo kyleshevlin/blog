@@ -4,3 +4,10 @@ export const BREAKPOINTS = {
   charlie: '1025px',
   delta: '1350px'
 }
+
+export const COLORS = {
+  black: '#333',
+  lightGray: '#eff4f5',
+  teal: '#33a1cc',
+  white: '#fff'
+}

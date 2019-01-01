@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import Container from './Container'
+import Footer from './Footer'
 import Header from './header'
 import './layout.css'
 
@@ -26,10 +27,7 @@ const Layout = ({ children }) => (
           <main>
             <Container>{children}</Container>
           </main>
-          <footer>
-            &copy;{new Date().getFullYear()} Kyle Shevlin. Built with{' '}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </footer>
+          <Footer />
         </Fragment>
       )
     }}
