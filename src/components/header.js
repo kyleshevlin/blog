@@ -1,12 +1,16 @@
-import { Link } from 'gatsby'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'gatsby'
+import Container from './Container'
 
-const Header = ({ siteTitle }) => (
+const Header = ({ subTitle, title }) => (
   <header>
-    <h1>
-      <Link to="/">{siteTitle}</Link>
-    </h1>
+    <Container>
+      <Link to="/" style={{ display: 'block' }}>
+        <h1>{title}</h1>
+        <div>{subTitle}</div>
+      </Link>
+    </Container>
   </header>
 )
 
