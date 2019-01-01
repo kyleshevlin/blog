@@ -31,7 +31,7 @@ const Layout = ({ children }) => (
       return (
         <Fragment>
           <Header subTitle={subTitle} title={title} />
-          <MainWrap role="MainWrap">
+          <MainWrap role="main">
             <Container>{children}</Container>
           </MainWrap>
           <Footer />
