@@ -1,10 +1,17 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
 import { StaticQuery, graphql } from 'gatsby'
 import Container from './Container'
 import Footer from './Footer'
 import Header from './header'
 import './layout.css'
+import { bs } from '../shevy'
+
+const MainWrap = styled.main`
+  padding-top: ${bs(2)};
+  padding-bottom: ${bs(2)};
+`
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -24,9 +31,9 @@ const Layout = ({ children }) => (
       return (
         <Fragment>
           <Header subTitle={subTitle} title={title} />
-          <main>
+          <MainWrap role="MainWrap">
             <Container>{children}</Container>
-          </main>
+          </MainWrap>
           <Footer />
         </Fragment>
       )

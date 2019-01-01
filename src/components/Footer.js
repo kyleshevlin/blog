@@ -2,11 +2,18 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Container from './Container'
 import { COLORS } from '../constants'
+import { bs } from '../shevy'
 
 const Wrap = styled.footer`
   background-color: ${COLORS.black};
   color: ${COLORS.white};
+  padding-top: ${bs(2)};
+  padding-bottom: ${bs(2)};
   text-align: center;
+`
+
+const IconWrap = styled.div`
+  margin-bottom: ${bs(0.5)};
 `
 
 const IconLink = styled.a`
@@ -72,13 +79,13 @@ const links = [
 const Footer = () => (
   <Wrap>
     <Container>
-      <div>
+      <IconWrap>
         {links.map(({ href, icon: Icon, title }) => (
           <IconLink key={title} href={href} title={title}>
             <Icon fill={COLORS.teal} width={25} />
           </IconLink>
         ))}
-      </div>
+      </IconWrap>
       <div>
         &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
         Built with <a href="https://www.gatsbyjs.org">Gatsby</a>
