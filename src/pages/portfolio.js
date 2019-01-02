@@ -1,5 +1,5 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 
@@ -10,18 +10,22 @@ const Portfolio = ({ data }) => {
     <Layout>
       <SEO title="Portfolio" keywords={['Portfolio', 'Kyle Shevlin']} />
       <h1>Portfolio</h1>
-      {items.map(item => {
-        const {
-          html,
-          frontmatter: { slug, title }
-        } = item
 
-        return (
-          <div key={slug}>
-            <h3>{title}</h3>
-          </div>
-        )
-      })}
+      <div>
+        {items.map(item => {
+          const {
+            frontmatter: { slug, title }
+          } = item
+
+          return (
+            <div key={slug}>
+              <h3>
+                <Link to={`portfolio/${slug}`}>{title}</Link>
+              </h3>
+            </div>
+          )
+        })}
+      </div>
     </Layout>
   )
 }

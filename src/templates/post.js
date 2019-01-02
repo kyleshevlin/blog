@@ -12,8 +12,8 @@ const Post = ({ data }) => {
     <Layout>
       <div>
         <div>{date}</div>
-        <h2>{title}</h2>
-        <h3>{subtitle}</h3>
+        <h3>{title}</h3>
+        {subtitle && <h4>{subtitle}</h4>}
         <article dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </Layout>
