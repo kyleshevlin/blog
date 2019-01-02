@@ -22,6 +22,13 @@ module.exports = {
         path: `${__dirname}/src/posts/published`
       }
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `portfolio`,
+        path: `${__dirname}/src/portfolio/published`
+      }
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

@@ -15,13 +15,39 @@ exports.createPages = ({ graphql, actions }) => {
 
   return new Promise((resolve, reject) => {
     const postTemplate = path.resolve('src/templates/post.js')
+    const portfolioTemplate = path.resolve('src/templates/portfolio.js')
     const query = graphql(`
       {
-        allMarkdownRemark {
+        posts: allFile(filter: { sourceInstanceName: { eq: "posts" } }) {
           edges {
             node {
-              frontmatter {
-                slug
+              id
+              childMarkdownRemark {
+                html
+                frontmatter {
+                  title
+                  subtitle
+                  date
+                  slug
+                }
+              }
+            }
+          }
+        }
+
+        portfolio: allFile(
+          filter: { sourceInstanceName: { eq: "portfolio" } }
+        ) {
+          edges {
+            node {
+              id
+              childMarkdownRemark {
+                html
+                frontmatter {
+                  title
+                  subtitle
+                  slug
+                }
               }
             }
           }
@@ -35,11 +61,22 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors)
         }
 
-        result.data.allMarkdownRemark.edges.forEach(edge => {
-          const { slug } = edge.node.frontmatter
+        result.data.posts.edges.forEach(edge => {
+          const { slug } = edge.node.childMarkdownRemark.frontmatter
           const pageOptions = {
             path: slug,
             component: postTemplate,
+            context: { slug }
+          }
+
+          createPage(pageOptions)
+        })
+
+        result.data.portfolio.edges.forEach(edge => {
+          const { slug } = edge.node.childMarkdownRemark.frontmatter
+          const pageOptions = {
+            path: `portfolio/${slug}`,
+            component: portfolioTemplate,
             context: { slug }
           }
 
