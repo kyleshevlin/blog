@@ -11,8 +11,6 @@ const path = require('path')
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
-  console.log('createPages')
-
   return new Promise((resolve, reject) => {
     const postTemplate = path.resolve('src/templates/post.js')
     const portfolioTemplate = path.resolve('src/templates/portfolio.js')
@@ -21,7 +19,6 @@ exports.createPages = ({ graphql, actions }) => {
         posts: allFile(filter: { sourceInstanceName: { eq: "posts" } }) {
           edges {
             node {
-              id
               childMarkdownRemark {
                 html
                 frontmatter {
@@ -40,7 +37,6 @@ exports.createPages = ({ graphql, actions }) => {
         ) {
           edges {
             node {
-              id
               childMarkdownRemark {
                 html
                 frontmatter {
@@ -63,24 +59,22 @@ exports.createPages = ({ graphql, actions }) => {
 
         result.data.posts.edges.forEach(edge => {
           const { slug } = edge.node.childMarkdownRemark.frontmatter
-          const pageOptions = {
+
+          createPage({
             path: slug,
             component: postTemplate,
             context: { slug }
-          }
-
-          createPage(pageOptions)
+          })
         })
 
         result.data.portfolio.edges.forEach(edge => {
           const { slug } = edge.node.childMarkdownRemark.frontmatter
-          const pageOptions = {
+
+          createPage({
             path: `portfolio/${slug}`,
             component: portfolioTemplate,
             context: { slug }
-          }
-
-          createPage(pageOptions)
+          })
         })
 
         return

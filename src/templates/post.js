@@ -3,11 +3,10 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 
 const Post = ({ data }) => {
-  const post = data.markdownRemark
   const {
     html,
     frontmatter: { date, subtitle, title }
-  } = post
+  } = data.markdownRemark
 
   return (
     <Layout>
