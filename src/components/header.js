@@ -24,6 +24,7 @@ const Title = styled.h1`
 `
 
 const Subtitle = styled.div`
+  font-family: 'Catamaran', sans-serif;
   font-size: 1rem;
   margin-bottom: 0;
 `

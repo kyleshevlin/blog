@@ -1,6 +1,6 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 
 const Typography = () => (
   <Global

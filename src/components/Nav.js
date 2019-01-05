@@ -20,6 +20,8 @@ const Wrap = styled.nav`
 
 const linkStyles = css`
   display: inline-block;
+  font-family: 'Catamaran', sans-serif;
+  color: ${COLORS.black};
   padding: ${bs(0.5)};
 `
 
