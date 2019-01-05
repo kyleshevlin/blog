@@ -5,8 +5,10 @@ import { StaticQuery, graphql } from 'gatsby'
 import Container from './Container'
 import Footer from './Footer'
 import Header from './header'
-import './layout.css'
 import { bs } from '../shevy'
+import Reset from '../styles/Reset'
+import Tags from '../styles/Tags'
+import Typography from '../styles/Typography'
 
 const MainWrap = styled.main`
   padding-top: ${bs(2)};
@@ -30,6 +32,10 @@ const Layout = ({ children }) => (
 
       return (
         <Fragment>
+          <Reset />
+          <Tags />
+          <Typography />
+
           <Header subTitle={subTitle} title={title} />
           <MainWrap role="main">
             <Container>{children}</Container>

@@ -39,7 +39,14 @@ module.exports = {
         plugins: ['gatsby-remark-copy-linked-files', 'gatsby-remark-images']
       }
     },
-
+    {
+      resolve: `gatsby-plugin-web-font-loader`,
+      options: {
+        google: {
+          families: ['Droid Serif:400,700', 'Catamaran:100,400,700']
+        }
+      }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

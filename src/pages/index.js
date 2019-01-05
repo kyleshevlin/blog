@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link, graphql } from 'gatsby'
+import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import ExcerptedPost from '../components/ExcerptedPost'
 
 const IndexPage = ({ data }) => {
   const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
@@ -10,39 +11,9 @@ const IndexPage = ({ data }) => {
     <Layout>
       <SEO title="Home" keywords={['Kyle Shevlin']} />
       <div>
-        {posts.map(post => {
-          const {
-            excerpt,
-            frontmatter: { categories, date, slug, subtitle, tags, title }
-          } = post
-
-          return (
-            <div key={slug} style={{ marginBottom: 50 }}>
-              <div>{date}</div>
-              <h3>
-                <Link to={slug}>{title}</Link>
-              </h3>
-              {subtitle && <h4>{subtitle}</h4>}
-              <div dangerouslySetInnerHTML={{ __html: excerpt }} />
-              {categories && (
-                <div>
-                  <div>Categories:</div>
-                  {categories.map(cat => (
-                    <span key={cat}>{cat} </span>
-                  ))}
-                </div>
-              )}
-              {tags && (
-                <div>
-                  <div>Tags:</div>
-                  {tags.map(tag => (
-                    <span key={tag}>{tag} </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )
-        })}
+        {posts.map(post => (
+          <ExcerptedPost key={post.frontmatter.slug} post={post} />
+        ))}
       </div>
     </Layout>
   )
@@ -60,6 +31,7 @@ export const query = graphql`
         node {
           frontmatter {
             title
+            subtitle
             slug
             date(formatString: "MMMM DD, YYYY")
             categories
