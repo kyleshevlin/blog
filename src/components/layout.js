@@ -11,7 +11,6 @@ import Tags from '../styles/Tags'
 import Typography from '../styles/Typography'
 
 const MainWrap = styled.main`
-  padding-top: ${bs(2)};
   padding-bottom: ${bs(2)};
 `
 
