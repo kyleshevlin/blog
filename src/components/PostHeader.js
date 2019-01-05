@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'gatsby'
 import { COLORS } from '../constants'
@@ -26,13 +26,18 @@ const Subtitle = styled.h4`
   font-weight: 700;
 `
 
-const PostHeader = ({ slug, subtitle, title }) => (
-  <Header>
-    <PostLink to={slug}>
-      <Title>{title}</Title>
-      {subtitle && <Subtitle>{subtitle}</Subtitle>}
-    </PostLink>
-  </Header>
-)
+const PostHeader = ({ slug, subtitle, title }) => {
+  const Wrap = slug ? PostLink : Fragment
+  const wrapProps = slug ? { to: slug } : {}
+
+  return (
+    <Header>
+      <Wrap {...wrapProps}>
+        <Title>{title}</Title>
+        {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      </Wrap>
+    </Header>
+  )
+}
 
 export default PostHeader

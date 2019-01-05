@@ -1,20 +1,29 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Layout from '../components/layout'
+import PostDate from '../components/PostDate'
+import PostHeader from '../components/PostHeader'
+import PostContent from '../components/PostContent'
+import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 
 const Post = ({ data }) => {
   const {
     html,
-    frontmatter: { date, subtitle, title }
+    frontmatter: { categories, date, subtitle, tags, title }
   } = data.markdownRemark
 
   return (
     <Layout>
       <div>
-        <div>{date}</div>
-        <h3>{title}</h3>
-        {subtitle && <h4>{subtitle}</h4>}
-        <article dangerouslySetInnerHTML={{ __html: html }} />
+        <PostDate date={date} />
+        <PostHeader {...{ subtitle, title }} />
+        <PostContent content={html} />
+
+        {categories && (
+          <PostCategoriesOrTags items={categories} type="category" />
+        )}
+
+        {tags && <PostCategoriesOrTags items={tags} type="tag" />}
       </div>
     </Layout>
   )
@@ -29,7 +38,9 @@ export const pageQuery = graphql`
       frontmatter {
         title
         subtitle
-        date
+        date(formatString: "MMMM DD, YYYY")
+        categories
+        tags
       }
     }
   }
