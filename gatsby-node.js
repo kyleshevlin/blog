@@ -16,34 +16,33 @@ exports.createPages = ({ graphql, actions }) => {
     const portfolioTemplate = path.resolve('src/templates/portfolio.js')
     const query = graphql(`
       {
-        posts: allFile(filter: { sourceInstanceName: { eq: "posts" } }) {
+        posts: allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "/posts/" } }
+          sort: { fields: [frontmatter___date], order: DESC }
+        ) {
           edges {
             node {
-              childMarkdownRemark {
-                html
-                frontmatter {
-                  title
-                  subtitle
-                  date
-                  slug
-                }
+              frontmatter {
+                title
+                slug
+                date(formatString: "MMMM DD, YYYY")
+                categories
               }
+              excerpt
             }
           }
         }
 
-        portfolio: allFile(
-          filter: { sourceInstanceName: { eq: "portfolio" } }
+        portfolio: allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "/portfolio/" } }
+          sort: { fields: [frontmatter___date], order: DESC }
         ) {
           edges {
             node {
-              childMarkdownRemark {
-                html
-                frontmatter {
-                  title
-                  subtitle
-                  slug
-                }
+              frontmatter {
+                title
+                slug
+                date(formatString: "MMMM DD, YYYY")
               }
             }
           }
@@ -58,7 +57,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
 
         result.data.posts.edges.forEach(edge => {
-          const { slug } = edge.node.childMarkdownRemark.frontmatter
+          const { slug } = edge.node.frontmatter
 
           createPage({
             path: slug,
@@ -68,7 +67,7 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         result.data.portfolio.edges.forEach(edge => {
-          const { slug } = edge.node.childMarkdownRemark.frontmatter
+          const { slug } = edge.node.frontmatter
 
           createPage({
             path: `portfolio/${slug}`,

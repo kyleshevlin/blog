@@ -1,0 +1,47 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['React']
+date: "2017-04-22"
+slug: "what-i-love-about-react-1"
+status: "publish"
+subtitle: "Renders with Ternaries"
+title: "What I Love About React #1"
+---
+
+This won't be a very long, nor deep, post. As I was working on some code this afternoon, a thought occurred to me. I love React. I really do. I find it so pleasant to work in React, and I can't always describe why. However, I have at least one reason I can describe, and I thought I'd share that with you right now. I'll share more as I think of others.
+
+One reason I love React is the simple fact that the same component can render different markup depending upon `props` and/or `state`. I think many of us have grown so accustom to this that we have forgotten how novel and amazing this is.
+
+Let's take a very simple component for an example.
+
+```
+class MyComponent extends React.Component {
+  constructor () {
+    super()
+    this.state = { isReady: false }
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({ isReady: true })
+    }, 3000)
+  }
+
+  render () {
+    return this.state.isReady ? (
+      <div>I'm ready!</div>
+    ) : (
+      <div>One moment. I'm still getting ready.</div>
+    )
+  }
+}
+
+```
+
+In this simple component, I am using a ternary to render one `div` when the component `isReady` and an entirely different one when we are not. There are a number of other ways to handle this situation that return the same result, but at it's core, any one of them will use a ternary or an `if...else` statement to return different DOM for different state.
+
+This is absolutely brilliant. Could you imagine trying to accomplish this with a server side application? You could probably do it with vanilla JavaScript or jQuery simply enough, but would it be as elegant? Our component is as pure as the driven snow. It renders solely based on its inputs, is really easy to test, and pretty easy to reason about.
+
+Just last year, I was working as a Rails developer. There's nothing in that ecosystem that even comes close to this. Often in this scenario, I would actually render both `div`s and hide the correct one with CSS. It was hacky, but made transitioning simple and nice.
+
+React eliminates these hacks and instead provides us with a very elegant way of creating really responsive UIs (not responsive in design, but responsive to our data). It's just hard to beat how simple, yet powerful this mechanism is.

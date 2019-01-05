@@ -1,0 +1,18 @@
+---
+categories: ['Web Development']
+date: "2016-03-27"
+slug: "why-i-think-opening-external-links-in-new-tabs-is-a-bad-idea"
+status: "publish"
+title: "Why I Think Opening External Links In New Tabs Is a Bad Idea"
+---
+
+In previous posts I've mentioned my vehement dislike of purposefully opening links in a new tab. Here's a short list of reasons why it's a bad idea:
+
+- It's not the default behavior of links.
+- It's extra work, generally because the developer will code it to open normally, someone will see it and say that's wrong and then the developer needs to reopen the project, add the code and send it back.
+- It steals control away from the user. The user should be able to choose whether links open in this tab or a new one.
+- Lastly and most honestly, it's demeaning to the user. Let me explain.
+
+Forcing a user to open a link in a new tab is almost always done to ensure that the user does not leave the website. This isn't the action of a confident website that knows the value of its content. This is done out of fear. Fear that a user will never come back. Fear that the back button might stop working. Fear that the user doesn't know how to open links in a new tab on their own. That's a little ridiculous.
+
+In my opinion, if you want a user to stay on your site then you better provide them with content compelling enough to keep them there. Because stealing control away from the user displays a lack of faith in two ways. First, a lack of faith in the intelligence and ability of your user and customer. If you don't believe in your customer enough to trust them to know how use your site, you should reconsider your relationship to the user. Second, exerting unnecessary control over the user is a lack of faith in your own brand and product. If your brand and product is compelling, users will stick around. Or comeback. People respond to confidence, online and offline. Shouldn't you have some confidence in yourself? Just some food for thought.

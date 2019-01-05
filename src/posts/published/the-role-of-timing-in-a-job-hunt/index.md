@@ -1,0 +1,73 @@
+---
+categories: ['Web Development']
+date: "2018-10-10"
+slug: "the-role-of-timing-in-a-job-hunt"
+status: "publish"
+title: "The Role of Timing In a Job Hunt"
+---
+
+You might know, I've started to hunt for a new job.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Friends, I'm putting the word out that I'm looking for new opportunities. Y'all know me, love <a href="https://twitter.com/hashtag/JavaScript?src=hash&amp;ref_src=twsrc%5Etfw">#JavaScript</a>, especially <a href="https://twitter.com/hashtag/React?src=hash&amp;ref_src=twsrc%5Etfw">#React</a>, want to do more <a href="https://twitter.com/hashtag/GraphQL?src=hash&amp;ref_src=twsrc%5Etfw">#GraphQL</a> &amp; <a href="https://twitter.com/hashtag/ReasonML?src=hash&amp;ref_src=twsrc%5Etfw">#ReasonML</a>. Good teacher, speaker, got a ? for junior devs, and a great beard ?. My DMs are open. Let's talk. ?</p>— Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1041735370478542851?ref_src=twsrc%5Etfw">September 17, 2018</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+In my [last blog post](https://kyleshevlin.com/how-to-be-more-successful-on-your-next-web-developer-job-hunt/), I shared with you several tips on how to make that hunt go better for you. We talked about how shifting our mindset to "seeking offers" instead of "getting a job" puts us in a position to "explore" rather than "judge". We need to explore many paths and options when trying to find the next step in our career. This week, I'm going to continue to discuss the job hunt by sharing an anecdote from this week and how that might relate to you.
+
+When I initially put the word out that I was looking for a job, a friend I made at React Rally 2017 reached out with a great opportunity. The position was for a company whose product I really respect. I could see myself _actually_ caring about it and even evangelizing for. I don't say that about a lot of products. Their technology stack fits perfectly with my skill set. It was a Bay Area company (good salary!) but I could work remotely (no relocation!) which is, in my opinion, the best combination. Not to mention I'd be working with a friend.
+
+We schedule a time to hash out the details of the position. The day comes, we chat, and we feel really aligned. This could be a great fit. He starts working it up the chain to his manager. Gets the go ahead to proceed from them. Works it up one more level. Gets the go ahead from them.
+
+But it had to go up one more level.
+
+And it didn't get the go ahead from them.
+
+My buddy gets back to me with the bad news. So and so doesn't want to hire any remotes at this time. They also don't want to revisit the idea **until Q2 of next year**. Obviously longer than I can wait.
+
+Shit.
+
+Now, I'm not going to dwell on this much longer than it takes me to write this post to you all, but it demonstrates an important part of a job hunt—_timing_.
+
+I believe that we give our industry a tad too much credit for being _meritocratic_, that is, advancement is based upon what you have done and accomplished. There's certainly _some_ element of meritocracy, it's not often that someone completely inept lands a coveted position for very long, but there are plenty of other variables at play in who gets which job in our industry.
+
+One of those variables (and there are many) is timing. This could be your timing, their timing, or even someone else's timing. And if you don't learn to roll with it, it can really wreck you.
+
+### Your Timing
+
+Are you ready for a dream opportunity if it landed at your feet tomorrow? Do you have the skills you need? The experience you need? The network, the clout, the authority you need to seize it?
+
+Maybe you do. Maybe you don't. Whether or not isn't my point. My point is that if you aren't prepared for a job when it's available, then that job isn't available to you. Even if you'd be great at it in 6 months, a year, or more.
+
+### Their Timing
+
+As my anecdote explains, even if you'd be a great candidate for a job, doesn't mean that they are ready for you to be a candidate. If you're new to these job hunts, and I suspect some of you are, you might hear the term "head count" thrown around. This is a way of describing how many people a team can hire at a particular time. As in, "We really like you, but we just don't have head count. I might be able to add a few heads in 4-6 months. You should try again then."
+
+Sucks, but it's out of your control.
+
+### Someone Else's Timing
+
+When you're seeking offers, it's easy to forget that you're _actually_ competing for a limited resource against unknown third parties. Your timing could be perfect. The company's timing could be perfect. But if someone with a superior skill set, better cultural fit, or cheaper salary requirements (and a host of other possibilities) comes along at the right time, then your timing isn't really so perfect.
+
+Shit. Again.
+
+This happens, too. The difference between this and the "your timing" category is where the locus of control is. You control how ready you are for opportunities by working on your skill set and network. This is an internal locus of control. Everything to prepare yourself comes from within you.
+
+You can't shape who does or does not apply for a job. Well, perhaps you could by nefarious means, but don't do that. Not cool. This is an external locus of control, it's outside of you and not one you can change.
+
+### How Do We Respond?
+
+When bad timing occurs, there's very little you can do to change the immediate situation. It sucks, but it's a fact. However, we can be prepared for it. Something like this will likely happen to most of you at some point in your career, so here's my tips for being prepared.
+
+#### Respond Professionally
+
+This is an absolute must. Don't whine to them. Don't complain to them. If this happens to you and you respond poorly, it only _hurts you_, it does not help you.
+
+By responding well, you may impress them. You might be remembered for a future opportunity. Plus, in the scenario where someone else beats you for the job, they might not accept the offer, and they may come back to you. Keep this in mind.
+
+#### Don't Worry About It
+
+The variable of timing in a job hunt means that there is a significant amount of luck involved in finding the right job. That being said, **this pendulum swings both ways**. Assuming that you are a qualified candidate, skilled at your job and hard working, then you will likely benefit from timing as often as you will suffer from it. Keep your head up when the pendulum swings away from you. Figure out how to move forward. You're seeking offers and there are more out there.
+
+### Coda
+
+Random segue, but if you know what a coda is in music, you might get how this applies here. A coda signifies we've reached the end, _but_ we're going to cycle back to another point. The job hunt is often cyclical. You'll probably be in this boat again. You might be on the hiring end of this equation at some point. Try to keep this in mind next time you find yourself in a job hunt.

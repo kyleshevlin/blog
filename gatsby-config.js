@@ -20,6 +20,7 @@ module.exports = {
       options: {
         name: `posts`,
         path: `${__dirname}/src/posts/published`
+        // ignore: ['**/images']
       }
     },
     {
@@ -27,10 +28,18 @@ module.exports = {
       options: {
         name: `portfolio`,
         path: `${__dirname}/src/portfolio/published`
+        // ignore: ['**/images']
       }
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: ['gatsby-remark-copy-linked-files', 'gatsby-remark-images']
+      }
+    },
+
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -43,8 +52,7 @@ module.exports = {
         // This path is relative to the root of the site.
         icon: `src/images/beard-favicon.png`
       }
-    },
-    `gatsby-transformer-remark`
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',

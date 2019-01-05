@@ -1,0 +1,19 @@
+---
+categories: ['JavaScript', 'Web Development']
+date: "2017-05-17"
+slug: "shevyjs"
+status: "publish"
+title: "ShevyJS"
+---
+
+This morning I released [ShevyJS](https://github.com/kyleshevlin/shevyjs) into the wild. ShevyJS is a remake of [Shevy](https://github.com/kyleshevlin/shevy) for CSS-in-JS styling.
+
+If you're new to the concept of CSS-in-JS, you can find some great resources on the topic including [this massive repo](https://github.com/MicheleBertoli/css-in-js). In a nutshell, CSS-in-JS is the task of adding styles either inline or otherwise directly with JavaScript. You may have seen a `style` tag used in a React component. This was a form of CSS-in-JS.
+
+Now, you can have the mathematics of Shevy's Sass version in your JavaScript client-side framework.
+
+ShevyJS is a class that exposes a set of properties and methods for you to consume throughout your application. Because it is a constructor, you can define as many Shevy configurations you need and pass them around your app with `imports` and `exports`.
+
+It is available on npmjs.org, and be sure to check out the repo at [https://github.com/kyleshevlin/shevyjs](https://github.com/kyleshevlin/shevyjs). If you like the library, please star it.
+
+If you have any questions, feel free to ask them here, or create an issue on the repository. And share examples of using ShevyJS in the wild.

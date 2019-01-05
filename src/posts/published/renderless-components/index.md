@@ -1,0 +1,161 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['React', 'Redux']
+date: "2017-02-23"
+slug: "renderless-components"
+status: "publish"
+subtitle: "or How Logic Doesn't Always Need a UI"
+title: "Renderless Components"
+---
+
+If you're using Redux with React, you are probably familiar with the concept of container and presentational components. If you are, you can skip ahead to the section **Renderless Components**. If you're not, let me give you a very brief description of each.
+
+### Container Components
+
+The purpose of a "container component" is to gather and pass data into a presentational component. Container components are used to connect to stores, fetch data during various lifecycle methods, and otherwise gather and transfer data to child components.
+
+### Presentational Components
+
+The purpose of a "presentational component" is to render UI based solely on the props passed to it. These have also been referred to in the past as "dumb components". These components have no (or at least very little) logic, and do not use any lifecycle methods other than `render()`. In fact, most presentational components are written as stateless functional components. That is, these components are pure functions that receive props as arguments and render appropriate markup. Presentational components are relatively easy to test due to this.
+
+### Redux and Container Components
+
+Those familiar with Redux know that a single store governs your application's state in a Redux app. The typical way to pass this state to your app is through a `Provider` and using the `connect()` function to connect to this `Provider`. These can be found in the `react-redux` package.
+
+Typically, a container component is actually a higher order component (HOC) because it is connected to the store. Like so:
+
+```
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+class FooContainer extends Component {
+  //...
+}
+
+export default connect()(FooContainer)
+
+```
+
+I won't go into the `connect()` API. The docs are very well written and there are plenty of tutorials and videos on how to use it. I simply wanted to show that we are not exporting `FooContainer` itself, but rather the HOC returned by the `connect()` function.
+
+### Redux and Presentational Components
+
+Using the example from above, generally speaking, we would use this container component to connect to our store to gather props and pass those props into a presentational component. There are two ways to do this.
+
+We can pass the props implicitly if we don't need to use any lifecycle hooks in our container component like so:
+
+```
+import { connect } from 'react-redux'
+import FooPresentational from './FooPresentational'
+
+const mapStateToProps = state => ({
+  someProp: state.someProp
+})
+
+export default connect(mapStateToProps)(FooPresentational)
+
+```
+
+Thus, we implicitly pass to `FooPresentational` the `someProp` prop.
+
+We can also pass props explicitly by using the presentational component in the `render()` method of our container component like so:
+
+```
+import React, { Component } from 'react'
+import FooPresentational from './FooPresentational'
+
+class FooContainer extends Component {
+  render () {
+    return <FooPresentational someProp={this.props.someProp} />
+  }
+}
+
+const mapStateToProps = state => ({
+  someProp: state.someProp
+})
+
+export default connect(mapStateToProps)(FooContainer)
+
+```
+
+This way of passing props explicitly might be a bit cumbersome, but can be useful if you need to massage the props for any reason before passing them.
+
+### Renderless Components
+
+When I first came to React, my mental model treated components and the UI as a 1-to-1 mapping. It took me some time to realize not all components will render DOM elements. It took me even longer to realize that not all components need to render _anything at all_.
+
+It is a perfectly legitimate use of a component to `render () { return null }`. This is particularly helpful when you need logic to exist that updates your store, but has no associated UI. In this case, you're making a container component that doesn't return any presentational components. For now, I call this a _renderless component_. This is an incredibly useful pattern.
+
+For a project I am working on, I need to update a value in my store, `currentTime`, with the current hours, minutes, and seconds. Since Redux requires reducers to be pure, the logic for updating the time must be in the action itself or passed to the action creator function as parameters. This means, I need a component to setup an interval to dispatch a function that will in turn update my store. Here's what a component like that might look like:
+
+```
+import { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+
+// This is my action creator function
+// It takes three parameters: hours, minutes, seconds
+import { updateTime } from '../actions'
+
+class UpdateTimeContainer extends Component {
+  constructor () {
+    super()
+
+    this.intervalId = null
+    this.startClock = this.startClock.bind(this)
+    this.stopClock = this.stopClock.bind(this)
+    this.getCurrentTime = this.getCurrentTime.bind(this)
+  }
+
+  componentDidMount () {
+    this.startClock()
+  }
+
+  componentWillUnmount () {
+    this.stopClock()
+  }
+
+  startClock () {
+    this.intervalId = setInterval(this.getCurrentTime, 5000)
+  }
+
+  stopClock () {
+    clearInterval(this.intervalId)
+  }
+
+  getCurrentTime () {
+    const now = new Date()
+    const hours = now.getHours()
+    const minutes = now.getMinutes()
+    const seconds = now.getSeconds()
+
+    this.props.updateTime(hours, minutes, seconds)
+  }
+
+  render () {
+    return null
+  }
+}
+
+UpdateTimeContainer.propTypes = {
+  updateTime: PropTypes.func
+}
+
+const mapDispatchToProps = {
+  updateTime
+}
+
+export default connect(null, mapDispatchToProps)(UpdateTimeContainer)
+
+```
+
+As you can see, this component uses lifecycle methods like any normal component, but doesn't render any markup. That's right! A component will _mount_ even if it doesn't _render_ markup.
+
+If you check your inspector, you'll see that React adds a nice little comment about this component `<!-- react-empty: [id] -->`. Our component exists in the virtual DOM and updates to the store without rendering pointless markup.
+
+This pattern allows us to write business logic into our applications as React components. I have used this pattern for event handlers, listening to web sockets, and more. It seems every time I make an app, I think of a new use case for this pattern.
+
+### Conclusion
+
+What I want you to take away from this post is that rendering `null` from a React component is a perfectly legitimate use of a component. Using this pattern will allow you to encapsulate necessary logic for updating your store (or however else you are managing state in your app).
+
+I hope this helps and that you find use cases in your own projects for creating these renderless components. Let me know if you have any questions, ways to improve this technique, or examples using it in the comments.

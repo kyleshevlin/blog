@@ -1,0 +1,115 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['life story', 'pastor', 'programmer']
+date: "2018-02-05"
+slug: "from-pastor-to-programmer"
+status: "publish"
+subtitle: "or Telling My Story Once and For All"
+title: "From Pastor to Programmer"
+---
+
+I am often asked to share the story of how I went from being a Christian pastor to a software engineer. Now that I've started [Second Career Devs](https://secondcareerdevs.com), I am being asked this question so often that I thought it wise to write it down and answer it once and for all.
+
+## Where I Believe the Story Begins
+
+Unlike many people who eventually find their way to programming, I never did any programming as a kid. I had a computer, a Commodore 64, but I mostly used it to play games and write stories. In other words, I don't think anyone suspected that I would wind up where I have.
+
+I was an excellent student, albeit, an easily bored one (really, I am just an easily bored person). I slept through most of high school while still getting straight A's. I didn't really care about the grades, though. I was mostly concerned with athletics at that time in my life. That is a story for another time.
+
+Because I was solid in all my classes, there was no particularly clear path for me to choose after high school. The irony of being good at many things is that it can sometimes make choices more difficult. You have more options than you know what to do with and a fear of choosing wrongly can be overwhelming. A bunch of my friends were going to pursue engineering, and I thought that would work for me, so I headed to college with a vague plan of becoming an engineer.
+
+College mathematics continued to go well, but the work became incredibly tedious. I abhor tedium. It is something for which I have no patience. I began to grow increasingly tired of math homework that would only be a couple of problems, but would take multiple hours to complete by sheer volume of steps required. My instincts would tell me, "Computers will solve all these problems for me on the job. Why do I need to do this by hand?" Thus, I started to drift away from mathematics.
+
+At the same time, I took my first philosophy course. I was immediately hooked. I had always been a thoughtful person (more in quantity than quality), frequently scolded by my peers and for "thinking too much". Suddenly, I found an area of study that matched my overly cognitive demeanor. This led me to make what I consider to be one of the worst decisions of my life, but I switched directions to become a philosophy major.
+
+### How Philosophy Lead to Theology
+
+I earned athletic and academic scholarships to attend Lenoir-Rhyne University in Hickory, North Carolina and transferred there my junior year. The Southeast was quite the culture shock for me. I had never visited before my transfer and didn't know what to expect. One of the biggest culture shocks was moving right into the heart of the Bible Belt. I had never seen such overt religiousity in my life. While I was raised in a Lutheran church and considered myself a Christian, I did not share the same passion for Jesus as many of peers and elders did. It was eye-opening and life changing.
+
+One night, late my junior year, I had an epiphany of sorts where I felt overwhelmingly compelled to devote myself to Jesus and his teachings. I became highly involved in a local church and various campus ministries. This was really the beginning of my ministry career.
+
+Studying philosophy trained me to be excellent at critical thinking. I was also a pretty naturally gifted public speaking (I like talking a lot). Thus, I enjoyed the challenge of reading and deducing interesting insights from the Bible and sharing them with others. With these gifts and talents, I was both drawn to and encouraged to pursue a career in ministry.
+
+I can't emphasize the "encouragement" enough. Looking back at that time from my current vantage point enables me to recognize just how much peer pressure shaped the next eight years of my life. There was an incredible amount of pressure put on me by others, and my own sense of guilt, to use these skills "for the Lord." As in, if I didn't use these skills in the church, that I would be squandering them, or even worse, committing sin. I, of course, didn't want to be a sinner and so it seemed like I was destined to be a pastor.
+
+After college, I spent a year in a volunteer organization where I practically lived in a van with five other people, driving around the United States doing youth and worship ministry. We covered ~60,000 miles that year. It was a challenging time for my team, and not many of us survived the whole year. We started as a team of six, we ended as a team of three. After this time of volunteering, I continued following the natural path of ministry and became a pastor of youth and worship ministries for a small church in rural Illinois.
+
+I took this job at the same time that our country entered the Great Recession. As you might imagine, this wasn't a good time to work for an organization that depends upon donations to survive. My time at the church was quite short, just over a year, and finances played a big part in just how brief my tenure was.
+
+Because of the recession, the congregation had less discretionary money to tithe to the church. Less tithing means coming up short on budget. But it wasn't just the recession that was preventing people from giving. They also were less encouraged to donate because there was a general displeasure with the new pastor the diocese had assigned to the church.
+
+This was the first time I really understood how money is power and how the intended target of an attack is not always the one who gets hurt. My church was unhappy with the head pastor. To hurt the pastor, they withheld their money. However, I being the lowest person on the totem pole, was the one who lost their job. With very little notice, I was told I was being let go. My final day at that church was Easter Sunday of 2010.
+
+By then, I had become convinced that I needed to attend seminary so that I could finally be a lead pastor. Because, of course, when you're in charge, everything will be better (I know that this isn't true now, but a younger me had no clue). However, _when_ I was let go presented a pretty serious problem. I was let go in the spring, _after_ the admissions deadlines for virtually every seminary in the country had passed. I would have to wait a full year before I could get into school, and I didn't have a job, any savings, or any real skills at the time. To put it politely, I was pretty screwed.
+
+There were only a handful of seminaries in the country with open enrollment. One of them was Fuller Theological Seminary in Pasadena, California. I applied and was accepted. In August of 2010, with no idea how I was going to afford Los Angeles or grad school, I packed up my entire life in my car and moved out to Southern California to earn a Masters of Theology.
+
+### How Theology Leads to Technology
+
+This part of the story is challenging to tell in a linear fashion. In truth, there are three simultaneous storylines taking place, like three cords wound together to form a single rope. In this section, I will be weaving in and out of these storylines to try and tell the whole story.
+
+In order to understand these three parts, you must understand something about me. I have many diverse and seemingly random passions, often pursuing three or four of them simultaneously. It's just who I am. Some last for a short season of my life, maybe a couple months or years, others last for much longer.
+
+#### Storyline #1 - Music
+
+I taught myself how to play guitar and write music in college. This is what eventually led to me being a worship leader and a music producer. While in grad school, I pursued a secular music career as a singer/songwriter doing folk/Americana music. I produced an album at the time. If you'd like to listen to it, you can [hear it here](https://open.spotify.com/album/2EgNgF6ugGzxQO03xkPx1F).
+
+#### Storyline #2 - A Serendipitous Mentor
+
+My main means of staying physically fit in my life has been through playing sports. During grad school (and still today), my main sport was ultimate frisbee. I played in many regular pick-up games around Los Angeles and eventually made good friends with some of the people in the community. One of those people, Dave, became not only a good friend, but a mentor as well.
+
+Dave and I shared something in common, we were both pastors. He was a few years older than I am and had finished his Masters before I met him. What was interesting about Dave's story was that he didn't work full time as a pastor. He had made the choice to go into real estate.
+
+He understood that his gifts could be used in a much more efficient way that would still allow him to do some ministry. In fact, he could earn more money for his family and donate more to his ministry by not working as a full time pastor. Dave is very successful at what he does, and he was the first person to start to push me to think outside the box of traditional ministry. He helped me eventually understand that I didn't have to be stuck on the path I was on if I didn't want to be.
+
+#### Storyline #3 - Learning to Code
+
+One day, an acquaintance posted a link on Facebook about a course he developed for [Codecademy](https://www.codecademy.com/). For those of you who might know, Codecademy is a free learning resource for coding. Remember that insatiable curiosity of mine? Well, it compelled me to click the link and give the course a try. Honestly, I don't remember what I learned that day (probably some HTML), but I enjoyed the course enough that I worked all the way through it. And then I found another course and worked through that, and then another and another.
+
+#### Back to Music
+
+My music "career" (if you can call it that) was going a bit better than I expected. I was playing shows on the Sunset Strip in Hollywood and getting a little PR here and there. So, of course, I needed a good website, but couldn't afford to pay anyone to make it for me.
+
+#### Back to Coding
+
+But I was learning how to code so I could build the website myself, right? Kind of. I had learned some HTML, CSS, and jQuery, but I was a little over my head in terms of understanding how the Internet worked. Servers, clients, etc. It was all new stuff to me. I'd get an idea and then bang my head against a wall in my free time trying to figure it out. Lucky for me, I had two things going for me. First, I had a few friends willing to help me get started. They helped my buy some server space and a domain name and connect the two. Second, I had spent my life teaching myself how to do things and knew how to persevere through times where it seemed like I would never be good at it. I had done it with golf. I had done it with music. I knew I could do it again with coding.
+
+#### Back to Dave
+
+Dave and I talked a lot about my future. I think he recognized some writing on the wall that I didn't and he knew I'd need to think outside of the box to find work (and to pay off my massive student loans).
+
+During my time at Fuller, my theology moved much further left than what would be considered orthodox evangelicalism. I was partially heading that way to begin with, but the education I received gave me a whole new set of tools to more accurately consider the implications of Biblical texts. I began to realize there was a great chasm between academic theology and the theology taught from the pulpit on Sunday. Academic theology is interesting and nuanced. Pulpit theology lacks so much of this. Academic theology isn't afraid of suggesting a radical idea if it can be supported. Say something similar from the pulpit and you'll lose your job and be told, "You're going to burn in hell!" I've never been comfortable with knowing one thing and saying another, and this was making pastoral ministry more and more challenging.
+
+Those theological stances are not terribly important for this story. What is important is that it meant I struggled to find work. Conservative churches have more money to hire pastors than progressive churches. Also, typically, churches require that you sign a "statement of faith," a document that defines their beliefs and your agreement with those beliefs. In a lot of cases, I just couldn't do this in good conscience.
+
+Throughout all of this, Dave would remind me that I might have skills that could be used elsewhere. He didn't really know I had been coding on a regular basis, but he knew that I was smart and talented.
+
+#### Back to Coding
+
+I graduated seminary in December of 2012. I was engaged, about to marry Anna in a few months. She was still in school and wouldn't graduate until June. I was actively looking for pastoral jobs with almost no luck. I was often selected as a candidate, I'd get to the final interviews with the churches, and come in second place every single time. I know for a fact that I lost out on three jobs solely based on my support of the LGBTQ community. It hurt to come so close and fail again and again. I'm sure many people can relate to that in their own field.
+
+In the meantime, I was working a smattering of part time jobs to make some ends meet. I was a private tutor, a janitor, an intramural sports coordinator, and a freelance blogger (I got paid to write articles about audio production). Anna was working a few random jobs, too. We were scraping by.
+
+During this time, I developed possibly the best habit I ever established in my life. Every morning, I would wake up, make myself a full French press of coffee, and I would sit down and try and learn something new with code for a few hours each day. Coffee and code. That was it. I didn't have any particular path. I would just find tutorials that interested me or a simple project I could view the source and rebuild. I did this every day for about a year.
+
+Anna and I got married in March of 2013, she graduated in June, and then we were faced with a decision. Neither of us were finding jobs, and neither of us wanted to live in Los Angeles long term. The cost of living was too high, traffic was horrible, we would never own a home, etc. We knew it just wasn't the right place for us.
+
+Through a lot of prayer and discussion, we eventually landed on moving to Portland. We realized that our savings would last longer by moving to a lower cost of living city. We thought that it would be a good place for my music (it would have been, but Anna made me so happy I kind of stopped writing), we knew we'd have a few friends moving back there in a few years so we'd be able to have _some_ community, and we thought Anna would be able to find work pretty quickly. I was still looking for pastoral jobs, but was losing hope.
+
+We moved to Portland in September of 2013. It was really challenging. A new town without much money, no community, and no jobs. I don't recommend that many challenges in your first year of marriage. But we tried to dive right in.
+
+#### Now the Part Where All These Random Things Come Together
+
+One Sunday, my wife and I attended a church here in Portland and I met a guy named Mike. Mike is very well connected in Portland because he works for the city. I explained our situation and he asked me what my interests were. When I said coding, he arranged for me to meet two developers he knew.
+
+These two devs were kind enough to look at the portfolio of little projects I had built up over my year of coding. To my surprise, both of them thought I knew enough to go get a junior developer job. This was really the first time I had ever considered it as a potential career.
+
+I had tried for almost a year to become a pastor, had sunk about $90K into my education and was getting no where. This is when I remembered Dave's wisdom to think outside of the box. To pursue alternative avenues to success. So I decided to go for it. I was going to find a job as a web developer.
+
+I applied to basically anything I could find. Seriously. Every job website. Every Craigslist ad. Luckily, the market here was booming and it wasn't flooded with junior devs. Within two months, I had a few offers. I chose to start my career with [FINE](https://wearefine.com) and the rest is history.
+
+### Conclusion
+
+You can piece together my career so far by looking at my [resume](https://kyleshevlin.github.io) and reading my other post--[Four Years In](https://medium.com/@kyleshevlin/four-years-in-cbf12e92ac58). I have had some ups and downs, but mostly, my career has been overwhelmingly positive. When I got started, I had no idea where it would take me. And I am thankful for every part of it so far.
+
+Thank you for reading my story. I hope it gives you some context to understand how I got to where I am. Please let me know if there are more details I should try and add to the story. I can update this as time goes on.

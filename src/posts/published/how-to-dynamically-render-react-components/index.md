@@ -1,0 +1,89 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['React']
+date: "2017-02-08"
+slug: "how-to-dynamically-render-react-components"
+status: "publish"
+title: "How to Dynamically Render React Components"
+---
+
+I am currently working on a React/Redux universally rendered application at work. It has some fun parts and I want to share what I've learned from building them.
+
+One of those parts is a component I have called the `BlocksLoop`. In the design phase of the project, long before I was ever a part of the project, the designers and back end dev had the foresight to create a system of reusable admin components. They called them "blocks". Each page of the application was to be architected by utilizing these blocks in different orders and patterns. This was a front-end developer's dream come true. I considered crying, but then didn't, mostly because I can't. Seriously. I have some weird dry eye condition. I don't create the same amount of tears as you normal, emotionally and physically healthy people. But I digress.
+
+In the end, the designers came up with 10 reusable blocks for the project. The backend developer implemented an API that returned an array of objects. So, how do we handle rendering components when we have no idea how many, or specifically which ones we'll need at any given time?
+
+In my last blog post, I showed you how we can render different components conditionally. We're going to take that a step further. Actually we're going to take that to 11.
+
+Inspired by the architecture of reducers in Redux, I realized a simple way to handle this very dynamic array of objects was to use a `switch` statement.
+
+I knew that each object in the array had a `type` property. I needed to make individual components for each type. I could then check this type, and require the proper component with each one. This is significantly easier architecture than attempting to write a giant component to handle all the types. So let's see how this works.
+
+For this example, imagine that I have several built out components. Each of these components represents a type of block. We're going to import these into what will become our `BlocksLoop` component. I'll also setup our component to accept a `blocks` prop, but it won't do anything important yet.
+
+```
+import React, { Component, PropTypes } from 'react'
+import HeadingBlock from './HeadingBlock'
+import TextBlock from './TextBlock'
+import ImageBlock from './ImageBlock'
+import ListBlock from './ListBlock'
+
+export default class BlocksLoop extends Component {
+  render () {
+    return (
+      <div className='blocks_loop'>
+        { this.props.blocks.map(block => <div className='block' />) }
+      </div>
+    )
+  }
+}
+
+```
+
+Right now, I'm just returning all the blocks as a simple `div` and not utilizing the imported individual blocks. Let's solve that with a `switch` statement. To make it cleaner, we'll move this logic into a method on the component that's called each time a block item is mapped over.
+
+```
+// ...
+
+export default class BlocksLoop extends Component {
+  constructor () {
+    super()
+    this.getBlockComponent = this.getBlockComponent.bind(this)
+  }
+
+  getBlockComponent (block) {
+    switch (block.type) {
+      case 'heading':
+        return <HeadingBlock key={block.id} {...block} />
+
+      case 'text':
+        return <TextBlock key={block.id} {...block} />
+
+      case 'image':
+        return <ImageBlock key={block.id} {...block} />
+
+      case 'list':
+        return <ListBlock key={block.id} {...block} />
+
+      default:
+        return <div className='no_block_type' />
+    }
+  }
+
+  render () {
+    return (
+      <div className='blocks_loop'>
+        { this.props.blocks.map(block => this.getBlockComponent(block)) }
+      </div>
+    )
+  }
+}
+
+
+```
+
+And there you have it! Our `blocks` array is mapped over, each item is passed into our method, and the correct component is returned dynamically. If for some reason a type was added in the back end before I could make a new component for it, the method returns an empty `div` with a class I can style.
+
+I think it might be possible to reduce some of the boilerplate in the switch statement by creating a variable, such as `let dynamicComponent = null`, and then overriding that assignment in each case with the correct component. Then in one last step in the function, I could add the `key` and `{...block}` props (via the Object spread operator) to the currently assigned `dynamicComponent` variable. I'm ok with being this explicit for now. It's very legible and understandable.
+
+If you find this useful, I'd love to hear about it in the comments. Or if you have a way to improve this, I'd love to hear that, too.

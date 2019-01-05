@@ -1,0 +1,44 @@
+---
+categories: ['Web Development']
+date: "2017-02-26"
+slug: "what-is-most-important-to-a-web-developer"
+status: "publish"
+subtitle: "the Tech, the Product, or the People"
+title: "What is Most Important to a Web Developer?"
+---
+
+Recently, I ran a poll on Twitter asking web developers what was most important to them. Here's a look at the results.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">What's more important to you as a web developer? <a href="https://twitter.com/hashtag/webdevelopment?src=hash">#webdevelopment</a> <a href="https://twitter.com/hashtag/webdev?src=hash">#webdev</a> <a href="https://twitter.com/hashtag/javascript?src=hash">#javascript</a></p>— Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/834529080162738177">February 22, 2017</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+Over 50% of the voters said the people they work with is most important to them, followed by the product they work on, and lastly, followed by the tech they use at work. No one replied with an "other", even though a couple people voted for it.
+
+I wanted to take some time and write about what I found surprising and not surprising about these results. If you're not a fan of think pieces and only like technical articles, turn away now.
+
+### Not Surprising
+
+I want to start with what is _not_ surprising about the results. I don't find it surprising that developers said the people they work with matter so much to them, but I also don't think this is something exclusive to developers. Human beings are social creatures. It's in our nature to want to interact with the people around us, especially those we must spend so much time with. And since no one wants to put up with a difficult person for long, it makes sense that having people you enjoy to work with would be important.
+
+Another way to put this is as a business develops a culture and a tribe, you recruit more people who fit and enhance that tribe. In doing so, you have a better chance of a newcomer fitting in (because you only select newcomers that already likely fit in) and reduce potential disruption. This might have some negative effects, but you are likely to find a group of people who like being around each other.
+
+It also didn't surprise me that a third of voters said the product they work on mattered most to them. Again, I don't think this is exclusive to developers. People want to believe that the work they do is meaningful and has an impact. Working on a product that you don't care about, that you have no emotional investment in can be some of the most draining, boring and soul-sucking work. When people work on products that they _actually_ care about, they give you their best work and feel satisfied and accomplished with what they do.
+
+### Surprising
+
+On the other hand, I _do_ find it surprising that developers say that the people they work with matter so much to them. If you were to take a broad slice of blog posts, tweets, and other articles written by developers, you'd get the picture that the tech stack would be the most important to them. We're quite fond of writing articles bashing this technology and praising that technology. We are opinionated about our field, and it would make sense that we would have strong opinions about what technology we use day in and day out. But technology was the least important of the three.
+
+What I found most interesting about the results of this poll, is that they have a perfect inverse correlation to how much knowledge you can have about each one before taking a job. Let me explain.
+
+When you're looking for jobs, web developer job descriptions are littered with acronyms to describe the tech stack used at a particular company. We obsess over these acronyms, because they represent hours and years of effort learning and programming. Developers fall in a couple camps, but when considering a job, they want to know what stack they will use. Will it be one I'm really comfortable with and love? Will it be a new language and new challenges? These matter to developers. And it's the _easiest_ thing to learn about a new job. You ask a question, and you get a perfect, corresponding answer. There is no ambiguity, other than what might be used in the future.
+
+Next, you might ask about the product you are working on. How often have you asked a developer what kind of product they work on, and you receive a semi-ambiguous response? "Well, it kind of does this. It kind of does that. Somehow it makes money." Products, can be challenging to describe, but generally you can describe the shape of it. You might not be able to express all the fine details of a product in an elevator pitch, but you can get a sense of what you will be working on. Thus, you'll likely be less clear on the product than you were on the tech stack, but you'll have a reasonable understanding.
+
+But the people you will work with is a mystery prior to starting a job and continues to be for some time after starting. Unless you happen to previously know the people you are working with, you most likely know _nothing_ about your future coworkers. Unless it is a very small company, you will likely only meet a handful of people in the hiring process and virtually everyone is on their very best behavior, each party trying to woo the other. At best, you'll get a small glimpse into the culture of the company, but will not have enough information to make an accurate assessment of the overall culture of your future team and the company as a whole. The only way to gather this data is to be a part of it and hope it works out for the best.
+
+### Final Thoughts
+
+To summarize, it's not surprising that people care about the people they work with and the product they work on. I think people want to enjoy work and want to work on something that matters, that is important to them and to the world. I think developers are willing to sacrifice working on the newest technology stack for the opportunity to work with great people or on a product they can get behind.
+
+What is surprising is that these very things might be the most difficult to ascertain before joining a team or taking a job. I wonder if there are ways that we can flip this correlation and make the things most important to developers (and people in general) easier to learn about.

@@ -1,0 +1,166 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['D3', 'Data Visualization']
+date: "2016-03-13"
+slug: "intro-to-d3-js-and-data-visualization"
+status: "publish"
+title: "Intro to D3.js and Data Visualization"
+---
+
+Recently, I worked my way through the [D3 Intro Course](https://frontendmasters.com/courses/interactive-data-visualization-d3-js/) taught by [Ian Johnson](https://twitter.com/enjalot) over at [Front End Masters](https://frontendmaster.com) and have been practicing what I've learned ever since. I'm not great at it (yet), and I haven't made anything too amazing, but I am getting a better grasp of this awesome library (big thanks to creator [Mike Bostock](https://twitter.com/mbostock) and all his posts/tutorials about it).
+
+I am currently working on a project at [FINE](https://wearefine.com) that utilizes D3.js, so I wanted to code up an example for you. This way, you can see some of the techniques I might use in the project and perhaps inspire you to try out D3.js in a future project of yours.
+
+First things first, you can't build a data visualization without first having some data to work with. Lucky for me, there's data everywhere. I decided for this example, I would create a dataset based on the people I work with everyday.
+
+To do this, I created a JSON file, turning each one of my fellow devs into a an object in an array. Normally, you shouldn't objectify people, but I got their permission to so this time (Remember, there are ethics to responsible data visualization). Here's a small snippet of that JSON file:
+
+```
+{
+  "teammates": [
+    {
+      "id": 1,
+      "name": "Charlie",
+      "birthdate": "1988-10-17",
+      "position": "DevOps",
+      "startdate": "2015-07-06"
+    },
+    {
+      "id": 2,
+      "name": "Eman",
+      "birthdate": "1986-09-16",
+      "position": "Front End",
+      "startdate": "2015-05-12"
+    },
+    // More teammates here...
+  ]
+}
+
+```
+
+### You Can't Do Data Visualization Without Some Data
+
+Now I have some data to work with. I thought it would be interesting to create a bar chart that graphs each dev's age and how long they've been at FINE. This would be represented on the X axis and with a radio button would toggle between the two. Later, I will add some sorting methods to the Y axis. Let's start coding this up.
+
+While we could code this visualization as a one-off piece of code, I think it's a good idea to follow the "Reusable Charts" pattern laid out in [this awesome blog post](https://bost.ocks.org/mike/chart/). In short, a reusable chart turns our visualization into a function that can be called on multiple datasets. This way, when our dataset is updated, we simply re-render the chart with the new data. To do this, we need some basic setup to our code.
+
+```
+if (!d3.chart) {
+  d3.chart = {};
+}
+
+d3.chart.fine_visual = function() {
+  var data,
+      svg;
+
+  function chart(container) {
+    // Setup static elements of our visualization
+    svg = container;
+
+    // Call update function to apply our data to our visualization
+    update();
+  }
+
+  chart.update = update;
+  function update() {
+    // Code the dynamic elements of our visualization
+  }
+
+  chart.data = function(value) {
+    if (!arguments.length) return data;
+    data = value;
+    return chart;
+  }
+
+  return chart;
+};
+
+d3.json('teammates.json', function(err, teammates) {
+  if (err) {
+    return d3.select('.js-display').append('p').text('There was an error retrieving the data');
+  }
+
+  var data = teammates.teammates;
+  var display = d3.select('.js-display');
+
+  var visual = d3.chart.fine_visual()
+    .data(data);
+  visual(display);
+});
+
+```
+
+The code starts by ensuring that the d3.chart object exists so that our custom function can be set as a property on the d3.chart object. This is followed by `var` declarations that will be scoped to our function. Next is the chart function which will be returned when this visual function is called. This is followed by setting a property on our chart function of our update function (so that we can call updates on our chart). Lastly, any chart property that can be customized by our end user needs this `chart.property` pattern to create getters and setters for the property.
+
+Once the custom chart function is created, an AJAX call to the data is made. Upon returning the data, the custom function is called with the data supplied to it with the `.data()` setter.
+
+### The Chart() Function
+
+The chart function within our custom function is where pieces of our visualization that will remain static should be instantiated. If this code is instead put in the `update()`function, it will be re-rendered to the page (meaning multiple axes would pile on top of each other). Thus, it follows that pieces of the visualization that will be updated are moved into the `update()` function.
+
+An example of static content is an axis. A bar chart will have an X and Y axis, representing some scale of our data. In the case of my example, the X axis will represent time measured in months, and the Y axis will be used to identify different developers.
+
+In order to add an axis to our visual, a decision must be made regarding what scale to use. D3 provides a number of different scale types, saving you from the hassle of coding your own (though you can if you want to). In this case, the `linear` scale will suit our purposes, but we could have also considered using the `time` scale as well. Be sure to read about [d3 scales](https://github.com/mbostock/d3/wiki/Scales) when you have a chance.
+
+To implement the scale and append an axis based on it, the following code is used:
+
+```
+var xScale = d3.scale.linear()
+  .domain([0, d3.max(data, function(d) { return age(d.birthdate); })])
+  .range([0, width])
+
+var xAxis = d3.svg.axis()
+  .scale(xScale)
+  .orient('bottom')
+
+var xAxisGroup = svg.append('g');
+
+xAxis(xAxisGroup);
+
+```
+
+I have left out some code on purpose here, namely the helper function `age()`, in order to focus on the more important pieces. A linear scale is declared, the domain is set from age 0 to the maximum age of our dev team, and the range is from 0 to the full width of our visualization. Then, an axis is declared and called on the `svg` var in an appended `g` element. The example follows a similar pattern for the Y axis, but uses the ordinal scale instead. I may cover the sorting functionality of the Y axis in depth in another post.
+
+### The D3 Pattern: Selecting, Entering, Appending, Exiting, Removing
+
+Now that the axes are in place, the bars can be added to our chart. D3 has a pretty specific pattern to follow when rendering data driven elements to our visual. It seems downright counterintuitive at first, but begins to make sense the more you understand how d3 is acting upon our objects. This pattern looks similar to this:
+
+```
+var bars = svg.selectAll('.bar')
+  .data(data);
+  .enter()
+  .append('rect').classed('bar', true)
+  .attr({
+    x: 0,
+    y: function(d,i) { return i * 35; },
+    width: function(d) { return xScale( age(d.birthdate) ); },
+    height: 30,
+  })
+  .exit()
+  .remove();
+
+```
+
+While this isn't the exact code used in the example, it's a good example of showing this d3 pattern at work. Because d3 can update elements already on the page, it's important that we select those elements. If not, we would end up creating a function that added a whole new set of elements each time the data was updated. This is why all elements are selected, then the data is entered, existing elements are updated, new ones are added and unused ones are destroyed.
+
+### Customizable Settings
+
+The last convention I want to cover is how to add configurable settings on our reusable chart via adding a property to the `chart()` function. You may have noticed above, that we had a small bit of code looked like this:
+
+```
+chart.data = function(value) {
+
+  if (!arguments.length) return data;
+  data = value;
+  return chart;
+}
+
+```
+
+This bit of code allows our user to get and set the data property for our chart. This is what enables us to reuse this chart in another instance or update our current chart by setting a new dataset. Typically, this is used on `width` and `height` properties to allow the user to customize the size of their visualization, but there can be many other uses.
+
+Taking these concepts (and adding a few more I leave you to discover), a quick and interesting data visualization can be created. Play around with it a while and explore the code. Fork it on Codepen or make your own, and best of luck as you explore d3.js in the future.
+
+<p class="codepen" data-height="770" data-theme-id="0" data-slug-hash="YqPNeo" data-default-tab="result" data-user="kyleshevlin">See the Pen <a href="http://codepen.io/kyleshevlin/pen/YqPNeo/">d3 Intro - Example for Mingle post</a> by Kyle Shevlin (<a href="http://codepen.io/kyleshevlin">@kyleshevlin</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<script src="//assets.codepen.io/assets/embed/ei.js" async></script>

@@ -18,7 +18,7 @@ const IconWrap = styled.div`
 
 const IconLink = styled.a`
   display: inline-block;
-  margin: 5px;
+  padding: ${bs(0.5)};
 `
 
 const Twitter = ({ fill, width }) => (
@@ -82,7 +82,7 @@ const Footer = () => (
       <IconWrap>
         {links.map(({ href, icon: Icon, title }) => (
           <IconLink key={title} href={href} title={title}>
-            <Icon fill={COLORS.teal} width={25} />
+            <Icon fill={COLORS.teal} width={30} />
           </IconLink>
         ))}
       </IconWrap>
