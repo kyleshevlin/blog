@@ -88,7 +88,7 @@ const Footer = () => (
       </IconWrap>
       <div>
         &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
-        Built with <a href="https://www.gatsbyjs.org">Gatsby</a>
+        Built with <a href="https://www.gatsbyjs.org">Gatsby</a>.
       </div>
     </Container>
   </Wrap>
