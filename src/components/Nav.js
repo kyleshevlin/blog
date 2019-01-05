@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import { COLORS } from '../constants'
 import { bs } from '../shevy'
 
 const LINKS = [
@@ -19,14 +20,14 @@ const Wrap = styled.nav`
 
 const linkStyles = css`
   display: inline-block;
-  padding: ${bs(0.25)} ${bs(0.5)};
+  padding: ${bs(0.5)};
 `
 
 const A = styled.a`
   ${linkStyles};
 `
 
-const OurLink = styled(Link)`
+const StyledLink = styled(Link)`
   ${linkStyles};
 `
 
@@ -45,9 +46,14 @@ const Nav = () => (
 
         case Boolean(to):
           return (
-            <OurLink key={title} title={title} to={to}>
+            <StyledLink
+              key={title}
+              activeStyle={{ color: COLORS.teal }}
+              title={title}
+              to={to}
+            >
               {title}
-            </OurLink>
+            </StyledLink>
           )
 
         default:
