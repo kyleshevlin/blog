@@ -76,6 +76,33 @@ const GlobalStyles = () => (
         padding-right: ${bs(0.25)};
         border-radius: 3px;
       }
+
+      blockquote {
+        background: ${COLORS.lightGray};
+        color: ${COLORS.teal};
+        font-family: 'Catamaran', sans-serif;
+        font-size: 1.9531rem;
+        line-height: 1.2;
+        font-weight: 100;
+        font-style: italic;
+        padding: ${bs(1.5)};
+        margin-bottom: ${bs()};
+        border-left: 4px solid ${COLORS.teal};
+
+        ${createMediaQuery(BREAKPOINTS.alpha)} {
+          padding: ${bs(2)};
+        }
+
+        p {
+          margin-bottom: 0;
+          font-size: inherit;
+          line-height: inherit;
+        }
+
+        p + p {
+          margin-top: ${bs()};
+        }
+      }
     `}
   />
 )
