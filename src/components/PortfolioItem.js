@@ -33,6 +33,11 @@ const Image = styled.img`
 
 const linkStyles = css`
   display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
   &:before {
     content: '';
@@ -51,7 +56,7 @@ const titleStyles = css`
   width: 100%;
   color: ${COLORS.white};
   font-size: ${rem(35)};
-  line-height: 1;
+  line-height: 1.2;
   text-align: center;
   padding-left: ${bs(0.5)};
   padding-right: ${bs(0.5)};
