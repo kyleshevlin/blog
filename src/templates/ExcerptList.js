@@ -4,7 +4,8 @@ import Layout from '../components/layout'
 import SEO from '../components/seo'
 import ExcerptedPost from '../components/ExcerptedPost'
 
-const IndexPage = ({ data }) => {
+const ExcerptList = ({ data, ...props }) => {
+  const { index, totalPages } = props.pageContext
   const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
 
   return (
@@ -15,17 +16,22 @@ const IndexPage = ({ data }) => {
           <ExcerptedPost key={post.frontmatter.slug} post={post} />
         ))}
       </div>
+      <div>
+        Page {index + 1} of {totalPages}
+      </div>
     </Layout>
   )
 }
 
-export default IndexPage
+export default ExcerptList
 
 export const query = graphql`
-  query HomePageQuery {
+  query ExcerptListQuery($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       sort: { fields: [frontmatter___date], order: DESC }
+      skip: $skip
+      limit: $limit
     ) {
       edges {
         node {

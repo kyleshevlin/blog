@@ -12,6 +12,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
+    const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
     const postTemplate = path.resolve('src/templates/post.js')
     const portfolioTemplate = path.resolve('src/templates/portfolio.js')
     const query = graphql(`
@@ -56,8 +57,28 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors)
         }
 
-        result.data.posts.edges.forEach(edge => {
-          const { slug } = edge.node.frontmatter
+        const allPosts = result.data.posts.edges
+
+        // Create paginated Excerpt pages
+        const postsPerPage = 6
+        const totalPages = Math.ceil(allPosts.length / postsPerPage)
+        Array.from({ length: totalPages }).forEach((_, index) => {
+          createPage({
+            path: index === 0 ? '/' : `/page-${index + 1}`,
+            component: excerptListTemplate,
+            context: {
+              allPostsLength: allPosts.length,
+              totalPages,
+              index,
+              limit: postsPerPage,
+              skip: index * postsPerPage
+            }
+          })
+        })
+
+        // Create individual Post pages
+        allPosts.forEach(post => {
+          const { slug } = post.node.frontmatter
 
           createPage({
             path: slug,
@@ -66,6 +87,7 @@ exports.createPages = ({ graphql, actions }) => {
           })
         })
 
+        // Create individual Portfolio pages
         result.data.portfolio.edges.forEach(edge => {
           const { slug } = edge.node.frontmatter
 
