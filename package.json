@@ -38,6 +38,8 @@
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.5",
+    "babel-preset-gatsby": "^0.1.6",
     "prettier": "^1.15.2"
   },
   "repository": {

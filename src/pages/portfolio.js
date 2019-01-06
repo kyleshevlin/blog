@@ -1,7 +1,27 @@
 import React from 'react'
-import { Link, graphql } from 'gatsby'
+import styled from '@emotion/styled'
+import { graphql } from 'gatsby'
+import { BREAKPOINTS } from '../constants'
+import { bs } from '../shevy'
+import { createMediaQuery } from '../utils'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import PortfolioItem from '../components/PortfolioItem'
+
+const ItemsWrap = styled.div`
+  display: grid;
+  margin-top: ${bs()};
+  margin-bottom: ${bs()};
+
+  ${createMediaQuery(BREAKPOINTS.alpha)} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: ${bs(0.25)};
+  }
+
+  ${createMediaQuery(BREAKPOINTS.bravo)} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`
 
 const Portfolio = ({ data }) => {
   const items = data.allMarkdownRemark.edges.map(edge => edge.node)
@@ -22,21 +42,15 @@ const Portfolio = ({ data }) => {
         the image to read more about the project.
       </p>
 
-      <div>
+      <ItemsWrap>
         {items.map(item => {
           const {
             frontmatter: { slug, squareImage, title }
           } = item
 
-          return (
-            <div key={slug}>
-              <Link to={`portfolio/${slug}`}>
-                <img src={squareImage.publicURL} alt={title} />
-              </Link>
-            </div>
-          )
+          return <PortfolioItem key={slug} {...{ slug, squareImage, title }} />
         })}
-      </div>
+      </ItemsWrap>
     </Layout>
   )
 }
