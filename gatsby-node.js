@@ -13,8 +13,8 @@ exports.createPages = ({ graphql, actions }) => {
 
   return new Promise((resolve, reject) => {
     const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
-    const postTemplate = path.resolve('src/templates/post.js')
-    const portfolioTemplate = path.resolve('src/templates/portfolio.js')
+    const postTemplate = path.resolve('src/templates/Post.js')
+    const portfolioTemplate = path.resolve('src/templates/Portfolio.js')
     const query = graphql(`
       {
         posts: allMarkdownRemark(

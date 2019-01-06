@@ -1,15 +1,14 @@
 ---
 categories: ['Web Development']
-date: "2018-10-10"
-slug: "the-role-of-timing-in-a-job-hunt"
-status: "publish"
-title: "The Role of Timing In a Job Hunt"
+date: '2018-10-10'
+slug: 'the-role-of-timing-in-a-job-hunt'
+status: 'publish'
+title: 'The Role of Timing In a Job Hunt'
 ---
 
 You might know, I've started to hunt for a new job.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Friends, I'm putting the word out that I'm looking for new opportunities. Y'all know me, love <a href="https://twitter.com/hashtag/JavaScript?src=hash&amp;ref_src=twsrc%5Etfw">#JavaScript</a>, especially <a href="https://twitter.com/hashtag/React?src=hash&amp;ref_src=twsrc%5Etfw">#React</a>, want to do more <a href="https://twitter.com/hashtag/GraphQL?src=hash&amp;ref_src=twsrc%5Etfw">#GraphQL</a> &amp; <a href="https://twitter.com/hashtag/ReasonML?src=hash&amp;ref_src=twsrc%5Etfw">#ReasonML</a>. Good teacher, speaker, got a ? for junior devs, and a great beard ?. My DMs are open. Let's talk. ?</p>— Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1041735370478542851?ref_src=twsrc%5Etfw">September 17, 2018</a></blockquote>
-
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Friends, I&#39;m putting the word out that I&#39;m looking for new opportunities. Y&#39;all know me, love <a href="https://twitter.com/hashtag/JavaScript?src=hash&amp;ref_src=twsrc%5Etfw">#JavaScript</a>, especially <a href="https://twitter.com/hashtag/React?src=hash&amp;ref_src=twsrc%5Etfw">#React</a>, want to do more <a href="https://twitter.com/hashtag/GraphQL?src=hash&amp;ref_src=twsrc%5Etfw">#GraphQL</a> &amp; <a href="https://twitter.com/hashtag/ReasonML?src=hash&amp;ref_src=twsrc%5Etfw">#ReasonML</a>. Good teacher, speaker, got a ❤ for junior devs, and a great beard 😉. My DMs are open. Let&#39;s talk. 👋</p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1041735370478542851?ref_src=twsrc%5Etfw">September 17, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 In my [last blog post](https://kyleshevlin.com/how-to-be-more-successful-on-your-next-web-developer-job-hunt/), I shared with you several tips on how to make that hunt go better for you. We talked about how shifting our mindset to "seeking offers" instead of "getting a job" puts us in a position to "explore" rather than "judge". We need to explore many paths and options when trying to find the next step in our career. This week, I'm going to continue to discuss the job hunt by sharing an anecdote from this week and how that might relate to you.

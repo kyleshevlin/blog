@@ -1,46 +1,54 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
-import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 
-const Post = ({ data }) => {
+const Portfolio = ({ data }) => {
+  const portfolioItem = data.markdownRemark
   const {
     html,
-    frontmatter: { categories, date, subtitle, tags, title }
-  } = data.markdownRemark
+    frontmatter: { bannerImage, date, subtitle, title }
+  } = portfolioItem
 
   return (
     <Layout>
       <div>
+        {bannerImage && (
+          <div>
+            <img
+              src={bannerImage.childImageSharp.original.src}
+              alt={`${title} Banner`}
+            />
+          </div>
+        )}
         <PostDate date={date} />
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
-
-        {categories && (
-          <PostCategoriesOrTags items={categories} type="category" />
-        )}
-
-        {tags && <PostCategoriesOrTags items={tags} type="tag" />}
       </div>
     </Layout>
   )
 }
 
-export default Post
+export default Portfolio
 
 export const pageQuery = graphql`
-  query($slug: String!) {
+  query PortfolioQuery($slug: String!) {
     markdownRemark(frontmatter: { slug: { eq: $slug } }) {
       html
       frontmatter {
         title
-        subtitle
         date(formatString: "MMMM DD, YYYY")
-        categories
-        tags
+        subtitle
+        link
+        bannerImage {
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
       }
     }
   }

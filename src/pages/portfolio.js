@@ -4,8 +4,8 @@ import { graphql } from 'gatsby'
 import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
-import Layout from '../components/layout'
-import SEO from '../components/seo'
+import Layout from '../components/Layout'
+import SEO from '../components/Seo'
 import PortfolioItem from '../components/PortfolioItem'
 
 const ItemsWrap = styled.div`

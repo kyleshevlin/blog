@@ -3,8 +3,8 @@ import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
-import Layout from '../components/layout'
-import SEO from '../components/seo'
+import Layout from '../components/Layout'
+import SEO from '../components/Seo'
 
 const ImageWrap = styled.div`
   max-width: 640px;
