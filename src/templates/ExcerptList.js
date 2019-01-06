@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import SEO from '../components/Seo'
 import ExcerptedPost from '../components/ExcerptedPost'
+import Pagination from '../components/Pagination'
 
 const ExcerptList = ({ data, ...props }) => {
   const { index, totalPages } = props.pageContext
@@ -16,9 +17,7 @@ const ExcerptList = ({ data, ...props }) => {
           <ExcerptedPost key={post.frontmatter.slug} post={post} />
         ))}
       </div>
-      <div>
-        Page {index + 1} of {totalPages}
-      </div>
+      <Pagination {...{ index, totalPages }} />
     </Layout>
   )
 }
