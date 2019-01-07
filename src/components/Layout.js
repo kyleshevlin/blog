@@ -13,7 +13,7 @@ import Typography from '../styles/Typography'
 
 const MainWrap = styled.main`
   padding-bottom: ${bs(2)};
-  min-height: 80vh;
+  min-height: 65vh;
 `
 
 const Layout = ({ children }) => (
