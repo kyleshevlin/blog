@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import BannerImage from '../components/BannerImage'
 import Layout from '../components/Layout'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -16,12 +17,10 @@ const Portfolio = ({ data }) => {
     <Layout>
       <div>
         {bannerImage && (
-          <div>
-            <img
-              src={bannerImage.childImageSharp.original.src}
-              alt={`${title} Banner`}
-            />
-          </div>
+          <BannerImage
+            src={bannerImage.childImageSharp.original.src}
+            alt={`${title} Banner`}
+          />
         )}
         <PostDate date={date} />
         <PostHeader {...{ subtitle, title }} />

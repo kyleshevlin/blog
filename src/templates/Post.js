@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import BannerImage from '../components/BannerImage'
 import Layout from '../components/Layout'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -9,12 +10,18 @@ import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 const Post = ({ data }) => {
   const {
     html,
-    frontmatter: { categories, date, subtitle, tags, title }
+    frontmatter: { categories, coverImage, date, subtitle, tags, title }
   } = data.markdownRemark
 
   return (
     <Layout>
       <div>
+        {coverImage && (
+          <BannerImage
+            src={coverImage.childImageSharp.original.src}
+            alt={`${title} Banner`}
+          />
+        )}
         <PostDate date={date} />
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
@@ -41,6 +48,13 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         categories
         tags
+        coverImage {
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
       }
     }
   }

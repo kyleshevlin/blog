@@ -1,11 +1,11 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Redux']
-date: "2016-11-16"
-slug: "state-snapshots-in-redux"
-status: "publish"
-title: "State Snapshots in Redux"
-coverImage: "./images/redux_logo_2.png"
+date: '2016-11-16'
+slug: 'state-snapshots-in-redux'
+status: 'publish'
+title: 'State Snapshots in Redux'
+coverImage: './images/redux_logo_2.png'
 ---
 
 [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps. I've been using it in all of my apps recently and I discovered an elegant and clever use of it that I want to share. The rest of this article assumes you know how to use Redux. If you do not, follow the link above and read up before continuing this one.
@@ -32,7 +32,7 @@ Any Redux app requires a few things:
 
 Before I start tackling changing state, I like to consider what my initial state is. Generally, I define my initialState in the reducer file it belongs to, but for the sake of this article, I'm going to be repetitious, showing you what your initial state might look like and then copy/paste this into my reducer where it normally would be. Without further adieu, or initial state:
 
-```
+```javascript
 const initialState = {
   headingIsLight: false,
   logoIsLight: false,
@@ -40,14 +40,13 @@ const initialState = {
   navIsOpen: false,
   uiSnapshot: null
 }
-
 ```
 
 We've added on particular property of interest to us, the `uiSnapshot` property. We're going to use this key to store pieces of our state. Since this is the initial state, we can set it to `null` for the time being (and will later see that this has an added benefit).
 
 Next, we need actions to dispatch to our reducers. There are a number of strategies for handling action creators and action types out there and I'll leave it to you to research them. For now, I've been using an `actionTypes.js` file for all my types, and then creating action creators under an `actions` directory.
 
-```
+```javascript
 // actionTypes.js
 export const OPEN_NAV = 'OPEN_NAV'
 export const CLOSE_NAV = 'CLOSE_NAV'
@@ -62,27 +61,26 @@ import {
   APPLY_UI_SNAPSHOT
 } from './actionTypes'
 
-export function openNav () {
+export function openNav() {
   return { type: OPEN_NAV }
 }
 
-export function closeNav () {
+export function closeNav() {
   return { type: CLOSE_NAV }
 }
 
-export function takeUISnapshot () {
+export function takeUISnapshot() {
   return { type: TAKE_UI_SNAPSHOT }
 }
 
-export function applyUISnapshot () {
+export function applyUISnapshot() {
   return { type: APPLY_UI_SNAPSHOT }
 }
-
 ```
 
 Before we dispatch actions, we need reducers to handle them (and technically we need reducers to create a `store` to even `dispatch` our actions). So next we create a reducer to define how we handle each of our action types:
 
-```
+```javascript
 import {
   OPEN_NAV,
   CLOSE_NAV,
@@ -133,18 +131,17 @@ If you're unfamiliar with `Object.assign`, I would suggest reading up about it [
 
 Understanding how `Object.assign()` works is key to understanding how snapshots can be saved and applied. Let's say that in our store we dispatch an `OPEN_NAV` action, preceded by a `TAKE_UI_SNAPSHOT` action like so.
 
-```
+```javascript
 import store from './store'
 import { takeUISnapshot, openNav } from './actions/ui'
 
 store.dispatch(takeUISnapshot())
 store.dispatch(openNav())
-
 ```
 
 When we take our snapshot, the `uiSnapshot` property contains our entire previous state, including its own initial state of `null`. An example snapshot would look like this:
 
-```
+```javascript
 {
   headingIsLight: false,
   logoIsLight: false,
@@ -163,12 +160,11 @@ When we take our snapshot, the `uiSnapshot` property contains our entire previou
 
 As you can see, our state tree has been duplicated. Now when we apply the snapshot, we merge the value stored under `uiSnapshot` at the root level of our tree, which handily resets `uiSnapshot` to `null`. Thus, if a user closes the nav without choosing a link (and thus choosing a different state), we can close the nav and revert to the previous state just by applying the snapshot.
 
-```
+```javascript
 import store from './store'
 import { closeNav, applyUISnapshot } from './actions/ui'
 
 store.dispatch(applyUISnapshot())
-
 ```
 
 Because `navOpen: false` is stored in the snapshot, the nav closes when we apply it to state (though, I would likely dispatch `closeNav()` to be explicit. There's no harm when `Object.assign()` encounters key/value pairs that are equal).
