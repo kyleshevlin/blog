@@ -9,6 +9,7 @@ import Header from './Header'
 import { bs } from '../shevy'
 import Reset from '../styles/Reset'
 import Tags from '../styles/Tags'
+import Tweets from '../styles/Tweets'
 import Typography from '../styles/Typography'
 
 const MainWrap = styled.main`
@@ -36,6 +37,7 @@ const Layout = ({ children }) => (
           <Reset />
           <Tags />
           <Typography />
+          <Tweets />
 
           <Header subTitle={subTitle} title={title} />
           <MainWrap role="main">
