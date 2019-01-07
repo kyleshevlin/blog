@@ -1,11 +1,11 @@
 ---
-date: "2015-12-02"
-link: "https://www.mottowines.com/"
-slug: "motto-wines"
-status: "publish"
-title: "Motto Wines"
-squareImage: "./images/motto_square.jpg"
-bannerImage: "./images/motto_wines_hero.jpg"
+date: '2015-12-02'
+link: 'https://www.mottowines.com/'
+slug: 'motto-wines'
+status: 'publish'
+title: 'Motto Wines'
+squareImage: './images/motto_square.jpg'
+bannerImage: './images/motto_wines_hero.jpg'
 ---
 
 Part way through building the [Eroica Wine](/portfolio/eroica-wine) project, I was quickly kicked off on a new project that needed to be done in two weeks. I kid you not. Entire site built and ready for production in two weeks. We would normally take at least two months on a build like this.
@@ -18,11 +18,11 @@ Isotope handled the stacking, but we still needed objects to push to the center.
 
 Here's some of the Sass:
 
-```
+```scss
 .collage {
   width: 100%;
   font-size: 0; // Inline-block hack
-  
+
   &--with-margin-top {
     margin-top: 60px;
 
@@ -53,7 +53,6 @@ Here's some of the Sass:
   }
 
   &-item-content {
-
     @include bp(alpha) {
       max-width: 375px;
     }
@@ -69,7 +68,6 @@ Here's some of the Sass:
     // These classes move content towards center, added via JS
     .is-on-left &,
     .is-on-left & > * {
-
       @include bp(alpha) {
         margin-left: auto;
       }
@@ -77,7 +75,6 @@ Here's some of the Sass:
 
     .is-on-right &,
     .is-on-right & > * {
-
       @include bp(alpha) {
         margin-right: auto;
       }
@@ -85,7 +82,6 @@ Here's some of the Sass:
 
     // For narrow content
     &.narrow {
-
       @include bp(alpha) {
         width: 86.67%;
         max-width: 300px;
@@ -149,56 +145,56 @@ Here's some of the Sass:
 
 And the JS that fires all of that:
 
-```
-'use strict';
+```javascript
+'use strict'
 
 Collage = {
   init: function() {
-    this.collageImagesLoaded();
+    this.collageImagesLoaded()
   },
 
   collageImagesLoaded: function() {
-    var _this = this;
+    var _this = this
 
-    imagesLoaded( $('.collage'), function() {
-      _this.collageIsotope();
-    });
+    imagesLoaded($('.collage'), function() {
+      _this.collageIsotope()
+    })
   },
 
   collageIsotope: function() {
-    var _this = this;
+    var _this = this
 
     $('.collage').isotope({
       itemSelector: '.collage-item',
       sortBy: 'original-order'
-    });
+    })
 
-    _this.isotopeLayoutComplete();
-    _this.collageItemPositions();
+    _this.isotopeLayoutComplete()
+    _this.collageItemPositions()
   },
 
   isotopeLayoutComplete: function() {
-    var _this = this;
+    var _this = this
 
-    $('.collage').isotope( 'on', 'layoutComplete', function(items) {
-      _this.collageItemPositions();
-    });
+    $('.collage').isotope('on', 'layoutComplete', function(items) {
+      _this.collageItemPositions()
+    })
   },
 
   collageItemPositions: function() {
-    var $items = $('.collage-item');
+    var $items = $('.collage-item')
 
     $items.each(function() {
-      $(this).removeClass('is-on-left is-on-right');
+      $(this).removeClass('is-on-left is-on-right')
 
-      if ( $(this).css('left') == "0px" ) {
-        $(this).addClass('is-on-left');
+      if ($(this).css('left') == '0px') {
+        $(this).addClass('is-on-left')
       } else {
-        $(this).addClass('is-on-right');
+        $(this).addClass('is-on-right')
       }
-    });
+    })
   }
-};
+}
 ```
 
 In the end, we've got a collage grid that accomplishes all our goals and works responsively, too.
