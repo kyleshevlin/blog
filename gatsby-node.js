@@ -1,5 +1,11 @@
 const path = require('path')
 
+const formatStrForPath = str =>
+  str
+    .toLowerCase()
+    .split(' ')
+    .join('-')
+
 /**
  * Implement Gatsby's Node APIs in this file.
  *
@@ -15,6 +21,11 @@ exports.createPages = ({ graphql, actions }) => {
     const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
     const postTemplate = path.resolve('src/templates/Post.js')
     const portfolioTemplate = path.resolve('src/templates/Portfolio.js')
+    const allCategoriesOrTagsTemplate = path.resolve(
+      'src/templates/AllCategoriesOrTags.js'
+    )
+    const categoriesTemplate = path.resolve('src/templates/Categories.js')
+    const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
       {
         posts: allMarkdownRemark(
@@ -24,12 +35,10 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               frontmatter {
-                title
                 slug
-                date(formatString: "MMMM DD, YYYY")
                 categories
+                tags
               }
-              excerpt
             }
           }
         }
@@ -41,9 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               frontmatter {
-                title
                 slug
-                date(formatString: "MMMM DD, YYYY")
               }
             }
           }
@@ -78,7 +85,7 @@ exports.createPages = ({ graphql, actions }) => {
 
         // Create individual Post pages
         allPosts.forEach(post => {
-          const { slug } = post.node.frontmatter
+          const { categories, slug, tags } = post.node.frontmatter
 
           createPage({
             path: slug,
@@ -98,7 +105,73 @@ exports.createPages = ({ graphql, actions }) => {
           })
         })
 
-        return
+        // Reduce categories and tags
+        const categoriesAndTags = allPosts.reduce(
+          (acc, post) => {
+            const { categories, tags } = post.node.frontmatter
+
+            if (!(categories || tags)) {
+              return acc
+            }
+
+            if (categories) {
+              categories.forEach(category => {
+                acc.categories.add(category)
+              })
+            }
+
+            if (tags) {
+              tags.forEach(tag => {
+                acc.tags.add(tag)
+              })
+            }
+
+            return acc
+          },
+          { categories: new Set(), tags: new Set() }
+        )
+
+        const { categories, tags } = categoriesAndTags
+
+        // Create All Categories page
+        createPage({
+          path: 'categories',
+          component: allCategoriesOrTagsTemplate,
+          context: {
+            categories: Array.from(categories)
+          }
+        })
+
+        // Create All Tags page
+        createPage({
+          path: 'tags',
+          component: allCategoriesOrTagsTemplate,
+          context: {
+            tags: Array.from(tags)
+          }
+        })
+
+        // Create individual Category pages
+        categories.forEach(category => {
+          createPage({
+            path: `categories/${formatStrForPath(category)}`,
+            component: categoriesTemplate,
+            context: {
+              category
+            }
+          })
+        })
+
+        // Create individual Tag pages
+        tags.forEach(tag => {
+          createPage({
+            path: `/tags/${formatStrForPath(tag)}`,
+            component: tagsTemplate,
+            context: {
+              tag
+            }
+          })
+        })
       })
     )
   })

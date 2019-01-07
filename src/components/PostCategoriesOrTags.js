@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import { lighten } from 'polished'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
+import { formatStrForPath } from '../utils'
 
 const Wrap = styled.div`
   margin-bottom: ${bs()};
@@ -40,12 +41,8 @@ const formatItemPath = (item, type) => {
     tag: 'tags'
   }
   const typePath = paths[type]
-  const itemSlug = item
-    .toLowerCase()
-    .split(' ')
-    .join('-')
 
-  return `${typePath}/${itemSlug}`
+  return `${typePath}/${formatStrForPath(item)}`
 }
 
 const getTypeHeading = type => {
