@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from '../components/Layout'
-import SEO from '../components/Seo'
+import Seo from '../components/Seo'
 
 const Contact = () => (
   <Layout>
-    <SEO title="Contact" keywords={['Contact', 'Kyle Shevlin']} />
+    <Seo title="Contact" keywords={['Contact', 'Kyle Shevlin']} />
     <h1>Contact</h1>
     <p>
       If you're looking to get ahold of me, you can send me an email at{' '}

@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
+import Seo from '../components/Seo'
 
 const Portfolio = ({ data }) => {
   const portfolioItem = data.markdownRemark
@@ -15,6 +16,8 @@ const Portfolio = ({ data }) => {
 
   return (
     <Layout>
+      <Seo title={`${title} | Portfolio`} />
+
       <div>
         {bannerImage && (
           <BannerImage

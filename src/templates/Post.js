@@ -6,6 +6,7 @@ import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
+import Seo from '../components/Seo'
 
 const Post = ({ data }) => {
   const {
@@ -15,6 +16,8 @@ const Post = ({ data }) => {
 
   return (
     <Layout>
+      <Seo title={title} />
+
       <div>
         {coverImage && (
           <BannerImage

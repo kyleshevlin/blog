@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/core'
 import { Link } from 'gatsby'
 import Layout from '../components/Layout'
+import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 
@@ -11,7 +12,6 @@ const linkStyles = css`
 `
 
 const AllCategoriesOrTags = ({ pageContext }) => {
-  console.log(pageContext)
   const { categories, tags } = pageContext
 
   // Has to be one or the other
@@ -21,6 +21,8 @@ const AllCategoriesOrTags = ({ pageContext }) => {
 
   return (
     <Layout>
+      <Seo title={title} />
+
       <h1>{title}</h1>
       <div>
         {items.map(item => (

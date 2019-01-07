@@ -5,7 +5,7 @@ import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 import Layout from '../components/Layout'
-import SEO from '../components/Seo'
+import Seo from '../components/Seo'
 import PortfolioItem from '../components/PortfolioItem'
 
 const ItemsWrap = styled.div`
@@ -28,7 +28,7 @@ const Portfolio = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Portfolio" keywords={['Portfolio', 'Kyle Shevlin']} />
+      <Seo title="Portfolio" keywords={['Portfolio', 'Kyle Shevlin']} />
       <h1>Portfolio</h1>
 
       <p>

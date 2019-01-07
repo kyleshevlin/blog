@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/core'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/Layout'
+import Seo from '../components/Seo'
 import { bs } from '../shevy'
 
 const linkStyles = css`
@@ -10,10 +11,13 @@ const linkStyles = css`
 `
 const Tags = ({ data, ...props }) => {
   const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
+  const { tag } = props.pageContext
 
   return (
     <Layout>
-      <h1>{props.pageContext.tag}</h1>
+      <Seo title={`${tag} | Tags`} />
+
+      <h1>{tag}</h1>
 
       <div>
         {posts.map(post => {

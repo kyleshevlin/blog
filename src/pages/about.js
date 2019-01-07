@@ -4,7 +4,7 @@ import { graphql } from 'gatsby'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
 import Layout from '../components/Layout'
-import SEO from '../components/Seo'
+import Seo from '../components/Seo'
 
 const ImageWrap = styled.div`
   max-width: 640px;
@@ -30,7 +30,7 @@ const About = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="About" keywords={['About', 'Kyle Shevlin']} />
+      <Seo title="About" keywords={['About', 'Kyle Shevlin']} />
 
       <h1>About</h1>
       <p>

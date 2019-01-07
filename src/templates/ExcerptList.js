@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
-import SEO from '../components/Seo'
+import Seo from '../components/Seo'
 import ExcerptedPost from '../components/ExcerptedPost'
 import Pagination from '../components/Pagination'
 
@@ -11,7 +11,8 @@ const ExcerptList = ({ data, ...props }) => {
 
   return (
     <Layout>
-      <SEO title="Home" keywords={['Kyle Shevlin']} />
+      <Seo title="Home" keywords={['Kyle Shevlin']} />
+
       <div>
         {posts.map(post => (
           <ExcerptedPost key={post.frontmatter.slug} post={post} />
