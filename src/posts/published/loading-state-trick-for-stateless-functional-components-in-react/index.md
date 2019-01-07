@@ -1,10 +1,10 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
-date: "2017-01-20"
-slug: "loading-state-trick-for-stateless-functional-components-in-react"
-status: "publish"
-title: "Loading State Trick for Stateless Functional Components in React"
+date: '2017-01-20'
+slug: 'loading-state-trick-for-stateless-functional-components-in-react'
+status: 'publish'
+title: 'Loading State Trick for Stateless Functional Components in React'
 ---
 
 I want to share with you a little trick I've been using lately with stateless functional components in React. This is probably really old news to some of you, but I'm hoping there are a few of you who don't know this one yet.
@@ -17,12 +17,14 @@ Presentational components, on the other hand, are used solely for displaying dat
 
 A stateless functional component is simply a function that returns the markup (React functions or JSX). Props are passed as arguments to the function, and then utilized within the markup. Let's make a simple example of a stateless functional component that expects an array of items, and displays each one of those items.
 
-```
+```javascript
 import React, { PropTypes } from 'react'
 
 const DisplayItems = ({ items }) => (
-  <div className='items'>
-    { items.map((item, index) => <div className='item' key={index} {...item} />) }
+  <div className="items">
+    {items.map((item, index) => (
+      <div className="item" key={index} {...item} />
+    ))}
   </div>
 )
 
@@ -31,7 +33,6 @@ Display.propTypes = {
 }
 
 export default DisplayItems
-
 ```
 
 I hope the ES6 doesn't scare you. I've created a function called `DisplayItems`. This function expects a `props` object as an argument, and I'm using ES6 destructuring to make it clear that I'm expecting and will use an `items` property on the `props` object.
@@ -50,26 +51,31 @@ It is possible to reconfigure this component to display alternative markup if th
 
 Imagine that I have built another component called `LoadingSpinner` which simply shows the user a loading spinner animation. Perhaps it looks something like this:
 
-```
+```javascript
 import React, { PropTypes } from 'react'
 
 const LoadingSpinner = () => (
-  <div className='loading_spinner-wrap'>
-    <svg className='loading_spinner' width='60' height='20' viewBox='0 0 60 20' xmlns='http://www.w3.org/2000/svg'>
-      <circle cx='7' cy='15' r='4' />
-      <circle cx='30' cy='15' r='4' />
-      <circle cx='53' cy='15' r='4' />
+  <div className="loading_spinner-wrap">
+    <svg
+      className="loading_spinner"
+      width="60"
+      height="20"
+      viewBox="0 0 60 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="7" cy="15" r="4" />
+      <circle cx="30" cy="15" r="4" />
+      <circle cx="53" cy="15" r="4" />
     </svg>
   </div>
 )
 
 export default LoadingSpinner
-
 ```
 
 And maybe I've written some basic styles for it to animate the circles:
 
-```
+```css
 .loading_spinner-wrap {
   width: 100%;
   padding: 50px 0;
@@ -83,40 +89,55 @@ And maybe I've written some basic styles for it to animate the circles:
   circle {
     animation-name: upAndDown;
     animation-duration: 2s;
-    animation-timing-function: cubic-bezier(.05, .2, .35, 1);
+    animation-timing-function: cubic-bezier(0.05, 0.2, 0.35, 1);
     animation-iteration-count: infinite;
 
     &:nth-child(2) {
-      animation-delay: .18s;
+      animation-delay: 0.18s;
     }
 
     &:nth-child(3) {
-      animation-delay: .36s;
+      animation-delay: 0.36s;
     }
   }
 }
 
 @keyframes upAndDown {
-  0% { opacity: 0; transform: translateY(0); }
-  25% { opacity: 1; transform: translateY(-10px); }
-  75% { opacity: 1; transform: translateY(-10px); }
-  100% { opacity: 0; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
 }
-
 ```
 
 Now, I can set up my `DisplayList` component to either render the `LoadingSpinner` component, or my list, depending on whether any `items` have been passed to it. Like so:
 
-```
+```javascript
 import React, { PropTypes } from 'react'
 import LoadingSpinner from './LoadingSpinner'
 
 const DisplayItems = ({ items }) => {
   return items.length ? (
-    <div className='items'>
-      { items.map((item, index) => <div className='item' key={index} {...item} />) }
+    <div className="items">
+      {items.map((item, index) => (
+        <div className="item" key={index} {...item} />
+      ))}
     </div>
-  ) : <LoadingSpinner />
+  ) : (
+    <LoadingSpinner />
+  )
 }
 
 Display.propTypes = {
@@ -124,7 +145,6 @@ Display.propTypes = {
 }
 
 export default DisplayItems
-
 ```
 
 Did you see what I did there? I removed the implicit return from the `DisplayItems` function, and then used a ternary operator to determine which component gets rendered.

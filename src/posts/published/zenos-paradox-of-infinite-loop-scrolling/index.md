@@ -1,9 +1,9 @@
 ---
 categories: ['JavaScript', 'Web Development']
-date: "2017-02-17"
-slug: "zenos-paradox-of-infinite-loop-scrolling"
-status: "publish"
-subtitle: "or Everything Moves but You"
+date: '2017-02-17'
+slug: 'zenos-paradox-of-infinite-loop-scrolling'
+status: 'publish'
+subtitle: 'or Everything Moves but You'
 title: "Zeno's Paradox of Infinite Loop Scrolling"
 ---
 
@@ -11,16 +11,15 @@ My current project has a strange requirement. Given a collection of items, a use
 
 Let's assume I have a collection, we can use an array of numbers for this example:
 
-```
-const collection = [1,2,3,4,5,6,7,8,9,10]
-
+```javascript
+const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ```
 
 Let's assume I can only see five of these items on the screen at once. Thus, when we reach either "edge" of the array, we should get the items on the other "edge" to populate our visible five. For example, if I went past the left edge, I would see this: `9,10,1,2,3`.
 
 The way this is handled, from a developer's perspective, is that when you scroll the container you add and remove items simultaneously (or `.map()` a new set of items for better performance) so that the number of items is always the same. Because the number of items is a constant, when we "move" our items, we must compensate the scroll position of the container an equal amount. If you move to reveal an item on the left we must:
 
-1) Remove the item on the right 2) Add an item on the left 3) Then compensate the scroll position the width of one item
+1. Remove the item on the right 2) Add an item on the left 3) Then compensate the scroll position the width of one item
 
 Doing this results in your scroll position being exactly the same as it was. Assuming a world where the wrapping container never changes width, and the performance of the machine you view this UI on is perfect, you would _literally_ never move position. Crazy!
 

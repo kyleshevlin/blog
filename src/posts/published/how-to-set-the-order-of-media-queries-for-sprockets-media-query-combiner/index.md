@@ -1,14 +1,14 @@
 ---
 categories: ['Web Development']
-date: "2015-08-08"
-slug: "how-to-set-the-order-of-media-queries-for-sprockets-media-query-combiner"
-status: "publish"
-title: "How to Set the Order of Media Queries for Sprockets Media Query Combiner"
+date: '2015-08-08'
+slug: 'how-to-set-the-order-of-media-queries-for-sprockets-media-query-combiner'
+status: 'publish'
+title: 'How to Set the Order of Media Queries for Sprockets Media Query Combiner'
 ---
 
 Today I was working on a project that's about to launch in a few weeks. I was asked to make a last-minute change to the layout of a page (of course!), which required me to use a media query size I had not yet used in the project. At FINE, we've established the standard of using a breakpoint mixin nested inside our selector to handle responsive behavior. Our pattern, in short, looks like this:
 
-```
+```scss
 .block {
   width: 100px;
 
@@ -20,7 +20,6 @@ Today I was working on a project that's about to launch in a few weeks. I was as
     width: 300px;
   }
 }
-
 ```
 
 This is generally never a problem. The bugs show up when you combine this style of coding with a media query combiner. We are a Ruby on Rails dev shop, so we have been using the gem Sprockets Media Query Combiner for some time. It reads our CSS/SCSS and combines the media query output into single media query blocks. If I use the `bp()` mixin 50 times, it takes those 50 declarations and moves them into one media query block. This is great for reducing the size of your CSS files after compilation.
@@ -33,12 +32,19 @@ Since SMQC determines order based on what query it finds first, we simply need t
 
 I accomplished this by creating a new file, `_query_order.scss`. This is an example of the code you would find in there:
 
-```
-@include bp(small) { /**/ }
-@include bp(medium) { /**/ }
-@include bp(large) { /**/ }
-@include bp(gargantuan) { /**/ }
-
+```scss
+@include bp(small) {
+  /**/
+}
+@include bp(medium) {
+  /**/
+}
+@include bp(large) {
+  /**/
+}
+@include bp(gargantuan) {
+  /**/
+}
 ```
 
 Once the file was made, I made sure to import it before the breakpoint mixin was used any where else. In my case, I imported this query order file before my global element styles. Perhaps there is a more logical place for you to place this file in your own project.

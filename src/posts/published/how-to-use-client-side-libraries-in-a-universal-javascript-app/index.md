@@ -1,10 +1,10 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
-date: "2016-12-01"
-slug: "how-to-use-client-side-libraries-in-a-universal-javascript-app"
-status: "publish"
-title: "How To Use Client Side Libraries in a Universal JavaScript App"
+date: '2016-12-01'
+slug: 'how-to-use-client-side-libraries-in-a-universal-javascript-app'
+status: 'publish'
+title: 'How To Use Client Side Libraries in a Universal JavaScript App'
 ---
 
 At work, I am building a JavaScript application with universal rendering. There are a number of challenges with building a universally rendered application, but one challenge in particular is making sure code that should only run on the client doesn't cause the server to crash.
@@ -15,10 +15,9 @@ Sadly, this is not as simple as importing the library and treating it like any o
 
 There are a number of possible solutions to this problem. Some involve setting a fake `global.window` object in your Node server. Another solution might be to use [jsdom](https://github.com/tmpvar/jsdom) but I think that could be overkill. What we need is a solution that allows the code to harmlessly fail when it runs on the server, and then run as it should on the client. Here's the trick.
 
-```
-const isBrowser = (typeof window !== 'undefined')
+```javascript
+const isBrowser = typeof window !== 'undefined'
 const imagesLoaded = isBrowser ? require('imagesloaded') : () => {}
-
 ```
 
 It's really that simple. First we create a check for whether this code is being run on the client or on the server. If it's on the client, we require the library using CommonJS (not ES6 imports) and it runs as it should. If the code is being run on the server, we return an empty function that is perfectly harmless when called. It's a simple little trick to keeping your code from crashing your server.

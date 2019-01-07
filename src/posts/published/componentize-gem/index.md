@@ -1,11 +1,11 @@
 ---
 categories: ['Web Development']
 tags: ['Rails', 'Ruby']
-date: "2016-07-02"
-slug: "componentize-gem"
-status: "publish"
-subtitle: "or Bringing Components to Rails Projects."
-title: "Componentize Gem"
+date: '2016-07-02'
+slug: 'componentize-gem'
+status: 'publish'
+subtitle: 'or Bringing Components to Rails Projects.'
+title: 'Componentize Gem'
 ---
 
 In my last few Rails projects, I have been exploring strategies to create and utilize "components" similar to how components are used in Ember. Rails doesn't have a simple, native way to do this. However, I think I've come up with a good way to accomplish this, and I have created a gem to facilitate building Rails components rapidly.

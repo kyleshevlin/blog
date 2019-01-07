@@ -1,10 +1,10 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Ember']
-date: "2016-06-18"
-slug: "how-to-prevent-a-user-from-editing-a-profile-that-isnt-theirs-in-ember"
-status: "publish"
-subtitle: "or How to Keep Mischievous Users Out of the Cookie Jar"
+date: '2016-06-18'
+slug: 'how-to-prevent-a-user-from-editing-a-profile-that-isnt-theirs-in-ember'
+status: 'publish'
+subtitle: 'or How to Keep Mischievous Users Out of the Cookie Jar'
 title: "How to Prevent a User from Editing a Profile That Isn't Theirs in Ember"
 ---
 
@@ -16,28 +16,27 @@ Each Ember Route goes through a series of hooks as it prepares to render. I foun
 
 The `afterModel` method runs _obviously_ after the `model` method Promise has returned. It takes two arguments, the `resolvedModel` and the `transition` object. Thus, I can compare the `resolvedModel` to my `currentUser` stored in the session, and if they aren't the same user, I abort the transition and boot them back to a different page. It all looks a bit like this:
 
-```
+```javascript
 // routes/profile/edit.js
-import Ember from 'ember';
-import AuthenticatedRoute from '../../mixins/authenticated-route';
+import Ember from 'ember'
+import AuthenticatedRoute from '../../mixins/authenticated-route'
 
-const { service } = Ember.inject;
+const { service } = Ember.inject
 
 export default Ember.Route.extend(AuthenticatedRoute, {
   session: service(),
 
   model(params) {
-    return this.store.findRecord('user', params.user_id);
+    return this.store.findRecord('user', params.user_id)
   },
 
   afterModel(model, transition) {
-    if ( model.id !== this.get('session.currentUser.id') ) {
-      transition.abort();
-      this.transitionTo('profile.index', model.id);
+    if (model.id !== this.get('session.currentUser.id')) {
+      transition.abort()
+      this.transitionTo('profile.index', model.id)
     }
   }
-});
-
+})
 ```
 
 By comparing the stored ids, we can check if the user is allowed to the edit page. If not, we silently slap them on the wrist and send them back to the profile page.

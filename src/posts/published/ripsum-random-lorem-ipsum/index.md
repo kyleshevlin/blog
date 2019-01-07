@@ -1,10 +1,10 @@
 ---
 categories: ['Web Development']
-date: "2015-12-06"
-slug: "ripsum-random-lorem-ipsum"
-status: "publish"
-subtitle: "A Ruby Gem for Generating a Random Amount of Lorem Ipsum with Each Page Load"
-title: "Ripsum"
+date: '2015-12-06'
+slug: 'ripsum-random-lorem-ipsum'
+status: 'publish'
+subtitle: 'A Ruby Gem for Generating a Random Amount of Lorem Ipsum with Each Page Load'
+title: 'Ripsum'
 ---
 
 Today, I published my first Ruby gem: [Ripsum](https://rubygems.org/gems/ripsum). Using Ripsum allows you to generate a random amount of lorem ipsum text with each page load. But why might we want to randomize how much text is output to a page?
@@ -15,14 +15,14 @@ Utilizing Ripsum, I can pick a standard number of words and choose an amount of 
 
 Let's examine how this works. Ripsum is used like so:
 
-```
+```ruby
 <%= ripsum(100, 0.5) %>
 
 ```
 
 The `ripsum` method takes two arguments, the standard and the variance. We multiply the variance by the standard, create min and max word counts by subtracting from and adding to the standard, then randomly choose a number between the min and max values and out put that many words of text. In the example above, our minimum word count is 50, our maximum word count is 150. We can increase or decrease the variation by increasing or decreasing the variance. The code for accomplishing this task looks similar to this:
 
-```
+```ruby
 def ripsum(standard, variance)
   min = standard - (standard * variance)
   max = standard + (standard * variance)

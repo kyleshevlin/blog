@@ -1,10 +1,10 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
-date: "2017-06-24"
-slug: "make-your-own-charts-in-react-without-a-charting-library-part-1"
-status: "publish"
-title: "Make Your Own Charts in React Without a Charting Library - Part 1"
+date: '2017-06-24'
+slug: 'make-your-own-charts-in-react-without-a-charting-library-part-1'
+status: 'publish'
+title: 'Make Your Own Charts in React Without a Charting Library - Part 1'
 ---
 
 Occasionally I see someone ask, "What's the best way to make bar charts with React? Are there any great libraries?" I often respond with, "Why not build it with React yourself?"
@@ -21,7 +21,7 @@ The first chart we are going to build is a bar chart. These are really easy to b
 
 To make our bar chart, we're going to first need some data. Because I lack creativity, I'm going to create a data set based on the number of repos a few of my favorite Github users own (and mine for good measure):
 
-```
+```javascript
 const data = [
   {
     name: 'kentcdodds',
@@ -48,38 +48,27 @@ const data = [
     repos: 82
   }
 ]
-
 ```
 
 Next, we need to build a few basic components to represent this data. We'll start with a `Chart` component and a `Bar` component.
 
-```
+```javascript
 const Chart = ({ children, width, height }) => (
-  <svg
-    viewBox={`0 0 ${width} ${height}`}
-    width={width}
-    height={height}
-  >
+  <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
     {children}
   </svg>
 )
 
 const Bar = ({ x, y, width, height }) => (
-  <rect
-    x={x}
-    y={y}
-    width={width}
-    height={height}
-  />
+  <rect x={x} y={y} width={width} height={height} />
 )
-
 ```
 
 These are really simple components. Our `Chart` component creates an `svg` based upon the width and height we pass in as props. Then, the `Bar` component creates a `rect` element that we will pass as a child of the `Chart` component.
 
 Putting this together (with some math to handle the discrepancy in repo totals), we can make our bar chart like so:
 
-```
+```javascript
 const BarChart = ({ data }) => {
   // Width of each bar
   const itemWidth = 20
@@ -102,10 +91,7 @@ const BarChart = ({ data }) => {
   const chartHeight = mostRepos
 
   return (
-    <Chart
-      width={dataLength * (itemWidth + itemMargin)}
-      height={chartHeight}
-    >
+    <Chart width={dataLength * (itemWidth + itemMargin)} height={chartHeight}>
       {massagedData.map((datum, index) => (
         <Bar
           key={datum.name}
@@ -120,7 +106,6 @@ const BarChart = ({ data }) => {
 }
 
 ReactDOM.render(<BarChart data={data} />, document.getElementById('barchart'))
-
 ```
 
 If you've followed along, you should now have a bar chart of 6 bars. Their heights should correspond with how many repos the user has. There is one small problem, though. The bars are upside down.
@@ -129,15 +114,12 @@ This is a typical problem with bar charts and is easily solved. I just wanted to
 
 In our `BarChart` component, we need to change the `y` prop to place the `rect` such that they all line up on the bottom. To do this, we can set `y` equal to `chartHeight` minus that `rect`'s height. Let's make some small changes to the component:
 
-```
+```javascript
 const BarChart = ({ data }) => {
   // all the same ...
 
   return (
-    <Chart
-      width={dataLength * (itemWidth + itemMargin)}
-      height={chartHeight}
-    >
+    <Chart width={dataLength * (itemWidth + itemMargin)} height={chartHeight}>
       {massagedData.map((datum, index) => {
         const itemHeight = datum.repos
 
@@ -153,7 +135,6 @@ const BarChart = ({ data }) => {
     </Chart>
   )
 }
-
 ```
 
 And there you have it, a very simple to make bar chart. We'll add axes to our chart in the next post. Take a look and play with the chart below:

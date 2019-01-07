@@ -1,9 +1,9 @@
 ---
 categories: ['Web Development']
-date: "2016-03-09"
-slug: "using-and-and-or-in-bash-scripts"
-status: "publish"
-title: "Using && and || in Bash Scripts"
+date: '2016-03-09'
+slug: 'using-and-and-or-in-bash-scripts'
+status: 'publish'
+title: 'Using && and || in Bash Scripts'
 ---
 
 I write about Bash so often you might start to think it's all I do. It's not, but considering I spend a good portion of my day in the terminal, I'm always on the look out for ways to make it a more efficient experience.
@@ -12,7 +12,7 @@ Recently, I came upon a simple trick for bash scripts that just has to be shared
 
 In most languages, this would look something like this:
 
-```
+```ruby
 # Using Ruby for this example
 foo = true
 bar = false
@@ -26,7 +26,7 @@ if foo || bar; end # returns true; || requires only one expression to evaluate t
 
 Since we know that an `&&` requires both expressions to be true, we can use this knowledge to chain bash commands that we only want to run in succession if the first command was successful. For example:
 
-```
+```bash
 cd foo && touch bar.html
 
 ```
@@ -37,7 +37,7 @@ If the terminal is able to successfully `cd` into the directory `foo`, then it w
 
 In other circumstances, we might want to try one command and then another if the first fails. In this case, the `||` operator is our friend. I have specifically used this in a bash alias I've made for deploying a site. Depending upon what version of Capistrano is being used in a project, the terminal command syntax is different. Thus, we simply try one, and if it fails we try another.
 
-```
+```bash
 # Literally my alias for deploying to production
 alias capp="cap deploy -S loc=prod || cap prod deploy"
 
@@ -47,7 +47,7 @@ alias capp="cap deploy -S loc=prod || cap prod deploy"
 
 So, you can see that you can quickly use these to construct larger scripts that can do a rudimentary form of error handling without a lot of effort. Often, I need to deploy the same feature branch of code to multiple environments. I made a bash function using the `&&` and `||` operators like I've laid out here to do just that with one short command.
 
-```
+```bash
 # Deploy a branch to all branches
 function mgdep () {
   # if no argument is passed to the function, get the current branch (the feature branch)

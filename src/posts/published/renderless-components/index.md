@@ -1,11 +1,11 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React', 'Redux']
-date: "2017-02-23"
-slug: "renderless-components"
-status: "publish"
+date: '2017-02-23'
+slug: 'renderless-components'
+status: 'publish'
 subtitle: "or How Logic Doesn't Always Need a UI"
-title: "Renderless Components"
+title: 'Renderless Components'
 ---
 
 If you're using Redux with React, you are probably familiar with the concept of container and presentational components. If you are, you can skip ahead to the section **Renderless Components**. If you're not, let me give you a very brief description of each.
@@ -24,7 +24,7 @@ Those familiar with Redux know that a single store governs your application's st
 
 Typically, a container component is actually a higher order component (HOC) because it is connected to the store. Like so:
 
-```
+```javascript
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -33,7 +33,6 @@ class FooContainer extends Component {
 }
 
 export default connect()(FooContainer)
-
 ```
 
 I won't go into the `connect()` API. The docs are very well written and there are plenty of tutorials and videos on how to use it. I simply wanted to show that we are not exporting `FooContainer` itself, but rather the HOC returned by the `connect()` function.
@@ -44,7 +43,7 @@ Using the example from above, generally speaking, we would use this container co
 
 We can pass the props implicitly if we don't need to use any lifecycle hooks in our container component like so:
 
-```
+```javascript
 import { connect } from 'react-redux'
 import FooPresentational from './FooPresentational'
 
@@ -53,19 +52,18 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps)(FooPresentational)
-
 ```
 
 Thus, we implicitly pass to `FooPresentational` the `someProp` prop.
 
 We can also pass props explicitly by using the presentational component in the `render()` method of our container component like so:
 
-```
+```javascript
 import React, { Component } from 'react'
 import FooPresentational from './FooPresentational'
 
 class FooContainer extends Component {
-  render () {
+  render() {
     return <FooPresentational someProp={this.props.someProp} />
   }
 }
@@ -75,7 +73,6 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps)(FooContainer)
-
 ```
 
 This way of passing props explicitly might be a bit cumbersome, but can be useful if you need to massage the props for any reason before passing them.
@@ -88,7 +85,7 @@ It is a perfectly legitimate use of a component to `render () { return null }`. 
 
 For a project I am working on, I need to update a value in my store, `currentTime`, with the current hours, minutes, and seconds. Since Redux requires reducers to be pure, the logic for updating the time must be in the action itself or passed to the action creator function as parameters. This means, I need a component to setup an interval to dispatch a function that will in turn update my store. Here's what a component like that might look like:
 
-```
+```javascript
 import { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
@@ -97,7 +94,7 @@ import { connect } from 'react-redux'
 import { updateTime } from '../actions'
 
 class UpdateTimeContainer extends Component {
-  constructor () {
+  constructor() {
     super()
 
     this.intervalId = null
@@ -106,23 +103,23 @@ class UpdateTimeContainer extends Component {
     this.getCurrentTime = this.getCurrentTime.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.startClock()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.stopClock()
   }
 
-  startClock () {
+  startClock() {
     this.intervalId = setInterval(this.getCurrentTime, 5000)
   }
 
-  stopClock () {
+  stopClock() {
     clearInterval(this.intervalId)
   }
 
-  getCurrentTime () {
+  getCurrentTime() {
     const now = new Date()
     const hours = now.getHours()
     const minutes = now.getMinutes()
@@ -131,7 +128,7 @@ class UpdateTimeContainer extends Component {
     this.props.updateTime(hours, minutes, seconds)
   }
 
-  render () {
+  render() {
     return null
   }
 }
@@ -144,8 +141,10 @@ const mapDispatchToProps = {
   updateTime
 }
 
-export default connect(null, mapDispatchToProps)(UpdateTimeContainer)
-
+export default connect(
+  null,
+  mapDispatchToProps
+)(UpdateTimeContainer)
 ```
 
 As you can see, this component uses lifecycle methods like any normal component, but doesn't render any markup. That's right! A component will _mount_ even if it doesn't _render_ markup.

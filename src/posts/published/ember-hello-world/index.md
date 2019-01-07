@@ -1,11 +1,11 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Ember']
-date: "2016-05-14"
-slug: "ember-hello-world"
-status: "publish"
-subtitle: "All the Different Ways to Make the Simplest Ember App"
-title: "Ember: Hello World"
+date: '2016-05-14'
+slug: 'ember-hello-world'
+status: 'publish'
+subtitle: 'All the Different Ways to Make the Simplest Ember App'
+title: 'Ember: Hello World'
 ---
 
 [Ember.js](http://emberjs.com/) is one of several popular JavaScript MVCs on the market today and particularly my favorite to use. Known as "a framework for creating ambitious web applications", Ember is a great choice for building quality JavaScript SPAs. For those of you getting started with Ember, I'd like to walk you through building a "Hello World" app with [Ember CLI](http://ember-cli.com/), and I will show you several different ways to accomplish this goal. Doing so will teach you the different ways Ember can store and retrieve data inside and outside of the application. By the end, you should be able to build your own "Hello World" app in a matter of minutes.
@@ -14,21 +14,21 @@ To get started, you'll need to have Node, NPM, Bower, and Ember CLI installed on
 
 To install Ember CLI, run this in your terminal:
 
-```
+```bash
 npm install -g ember-cli
 
 ```
 
 To verify that Ember CLI installed, run this in your terminal:
 
-```
+```bash
 ember -v
 
 ```
 
 You should see some output that looks similar to this:
 
-```
+```bash
 $ ember-cli 2.5.0
 node 5.9.0
 as: darwin x64
@@ -53,7 +53,7 @@ In Ember, there are a variety of ways we can supply data to our application. One
 
 To start, we need to generate a controller file. To do this, run this command in your terminal:
 
-```
+```bash
 ember generate controller application
 
 ```
@@ -62,13 +62,12 @@ This will create an `application.js` file under your app's `controllers` directo
 
 In this file, within the `.extend()` function, add a property named `greeting` and give it a value of `'Hello World'`. Like so:
 
-```
-import Ember from 'ember';
+```javascript
+import Ember from 'ember'
 
 export default Ember.Controller.extend({
   greeting: 'Hello World'
-});
-
+})
 ```
 
 Now, open your `application.hbs` file again, remove the text inside of the `h2` tag and replace it with `{{greeting}}`. This is a Handlebars helper which will retrieve the value of `greeting` from our controller, and render the template with that value. If you look at your application in the browser, it will still say "Hello World". Try changing the value of `greeting` in the controller to different values and see how the template automatically rerenders with each value change.
@@ -79,7 +78,7 @@ As I mentioned before, Controllers will soon be deprecated in Ember. Most Ember 
 
 To create a component with Ember CLI, run the following command in the terminal:
 
-```
+```bash
 ember generate component hello-world
 
 ```
@@ -88,25 +87,23 @@ This command will generate a new `hello-world.js` file under the components dire
 
 Just as we did with the controller, we can add properties to our components and call them in our component. Let's create another greeting property and give it a value like so:
 
-```
-import Ember from 'ember';
+```javascript
+import Ember from 'ember'
 
 export default Ember.Component.extend({
   componentGreeting: 'Hello World'
-});
-
+})
 ```
 
 Then, we need to update the component template file. Remove the `{{yield}}` (I'll go over that another time), and replace it with:
 
-```
+```hbs
 <h2 class="title">{{componentGreeting}}</h2>
-
 ```
 
 Lastly, we need to add the component to our `application.hbs` file. Like so:
 
-```
+```hbs
 {{hello-world}}
 
 {{outlet}}
@@ -121,7 +118,7 @@ While it is possible to pass data into templates by using controllers and compon
 
 To start this exercise, we're going to create a route with Ember CLI:
 
-```
+```bash
 ember generate route index
 
 ```
@@ -130,20 +127,19 @@ This will create an `index.js` file in the routes directory, a `index.hbs` file 
 
 In the newly created route file, let's use the `model()` method to return `'Hello World'` to our template. Add this to the `index.js` file:
 
-```
-import Ember from 'ember';
+```javascript
+import Ember from 'ember'
 
 export default Ember.Route.extend({
   model() {
-    return 'Hello World';
+    return 'Hello World'
   }
-});
-
+})
 ```
 
 Now, that we have wired up the `model()` method, we can call the `{{model}}` Handlebars helper in the `index.hbs` file to display the returned data. Like this:
 
-```
+```hbs
 <h2 class="title">{{model}}</h2>
 
 ```
@@ -156,55 +152,51 @@ All right, let's do this _one_ more way. An Ember Service is a singleton that la
 
 As with every other method we've done thus far, we're going to begin by using Ember CLI to generate our service:
 
-```
+```bash
 ember generate service hello-world
 
 ```
 
 As you might expect by now, Ember CLI created for us a `hello-world.js` file in the services directory and a test file. Open this new service file in your text editor. We're going to add a property on to our service like so:
 
-```
-import Ember from 'ember';
+```javascript
+import Ember from 'ember'
 
 export default Ember.Service.extend({
   sayHello: 'Hello World'
-});
-
+})
 ```
 
 Next, we're going to modify the index route created in the previous exercise. Services are available just about anywhere in your Ember application. Thus, a service is a great place to store data that needs to accessed from routes, controllers, components, etc. In order to get the data stored in the service, we need to inject it into our object. Open up the index route file in your text editor, and make the following adjustments:
 
-```
-import Ember from 'ember';
+```javascript
+import Ember from 'ember'
 
-const { inject } = Ember;
+const { inject } = Ember
 
 export default Ember.Route.extend({
   helloWorld: inject.service(),
   model() {
     return this.get('helloWorld').sayHello
   }
-});
-
+})
 ```
 
 This is slightly more complicated than the rest of our code up to this point. Let's start with the `const`. Here, we are using an ES6 feature known as [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Destructuring allows us to create variables that are shortcuts to properties on an object. This might be easiest to understand with a visual.
 
-```
-const { inject } = Ember;
+```javascript
+const { inject } = Ember
 
 // This is the same as above.
-var inject = Ember.inject;
-
+var inject = Ember.inject
 ```
 
 If we wanted to create multiple `const`s, we can comma separate property names on the assigned object. Using destructuring might seem like overkill at this moment, but it is a pattern you will see frequently in Ember applications and it is worth using and understanding as soon as possible.
 
 Moving on, we add a property to our route that is the camelCased equivalent of the name of our service. This allows the service to be injected without passing in an argument for the service name. If we wanted to name our route property something different, we would have to pass in the name of our service to the `service()` function, like so:
 
-```
+```javascript
 otherPropertyName: inject.service('hello-world')
-
 ```
 
 Now that the service is injected into our route, we can access any properties on the service using Ember's `get()` method. Inside of the model function, we return the value of the `sayHello` property on our hello-world service. Since our previous example already displayed the model value in the template, our application should now display "Hello World" once more.

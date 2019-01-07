@@ -1,15 +1,15 @@
 ---
 categories: ['JavaScript', 'Web Development']
-date: "2016-12-03"
-slug: "imho-avoid-clever-code"
-status: "publish"
-subtitle: "or Code is for Humans, Not for Computers"
-title: "IMHO: Avoid Clever Code"
+date: '2016-12-03'
+slug: 'imho-avoid-clever-code'
+status: 'publish'
+subtitle: 'or Code is for Humans, Not for Computers'
+title: 'IMHO: Avoid Clever Code'
 ---
 
 Yesterday, I was poring through some code when I came across a pattern I hadn't seen used in JavaScript before. The pattern looked like this:
 
-```
+```javascript
 const foo = true // or any value that can be truthy or falsy
 const bar = () => {
   console.log('Hey!')
@@ -19,14 +19,14 @@ const bar = () => {
 foo && bar()
 
 // 'Hey!'
-
 ```
 
 This pattern takes advantage of how logical operators work. In the case of `&&`, when the left side is true, the runtime evaluates the right side. Since an `&&` requires both sides to be `true` to return `true`, it only evaluates and runs the right side _if_ the left side is true. Essentially, the developer created a shorthand if/then statement. If the code was written conventionally, instead of `foo && bar()`, it would have looked like this:
 
-```
-if (foo) { bar() }
-
+```javascript
+if (foo) {
+  bar()
+}
 ```
 
 _In my opinion_, the conventional way should be used over the "clever" pattern every time. Why? Legibility.

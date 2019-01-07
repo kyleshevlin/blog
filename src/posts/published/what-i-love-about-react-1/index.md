@@ -1,11 +1,11 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
-date: "2017-04-22"
-slug: "what-i-love-about-react-1"
-status: "publish"
-subtitle: "Renders with Ternaries"
-title: "What I Love About React #1"
+date: '2017-04-22'
+slug: 'what-i-love-about-react-1'
+status: 'publish'
+subtitle: 'Renders with Ternaries'
+title: 'What I Love About React #1'
 ---
 
 This won't be a very long, nor deep, post. As I was working on some code this afternoon, a thought occurred to me. I love React. I really do. I find it so pleasant to work in React, and I can't always describe why. However, I have at least one reason I can describe, and I thought I'd share that with you right now. I'll share more as I think of others.
@@ -14,20 +14,20 @@ One reason I love React is the simple fact that the same component can render di
 
 Let's take a very simple component for an example.
 
-```
+```javascript
 class MyComponent extends React.Component {
-  constructor () {
+  constructor() {
     super()
     this.state = { isReady: false }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     setTimeout(() => {
       this.setState({ isReady: true })
     }, 3000)
   }
 
-  render () {
+  render() {
     return this.state.isReady ? (
       <div>I'm ready!</div>
     ) : (
@@ -35,7 +35,6 @@ class MyComponent extends React.Component {
     )
   }
 }
-
 ```
 
 In this simple component, I am using a ternary to render one `div` when the component `isReady` and an entirely different one when we are not. There are a number of other ways to handle this situation that return the same result, but at it's core, any one of them will use a ternary or an `if...else` statement to return different DOM for different state.

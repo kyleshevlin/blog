@@ -20,7 +20,6 @@ module.exports = {
       options: {
         name: `posts`,
         path: `${__dirname}/src/posts/published`
-        // ignore: ['**/images']
       }
     },
     {
@@ -28,7 +27,6 @@ module.exports = {
       options: {
         name: `portfolio`,
         path: `${__dirname}/src/portfolio/published`
-        // ignore: ['**/images']
       }
     },
     `gatsby-transformer-sharp`,
@@ -36,7 +34,16 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: ['gatsby-remark-copy-linked-files', 'gatsby-remark-images']
+        plugins: [
+          'gatsby-remark-copy-linked-files',
+          'gatsby-remark-images',
+          {
+            resolve: 'gatsby-remark-prismjs',
+            options: {
+              noInlineHighlight: true
+            }
+          }
+        ]
       }
     },
     {

@@ -1,11 +1,11 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Redux']
-date: "2017-05-18"
-slug: "how-i-stumbled-upon-normalizing-redux-state"
-status: "publish"
+date: '2017-05-18'
+slug: 'how-i-stumbled-upon-normalizing-redux-state'
+status: 'publish'
 subtitle: "and later learned it's a real thing"
-title: "How I Stumbled Upon Normalizing Redux State"
+title: 'How I Stumbled Upon Normalizing Redux State'
 ---
 
 My most recent work project was an interesting challenge. I built an app (actually 2 Electron apps supporting 3 React apps communicating through WebSockets) that allowed a user (actually 4 simultaneous users) to look at an array of stories related to sea ports, select one, have a detail component pop up with more information about the story, and then move to the next or previous story from within the detail window.
@@ -22,7 +22,7 @@ An object stores key/value pairs. If you know the key, you can get the value. Th
 
 In my situation, this is (roughly) what I did:
 
-```
+```javascript
 const array = [
   {
     id: 1,
@@ -66,12 +66,11 @@ console.log(objFromArray)
 //     content: 'This is a sad story :('
 //   }
 // }
-
 ```
 
 Now, to find an item, we do a lookup with the item's `id` property. This is much faster. To do this normalization in Redux, use this logic in your reducer when you receive the array. It is often helpful to maintain an array of the `id`s so you have a list of all the keys, in the correct order, to your new object. In the same reducer logic, `map()` out your keys into an array and define it as a property in your state object. Your state tree will come out looking something like this:
 
-```
+```javascript
 const state = {
   stories: {
     // an object that looks like the one logged out from above
@@ -80,7 +79,6 @@ const state = {
     // an array of each id to use as keys for lookup
   ]
 }
-
 ```
 
 After I had done all this, my app performed much faster. I don't have statistical breakdown of the data, but it was obvious to everyone. My team did a bunch of "oohs" and "ahhs" when they saw how much faster everything was performing.

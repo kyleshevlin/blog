@@ -1,10 +1,10 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
-date: "2017-02-08"
-slug: "how-to-dynamically-render-react-components"
-status: "publish"
-title: "How to Dynamically Render React Components"
+date: '2017-02-08'
+slug: 'how-to-dynamically-render-react-components'
+status: 'publish'
+title: 'How to Dynamically Render React Components'
 ---
 
 I am currently working on a React/Redux universally rendered application at work. It has some fun parts and I want to share what I've learned from building them.
@@ -21,7 +21,7 @@ I knew that each object in the array had a `type` property. I needed to make ind
 
 For this example, imagine that I have several built out components. Each of these components represents a type of block. We're going to import these into what will become our `BlocksLoop` component. I'll also setup our component to accept a `blocks` prop, but it won't do anything important yet.
 
-```
+```javascript
 import React, { Component, PropTypes } from 'react'
 import HeadingBlock from './HeadingBlock'
 import TextBlock from './TextBlock'
@@ -29,29 +29,30 @@ import ImageBlock from './ImageBlock'
 import ListBlock from './ListBlock'
 
 export default class BlocksLoop extends Component {
-  render () {
+  render() {
     return (
-      <div className='blocks_loop'>
-        { this.props.blocks.map(block => <div className='block' />) }
+      <div className="blocks_loop">
+        {this.props.blocks.map(block => (
+          <div className="block" />
+        ))}
       </div>
     )
   }
 }
-
 ```
 
 Right now, I'm just returning all the blocks as a simple `div` and not utilizing the imported individual blocks. Let's solve that with a `switch` statement. To make it cleaner, we'll move this logic into a method on the component that's called each time a block item is mapped over.
 
-```
+```javascript
 // ...
 
 export default class BlocksLoop extends Component {
-  constructor () {
+  constructor() {
     super()
     this.getBlockComponent = this.getBlockComponent.bind(this)
   }
 
-  getBlockComponent (block) {
+  getBlockComponent(block) {
     switch (block.type) {
       case 'heading':
         return <HeadingBlock key={block.id} {...block} />
@@ -66,20 +67,18 @@ export default class BlocksLoop extends Component {
         return <ListBlock key={block.id} {...block} />
 
       default:
-        return <div className='no_block_type' />
+        return <div className="no_block_type" />
     }
   }
 
-  render () {
+  render() {
     return (
-      <div className='blocks_loop'>
-        { this.props.blocks.map(block => this.getBlockComponent(block)) }
+      <div className="blocks_loop">
+        {this.props.blocks.map(block => this.getBlockComponent(block))}
       </div>
     )
   }
 }
-
-
 ```
 
 And there you have it! Our `blocks` array is mapped over, each item is passed into our method, and the correct component is returned dynamically. If for some reason a type was added in the back end before I could make a new component for it, the method returns an empty `div` with a class I can style.
