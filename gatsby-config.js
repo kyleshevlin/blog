@@ -55,6 +55,13 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: 'UA-20937423-1',
+        head: true
+      }
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Kyle Shevlin`,

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
 
@@ -25,7 +26,7 @@ const linkStyles = css`
   padding: ${bs(0.5)};
 `
 
-const A = styled.a`
+const Outbound = styled(OutboundLink)`
   ${linkStyles};
 `
 
@@ -41,9 +42,9 @@ const Nav = () => (
       switch (true) {
         case Boolean(href):
           return (
-            <A key={title} href={href} title={title}>
+            <Outbound key={title} href={href} title={title}>
               {title}
-            </A>
+            </Outbound>
           )
 
         case Boolean(to):

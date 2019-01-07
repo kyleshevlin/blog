@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
@@ -16,7 +17,7 @@ const IconWrap = styled.div`
   margin-bottom: ${bs(0.5)};
 `
 
-const IconLink = styled.a`
+const IconLink = styled(OutboundLink)`
   display: inline-block;
   padding: ${bs(0.5)};
 `
