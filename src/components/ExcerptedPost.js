@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { Link } from 'gatsby'
 import { bs } from '../shevy'
 import PostDate from './PostDate'
 import PostHeader from './PostHeader'
@@ -8,6 +9,10 @@ import PostCategoriesOrTags from './PostCategoriesOrTags'
 
 const Wrap = styled.div`
   margin-bottom: ${bs(2)};
+`
+
+const ReadMoreWrap = styled.div`
+  margin-bottom: ${bs()};
 `
 
 const ExcerptedPost = ({ post }) => {
@@ -21,6 +26,9 @@ const ExcerptedPost = ({ post }) => {
       <PostDate date={date} />
       <PostHeader {...{ slug, subtitle, title }} />
       <PostContent content={excerpt} />
+      <ReadMoreWrap>
+        <Link to={slug}>Read More</Link>
+      </ReadMoreWrap>
 
       {categories && (
         <PostCategoriesOrTags items={categories} type="category" />
