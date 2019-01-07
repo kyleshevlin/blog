@@ -1,11 +1,3 @@
-const path = require('path')
-
-const formatStrForPath = str =>
-  str
-    .toLowerCase()
-    .split(' ')
-    .join('-')
-
 /**
  * Implement Gatsby's Node APIs in this file.
  *
@@ -13,6 +5,13 @@ const formatStrForPath = str =>
  */
 
 // You can delete this file if you're not using it
+const path = require('path')
+
+const formatStrForPath = str =>
+  str
+    .toLowerCase()
+    .split(' ')
+    .join('-')
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -106,7 +105,7 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         // Reduce categories and tags
-        const categoriesAndTags = allPosts.reduce(
+        const { categories, tags } = allPosts.reduce(
           (acc, post) => {
             const { categories, tags } = post.node.frontmatter
 
@@ -130,8 +129,6 @@ exports.createPages = ({ graphql, actions }) => {
           },
           { categories: new Set(), tags: new Set() }
         )
-
-        const { categories, tags } = categoriesAndTags
 
         // Create All Categories page
         createPage({
