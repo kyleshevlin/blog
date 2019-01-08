@@ -151,7 +151,7 @@ Did you see what I did there? I removed the implicit return from the `DisplayIte
 
 If `items` has any length other than 0, the ternary will evaluate to `true` and thus render our items list. However, if the length of the array is 0, it will evaluate to `false` and render our `LoadingSpinner` component. You might end up with something similar to this:
 
-![Loading Stateless Functional Component Gif](http://kyleshevlin.com/wp-content/uploads/2017/01/loadingStatelessFunctionalComponent.gif)
+![Loading Stateless Functional Component Gif](./images/loadingStatelessFunctionalComponent.gif)
 
 You could, of course, use any other component that you would prefer to render instead. You can determine what's best for your project, and even what's best per component. But if you're looking for a way to indicate to your users that you're expecting data to eventually make it to your stateless functional component, perhaps this pattern will be useful to you.
 

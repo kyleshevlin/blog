@@ -1,9 +1,9 @@
 ---
 categories: ['Web Development']
-date: "2014-08-31"
-slug: "one-year-in-portland"
-status: "publish"
-title: "One Year In Portland"
+date: '2014-08-31'
+slug: 'one-year-in-portland'
+status: 'publish'
+title: 'One Year In Portland'
 ---
 
 It has been one year since Anna and I moved from Pasadena to Portland. I thought it might be a good idea to recap some of what has happened during that time and review some of what we had hoped would happen in moving.
@@ -68,4 +68,4 @@ Portland's a great city, but the Northwest Freeze is hard to get through, especi
 
 Thanks for reading all of this if you got this far. Here's a gif for you as a reward.
 
-![men_in_black_putting_on_glasses_fail](http://kyleshevlin.com/wp-content/uploads/2014/08/men_in_black_putting_on_glasses_fail.gif)
+![men_in_black_putting_on_glasses_fail](./images/men_in_black_putting_on_glasses_fail.gif)
