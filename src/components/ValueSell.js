@@ -17,6 +17,7 @@ const Inner = styled.div`
     display: grid;
     grid-gap: ${bs()};
     grid-template-columns: 1fr 3fr;
+    align-items: center;
   }
 `
 
