@@ -64,7 +64,71 @@ module.exports = {
       }
     },
     'gatsby-plugin-sitemap',
-    'gatsby-plugin-feed',
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          query {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { allMarkdownRemark, site } }) => {
+              const { siteUrl } = site.siteMetadata
+
+              return allMarkdownRemark.edges.map(edge => {
+                const {
+                  html,
+                  frontmatter: { date, slug, subtitle, title }
+                } = edge.node
+
+                return {
+                  title,
+                  date,
+                  description: html,
+                  url: `${site}`,
+                  custom_elements: [
+                    {
+                      subtitle
+                    }
+                  ]
+                }
+              })
+            },
+            query: `
+              query {
+                allMarkdownRemark(
+                  filter: {fileAbsolutePath: {regex: "/posts/"}}
+                  limit: 1000
+                  sort: {fields: frontmatter___date, order: DESC}
+                ) {
+                  edges {
+                    node {
+                      html
+                      frontmatter {
+                        title
+                        date
+                        slug
+                        subtitle
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Kyle Shevlin's Blog RSS Feed"
+          }
+        ]
+      }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
