@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "https://kyleshevlin.netlify.com/*"
+  to = "https://kyleshevlin.com/:splat"
+  force = true
