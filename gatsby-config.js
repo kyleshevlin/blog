@@ -3,8 +3,9 @@ module.exports = {
     title: 'Kyle Shevlin',
     subTitle: 'Front End Web Developer',
     description:
-      'Kyle Shevlin is a front end web developer who specializes in JavaScript and React.',
-    author: 'Kyle Shevlin'
+      'Kyle Shevlin is a front end web developer and software engineer who specializes in JavaScript and React.',
+    author: 'Kyle Shevlin',
+    siteUrl: 'https://kyleshevlin.com'
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -62,6 +63,7 @@ module.exports = {
         head: true
       }
     },
+    'gatsby-plugin-sitemap',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
