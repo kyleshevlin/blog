@@ -93,12 +93,8 @@ module.exports = {
                   title,
                   date,
                   description: html,
-                  url: `${site}`,
-                  custom_elements: [
-                    {
-                      subtitle
-                    }
-                  ]
+                  url: `${siteUrl}/${slug}`,
+                  custom_elements: [{ subtitle }]
                 }
               })
             },
@@ -107,7 +103,7 @@ module.exports = {
                 allMarkdownRemark(
                   filter: {fileAbsolutePath: {regex: "/posts/"}}
                   limit: 1000
-                  sort: {fields: frontmatter___date, order: DESC}
+                  sort: {fields: [frontmatter___date], order: DESC}
                 ) {
                   edges {
                     node {
