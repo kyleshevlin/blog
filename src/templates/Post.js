@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
 import BannerImage from '../components/BannerImage'
-import Layout from '../components/Layout'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -16,7 +15,7 @@ const Post = ({ data }) => {
   } = data.markdownRemark
 
   return (
-    <Layout>
+    <Fragment>
       <Seo title={title} />
 
       <div>
@@ -38,7 +37,7 @@ const Post = ({ data }) => {
 
         <PostAuthor />
       </div>
-    </Layout>
+    </Fragment>
   )
 }
 

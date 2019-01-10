@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
 import BannerImage from '../components/BannerImage'
-import Layout from '../components/Layout'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
@@ -15,7 +14,7 @@ const Portfolio = ({ data }) => {
   } = portfolioItem
 
   return (
-    <Layout>
+    <Fragment>
       <Seo title={`${title} | Portfolio`} />
 
       <div>
@@ -29,7 +28,7 @@ const Portfolio = ({ data }) => {
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
       </div>
-    </Layout>
+    </Fragment>
   )
 }
 
