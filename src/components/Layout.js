@@ -7,6 +7,10 @@ import ValueSell from './ValueSell'
 import Footer from './Footer'
 import Header from './Header'
 import { bs } from '../shevy'
+import '../styles/Reset'
+import '../styles/FontFaces'
+import '../styles/Tags'
+import '../styles/Typography'
 
 const MainWrap = styled.main`
   padding-bottom: ${bs(2)};
