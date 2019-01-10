@@ -103,6 +103,14 @@ const GlobalStyles = () => (
           margin-top: ${bs()};
         }
       }
+
+      hr {
+        background-color: ${COLORS.teal};
+        border: none;
+        height: 2px;
+        margin-top: ${bs(2)};
+        margin-bottom: ${bs(2)};
+      }
     `}
   />
 )
