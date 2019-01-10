@@ -7,6 +7,7 @@ import catamaranRegularWoff2 from '../fonts/catamaran-regular-webfont.woff2'
 import catamaranThinWoff from '../fonts/catamaran-thin-webfont.woff'
 import catamaranThinWoff2 from '../fonts/catamaran-thin-webfont.woff2'
 import DroidSerifWoff from '../fonts/DroidSerif-Regular-webfont.woff'
+import DroidSerifBoldWoff from '../fonts/DroidSerif-Bold-webfont.woff'
 
 const GlobalStyles = () => (
   <Global
@@ -16,6 +17,13 @@ const GlobalStyles = () => (
         font-style: normal;
         font-weight: normal;
         src: url('${DroidSerifWoff}') format('woff');
+      }
+
+      @font-face {
+        font-family: 'Droid Serif';
+        font-style: normal;
+        font-weight: bold;
+        src: url('${DroidSerifBoldWoff}') format('woff');
       }
 
       @font-face {
