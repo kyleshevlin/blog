@@ -1,12 +1,55 @@
 import React, { Fragment } from 'react'
+import { graphql, Link } from 'gatsby'
+import { css } from '@emotion/core'
 import Seo from '../components/Seo'
+import { bs } from '../shevy'
 
-const NotFoundPage = () => (
+const linkStyles = css`
+  display: block;
+  margin-bottom: ${bs(0.5)};
+`
+
+const NotFoundPage = ({ data }) => (
   <Fragment>
     <Seo title="404: Not found" />
-    <h1>NOT FOUND</h1>
-    <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+    <h1>Not Found</h1>
+
+    <p>
+      Sorry, you've hit a URL that doesn't exist! That's a bummer. Please try a
+      different URL or perhaps choose one of the blog posts listed below.
+    </p>
+
+    {data.allMarkdownRemark.edges
+      .map(edge => edge.node)
+      .map(post => {
+        const { slug, title } = post.frontmatter
+
+        return (
+          <Link css={linkStyles} key={slug} to={slug}>
+            {title}
+          </Link>
+        )
+      })}
   </Fragment>
 )
 
 export default NotFoundPage
+
+export const pageQuery = graphql`
+  {
+    allMarkdownRemark(
+      filter: { fileAbsolutePath: { regex: "/posts/" } }
+      limit: 5
+      sort: { fields: [frontmatter___date], order: DESC }
+    ) {
+      edges {
+        node {
+          frontmatter {
+            title
+            slug
+          }
+        }
+      }
+    }
+  }
+`
