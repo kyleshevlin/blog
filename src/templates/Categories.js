@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
 import { graphql, Link } from 'gatsby'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 
@@ -13,7 +14,7 @@ const Categories = ({ data, ...props }) => {
   const { category } = props.pageContext
 
   return (
-    <Fragment>
+    <Layout>
       <Seo title={`${category} | Categories`} />
 
       <h1>{category}</h1>
@@ -29,7 +30,7 @@ const Categories = ({ data, ...props }) => {
           )
         })}
       </div>
-    </Fragment>
+    </Layout>
   )
 }
 

@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 const Podcast = () => (
-  <Fragment>
+  <Layout>
     <Seo
       title="Podcast"
       keywords={['Podcast', 'Second Career Devs', 'Kyle Shevlin']}
@@ -24,7 +25,7 @@ const Podcast = () => (
       <a href="https://secondcareerdevs.com">https://secondcareerdevs.com</a>{' '}
       and anywhere you subscribe and listen to podcasts!
     </p>
-  </Fragment>
+  </Layout>
 )
 
 export default Podcast

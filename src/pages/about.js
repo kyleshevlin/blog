@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 const ImageWrap = styled.div`
@@ -28,7 +29,7 @@ const About = ({ data }) => {
   const imgSrc = data.allImageSharp.edges[0].node.original.src
 
   return (
-    <Fragment>
+    <Layout>
       <Seo title="About" keywords={['About', 'Kyle Shevlin']} />
 
       <h1>About</h1>
@@ -109,7 +110,7 @@ const About = ({ data }) => {
         You can also look at the <a href="/portfolio">Portfolio</a> page to see
         highlights of my recent work.
       </p>
-    </Fragment>
+    </Layout>
   )
 }
 
