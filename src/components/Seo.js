@@ -10,6 +10,7 @@ function Seo({ description, lang, meta, keywords, title }) {
       render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description
+        const ogImage = data.allImageSharp.edges[0].node
 
         return (
           <Helmet
@@ -34,6 +35,20 @@ function Seo({ description, lang, meta, keywords, title }) {
               {
                 property: `og:type`,
                 content: `website`
+              },
+              {
+                property: 'og:image',
+                content: `${data.site.siteMetadata.siteUrl}${
+                  ogImage.original.src
+                }`
+              },
+              {
+                property: 'og:image:width',
+                content: ogImage.original.width
+              },
+              {
+                property: 'og:image:height',
+                content: ogImage.original.height
               },
               {
                 name: `twitter:card`,
@@ -89,8 +104,23 @@ const detailsQuery = graphql`
     site {
       siteMetadata {
         title
+        subTitle
         description
         author
+        siteUrl
+      }
+    }
+    allImageSharp(
+      filter: { original: { src: { regex: "/beard-og-image/" } } }
+    ) {
+      edges {
+        node {
+          original {
+            width
+            height
+            src
+          }
+        }
       }
     }
   }
