@@ -18,39 +18,46 @@ const MainWrap = styled.main`
   min-height: 65vh;
 `
 
+const Styles = () => (
+  <Fragment>
+    <Reset />
+    <FontFaces />
+    <Tags />
+    <Typography />
+    <Tweets />
+  </Fragment>
+)
+
 const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-            subTitle
+  <Fragment>
+    <Styles />
+    <StaticQuery
+      query={graphql`
+        query SiteTitleQuery {
+          site {
+            siteMetadata {
+              title
+              subTitle
+            }
           }
         }
-      }
-    `}
-    render={data => {
-      const { subTitle, title } = data.site.siteMetadata
+      `}
+      render={data => {
+        const { subTitle, title } = data.site.siteMetadata
 
-      return (
-        <Fragment>
-          <Reset />
-          <FontFaces />
-          <Tags />
-          <Typography />
-          <Tweets />
-
-          <Header subTitle={subTitle} title={title} />
-          <MainWrap role="main">
-            <Container>{children}</Container>
-          </MainWrap>
-          <ValueSell />
-          <Footer />
-        </Fragment>
-      )
-    }}
-  />
+        return (
+          <Fragment>
+            <Header subTitle={subTitle} title={title} />
+            <MainWrap role="main">
+              <Container>{children}</Container>
+            </MainWrap>
+            <ValueSell />
+            <Footer />
+          </Fragment>
+        )
+      }}
+    />
+  </Fragment>
 )
 
 Layout.propTypes = {
