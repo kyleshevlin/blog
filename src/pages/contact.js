@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 const Contact = () => (
-  <Fragment>
+  <Layout>
     <Seo title="Contact" keywords={['Contact', 'Kyle Shevlin']} />
     <h1>Contact</h1>
     <p>
@@ -16,7 +17,7 @@ const Contact = () => (
       <a href="https://linkedin.com/in/kyleshevlin">LinkedIn</a> about once a
       week.
     </p>
-  </Fragment>
+  </Layout>
 )
 
 export default Contact

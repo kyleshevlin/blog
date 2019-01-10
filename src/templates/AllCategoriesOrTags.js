@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
 import { Link } from 'gatsby'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
@@ -19,7 +20,7 @@ const AllCategoriesOrTags = ({ pageContext }) => {
   const items = tags ? tags : categories
 
   return (
-    <Fragment>
+    <Layout>
       <Seo title={title} />
 
       <h1>{title}</h1>
@@ -34,7 +35,7 @@ const AllCategoriesOrTags = ({ pageContext }) => {
           </Link>
         ))}
       </div>
-    </Fragment>
+    </Layout>
   )
 }
 

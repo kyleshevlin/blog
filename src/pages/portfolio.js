@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
 import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
+import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import PortfolioItem from '../components/PortfolioItem'
 
@@ -26,7 +27,7 @@ const Portfolio = ({ data }) => {
   const items = data.allMarkdownRemark.edges.map(edge => edge.node)
 
   return (
-    <Fragment>
+    <Layout>
       <Seo title="Portfolio" keywords={['Portfolio', 'Kyle Shevlin']} />
       <h1>Portfolio</h1>
 
@@ -50,7 +51,7 @@ const Portfolio = ({ data }) => {
           return <PortfolioItem key={slug} {...{ slug, squareImage, title }} />
         })}
       </ItemsWrap>
-    </Fragment>
+    </Layout>
   )
 }
 
