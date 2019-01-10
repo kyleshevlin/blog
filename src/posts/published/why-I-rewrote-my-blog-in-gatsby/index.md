@@ -1,0 +1,37 @@
+---
+title: 'Why I Rewrote My Blog With Gatsby'
+subtitle: 'Or How to Respond When Your WordPress Blog Gets Hacked'
+date: '2019-01-09'
+slug: 'why-i-rewrote-my-blog-with-gatsby'
+categories: ['JavaScript', 'Web Development']
+tags: ['Gatsby', 'React']
+---
+
+A couple weeks back now, I was starting to write a blog post to recap my 2018. I thought it would be a good idea to reference my goals for 2018 and started to review that post when I discovered something interesting. As I was reading a paragraph, I noticed some words that didn't sound like my voice. As I read further, there was a link to an air compressor. I assure you, I don't own an air compressor (yet) and I certainly would never put it in my article about my 2018 goals.
+
+That's when I realized that I had been hacked. Fuck.
+
+Here's a tweet thread regaling my woes that evening as I discovered the hacker had been changing my posts for _four whole months_!
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This really makes me feel good. I&#39;m working on a blog post and referencing an old post of mine when I noticed that there was copy I DEFINITELY did not put in the post. Turns out the post was updated 4 weeks ago. FUCK. <a href="https://t.co/hiLooSj0mX">pic.twitter.com/hiLooSj0mX</a></p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1078805204542345216?ref_src=twsrc%5Etfw">December 29, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+I never did find the exact point of weakness that the hacker used to get in and mess with my stuff, but I suspect it comes from my inattentiveness to updating plugins and WordPress itself. It would be nice to be able to trust something like that to be secure, but it seems weakenesses are found and exploited regularly.
+
+I took the steps of changing all my database users and their passwords (including the root user), repaired all the damage that was done and then some. But after doing all this, there's still no guarantee that 1) the intruder had been locked out of the system and 2) that this wouldn't happen again when I forgot to update a plugin a month from now. This put me in a tough spot.
+
+On the one hand, I _really_ don't like rewriting my blog, or even putting that much work into it. I like it functional and simple and that way I don't waste time rewriting it every year. I think devs everywhere waste a lot of time in this fashion, when they could put that time and energy to much better uses.
+
+On the other hand, I now have a blog that's weak and vulnerable. It's irresponsible of me not to try and remove attack vectors if I can.
+
+So I bit the bullet, and decided to rebuild my blog on [Gatsby](https://www.gatsbyjs.org/), and let me tell you, it was a blast!
+
+Overall, my experience rewriting the blog (and streaming it while I did it) was really positive. I hit a few snags, but for the most part, there was always someone or some good documentation that was available to help me get through it. I think I was able to complete the rewrite in under 30 hours, which is pretty good.
+
+What's great about having done this is that now I have a much more comfortable framework to make updates to the blog. You may notice a few improvements around here. My face is now at the bottom of each post, my latest [egghead course](https://egghead.io/courses/data-structures-and-algorithms-in-javascript) is now present at the bottom of each page. I already have plans to add features such as pages to sell courses and workshops and more. I think Gatsby and it's vast ecosystem of plugins gives me a ton of power and flexibility, all while being really safe. No more updating plugins. I just build the site and host the static pages. It's quite amazing.
+
+On top of that, I moved my hosting to [Netlify](https://netlify.com) which means I don't even have to pay for a server anymore. I am going to save \$60 bucks a year by making this change. That's pretty cool if you ask me.
+
+In the near future, I'll write more in depth about my process of converting the blog and make a few posts about Gatsby and Netlify. Should be a lot of fun.
+
+Let me know if you have any questions about Gatsby on [Twitter](https://twitter.com/kyleshevlin). Happy to help if I can!
