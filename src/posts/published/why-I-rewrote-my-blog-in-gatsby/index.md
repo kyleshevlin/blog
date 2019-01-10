@@ -16,7 +16,7 @@ Here's a tweet thread regaling my woes that evening as I discovered the hacker h
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This really makes me feel good. I&#39;m working on a blog post and referencing an old post of mine when I noticed that there was copy I DEFINITELY did not put in the post. Turns out the post was updated 4 weeks ago. FUCK. <a href="https://t.co/hiLooSj0mX">pic.twitter.com/hiLooSj0mX</a></p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1078805204542345216?ref_src=twsrc%5Etfw">December 29, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-I never did find the exact point of weakness that the hacker used to get in and mess with my stuff, but I suspect it comes from my inattentiveness to updating plugins and WordPress itself. It would be nice to be able to trust something like that to be secure, but it seems weakenesses are found and exploited regularly.
+I never did find the exact point of weakness that the hacker used to get in and mess with my stuff, but I suspect it comes from my inattentiveness to updating plugins and WordPress itself. It would be nice to be able to trust something like that to be secure, but it seems weaknesses are found and exploited regularly.
 
 I took the steps of changing all my database users and their passwords (including the root user), repaired all the damage that was done and then some. But after doing all this, there's still no guarantee that 1) the intruder had been locked out of the system and 2) that this wouldn't happen again when I forgot to update a plugin a month from now. This put me in a tough spot.
 
