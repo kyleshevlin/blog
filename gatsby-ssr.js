@@ -5,12 +5,3 @@
  */
 
 // You can delete this file if you're not using it
-import React, { Fragment } from 'react'
-import Styles from './src/styles'
-
-export const wrapRootElement = ({ element }) => (
-  <Fragment>
-    <Styles />
-    <Fragment>{element}</Fragment>
-  </Fragment>
-)
