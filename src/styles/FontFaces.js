@@ -15,35 +15,31 @@ const GlobalStyles = () => (
         font-family: 'Droid Serif';
         font-style: normal;
         font-weight: normal;
-        src: local('Droid Serif'),
-             url('${DroidSerifWoff}') format('woff');
+        src: url('${DroidSerifWoff}') format('woff');
       }
 
       @font-face {
         font-family: 'Catamaran';
         font-style: normal;
         font-weight: normal;
-        src: local('Catamaran'),
-             url('${catamaranRegularWoff}') format('woff'),
-             url('${catamaranRegularWoff2}') format('woff2');
+        src: url('${catamaranRegularWoff2}') format('woff2'),
+             url('${catamaranRegularWoff}') format('woff');
       }
 
       @font-face {
         font-family: 'Catamaran';
         font-style: normal;
         font-weight: 100;
-        src: local('Catamaran'),
-             url('${catamaranThinWoff}') format('woff'),
-             url('${catamaranThinWoff2}') format('woff2');
+        src: url('${catamaranThinWoff2}') format('woff2'),
+             url('${catamaranThinWoff}') format('woff');
       }
 
       @font-face {
         font-family: 'Catamaran';
         font-style: normal;
         font-weight: 700;
-        src: local('Catamaran'),
-             url('${catamaranBoldWoff}') format('woff'),
-             url('${catamaranBoldWoff2}') format('woff2');
+        src: url('${catamaranBoldWoff2}') format('woff2'),
+             url('${catamaranBoldWoff}') format('woff');
       }
     `}
   />
