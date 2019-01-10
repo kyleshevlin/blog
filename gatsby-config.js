@@ -48,7 +48,6 @@ module.exports = {
       }
     },
     'gatsby-plugin-twitter',
-    'gatsby-plugin-emotion',
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
