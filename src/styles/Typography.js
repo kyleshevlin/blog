@@ -13,6 +13,7 @@ const Typography = () => (
       h6 {
         font-family: 'Catamaran', sans-serif;
         font-weight: 400;
+        text-rendering: optimizeLegibility;
       }
 
       h1 {

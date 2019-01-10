@@ -7,6 +7,7 @@ import ValueSell from './ValueSell'
 import Footer from './Footer'
 import Header from './Header'
 import { bs } from '../shevy'
+import FontFaces from '../styles/FontFaces'
 import Reset from '../styles/Reset'
 import Tags from '../styles/Tags'
 import Tweets from '../styles/Tweets'
@@ -35,6 +36,7 @@ const Layout = ({ children }) => (
       return (
         <Fragment>
           <Reset />
+          <FontFaces />
           <Tags />
           <Typography />
           <Tweets />

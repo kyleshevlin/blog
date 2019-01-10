@@ -48,14 +48,7 @@ module.exports = {
       }
     },
     'gatsby-plugin-twitter',
-    {
-      resolve: `gatsby-plugin-web-font-loader`,
-      options: {
-        google: {
-          families: ['Droid Serif:400,700', 'Catamaran:100,400,700']
-        }
-      }
-    },
+    'gatsby-plugin-emotion',
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
