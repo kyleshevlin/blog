@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
+import styled from '@emotion/styled'
 import BannerImage from '../components/BannerImage'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
@@ -7,8 +8,19 @@ import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import Seo from '../components/Seo'
+import { bs } from '../shevy'
 
-const Post = ({ data }) => {
+const NextOrPreviousWrap = styled.div`
+  padding-top: ${bs(0.25)};
+  padding-bottom: ${bs(0.25)};
+`
+
+const Bold = styled.span`
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 700;
+`
+
+const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
   const {
     html,
     frontmatter: { categories, coverImage, date, subtitle, tags, title }
@@ -34,6 +46,24 @@ const Post = ({ data }) => {
         )}
 
         {tags && <PostCategoriesOrTags items={tags} type="tag" />}
+
+        {previousPost ? (
+          <NextOrPreviousWrap>
+            <Bold>Previous Post: </Bold>
+            <Link to={previousPost.frontmatter.slug}>
+              {previousPost.frontmatter.title}
+            </Link>
+          </NextOrPreviousWrap>
+        ) : null}
+
+        {nextPost ? (
+          <NextOrPreviousWrap>
+            <Bold>Next Post: </Bold>
+            <Link to={nextPost.frontmatter.slug}>
+              {nextPost.frontmatter.title}
+            </Link>
+          </NextOrPreviousWrap>
+        ) : null}
 
         <PostAuthor />
       </div>

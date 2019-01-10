@@ -34,6 +34,7 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               frontmatter {
+                title
                 slug
                 categories
                 tags
@@ -83,13 +84,19 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         // Create individual Post pages
-        allPosts.forEach(post => {
+        allPosts.forEach((post, index) => {
           const { categories, slug, tags } = post.node.frontmatter
+          const next = allPosts[index + 1]
+          const previous = allPosts[index - 1]
 
           createPage({
             path: slug,
             component: postTemplate,
-            context: { slug }
+            context: {
+              nextPost: next ? next.node : null,
+              previousPost: previous ? previous.node : null,
+              slug
+            }
           })
         })
 
