@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import ExcerptedPost from '../components/ExcerptedPost'
 import Pagination from '../components/Pagination'
@@ -10,7 +9,7 @@ const ExcerptList = ({ data, ...props }) => {
   const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
 
   return (
-    <Layout>
+    <Fragment>
       <Seo title="Home" keywords={['Kyle Shevlin']} />
 
       <div>
@@ -19,7 +18,7 @@ const ExcerptList = ({ data, ...props }) => {
         ))}
       </div>
       <Pagination {...{ index, totalPages }} />
-    </Layout>
+    </Fragment>
   )
 }
 

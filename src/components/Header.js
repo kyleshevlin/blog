@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
-import { Link } from 'gatsby'
+import { graphql, Link, StaticQuery } from 'gatsby'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
 import Container from './Container'
@@ -30,15 +30,33 @@ const Subtitle = styled.div`
 `
 
 const Header = ({ subTitle, title }) => (
-  <Wrap>
-    <Container>
-      <HeadingWrap to="/">
-        <Title>{title}</Title>
-        <Subtitle>{subTitle}</Subtitle>
-      </HeadingWrap>
-      <Nav />
-    </Container>
-  </Wrap>
+  <StaticQuery
+    query={graphql`
+      query SiteTitleQuery {
+        site {
+          siteMetadata {
+            title
+            subTitle
+          }
+        }
+      }
+    `}
+    render={data => {
+      const { subTitle, title } = data.site.siteMetadata
+
+      return (
+        <Wrap>
+          <Container>
+            <HeadingWrap to="/">
+              <Title>{title}</Title>
+              <Subtitle>{subTitle}</Subtitle>
+            </HeadingWrap>
+            <Nav />
+          </Container>
+        </Wrap>
+      )
+    }}
+  />
 )
 
 Header.propTypes = {
