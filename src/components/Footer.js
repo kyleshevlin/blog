@@ -74,7 +74,7 @@ const links = [
     icon: LinkedIn,
     title: 'LinkedIn'
   },
-  { href: 'https://twitch.com/kyleshevlin', icon: Twitch, title: 'Twitch' }
+  { href: 'https://twitch.tv/kyleshevlin', icon: Twitch, title: 'Twitch' }
 ]
 
 const Footer = () => (
