@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+categories: ['Life Updates', 'Personal Growth']
 date: '2017-12-29'
 slug: 'goals-for-2018'
 status: 'publish'
@@ -77,7 +77,7 @@ Some of you might know, but I was a collegiate All-American golfer. I really mis
 
 The few times I've played the last few years, I can tell that I still have a lot of skill (I shot even par from the championship tees during the _one_ round of golf I played this year). It's not lost, it just needs to be regained. More importantly, I'm in a much better mental space than I ever was when I was younger. I'm able to assess risk a lot better on the course, i.e. play smarter. Since I don't play often, I play within my abilities which leads to better scores. Lastly, I'm just more forgiving. I'm still hard on myself, but rather than that dial being turned to 11, it's more like a 7 or 8 now when it comes to golf.
 
-I can acheive this goal by changing my habits a bit. I can get to the golf course and practice before work (I live about 10 minutes from a course) or practice on my lunch breaks when I work from home. I have no illusions, I don't intend to try and change my life and pursue golf full time or anything crazy like that. This is just about enjoying a passion again. But it's not out of the question to try and build my game back up and maybe try and qualify for a US Open or US Mid-Am or something like that at some point in my life.
+I can achieve this goal by changing my habits a bit. I can get to the golf course and practice before work (I live about 10 minutes from a course) or practice on my lunch breaks when I work from home. I have no illusions, I don't intend to try and change my life and pursue golf full time or anything crazy like that. This is just about enjoying a passion again. But it's not out of the question to try and build my game back up and maybe try and qualify for a US Open or US Mid-Am or something like that at some point in my life.
 
 ### Conclusion
 

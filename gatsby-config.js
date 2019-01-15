@@ -47,6 +47,7 @@ module.exports = {
         ]
       }
     },
+    'gatsby-plugin-catch-links',
     'gatsby-plugin-twitter',
     'gatsby-plugin-emotion',
     {
