@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
 import styled from '@emotion/styled'
 import BannerImage from '../components/BannerImage'
+import NewsletterCTA from '../components/NewsletterCTA'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -66,6 +67,7 @@ const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
         ) : null}
 
         <PostAuthor />
+        <NewsletterCTA />
       </div>
     </Fragment>
   )
