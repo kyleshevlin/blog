@@ -12,7 +12,7 @@ const NewsletterCTA = () => (
         signing up for my newsletter
       </a>
       . Subscribers get advanced updates on things like blog posts, courses,
-      apps, podcasts and other material that I put. Think you might like it.
+      apps, podcasts and other material that I create. Think you might like it.
     </p>
 
     <div css={{ textAlign: 'center' }}>
