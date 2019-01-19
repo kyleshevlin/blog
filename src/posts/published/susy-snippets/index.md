@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2014-10-23"
 slug: "susy-snippets"
-status: "publish"
 title: "Susy Snippets"
 ---
 

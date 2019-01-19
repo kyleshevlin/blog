@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2017-02-26"
 slug: "what-is-most-important-to-a-web-developer"
-status: "publish"
 subtitle: "the Tech, the Product, or the People"
 title: "What is Most Important to a Web Developer?"
 ---

@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['OSS', 'Programming', 'Time Management']
 date: "2017-10-31"
 slug: "time-well-spent"
-status: "publish"
 subtitle: "or You Want to Learn From the Best, You Gotta Go Where the Best Are"
 title: "Time Well Spent"
 ---

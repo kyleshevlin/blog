@@ -1,10 +1,10 @@
 ---
-date: "2017-02-28"
-link: "https://kyleshevlin.github.io/fibonacci-clock/"
-slug: "fibonacci-clock"
-status: "publish"
-title: "Fibonacci Clock"
-squareImage: "./images/Fib-Clock.jpg"
+date: '2017-02-28'
+link: 'https://kyleshevlin.github.io/fibonacci-clock/'
+slug: 'fibonacci-clock'
+status: 'published'
+title: 'Fibonacci Clock'
+squareImage: './images/Fib-Clock.jpg'
 ---
 
 I will be giving a talk on React and Redux near the end of March and wanted to come up with a simple, but fun, project to showcase how these applications are built. I recently came across the concept of a Fibonacci Clock. It's a way of telling time in 5 minute increments using the Fibonacci sequence. I thought it would be interesting to try and code up the application, and it was.

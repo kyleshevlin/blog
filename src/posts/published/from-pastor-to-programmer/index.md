@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['life story', 'pastor', 'programmer']
 date: "2018-02-05"
 slug: "from-pastor-to-programmer"
-status: "publish"
 subtitle: "or Telling My Story Once and For All"
 title: "From Pastor to Programmer"
 ---

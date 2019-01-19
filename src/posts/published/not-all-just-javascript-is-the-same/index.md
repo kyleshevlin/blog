@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['Ember', 'React']
 date: '2017-09-07'
 slug: 'not-all-just-javascript-is-the-same'
-status: 'publish'
 title: "Not All 'Just JavaScript' is the Same"
 ---
 

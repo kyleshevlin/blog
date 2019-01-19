@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2013-11-23"
 slug: "how-are-things-fine"
-status: "publish"
 title: "How Are Things? FINE."
 ---
 

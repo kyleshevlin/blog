@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['Ember']
 date: '2016-05-14'
 slug: 'ember-hello-world'
-status: 'publish'
 subtitle: 'All the Different Ways to Make the Simplest Ember App'
 title: 'Ember: Hello World'
 ---

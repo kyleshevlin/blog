@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['D3', 'Data Visualization']
 date: "2016-03-13"
 slug: "intro-to-d3-js-and-data-visualization"
-status: "publish"
 title: "Intro to D3.js and Data Visualization"
 ---
 

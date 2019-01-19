@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['Redux']
 date: '2017-05-18'
 slug: 'how-i-stumbled-upon-normalizing-redux-state'
-status: 'publish'
 subtitle: "and later learned it's a real thing"
 title: 'How I Stumbled Upon Normalizing Redux State'
 ---

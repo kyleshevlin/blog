@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2017-04-22'
 slug: 'what-i-love-about-react-1'
-status: 'publish'
 subtitle: 'Renders with Ternaries'
 title: 'What I Love About React #1'
 ---

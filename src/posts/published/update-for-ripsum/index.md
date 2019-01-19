@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: '2015-12-16'
 slug: 'update-for-ripsum'
-status: 'publish'
 title: 'Update for Ripsum'
 ---
 

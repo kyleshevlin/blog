@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['LiveCoding', 'React']
 date: "2017-10-12"
 slug: "the-twitch-stream"
-status: "publish"
 subtitle: "or How I Can Teach Others and Feel Less Lonely While Working on Side Projects"
 title: "The Twitch Stream!"
 ---

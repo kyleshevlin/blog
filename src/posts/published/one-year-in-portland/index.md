@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: '2014-08-31'
 slug: 'one-year-in-portland'
-status: 'publish'
 title: 'One Year In Portland'
 ---
 

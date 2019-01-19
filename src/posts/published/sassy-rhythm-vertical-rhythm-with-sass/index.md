@@ -3,7 +3,6 @@ categories: ['Web Development']
 tags: ['CSS', 'Sass']
 date: '2014-07-03'
 slug: 'sassy-rhythm-vertical-rhythm-with-sass'
-status: 'publish'
 title: 'Sassy Rhythm: Vertical Rhythm with Sass'
 ---
 

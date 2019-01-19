@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: '2018-10-10'
 slug: 'the-role-of-timing-in-a-job-hunt'
-status: 'publish'
 title: 'The Role of Timing In a Job Hunt'
 ---
 

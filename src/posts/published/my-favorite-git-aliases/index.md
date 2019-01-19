@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2015-09-10"
 slug: "my-favorite-git-aliases"
-status: "publish"
 title: "My Favorite Git Aliases"
 ---
 

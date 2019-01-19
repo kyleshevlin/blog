@@ -1,11 +1,11 @@
 ---
-date: "2017-02-21"
-link: "https://secondstory.com/"
-slug: "second-story"
-status: "publish"
-title: "Second Story"
-squareImage: "./images/2s-logo.jpg"
-bannerImage: "./images/Screen-Shot-2017-02-21-at-11.43.20-AM.jpg"
+date: '2017-02-21'
+link: 'https://secondstory.com/'
+slug: 'second-story'
+status: 'published'
+title: 'Second Story'
+squareImage: './images/2s-logo.jpg'
+bannerImage: './images/Screen-Shot-2017-02-21-at-11.43.20-AM.jpg'
 ---
 
 Second Story got a new look recently. I built their new brand site as a universal (isomorphic) React & Redux application.

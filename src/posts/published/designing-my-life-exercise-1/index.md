@@ -1,10 +1,9 @@
 ---
 categories: ['Designing My Life']
-date: "2018-06-23"
-slug: "designing-my-life-exercise-1"
-status: "publish"
-subtitle: "The Health Work Play Love Dashboard"
-title: "Designing My Life - Exercise 1"
+date: '2018-06-23'
+slug: 'designing-my-life-exercise-1'
+subtitle: 'The Health Work Play Love Dashboard'
+title: 'Designing My Life - Exercise 1'
 ---
 
 I recently bought the book "Designing Your Life" by Bill Burnett and Dave Evans. It's about applying the principles of design to your life, specifically, improving one's life through prototyping and iteration. As I read the book, I plan to blog and vlog about the exercises.

@@ -2,7 +2,6 @@
 categories: ['JavaScript', 'Web Development']
 date: '2016-03-26'
 slug: 'javascript-external-links-in-new-tabs'
-status: 'publish'
 title: 'JavaScript: External Links in New Tabs'
 ---
 

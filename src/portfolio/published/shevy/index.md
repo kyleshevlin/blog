@@ -1,9 +1,9 @@
 ---
-date: "2016-01-30"
-slug: "shevy"
-status: "publish"
-title: "Shevy"
-squareImage: "./images/shevy_square.jpg"
+date: '2016-01-30'
+slug: 'shevy'
+status: 'published'
+title: 'Shevy'
+squareImage: './images/shevy_square.jpg'
 ---
 
 Shevy is a tool for developers who want perfect vertical rhythm in their typography without giving it much thought.
@@ -12,17 +12,24 @@ We don't often think about it, but we've been taught vertical rhythm almost our 
 
 Now, getting a solid vertical rhythm in CSS can be difficult for two reasons: 1) we can define our own line-height per typographical element, and 2) CSS applies line-height above and below our font, which is similar to floating your letters between the blue lines on a piece of paper, rather than resting them on the lines.
 
-So, to overcome this, we mathematics to calculate all the right distances that need to be set.
+So, to overcome this, we use mathematics to calculate all the right distances that need to be set.
 
 Shevy takes a Sass map of settings and spits out all the necessary typography from that. Let's look at the default settings:
 
 ```scss
 $shevy: (
-    base-font-size: 1em,
-    base-line-height: 1.5,
-    base-font-scale: (3, 2.5, 2, 1.5, 1.25, 1),
-    paragraph-scale: false,
-    margin-bottom: true
+  base-font-size: 1em,
+  base-line-height: 1.5,
+  base-font-scale: (
+    3,
+    2.5,
+    2,
+    1.5,
+    1.25,
+    1
+  ),
+  paragraph-scale: false,
+  margin-bottom: true
 );
 ```
 

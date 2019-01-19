@@ -2,7 +2,6 @@
 categories: ['Random']
 date: "2018-11-10"
 slug: "the-importance-of-competing-thoughts"
-status: "publish"
 title: "The Importance of Competing Thoughts"
 ---
 

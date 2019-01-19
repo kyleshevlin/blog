@@ -2,7 +2,7 @@
 date: '2015-12-02'
 link: 'https://www.mottowines.com/'
 slug: 'motto-wines'
-status: 'publish'
+status: 'published'
 title: 'Motto Wines'
 squareImage: './images/motto_square.jpg'
 bannerImage: './images/motto_wines_hero.jpg'

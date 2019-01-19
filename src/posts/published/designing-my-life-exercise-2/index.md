@@ -2,7 +2,6 @@
 categories: ['Designing My Life']
 date: "2018-06-25"
 slug: "designing-my-life-exercise-2"
-status: "publish"
 subtitle: "Workview & Lifeview Philosophies"
 title: "Designing My Life - Exercise 2"
 ---

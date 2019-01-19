@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: '2015-08-08'
 slug: 'how-to-set-the-order-of-media-queries-for-sprockets-media-query-combiner'
-status: 'publish'
 title: 'How to Set the Order of Media Queries for Sprockets Media Query Combiner'
 ---
 

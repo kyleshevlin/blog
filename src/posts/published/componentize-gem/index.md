@@ -3,7 +3,6 @@ categories: ['Web Development']
 tags: ['Rails', 'Ruby']
 date: '2016-07-02'
 slug: 'componentize-gem'
-status: 'publish'
 subtitle: 'or Bringing Components to Rails Projects.'
 title: 'Componentize Gem'
 ---

@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2015-04-20"
 slug: "susy-2-snippets-is-now-in-package-control"
-status: "publish"
 title: "Susy 2 Snippets is Now in Package Control"
 ---
 

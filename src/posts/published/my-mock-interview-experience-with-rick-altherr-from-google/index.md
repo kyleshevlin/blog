@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2017-07-03"
 slug: "my-mock-interview-experience-with-rick-altherr-from-google"
-status: "publish"
 subtitle: "or Practice Without the Pressure"
 title: "My Mock Interview Experience with Rick Altherr from Google"
 ---

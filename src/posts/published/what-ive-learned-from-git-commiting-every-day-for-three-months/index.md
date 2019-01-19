@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2017-08-02"
 slug: "what-ive-learned-from-git-commiting-every-day-for-three-months"
-status: "publish"
 subtitle: "or Code and the Shackles of Behavioral Psychology"
 title: "What I've Learned From Git Commiting Every Day for Three Months"
 ---

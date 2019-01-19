@@ -1,16 +1,15 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Ember', 'Rails']
-date: "2016-06-14"
-slug: "all-the-steps-needed-to-get-active-model-serializers-to-work-with-jsonapiadapter-and-jsonapiserializer-in-ember"
-status: "publish"
-subtitle: "or the Headache That I Thought Would Never Go Away"
-title: "All the Steps Needed To Get Active Model Serializers to Work with JSONAPIAdapter and JSONAPISerializer in Ember"
+date: '2016-06-14'
+slug: 'all-the-steps-needed-to-get-active-model-serializers-to-work-with-jsonapiadapter-and-jsonapiserializer-in-ember'
+subtitle: 'or the Headache That I Thought Would Never Go Away'
+title: 'All the Steps Needed To Get Active Model Serializers to Work with JSONAPIAdapter and JSONAPISerializer in Ember'
 ---
 
 Recently, I've been working every day on my project "Tempo", but it's been very slow with a lot of headaches. This always happens the first time or two you put theory to practice and you run into all the tiny hurdles and obstacles you weren't expecting.
 
-One of the major hurdles was getting rails-api's active\_model\_serializers gem to play nicely with Ember's default adapter and serializer based on the JSONAPI spec.
+One of the major hurdles was getting rails-api's active_model_serializers gem to play nicely with Ember's default adapter and serializer based on the JSONAPI spec.
 
 After many hours, the cobbling together the info on a dozen or so blogs, and some help from the Ember slack community, I finally pieced it all together and got it working. I'm just going to leave the code here, and when I'm more rested and less grumpy, I'll update this post to go in more detail.
 

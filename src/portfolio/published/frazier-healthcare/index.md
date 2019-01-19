@@ -1,10 +1,10 @@
 ---
-date: "2016-02-23"
-link: "http://www.frazierhealthcare.com"
-slug: "frazier-healthcare"
-status: "publish"
-title: "Frazier Healthcare"
-squareImage: "./images/alan_frazier.jpg"
+date: '2016-02-23'
+link: 'http://www.frazierhealthcare.com'
+slug: 'frazier-healthcare'
+status: 'published'
+title: 'Frazier Healthcare'
+squareImage: './images/alan_frazier.jpg'
 ---
 
 [Frazier Healthchare Partners](http://www.frazierhealthcare.com) was a project that began in the late spring of 2015. This site was significantly larger than both [Eroica](portfolio/eroica-wine/) or [Motto](/portfolio/motto-wines/). I took great pride in getting to craft the front end architecture for such a large site and had the opportunity to write a lot of JavaScript functionality into the site as well.

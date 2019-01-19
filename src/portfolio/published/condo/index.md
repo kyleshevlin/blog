@@ -1,10 +1,10 @@
 ---
-date: "2017-02-21"
-link: "https://github.com/kyleshevlin/condo"
-slug: "condo"
-status: "publish"
-title: "Condo"
-squareImage: "./images/condo_logo.png"
+date: '2017-02-21'
+link: 'https://github.com/kyleshevlin/condo'
+slug: 'condo'
+status: 'published'
+title: 'Condo'
+squareImage: './images/condo_logo.png'
 ---
 
 The catchphrase for Condo is "Because you don't always need a mansion-sized Sass grid library." Anyone who's spent enough time around Sass has probably come across Susy, the incredible, awesome, easy to use Sass grid library that puts your grid styles where they belong--in the presentation layer of your app and not the semantic layer.

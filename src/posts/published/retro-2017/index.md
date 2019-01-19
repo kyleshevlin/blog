@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2017-12-26"
 slug: "retro-2017"
-status: "publish"
 subtitle: "or Mostly Ups With Some Lingering Downs"
 title: "A Retrospective on 2017"
 ---

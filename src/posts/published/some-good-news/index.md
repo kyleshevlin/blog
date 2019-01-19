@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: "2012-01-29"
 slug: "some-good-news"
-status: "publish"
 title: "Some Good News"
 ---
 

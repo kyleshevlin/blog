@@ -2,7 +2,6 @@
 categories: ['Life Updates', 'Personal Growth']
 date: '2017-12-29'
 slug: 'goals-for-2018'
-status: 'publish'
 subtitle: "or the 'Kyle Needs More Discipline' Story"
 title: 'Goals for 2018'
 ---

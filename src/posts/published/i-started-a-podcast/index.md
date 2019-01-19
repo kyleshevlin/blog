@@ -3,7 +3,6 @@ categories: ['Web Development']
 tags: ['Podcast']
 date: "2017-11-27"
 slug: "i-started-a-podcast"
-status: "publish"
 subtitle: "or the Awesome Stories Y'all Need to Hear"
 title: "I Started a Podcast"
 ---

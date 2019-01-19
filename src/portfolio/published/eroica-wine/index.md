@@ -1,11 +1,11 @@
 ---
-date: "2015-12-01"
-link: "http://www.eroicawine.com"
-slug: "eroica-wine"
-status: "publish"
-title: "Eroica Wine"
-squareImage: "./images/eroica_square.jpg"
-bannerImage: "./images/eroica_hero.jpg"
+date: '2015-12-01'
+link: 'http://www.eroicawine.com'
+slug: 'eroica-wine'
+status: 'published'
+title: 'Eroica Wine'
+squareImage: './images/eroica_square.jpg'
+bannerImage: './images/eroica_hero.jpg'
 ---
 
 Earlier this year (February 2015), I had my first opportunity at FINE to build the entire front-end for a project. That's right, toss the young'n his first set of keys and pray he doesn't wreck the car.
@@ -61,7 +61,6 @@ And some SCSS for it, too:
   }
 
   &-item {
-
     & + & {
       margin-top: 40px;
 
@@ -84,7 +83,6 @@ And some SCSS for it, too:
   }
 
   .text {
-
     @include bp(bravo) {
       float: right;
       width: 460px; // + 80px margin makes 540px
@@ -110,7 +108,6 @@ And some SCSS for it, too:
     }
 
     @include bp(charlie) {
-
       &:after {
         @include line-overlay;
         top: 0;
@@ -126,11 +123,10 @@ And some SCSS for it, too:
     }
   }
 }
-
 ```
 
 Always enjoy using the `& + &` trick. The parent selector in SCSS is a wonderful tool to wield responsibly.
 
-As you can see, this layout flows well responsively despite its less than intuitive layout. It's a fine example of taking a designers idea and finding a logical and manageable way of accomplishing it.
+As you can see, this layout flows well responsively despite its less than intuitive layout. It's a fine example of taking a designer's idea and finding a logical and manageable way of accomplishing it.
 
 I hope you enjoy the site. Order some wine, you'll enjoy it even more.

@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2017-01-20'
 slug: 'loading-state-trick-for-stateless-functional-components-in-react'
-status: 'publish'
 title: 'Loading State Trick for Stateless Functional Components in React'
 ---
 

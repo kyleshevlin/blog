@@ -2,7 +2,6 @@
 categories: ['Life Updates', 'Personal Growth']
 date: '2019-01-15'
 slug: 'goals-review-for-2018'
-status: 'published'
 title: 'Goals Review for 2018'
 ---
 

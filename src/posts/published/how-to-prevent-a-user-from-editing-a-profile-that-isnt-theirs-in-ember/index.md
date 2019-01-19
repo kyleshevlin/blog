@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['Ember']
 date: '2016-06-18'
 slug: 'how-to-prevent-a-user-from-editing-a-profile-that-isnt-theirs-in-ember'
-status: 'publish'
 subtitle: 'or How to Keep Mischievous Users Out of the Cookie Jar'
 title: "How to Prevent a User from Editing a Profile That Isn't Theirs in Ember"
 ---

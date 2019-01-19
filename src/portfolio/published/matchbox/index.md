@@ -1,10 +1,10 @@
 ---
-date: "2017-02-21"
-link: "https://github.com/kyleshevlin/matchbox"
-slug: "matchbox"
-status: "publish"
-title: "Matchbox"
-squareImage: "./images/matchbox-logo.jpg"
+date: '2017-02-21'
+link: 'https://github.com/kyleshevlin/matchbox'
+slug: 'matchbox'
+status: 'published'
+title: 'Matchbox'
+squareImage: './images/matchbox-logo.jpg'
 ---
 
 Matchbox is a simple, vanilla JavaScript plugin that... well... matches the height of boxes.

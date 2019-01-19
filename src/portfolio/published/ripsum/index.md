@@ -1,10 +1,10 @@
 ---
-date: "2016-01-30"
-link: "https://github.com/kyleshevlin/ripsum"
-slug: "ripsum"
-status: "publish"
-title: "Ripsum"
-squareImage: "./images/ripsum_square.jpg"
+date: '2016-01-30'
+link: 'https://github.com/kyleshevlin/ripsum'
+slug: 'ripsum'
+status: 'published'
+title: 'Ripsum'
+squareImage: './images/ripsum_square.jpg'
 ---
 
 Ripsum was born out of a personal conviction I hold regarding web design: you must plan ahead for the worst case scenarios.

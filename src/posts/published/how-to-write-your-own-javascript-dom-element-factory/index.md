@@ -2,7 +2,6 @@
 categories: ['JavaScript', 'Web Development']
 date: '2017-07-12'
 slug: 'how-to-write-your-own-javascript-dom-element-factory'
-status: 'publish'
 subtitle: 'A Basic HyperScript h() Function'
 title: 'How to Write Your Own JavaScript DOM Element Factory'
 ---

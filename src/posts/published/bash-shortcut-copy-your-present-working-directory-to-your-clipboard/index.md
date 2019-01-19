@@ -1,12 +1,11 @@
 ---
 categories: ['Web Development']
-date: "2015-07-25"
-slug: "bash-shortcut-copy-your-present-working-directory-to-your-clipboard"
-status: "publish"
-title: "Bash Shortcut: Copy your Present Working Directory to your Clipboard"
+date: '2015-07-25'
+slug: 'bash-shortcut-copy-your-present-working-directory-to-your-clipboard'
+title: 'Bash Shortcut: Copy your Present Working Directory to your Clipboard'
 ---
 
-Like most developers, I'm always looking for ways to increase my efficiency. One way I like to do this is through [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) functions.
+Like most developers, I'm always looking for ways to increase my efficiency. One way I like to do this is through [Bash](<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>) functions.
 
 Just like other programming languages, Bash functions allow you to combine Bash commands or manipulate user input to output a desired effect. While I have a good number of Bash functions, today we're going to focus on a simple one: how to copy your present working directory to your clipboard.
 

@@ -3,7 +3,6 @@ categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2017-06-24'
 slug: 'make-your-own-charts-in-react-without-a-charting-library-part-1'
-status: 'publish'
 title: 'Make Your Own Charts in React Without a Charting Library - Part 1'
 ---
 

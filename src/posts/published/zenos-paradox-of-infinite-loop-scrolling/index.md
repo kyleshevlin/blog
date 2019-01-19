@@ -2,7 +2,6 @@
 categories: ['JavaScript', 'Web Development']
 date: '2017-02-17'
 slug: 'zenos-paradox-of-infinite-loop-scrolling'
-status: 'publish'
 subtitle: 'or Everything Moves but You'
 title: "Zeno's Paradox of Infinite Loop Scrolling"
 ---

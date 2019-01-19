@@ -2,7 +2,6 @@
 categories: ['JavaScript', 'Web Development']
 date: "2017-11-10"
 slug: "four-years-in"
-status: "publish"
 title: "Four Years In"
 ---
 

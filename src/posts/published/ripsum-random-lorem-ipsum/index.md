@@ -2,7 +2,6 @@
 categories: ['Web Development']
 date: '2015-12-06'
 slug: 'ripsum-random-lorem-ipsum'
-status: 'publish'
 subtitle: 'A Ruby Gem for Generating a Random Amount of Lorem Ipsum with Each Page Load'
 title: 'Ripsum'
 ---

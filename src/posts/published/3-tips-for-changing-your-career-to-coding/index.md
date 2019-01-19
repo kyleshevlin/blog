@@ -1,10 +1,9 @@
 ---
 categories: ['Web Development']
-date: "2018-09-15"
-slug: "3-tips-for-changing-your-career-to-coding"
-status: "publish"
-subtitle: "and One Bonus Tip! (Why Keep You in Suspense, Right?!)"
-title: "3 Tips for Changing Your Career to Coding"
+date: '2018-09-15'
+slug: '3-tips-for-changing-your-career-to-coding'
+subtitle: 'and One Bonus Tip! (Why Keep You in Suspense, Right?!)'
+title: '3 Tips for Changing Your Career to Coding'
 ---
 
 Friday night, after [React Rally 2018](https://www.reactrally.com/), I led a group of intrepid devs to Beer Bar in downtown Salt Lake City for what I like to call "the unofficial after after party". Our group was quite large, so we ended up divided amongst two large tables. Our particular table only had a handful of our group. It was [Chris Ball](https://twitter.com/cball_), [Gabe Ricard](https://twitter.com/GabeRicard), and myself. The other half of our table was eventually filled with total strangers.
@@ -55,6 +54,6 @@ You can start networking by participating, not just lurking, in conversations. Y
 
 Making a career change is challenging. It's going to require persistence, patience, and probably some outside help. Don't be afraid to ask for it. Start developing relationships as soon as possible with people in the industry, it might lead to your next opportunity.
 
-* * *
+---
 
 I don't normally do self-promotion in my material, but if you want to listen to a podcast devoted to this topic, check out my podcast [Second Career Devs](https://secondcareerdevs.com), where I interview people who have made the career change to software engineering or web development and share the lessons they learned along the way. Thanks.
