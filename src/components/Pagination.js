@@ -1,15 +1,9 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/core'
-import styled from '@emotion/styled'
 import { lighten } from 'polished'
-import { COLORS } from '../constants'
+import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
-
-const Wrap = styled.div`
-  font-family: 'Catamaran', sans-serif;
-  margin-bottom: ${bs(2)};
-`
 
 const baseItemStyles = css`
   display: inline-block;
@@ -43,7 +37,12 @@ const Pagination = ({ index: currentPageIndex, totalPages }) => {
   const nextPageNumber = currentPageNumber + 1
 
   return (
-    <Wrap>
+    <div
+      css={{
+        fontFamily: FONTS.catamaran,
+        marginBottom: bs(2)
+      }}
+    >
       {currentPageIndex !== 0 ? (
         <Link
           css={itemStyles}
@@ -76,7 +75,7 @@ const Pagination = ({ index: currentPageIndex, totalPages }) => {
           Next
         </Link>
       ) : null}
-    </Wrap>
+    </div>
   )
 }
 

@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
-import { css } from '@emotion/core'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 
-const linkStyles = css`
-  display: block;
-  margin-bottom: ${bs(0.5)};
-`
+const linkStyles = {
+  display: 'block',
+  marginBottom: bs(0.5)
+}
 
 const NotFoundPage = ({ data }) => (
   <Fragment>

@@ -1,42 +1,29 @@
 import React, { Fragment } from 'react'
-import styled from '@emotion/styled'
 import { Link } from 'gatsby'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
 
-const Header = styled.header`
-  margin-bottom: ${bs()};
-`
-
-const PostLink = styled(Link)`
-  display: block;
-  color: ${COLORS.black};
-
-  &:hover {
-    color: ${COLORS.teal};
+const postLinkStyles = {
+  display: 'block',
+  color: COLORS.black,
+  '&:hover': {
+    color: COLORS.teal
   }
-`
-
-const Title = styled.h2`
-  margin-bottom: 0;
-`
-
-const Subtitle = styled.h4`
-  margin-bottom: 0;
-  font-weight: 700;
-`
+}
 
 const PostHeader = ({ slug, subtitle, title }) => {
-  const Wrap = slug ? PostLink : Fragment
-  const wrapProps = slug ? { to: slug } : {}
+  const Wrap = slug ? Link : Fragment
+  const wrapProps = slug ? { css: postLinkStyles, to: slug } : {}
 
   return (
-    <Header>
+    <header css={{ marginBottom: bs() }}>
       <Wrap {...wrapProps}>
-        <Title>{title}</Title>
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
+        <h2 css={{ marginBottom: 0 }}>{title}</h2>
+        {subtitle && (
+          <h4 css={{ fontWeight: 700, marginBottom: 0 }}>{subtitle}</h4>
+        )}
       </Wrap>
-    </Header>
+    </header>
   )
 }
 

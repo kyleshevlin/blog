@@ -1,70 +1,13 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
+import { lighten } from 'polished'
 import Container from './Container'
 import { COLORS } from '../constants'
 import { bs } from '../shevy'
-
-const Wrap = styled.footer`
-  background-color: ${COLORS.black};
-  color: ${COLORS.white};
-  padding-top: ${bs(2)};
-  padding-bottom: ${bs(2)};
-  text-align: center;
-`
-
-const IconWrap = styled.div`
-  margin-bottom: ${bs(0.5)};
-`
-
-const IconLink = styled(OutboundLink)`
-  display: inline-block;
-  padding: ${bs(0.5)};
-`
-
-const Twitter = ({ fill, width }) => (
-  <svg fill={fill} viewBox="0 0 300.00006 244.18703" width={width}>
-    <g transform="translate(-539.18 -568.86)">
-      <path d="m633.9 812.04c112.46 0 173.96-93.168 173.96-173.96 0-2.6463-0.0539-5.2806-0.1726-7.903 11.938-8.6302 22.314-19.4 30.498-31.66-10.955 4.8694-22.744 8.1474-35.111 9.6255 12.623-7.5693 22.314-19.543 26.886-33.817-11.813 7.0031-24.895 12.093-38.824 14.841-11.157-11.884-27.041-19.317-44.629-19.317-33.764 0-61.144 27.381-61.144 61.132 0 4.7978 0.5364 9.4646 1.5854 13.941-50.815-2.5569-95.874-26.886-126.03-63.88-5.2508 9.0354-8.2785 19.531-8.2785 30.73 0 21.212 10.794 39.938 27.208 50.893-10.031-0.30992-19.454-3.0635-27.69-7.6468-0.009 0.25652-0.009 0.50661-0.009 0.78077 0 29.61 21.075 54.332 49.051 59.934-5.1376 1.4006-10.543 2.1516-16.122 2.1516-3.9336 0-7.766-0.38716-11.491-1.1026 7.7838 24.293 30.355 41.971 57.115 42.465-20.926 16.402-47.287 26.171-75.937 26.171-4.929 0-9.7983-0.28036-14.584-0.84634 27.059 17.344 59.189 27.464 93.722 27.464" />
-    </g>
-  </svg>
-)
-
-const Github = ({ fill, width }) => (
-  <svg fill={fill} viewBox="0 0 512 512" width={width}>
-    <g>
-      <path
-        clipRule="evenodd"
-        d="M296.133,354.174c49.885-5.891,102.942-24.029,102.942-110.192   c0-24.49-8.624-44.448-22.67-59.869c2.266-5.89,9.515-28.114-2.734-58.947c0,0-18.139-5.898-60.759,22.669   c-18.139-4.983-38.09-8.163-56.682-8.163c-19.053,0-39.011,3.18-56.697,8.163c-43.082-28.567-61.22-22.669-61.22-22.669   c-12.241,30.833-4.983,53.057-2.718,58.947c-14.061,15.42-22.677,35.379-22.677,59.869c0,86.163,53.057,104.301,102.942,110.192   c-6.344,5.452-12.241,15.873-14.507,30.387c-12.702,5.438-45.808,15.873-65.758-18.592c0,0-11.795-21.31-34.012-22.669   c0,0-22.224-0.453-1.813,13.592c0,0,14.96,6.812,24.943,32.653c0,0,13.6,43.089,76.179,29.48v38.543   c0,5.906-4.53,12.702-15.865,10.89C96.139,438.977,32.2,354.626,32.2,255.77c0-123.807,100.216-224.022,224.03-224.022   c123.347,0,224.023,100.216,223.57,224.022c0,98.856-63.946,182.754-152.828,212.688c-11.342,2.266-15.873-4.53-15.873-10.89   V395.45C311.1,374.577,304.288,360.985,296.133,354.174L296.133,354.174z M512,256.23C512,114.73,397.263,0,256.23,0   C114.73,0,0,114.73,0,256.23C0,397.263,114.73,512,256.23,512C397.263,512,512,397.263,512,256.23L512,256.23z"
-        fillRule="evenodd"
-      />
-    </g>
-  </svg>
-)
-
-const LinkedIn = ({ fill, width }) => (
-  <svg fill={fill} viewBox="0 0 430.117 430.117" width={width}>
-    <g>
-      <path
-        d="M430.117,261.543V420.56h-92.188V272.193c0-37.271-13.334-62.707-46.703-62.707
-                c-25.473,0-40.632,17.142-47.301,33.724c-2.432,5.928-3.058,14.179-3.058,22.477V420.56h-92.219c0,0,1.242-251.285,0-277.32h92.21
-                v39.309c-0.187,0.294-0.43,0.611-0.606,0.896h0.606v-0.896c12.251-18.869,34.13-45.824,83.102-45.824
-                C384.633,136.724,430.117,176.361,430.117,261.543z M52.183,9.558C20.635,9.558,0,30.251,0,57.463
-                c0,26.619,20.038,47.94,50.959,47.94h0.616c32.159,0,52.159-21.317,52.159-47.94C103.128,30.251,83.734,9.558,52.183,9.558z
-                 M5.477,420.56h92.184v-277.32H5.477V420.56z"
-      />
-    </g>
-  </svg>
-)
-
-const Twitch = ({ fill, width }) => (
-  <svg fill={fill} viewBox="0 0 128 134" width={width}>
-    <path
-      d="M89,77l-9,23v94h32v17h18l17-17h26l35-35V77H89Zm107,76-20,20H144l-17,17V173H100V89h96v64Zm-20-41v35H164V112h12Zm-32,0v35H132V112h12Z"
-      transform="translate(-80 -77)"
-    />
-  </svg>
-)
+import Github from './icons/Github'
+import LinkedIn from './icons/LinkedIn'
+import Twitch from './icons/Twitch'
+import Twitter from './icons/Twitter'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -78,21 +21,43 @@ const links = [
 ]
 
 const Footer = () => (
-  <Wrap>
+  <div
+    css={{
+      backgroundColor: COLORS.black,
+      color: COLORS.white,
+      paddingTop: bs(2),
+      paddingBottom: bs(2),
+      textAlign: 'center'
+    }}
+  >
     <Container>
-      <IconWrap>
+      <div css={{ marginBottom: bs(0.5) }}>
         {links.map(({ href, icon: Icon, title }) => (
-          <IconLink key={title} href={href} title={title}>
+          <OutboundLink
+            css={{
+              display: 'inline-block',
+              padding: bs(0.5),
+              '&:hover svg': {
+                fill: lighten(0.1, COLORS.teal)
+              },
+              svg: {
+                transition: 'fill 0.3s ease'
+              }
+            }}
+            key={title}
+            href={href}
+            title={title}
+          >
             <Icon fill={COLORS.teal} width={30} />
-          </IconLink>
+          </OutboundLink>
         ))}
-      </IconWrap>
+      </div>
       <div>
         &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
         Built with <a href="https://www.gatsbyjs.org">Gatsby</a>.
       </div>
     </Container>
-  </Wrap>
+  </div>
 )
 
 export default Footer

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
-import styled from '@emotion/styled'
 import BannerImage from '../components/BannerImage'
 import NewsletterCTA from '../components/NewsletterCTA'
 import PostAuthor from '../components/PostAuthor'
@@ -9,17 +8,18 @@ import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import Seo from '../components/Seo'
+import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
-const NextOrPreviousWrap = styled.div`
-  padding-top: ${bs(0.25)};
-  padding-bottom: ${bs(0.25)};
-`
+const nextOrPreviousWrapStyles = {
+  paddingTop: bs(0.25),
+  paddingBottom: bs(0.25)
+}
 
-const Bold = styled.span`
-  font-family: 'Catamaran', sans-serif;
-  font-weight: 700;
-`
+const nextOrPreviousHeading = {
+  fontFamily: FONTS.catamaran,
+  fontWeight: 700
+}
 
 const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
   const {
@@ -49,21 +49,21 @@ const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
         {tags && <PostCategoriesOrTags items={tags} type="tag" />}
 
         {previousPost ? (
-          <NextOrPreviousWrap>
-            <Bold>Previous Post: </Bold>
+          <div css={nextOrPreviousWrapStyles}>
+            <span css={nextOrPreviousHeading}>Previous Post: </span>
             <Link to={previousPost.frontmatter.slug}>
               {previousPost.frontmatter.title}
             </Link>
-          </NextOrPreviousWrap>
+          </div>
         ) : null}
 
         {nextPost ? (
-          <NextOrPreviousWrap>
-            <Bold>Next Post: </Bold>
+          <div css={nextOrPreviousWrapStyles}>
+            <span css={nextOrPreviousHeading}>Next Post: </span>
             <Link to={nextPost.frontmatter.slug}>
               {nextPost.frontmatter.title}
             </Link>
-          </NextOrPreviousWrap>
+          </div>
         ) : null}
 
         <PostAuthor />

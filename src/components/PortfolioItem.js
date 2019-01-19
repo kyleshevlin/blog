@@ -1,35 +1,10 @@
 import React, { Component } from 'react'
 import { css } from '@emotion/core'
-import styled from '@emotion/styled'
 import { Link } from 'gatsby'
 import { rem, rgba } from 'polished'
 import { BREAKPOINTS, COLORS } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
-
-const Wrap = styled.div`
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-
-  &:hover {
-    [data-item-link]:before {
-      background-color: ${rgba(COLORS.teal, 0.5)};
-      top: 0;
-      bottom: 0;
-    }
-
-    [data-title] {
-      opacity: 1;
-    }
-  }
-`
-
-const Image = styled.img`
-  display: block;
-  width: 100%;
-  height: auto;
-`
 
 const linkStyles = css`
   display: block;
@@ -80,14 +55,38 @@ class PortfolioItem extends Component {
     const { slug, squareImage, title } = this.props
 
     return (
-      <Wrap>
-        <Image src={squareImage.publicURL} />
+      <div
+        css={{
+          overflow: 'hidden',
+          position: 'relative',
+          width: '100%',
+          '&:hover': {
+            '[data-item-link]:before': {
+              backgroundColor: rgba(COLORS.teal, 0.5),
+              top: 0,
+              bottom: 0
+            },
+            '[data-title]': {
+              opacity: 1
+            }
+          }
+        }}
+      >
+        <img
+          css={{
+            display: 'block',
+            height: 'auto',
+            width: '100%'
+          }}
+          alt={title}
+          src={squareImage.publicURL}
+        />
         <Link css={linkStyles} to={`portfolio/${slug}`} data-item-link>
           <div css={titleStyles} data-title>
             {title}
           </div>
         </Link>
-      </Wrap>
+      </div>
     )
   }
 }

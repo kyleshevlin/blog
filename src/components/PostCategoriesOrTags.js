@@ -1,39 +1,28 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { Link } from 'gatsby'
 import { lighten } from 'polished'
-import { COLORS } from '../constants'
+import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 
-const Wrap = styled.div`
-  margin-bottom: ${bs()};
-`
+const linkStyles = {
+  display: 'inline-block',
+  backgroundColor: COLORS.teal,
+  color: COLORS.white,
+  height: '24px',
+  fontFamily: FONTS.catamaran,
+  fontSize: '0.75rem',
+  lineHeight: '24px',
+  paddingLeft: bs(0.5),
+  paddingRight: bs(0.5),
+  marginRight: bs(0.25),
+  transition: 'background-color 0.3s ease',
 
-const Heading = styled.div`
-  font-family: 'Catamaran', sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.8;
-`
-
-const ItemLink = styled(Link)`
-  display: inline-block;
-  height: 24px;
-  background-color: ${COLORS.teal};
-  color: ${COLORS.white};
-  font-family: 'Catamaran', sans-serif;
-  font-size: 0.75rem;
-  line-height: 24px;
-  padding-left: ${bs(0.5)};
-  padding-right: ${bs(0.5)};
-  margin-right: ${bs(0.25)};
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: ${lighten(0.1, COLORS.teal)};
-    color: ${COLORS.white};
+  '&:hover': {
+    backgroundColor: lighten(0.1, COLORS.teal),
+    color: COLORS.white
   }
-`
+}
 
 const formatItemPath = (item, type) => {
   const paths = {
@@ -55,14 +44,22 @@ const getTypeHeading = type => {
 }
 
 const PostCategoriesOrTags = ({ items, type }) => (
-  <Wrap>
-    <Heading>{getTypeHeading(type)}:</Heading>
+  <div css={{ marginBottom: bs() }}>
+    <div
+      css={{
+        fontFamily: FONTS.catamaran,
+        fontSize: '0.75em',
+        lineHeight: 1.8
+      }}
+    >
+      {getTypeHeading(type)}
+    </div>
     {items.map(item => (
-      <ItemLink key={item} to={formatItemPath(item, type)}>
+      <Link css={linkStyles} key={item} to={formatItemPath(item, type)}>
         {item}
-      </ItemLink>
+      </Link>
     ))}
-  </Wrap>
+  </div>
 )
 
 export default PostCategoriesOrTags

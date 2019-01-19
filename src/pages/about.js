@@ -1,28 +1,8 @@
 import React, { Fragment } from 'react'
-import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
-import { COLORS } from '../constants'
+import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import Seo from '../components/Seo'
-
-const ImageWrap = styled.div`
-  max-width: 640px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: ${bs(2)};
-`
-
-const Image = styled.img`
-  display: block;
-`
-
-const ImageCaption = styled.div`
-  background-color: ${COLORS.lightGray};
-  font-family: 'Catamaran', sans-serif;
-  font-style: italic;
-  line-height: 1.5;
-  padding: ${bs(0.5)} ${bs()};
-`
 
 const About = ({ data }) => {
   const imgSrc = data.allImageSharp.edges[0].node.original.src
@@ -93,13 +73,32 @@ const About = ({ data }) => {
         jealous that I’m such a lucky man. It’s ok.) or having a good beer and
         food with some friends.
       </p>
-      <ImageWrap>
-        <Image src={imgSrc} alt="Anna and Kyle at FINE's Christmas Party" />
-        <ImageCaption>
+      <div
+        css={{
+          maxWidth: '640px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginBottom: bs(2)
+        }}
+      >
+        <img
+          css={{ display: 'block' }}
+          src={imgSrc}
+          alt="Anna and Kyle at FINE's Christmas Party"
+        />
+        <div
+          css={{
+            backgroundColor: COLORS.lightGray,
+            fontFamily: FONTS.catamaran,
+            fontStyle: 'italic',
+            lineHeight: 1.5,
+            padding: `${bs(0.5)} ${bs()}`
+          }}
+        >
           My wife trying to eat me with one of those hats that Sherlock Holmes
           would wear. I don't blame her. I'm definitely nom-ible.
-        </ImageCaption>
-      </ImageWrap>
+        </div>
+      </div>
 
       <h3>More Interested In My Resume?</h3>
       <p>

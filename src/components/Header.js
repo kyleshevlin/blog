@@ -1,33 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from '@emotion/styled'
 import { graphql, Link, StaticQuery } from 'gatsby'
-import { COLORS } from '../constants'
+import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import Container from './Container'
 import Nav from './Nav'
-
-const Wrap = styled.header`
-  padding-top: ${bs()};
-  padding-bottom: ${bs()};
-  margin-bottom: ${bs()};
-`
-
-const HeadingWrap = styled(Link)`
-  color: ${COLORS.black};
-  display: block;
-`
-
-const Title = styled.h1`
-  line-height: 1;
-  margin-bottom: 0;
-`
-
-const Subtitle = styled.div`
-  font-family: 'Catamaran', sans-serif;
-  font-size: 1rem;
-  margin-bottom: 0;
-`
 
 const Header = ({ subTitle, title }) => (
   <StaticQuery
@@ -45,26 +22,50 @@ const Header = ({ subTitle, title }) => (
       const { subTitle, title } = data.site.siteMetadata
 
       return (
-        <Wrap>
+        <header
+          css={{
+            paddingTop: bs(),
+            paddingBottom: bs(),
+            marginBottom: bs()
+          }}
+        >
           <Container>
-            <HeadingWrap to="/">
-              <Title>{title}</Title>
-              <Subtitle>{subTitle}</Subtitle>
-            </HeadingWrap>
+            <Link
+              css={{
+                color: COLORS.black,
+                display: 'block'
+              }}
+              to="/"
+            >
+              <h1
+                css={{
+                  lineHeight: 1,
+                  marginBottom: 0
+                }}
+              >
+                {title}
+              </h1>
+              <div
+                css={{
+                  fontFamily: FONTS.catamaran,
+                  fontSize: '1rem',
+                  marginBottom: 0
+                }}
+              >
+                {subTitle}
+              </div>
+            </Link>
             <Nav />
           </Container>
-        </Wrap>
+        </header>
       )
     }}
   />
 )
 
 Header.propTypes = {
-  siteTitle: PropTypes.string
-}
-
-Header.defaultProps = {
-  siteTitle: ''
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired
 }
 
 export default Header

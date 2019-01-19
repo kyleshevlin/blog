@@ -1,6 +1,6 @@
 import React from 'react'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
-import { COLORS } from '../constants'
+import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import { darken } from 'polished'
 
@@ -21,7 +21,7 @@ const NewsletterCTA = () => (
           display: 'inline-block',
           backgroundColor: COLORS.teal,
           color: COLORS.white,
-          fontFamily: 'Catamaran, sans-serif',
+          fontFamily: FONTS.catamaran,
           fontSize: '1.25em',
           textTransform: 'uppercase',
           lineHeight: 1,

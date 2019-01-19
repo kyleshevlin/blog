@@ -1,21 +1,20 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 import { bs } from '../shevy'
 
-const Wrap = styled.div`
-  margin-bottom: ${bs(2)};
-`
+const BannerImage = ({ alt, src }) => (
+  <div css={{ marginBottom: bs(2) }}>
+    <img css={{ display: 'block' }} alt={alt} src={src} />
+  </div>
+)
 
-const Image = styled.img`
-  display: block;
-`
+BannerImage.propTypes = {
+  alt: PropTypes.string,
+  src: PropTypes.string.isRequired
+}
 
-const BannerImage = ({ alt, src }) => {
-  return (
-    <Wrap>
-      <Image {...{ alt, src }} />
-    </Wrap>
-  )
+BannerImage.defaultProps = {
+  alt: ''
 }
 
 export default BannerImage

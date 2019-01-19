@@ -11,3 +11,7 @@ export const COLORS = {
   teal: '#33a1cc',
   white: '#fff'
 }
+
+export const FONTS = {
+  catamaran: 'Catamaran, sans-serif'
+}
