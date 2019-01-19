@@ -31,6 +31,7 @@ const NewsletterCTA = () => (
           paddingLeft: bs(0.75),
           borderRadius: '4px',
           transition: 'background-color 0.3s ease',
+
           '&:hover': {
             backgroundColor: darken(0.1, COLORS.teal),
             color: COLORS.white
@@ -38,7 +39,14 @@ const NewsletterCTA = () => (
         }}
         href="https://buttondown.email/kyleshevlin"
       >
-        Sign Up Now
+        <span
+          css={{
+            position: 'relative',
+            top: '-2px'
+          }}
+        >
+          Sign Up Now
+        </span>
       </OutboundLink>
     </div>
   </div>

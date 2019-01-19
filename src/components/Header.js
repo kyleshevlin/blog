@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { graphql, Link, StaticQuery } from 'gatsby'
 import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
@@ -62,10 +61,5 @@ const Header = ({ subTitle, title }) => (
     }}
   />
 )
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired
-}
 
 export default Header
