@@ -5,7 +5,7 @@ import { bs } from '../shevy'
 import { darken } from 'polished'
 
 const NewsletterCTA = () => (
-  <div css={{ marginTop: bs(4) }}>
+  <div css={{ marginTop: bs(4), marginBottom: bs(2) }}>
     <p>
       If you enjoyed reading this blog post and want more, consider{' '}
       <a href="https://buttondown.email/kyleshevlin">
@@ -25,10 +25,7 @@ const NewsletterCTA = () => (
           fontSize: '1.25em',
           textTransform: 'uppercase',
           lineHeight: 1,
-          paddingTop: bs(0.5),
-          paddingRight: bs(0.75),
-          paddingBottom: bs(0.5),
-          paddingLeft: bs(0.75),
+          padding: `${bs(0.5)} ${bs(0.75)}`,
           borderRadius: '4px',
           transition: 'background-color 0.3s ease',
 
