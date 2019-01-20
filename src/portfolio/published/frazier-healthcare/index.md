@@ -2,7 +2,7 @@
 date: '2016-02-23'
 link: 'http://www.frazierhealthcare.com'
 slug: 'frazier-healthcare'
-status: 'published'
+status: 'archived'
 title: 'Frazier Healthcare'
 squareImage: './images/alan_frazier.jpg'
 ---

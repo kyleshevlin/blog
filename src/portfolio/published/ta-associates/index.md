@@ -2,7 +2,7 @@
 date: '2016-04-29'
 link: 'http://www.ta.com'
 slug: 'ta-associates'
-status: 'published'
+status: 'archived'
 title: 'TA Associates'
 squareImage: './images/ta_portfolio.png'
 ---

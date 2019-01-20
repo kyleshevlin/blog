@@ -2,7 +2,7 @@
 date: '2017-02-21'
 link: 'https://github.com/kyleshevlin/condo'
 slug: 'condo'
-status: 'published'
+status: 'archived'
 title: 'Condo'
 squareImage: './images/condo_logo.png'
 ---

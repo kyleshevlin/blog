@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
@@ -22,7 +22,8 @@ const itemsWrapStyles = {
 }
 
 const Portfolio = ({ data }) => {
-  const items = data.allMarkdownRemark.edges.map(edge => edge.node)
+  const publishedItems = data.published.edges.map(edge => edge.node)
+  const archivedItems = data.archived.edges.map(edge => edge.node)
 
   return (
     <Fragment>
@@ -41,12 +42,27 @@ const Portfolio = ({ data }) => {
       </p>
 
       <div css={itemsWrapStyles}>
-        {items.map(item => {
+        {publishedItems.map(item => {
           const {
             frontmatter: { slug, squareImage, title }
           } = item
 
           return <PortfolioItem key={slug} {...{ slug, squareImage, title }} />
+        })}
+      </div>
+
+      <div>
+        <h4>Archived Items</h4>
+        {archivedItems.map(item => {
+          const {
+            frontmatter: { slug, title }
+          } = item
+
+          return (
+            <div key={slug}>
+              <Link to={`/portfolio/${slug}`}>{title}</Link>
+            </div>
+          )
         })}
       </div>
     </Fragment>
@@ -57,8 +73,11 @@ export default Portfolio
 
 export const query = graphql`
   query PortfolioItemsQuery {
-    allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "/portfolio/" } }
+    published: allMarkdownRemark(
+      filter: {
+        fileAbsolutePath: { regex: "/portfolio/" }
+        frontmatter: { status: { eq: "published" } }
+      }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {
@@ -69,6 +88,22 @@ export const query = graphql`
             squareImage {
               publicURL
             }
+          }
+        }
+      }
+    }
+    archived: allMarkdownRemark(
+      filter: {
+        fileAbsolutePath: { regex: "/portfolio/" }
+        frontmatter: { status: { eq: "archived" } }
+      }
+      sort: { fields: [frontmatter___date], order: DESC }
+    ) {
+      edges {
+        node {
+          frontmatter {
+            title
+            slug
           }
         }
       }

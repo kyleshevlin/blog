@@ -2,7 +2,7 @@
 date: '2016-01-30'
 link: 'https://github.com/kyleshevlin/ripsum'
 slug: 'ripsum'
-status: 'published'
+status: 'archived'
 title: 'Ripsum'
 squareImage: './images/ripsum_square.jpg'
 ---

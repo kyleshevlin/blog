@@ -2,7 +2,7 @@
 date: '2015-12-01'
 link: 'http://www.eroicawine.com'
 slug: 'eroica-wine'
-status: 'published'
+status: 'archived'
 title: 'Eroica Wine'
 squareImage: './images/eroica_square.jpg'
 bannerImage: './images/eroica_hero.jpg'

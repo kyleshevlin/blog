@@ -2,7 +2,7 @@
 date: '2017-02-21'
 link: 'https://secondstory.com/'
 slug: 'second-story'
-status: 'published'
+status: 'archived'
 title: 'Second Story'
 squareImage: './images/2s-logo.jpg'
 bannerImage: './images/Screen-Shot-2017-02-21-at-11.43.20-AM.jpg'

@@ -1,7 +1,7 @@
 ---
 date: '2016-01-30'
 slug: 'shevy'
-status: 'published'
+status: 'archived'
 title: 'Shevy'
 squareImage: './images/shevy_square.jpg'
 ---
