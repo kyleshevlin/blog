@@ -1,6 +1,5 @@
 ---
 date: '2018-08-02'
-link: 'https://www.youtube.com/watch?v=-4QNj7TJjgo'
 slug: 'just-enough-fp'
 status: 'published'
 title: 'Just Enough FP'

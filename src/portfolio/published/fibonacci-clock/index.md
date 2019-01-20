@@ -1,6 +1,5 @@
 ---
 date: '2017-02-28'
-link: 'https://kyleshevlin.github.io/fibonacci-clock/'
 slug: 'fibonacci-clock'
 status: 'published'
 title: 'Fibonacci Clock'

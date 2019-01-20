@@ -1,6 +1,5 @@
 ---
 date: '2015-12-01'
-link: 'http://www.eroicawine.com'
 slug: 'eroica-wine'
 status: 'archived'
 title: 'Eroica Wine'
@@ -130,3 +129,5 @@ Always enjoy using the `& + &` trick. The parent selector in SCSS is a wonderful
 As you can see, this layout flows well responsively despite its less than intuitive layout. It's a fine example of taking a designer's idea and finding a logical and manageable way of accomplishing it.
 
 I hope you enjoy the site. Order some wine, you'll enjoy it even more.
+
+[Visit the site](http://www.eroicawine.com)

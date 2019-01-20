@@ -1,6 +1,5 @@
 ---
 date: '2017-10-21'
-link: 'https://www.youtube.com/watch?v=5WVISR-8BG4'
 slug: 'talk-fp-recompose'
 status: 'published'
 title: 'Talk: FP & Recompose'

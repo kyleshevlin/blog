@@ -1,6 +1,5 @@
 ---
 date: '2017-02-21'
-link: 'https://kyleshevlin.github.io/lifespan/'
 slug: 'lifespan'
 status: 'published'
 title: 'Lifespan'

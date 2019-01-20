@@ -1,6 +1,5 @@
 ---
 date: '2017-02-21'
-link: 'https://github.com/kyleshevlin/condo'
 slug: 'condo'
 status: 'archived'
 title: 'Condo'

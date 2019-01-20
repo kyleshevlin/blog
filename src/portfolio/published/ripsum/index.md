@@ -1,6 +1,5 @@
 ---
 date: '2016-01-30'
-link: 'https://github.com/kyleshevlin/ripsum'
 slug: 'ripsum'
 status: 'archived'
 title: 'Ripsum'

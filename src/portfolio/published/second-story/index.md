@@ -1,6 +1,5 @@
 ---
 date: '2017-02-21'
-link: 'https://secondstory.com/'
 slug: 'second-story'
 status: 'archived'
 title: 'Second Story'

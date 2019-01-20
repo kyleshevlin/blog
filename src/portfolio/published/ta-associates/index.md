@@ -1,6 +1,5 @@
 ---
 date: '2016-04-29'
-link: 'http://www.ta.com'
 slug: 'ta-associates'
 status: 'archived'
 title: 'TA Associates'
@@ -73,3 +72,5 @@ Our updated CSS looks like this:
 ```
 
 We keep the image transparent until the state class indicates that the image is ready to be seen. The transition makes for a nice fading in effect. You can adjust this to taste in your own project!
+
+[Visit the site](http://www.ta.com)

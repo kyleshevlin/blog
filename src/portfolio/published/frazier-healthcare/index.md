@@ -1,6 +1,5 @@
 ---
 date: '2016-02-23'
-link: 'http://www.frazierhealthcare.com'
 slug: 'frazier-healthcare'
 status: 'archived'
 title: 'Frazier Healthcare'
@@ -84,3 +83,5 @@ $tiles--large: layout($tiles, 4);
 ```
 
 Overall, Frazier Healthcare was a great and fun challenge to work on. I came away with a few new skills and the client came away with a great working website. Be sure to check it out.
+
+[Visit the site](http://www.frazierhealthcare.com)
