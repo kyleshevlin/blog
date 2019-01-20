@@ -1,8 +1,9 @@
 ---
 date: '2018-08-02'
-slug: 'just-enough-fp'
+slug: 'just-enough-functional-programming'
 status: 'published'
-title: 'Just Enough FP'
+shortTitle: 'Just Enough FP'
+title: 'Just Enough Functional Programming'
 squareImage: './images/Monet.jpg'
 ---
 

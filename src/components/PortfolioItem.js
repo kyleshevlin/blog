@@ -52,7 +52,7 @@ const titleStyles = css`
 
 class PortfolioItem extends Component {
   render() {
-    const { slug, squareImage, title } = this.props
+    const { shortTitle, slug, squareImage, title } = this.props
 
     return (
       <div
@@ -83,7 +83,7 @@ class PortfolioItem extends Component {
         />
         <Link css={linkStyles} to={`portfolio/${slug}`} data-item-link>
           <div css={titleStyles} data-title>
-            {title}
+            {shortTitle ? shortTitle : title}
           </div>
         </Link>
       </div>

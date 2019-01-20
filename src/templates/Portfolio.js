@@ -39,9 +39,6 @@ export const pageQuery = graphql`
     markdownRemark(frontmatter: { slug: { eq: $slug } }) {
       html
       frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        subtitle
         bannerImage {
           childImageSharp {
             original {
@@ -49,6 +46,9 @@ export const pageQuery = graphql`
             }
           }
         }
+        date(formatString: "MMMM DD, YYYY")
+        subtitle
+        title
       }
     }
   }

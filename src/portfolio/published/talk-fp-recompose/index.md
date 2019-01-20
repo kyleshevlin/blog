@@ -1,8 +1,9 @@
 ---
 date: '2017-10-21'
-slug: 'talk-fp-recompose'
+slug: 'functional-programming-and-recompose'
 status: 'published'
-title: 'Talk: FP & Recompose'
+shortTitle: 'FP & Recompose'
+title: 'Functional Programming & Recompose'
 squareImage: './images/Recompose-Logo.png'
 ---
 

@@ -43,11 +43,9 @@ const Portfolio = ({ data }) => {
 
       <div css={itemsWrapStyles}>
         {publishedItems.map(item => {
-          const {
-            frontmatter: { slug, squareImage, title }
-          } = item
+          const { frontmatter } = item
 
-          return <PortfolioItem key={slug} {...{ slug, squareImage, title }} />
+          return <PortfolioItem key={frontmatter.slug} {...frontmatter} />
         })}
       </div>
 
@@ -83,11 +81,12 @@ export const query = graphql`
       edges {
         node {
           frontmatter {
-            title
+            shortTitle
             slug
             squareImage {
               publicURL
             }
+            title
           }
         }
       }
