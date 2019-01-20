@@ -16,6 +16,10 @@ const Contact = () => (
       <a href="https://linkedin.com/in/kyleshevlin">LinkedIn</a> about once a
       week.
     </p>
+    <p>
+      If you're looking for my resume, you can find it at{' '}
+      <a href="https://kyleshevlin.github.io">kyleshevlin.github.io</a>.
+    </p>
   </Fragment>
 )
 
