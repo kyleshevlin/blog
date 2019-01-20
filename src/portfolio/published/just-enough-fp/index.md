@@ -10,4 +10,6 @@ In 2017, I became fascinated with functional programming and gave a version of t
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-4QNj7TJjgo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-[Link to Video](https://www.youtube.com/watch?v=-4QNj7TJjgo) [Link to Slides](https://kyleshevlin.github.io/just-enough-fp)
+[Link to Video](https://www.youtube.com/watch?v=-4QNj7TJjgo)
+
+[Link to Slides](https://kyleshevlin.github.io/just-enough-fp)
