@@ -36,7 +36,10 @@ export default Portfolio
 
 export const pageQuery = graphql`
   query PortfolioQuery($slug: String!) {
-    markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+    markdownRemark(
+      fileAbsolutePath: { regex: "/portfolio/" }
+      frontmatter: { slug: { eq: $slug } }
+    ) {
       html
       frontmatter {
         bannerImage {
