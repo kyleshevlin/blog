@@ -1,6 +1,7 @@
 ---
 categories: ['JavaScript', 'Web Development']
 date: '2019-01-21'
+keywords: ['state machines', 'finite state automata']
 slug: 'what-are-state-machines'
 tags: ['State Machines']
 title: 'State Machines: What Are They?'

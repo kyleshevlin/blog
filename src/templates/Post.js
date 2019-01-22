@@ -24,12 +24,20 @@ const nextOrPreviousHeading = {
 const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
   const {
     html,
-    frontmatter: { categories, coverImage, date, subtitle, tags, title }
+    frontmatter: {
+      categories,
+      coverImage,
+      date,
+      keywords,
+      subtitle,
+      tags,
+      title
+    }
   } = data.markdownRemark
 
   return (
     <Fragment>
-      <Seo title={title} />
+      <Seo title={title} keywords={keywords || []} />
 
       <div>
         {coverImage && (
@@ -83,11 +91,7 @@ export const pageQuery = graphql`
     ) {
       html
       frontmatter {
-        title
-        subtitle
-        date(formatString: "MMMM DD, YYYY")
         categories
-        tags
         coverImage {
           childImageSharp {
             original {
@@ -95,6 +99,11 @@ export const pageQuery = graphql`
             }
           }
         }
+        date(formatString: "MMMM DD, YYYY")
+        keywords
+        subtitle
+        tags
+        title
       }
     }
   }
