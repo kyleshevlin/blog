@@ -11,7 +11,7 @@ Defining and managing state in software is a difficult challenge. Even simple sy
 
 A state machine, more specifically a _finite_ state machine, is an API that enumerates all the possible (and thus finite) states of a system. For each of these states, a set of `events` is enumerated which defines the possible transitions between states. A state machine can _only_ ever be in a single state at a time and is only transitioned to a new state by an event.
 
-By defining all the finite possibilities of our machine's states and events, we've actually created a graph data structure describing our system. Each node represents a state, each edge a possible event from that state. There are a lot of cool things we can do with state machines because of this (like auto-generating visualizations of our system) that will be covered in future blog posts.
+By defining all the finite possibilities of our machine's states and events, we create a graph data structure describing our system. Each node represents a state, each edge a possible event from that state. There are a lot of cool things we can do with state machines because of this (like auto-generating visualizations of our system) that will be covered in future blog posts.
 
 ### A Simple Example
 
