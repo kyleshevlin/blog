@@ -28,6 +28,7 @@ const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
       categories,
       coverImage,
       date,
+      description,
       keywords,
       subtitle,
       tags,
@@ -37,7 +38,7 @@ const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
 
   return (
     <Fragment>
-      <Seo title={title} keywords={keywords || []} />
+      <Seo title={title} description={description} keywords={keywords || []} />
 
       <div>
         {coverImage && (
@@ -100,6 +101,7 @@ export const pageQuery = graphql`
           }
         }
         date(formatString: "MMMM DD, YYYY")
+        description
         keywords
         subtitle
         tags

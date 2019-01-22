@@ -10,12 +10,16 @@ const Portfolio = ({ data }) => {
   const portfolioItem = data.markdownRemark
   const {
     html,
-    frontmatter: { bannerImage, date, keywords, subtitle, title }
+    frontmatter: { bannerImage, date, description, keywords, subtitle, title }
   } = portfolioItem
 
   return (
     <Fragment>
-      <Seo title={`${title} | Portfolio`} keywords={keywords || []} />
+      <Seo
+        title={`${title} | Portfolio`}
+        description={description}
+        keywords={keywords || []}
+      />
 
       <div>
         {bannerImage && (
@@ -50,6 +54,7 @@ export const pageQuery = graphql`
           }
         }
         date(formatString: "MMMM DD, YYYY")
+        description
         keywords
         subtitle
         title
