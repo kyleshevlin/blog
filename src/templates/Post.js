@@ -55,7 +55,7 @@ const Post = ({
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
 
-        {relatedPosts ? <RelatedPosts posts={relatedPosts} /> : null}
+        {relatedPosts && <RelatedPosts posts={relatedPosts} />}
 
         {categories && (
           <PostCategoriesOrTags items={categories} type="category" />
