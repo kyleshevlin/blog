@@ -142,6 +142,6 @@ elevatorService.send('FOO')
 
 And with that, we've finished making our first state machine with XState. I hope that you find this helpful as you get started using the library. I'll cover all the important parts with more depth soon.
 
-If you'd like to see some of this code in action, you can check out this quick little I made below. Using only plain JavaScript, I added some buttons and a little "elevator" that the state machine controls. Try it out. I recommend hitting the "DOWN" button first, the elevator _will_ go through the roof if you don't!
+If you'd like to see some of this code in action, you can check out this quick CodeSandbox I made below. Using only plain JavaScript, I added some buttons and a little "elevator" that the state machine controls. Try it out. I recommend hitting the "DOWN" button first, the elevator _will_ go through the roof if you don't!
 
 <iframe src="https://codesandbox.io/embed/88nyv28ry0" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
