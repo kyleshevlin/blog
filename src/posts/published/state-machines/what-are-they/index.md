@@ -108,7 +108,7 @@ We can easily add methods and properties to this interface to enhance its functi
 ```javascript
 // ...inside the object returned from `interpreter`
 allEvents() {
-  const { events = {} } machine.states[currentState]
+  const { events = {} } = machine.states[currentState]
   return Object.keys(events)
 }
 
