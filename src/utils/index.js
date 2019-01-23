@@ -6,3 +6,6 @@ export const formatStrForPath = str =>
     .toLowerCase()
     .split(' ')
     .join('-')
+
+export const inflect = (singular, plural) => items =>
+  items.length === 1 ? singular : plural

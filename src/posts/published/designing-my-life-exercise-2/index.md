@@ -1,9 +1,10 @@
 ---
 categories: ['Designing My Life']
-date: "2018-06-25"
-slug: "designing-my-life-exercise-2"
-subtitle: "Workview & Lifeview Philosophies"
-title: "Designing My Life - Exercise 2"
+date: '2018-06-25'
+relatedPostsSlugs: ['designing-my-life-exercise-1']
+slug: 'designing-my-life-exercise-2'
+subtitle: 'Workview & Lifeview Philosophies'
+title: 'Designing My Life - Exercise 2'
 ---
 
 Chapter 2 of Designing Your Life (DYL) is about "Building a Compass". If we're going to be prototyping different ideas to improve our life, it will be useful to have some guidance and rationale for those decisions. A compass will point us in the right direction.
@@ -28,7 +29,7 @@ If money were not an issue, I would still work everyday, but simply for the sake
 
 Even this, is just work for the sake of creating. I derive no monetary value from my blog or YouTube channel. From an economic standpoint, this might be an irrational activity to partake in. But not all work is economic, in my opinion. Or perhaps a better way to put it, economics will fail to sufficiently explain why I enjoy work that I am not paid for. _Homo economicus_ is a myth.
 
-* * *
+---
 
 I believe that people intrinsically want to do _something_, that if money were not an issue, that the majority of people would find something meaningful to fill their time. This would be their _work_.
 
@@ -48,7 +49,7 @@ How dare someone prompt me to write a life philosophy and only give me 250 words
 
 Now, in that time, my lifeview has changed a lot. Drastically. Several times, actually. Here's where I'm at now.
 
-* * *
+---
 
 I have two beliefs that are perhaps not that common, but have a significant impact on how I view life.
 

@@ -34,10 +34,11 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               frontmatter {
-                title
-                slug
                 categories
+                relatedPostsSlugs
+                slug
                 tags
+                title
               }
             }
           }
@@ -85,16 +86,34 @@ exports.createPages = ({ graphql, actions }) => {
 
         // Create individual Post pages
         allPosts.forEach((post, index) => {
-          const { categories, slug, tags } = post.node.frontmatter
-          const next = allPosts[index + 1]
-          const previous = allPosts[index - 1]
+          const {
+            categories,
+            relatedPostsSlugs,
+            slug,
+            tags
+          } = post.node.frontmatter
+          const older = allPosts[index + 1]
+          const newer = allPosts[index - 1]
+          let relatedPosts = null
+
+          if (relatedPostsSlugs) {
+            relatedPosts = relatedPostsSlugs
+              .map(slug =>
+                allPosts.find(post => post.node.frontmatter.slug === slug)
+              )
+              .map(post => {
+                const { slug, title } = post.node.frontmatter
+                return { slug, title }
+              })
+          }
 
           createPage({
             path: slug,
             component: postTemplate,
             context: {
-              nextPost: next ? next.node : null,
-              previousPost: previous ? previous.node : null,
+              olderPost: older ? older.node : null,
+              newerPost: newer ? newer.node : null,
+              relatedPosts,
               slug
             }
           })

@@ -7,21 +7,25 @@ import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
+import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
-const nextOrPreviousWrapStyles = {
+const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
   paddingBottom: bs(0.25)
 }
 
-const nextOrPreviousHeading = {
+const newerOrOlderHeading = {
   fontFamily: FONTS.catamaran,
   fontWeight: 700
 }
 
-const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
+const Post = ({
+  data,
+  pageContext: { olderPost, newerPost, relatedPosts }
+}) => {
   const {
     html,
     frontmatter: {
@@ -51,26 +55,28 @@ const Post = ({ data, pageContext: { nextPost, previousPost } }) => {
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
 
+        {relatedPosts ? <RelatedPosts posts={relatedPosts} /> : null}
+
         {categories && (
           <PostCategoriesOrTags items={categories} type="category" />
         )}
 
         {tags && <PostCategoriesOrTags items={tags} type="tag" />}
 
-        {previousPost ? (
-          <div css={nextOrPreviousWrapStyles}>
-            <span css={nextOrPreviousHeading}>Previous Post: </span>
-            <Link to={previousPost.frontmatter.slug}>
-              {previousPost.frontmatter.title}
+        {newerPost ? (
+          <div css={newerOrOlderPostWrap}>
+            <span css={newerOrOlderHeading}>Newer Post: </span>
+            <Link to={newerPost.frontmatter.slug}>
+              {newerPost.frontmatter.title}
             </Link>
           </div>
         ) : null}
 
-        {nextPost ? (
-          <div css={nextOrPreviousWrapStyles}>
-            <span css={nextOrPreviousHeading}>Next Post: </span>
-            <Link to={nextPost.frontmatter.slug}>
-              {nextPost.frontmatter.title}
+        {olderPost ? (
+          <div css={newerOrOlderPostWrap}>
+            <span css={newerOrOlderHeading}>Older Post: </span>
+            <Link to={olderPost.frontmatter.slug}>
+              {olderPost.frontmatter.title}
             </Link>
           </div>
         ) : null}
