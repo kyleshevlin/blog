@@ -59,7 +59,8 @@ const GlobalStyles = () => (
       pre,
       pre[class*='language-'] {
         margin-top: 0;
-        margin-bottom: ${bs()};
+        margin-top: ${bs(1.5)};
+        margin-bottom: ${bs(1.5)};
         padding: ${bs(0.5)};
       }
 
@@ -110,6 +111,11 @@ const GlobalStyles = () => (
         height: 2px;
         margin-top: ${bs(2)};
         margin-bottom: ${bs(2)};
+      }
+
+      iframe[sandbox] {
+        margin-top: ${bs(0.5)};
+        margin-bottom: ${bs(0.5)};
       }
     `}
   />
