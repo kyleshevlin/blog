@@ -3,7 +3,7 @@ categories: ['JavaScript', 'Web Development']
 date: '2019-01-21'
 description: 'What is a state machine? A state machine is a way to represent all the enumerated possible states and events of a given system. In this article, we will create a rudimentary state machine and interpreter in JavaScript.'
 keywords: ['state machines', 'finite state automata']
-relatedPostsSlugs: ['our-first-xstate-machine']
+relatedPostsSlugs: ['our-first-xstate-machine', 'xstate-visualizer']
 slug: 'what-are-state-machines'
 tags: ['State Machines']
 title: 'State Machines: What Are They?'

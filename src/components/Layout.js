@@ -5,6 +5,7 @@ import ValueSell from './ValueSell'
 import Footer from './Footer'
 import Header from './Header'
 import FontFaces from '../styles/FontFaces'
+import Miscellaneous from '../styles/Miscellaneous'
 import Reset from '../styles/Reset'
 import Tags from '../styles/Tags'
 import Tweets from '../styles/Tweets'
@@ -18,6 +19,7 @@ const Layout = ({ children }) => (
     <Tags />
     <Typography />
     <Tweets />
+    <Miscellaneous />
 
     <Header />
     <main
