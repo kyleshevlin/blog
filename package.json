@@ -6,6 +6,7 @@
   "author": "Kyle Shevlin <kyle.a.shevlin@gmail.com>",
   "dependencies": {
     "@emotion/core": "^10.0.5",
+    "firebase": "^5.8.1",
     "gatsby": "^2.0.76",
     "gatsby-image": "^2.0.20",
     "gatsby-plugin-catch-links": "^2.0.9",

@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'lodash.debounce'
 import { darken } from 'polished'
-import { FONTS, COLORS } from '../constants'
-import { bs } from '../shevy'
 import Beard from '../components/icons/Beard'
+import { FONTS, COLORS } from '../constants'
+import { database } from '../firebase'
+import { bs } from '../shevy'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
 
@@ -34,23 +35,53 @@ function setClicksForPostInLocalStorage(slug, count) {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(update))
 }
 
+function addClicksToDatabase(slug, count, lastUpdateCount) {
+  database
+    .ref(`posts/${slug}`)
+    .once('value')
+    .then(snapshot => {
+      const value = snapshot.val()
+      const currentTotal = value ? value : 0
+
+      database
+        .ref('posts')
+        .child(slug)
+        // If we don't track and subtract the lastUpdateCount, then if a user
+        // leaves and comes back to a post, we'll be adding whatever clicks
+        // they had stored in localStorage AGAIN to the database if they choose
+        // to like the post some more.
+        .set(currentTotal + count - lastUpdateCount)
+    })
+}
+
 class BeardStrokes extends Component {
   state = {
-    count: getClicksForPostFromLocalStorage(this.props.slug)
+    count: getClicksForPostFromLocalStorage(this.props.slug),
+    lastUpdateCount: getClicksForPostFromLocalStorage(this.props.slug)
   }
 
   handleBeardClick = () => {
-    this.setState(
-      state => ({ count: Math.min(50, state.count + 1) }),
-      this.storeBeardClicks
+    this.setState(state =>
+      state.count >= 50 ? null : { count: Math.min(50, state.count + 1) }
     )
   }
 
   storeBeardClicks = debounce(() => {
     const { slug } = this.props
-    const { count } = this.state
+    const { count, lastUpdateCount } = this.state
+
     setClicksForPostInLocalStorage(slug, count)
+    addClicksToDatabase(slug, count, lastUpdateCount)
+    this.setState({ lastUpdateCount: count })
   }, 500)
+
+  componentDidUpdate() {
+    this.storeBeardClicks()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.count !== this.state.count
+  }
 
   render() {
     const { count } = this.state
