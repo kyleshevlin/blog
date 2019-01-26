@@ -199,20 +199,3 @@ exports.createPages = ({ graphql, actions }) => {
     )
   })
 }
-
-exports.onCreateWebpackConfig = ({ actions, stage }) => {
-  // This fix should allow firebase to build, according to:
-  // https://github.com/gatsbyjs/gatsby/issues/8612#issuecomment-428820523
-  if (stage === 'build-html') {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /firebase/,
-            use: ['null-loader']
-          }
-        ]
-      }
-    })
-  }
-}
