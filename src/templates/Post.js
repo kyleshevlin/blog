@@ -10,6 +10,7 @@ import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
+import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
@@ -54,6 +55,7 @@ const Post = ({
           />
         )}
         <PostDate date={date} />
+        <TotalBeardStrokes slug={slug} />
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
 

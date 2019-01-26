@@ -5,6 +5,7 @@ import PostDate from './PostDate'
 import PostHeader from './PostHeader'
 import PostContent from './PostContent'
 import PostCategoriesOrTags from './PostCategoriesOrTags'
+import TotalBeardStrokes from './TotalBeardStrokes'
 
 const ExcerptedPost = ({ post }) => {
   const {
@@ -15,6 +16,7 @@ const ExcerptedPost = ({ post }) => {
   return (
     <div css={{ marginBottom: bs(2) }}>
       <PostDate date={date} />
+      <TotalBeardStrokes slug={slug} />
       <PostHeader {...{ slug, subtitle, title }} />
       <PostContent content={excerpt} />
       <div css={{ marginBottom: bs() }}>
