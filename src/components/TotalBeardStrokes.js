@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { database } from '../firebase'
+import { getFirebase } from '../firebase'
 import Beard from './icons/Beard'
 import { inflect } from '../utils'
 import { COLORS, FONTS } from '../constants'
@@ -12,17 +12,23 @@ class TotalBeardStrokes extends Component {
   }
 
   componentDidMount() {
+    const lazyApp = import('firebase/app')
+    const lazyDatabase = import('firebase/database')
     const { slug } = this.props
 
-    database.ref(`posts/${slug}`).on('value', snapshot => {
-      const value = snapshot.val()
-      const update = { hasFetchedOnce: true }
+    Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {
+      const database = getFirebase(firebase).database()
 
-      if (value) {
-        update.count = value
-      }
+      database.ref(`posts/${slug}`).on('value', snapshot => {
+        const value = snapshot.val()
+        const update = { hasFetchedOnce: true }
 
-      this.setState(update)
+        if (value) {
+          update.count = value
+        }
+
+        this.setState(update)
+      })
     })
   }
 

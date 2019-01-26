@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce'
 import { darken } from 'polished'
 import Beard from '../components/icons/Beard'
 import { FONTS, COLORS } from '../constants'
-import { database } from '../firebase'
+import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
@@ -35,29 +35,32 @@ function setClicksForPostInLocalStorage(slug, count) {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(update))
 }
 
-function addClicksToDatabase(slug, count, lastUpdateCount) {
-  database
-    .ref(`posts/${slug}`)
-    .once('value')
-    .then(snapshot => {
-      const value = snapshot.val()
-      const currentTotal = value ? value : 0
+function addClicksToDatabase(database, slug, count, lastUpdateCount) {
+  if (database) {
+    database
+      .ref(`posts/${slug}`)
+      .once('value')
+      .then(snapshot => {
+        const value = snapshot.val()
+        const currentTotal = value ? value : 0
 
-      database
-        .ref('posts')
-        .child(slug)
-        // If we don't track and subtract the lastUpdateCount, then if a user
-        // leaves and comes back to a post, we'll be adding whatever clicks
-        // they had stored in localStorage AGAIN to the database if they choose
-        // to like the post some more.
-        .set(currentTotal + count - lastUpdateCount)
-    })
+        database
+          .ref('posts')
+          .child(slug)
+          // If we don't track and subtract the lastUpdateCount, then if a user
+          // leaves and comes back to a post, we'll be adding whatever clicks
+          // they had stored in localStorage AGAIN to the database if they choose
+          // to like the post some more.
+          .set(currentTotal + count - lastUpdateCount)
+      })
+  }
 }
 
 class BeardStrokes extends Component {
   state = {
-    count: getClicksForPostFromLocalStorage(this.props.slug),
-    lastUpdateCount: getClicksForPostFromLocalStorage(this.props.slug)
+    count: 0,
+    database: null,
+    lastUpdateCount: 0
   }
 
   handleBeardClick = () => {
@@ -68,12 +71,29 @@ class BeardStrokes extends Component {
 
   storeBeardClicks = debounce(() => {
     const { slug } = this.props
-    const { count, lastUpdateCount } = this.state
+    const { count, database, lastUpdateCount } = this.state
 
     setClicksForPostInLocalStorage(slug, count)
-    addClicksToDatabase(slug, count, lastUpdateCount)
+    addClicksToDatabase(database, slug, count, lastUpdateCount)
     this.setState({ lastUpdateCount: count })
   }, 500)
+
+  componentDidMount() {
+    const lazyApp = import('firebase/app')
+    const lazyDatabase = import('firebase/database')
+    const { slug } = this.props
+
+    Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {
+      const database = getFirebase(firebase).database()
+      const localCount = getClicksForPostFromLocalStorage(slug)
+
+      this.setState({
+        count: localCount,
+        database,
+        lastUpdateCount: localCount
+      })
+    })
+  }
 
   componentDidUpdate() {
     this.storeBeardClicks()

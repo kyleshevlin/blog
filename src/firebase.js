@@ -1,6 +1,3 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
-
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -10,8 +7,15 @@ const config = {
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 }
 
-firebase.initializeApp(config)
+// This function creates the Firebase singleton for the app
+let firebaseInstance
+export const getFirebase = firebase => {
+  if (firebaseInstance) {
+    return firebaseInstance
+  }
 
-export default firebase
+  firebase.initializeApp(config)
+  firebaseInstance = firebase
 
-export const database = firebase.database()
+  return firebase
+}
