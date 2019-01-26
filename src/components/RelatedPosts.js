@@ -5,7 +5,6 @@ import { inflect } from '../utils'
 
 const RelatedPosts = ({ posts }) => (
   <div css={{ marginBottom: bs(4) }}>
-    <hr />
     <p>
       If you enjoyed this post, you might also enjoy{' '}
       {inflect('this other related post.', 'these other related posts.')(posts)}

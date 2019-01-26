@@ -149,6 +149,7 @@ class BeardStrokes extends Component {
             </p>
           </div>
         </div>
+        <hr />
       </Fragment>
     )
   }
