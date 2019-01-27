@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
 import BannerImage from '../components/BannerImage'
+import BeardStrokes from '../components/BeardStrokes'
 import NewsletterCTA from '../components/NewsletterCTA'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
@@ -9,6 +10,7 @@ import PostContent from '../components/PostContent'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
+import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
@@ -34,6 +36,7 @@ const Post = ({
       date,
       description,
       keywords,
+      slug,
       subtitle,
       tags,
       title
@@ -52,8 +55,11 @@ const Post = ({
           />
         )}
         <PostDate date={date} />
+        <TotalBeardStrokes slug={slug} />
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
+
+        <BeardStrokes slug={slug} />
 
         {relatedPosts && <RelatedPosts posts={relatedPosts} />}
 
@@ -109,6 +115,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         description
         keywords
+        slug
         subtitle
         tags
         title

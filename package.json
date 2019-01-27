@@ -6,6 +6,7 @@
   "author": "Kyle Shevlin <kyle.a.shevlin@gmail.com>",
   "dependencies": {
     "@emotion/core": "^10.0.5",
+    "firebase": "^5.8.1",
     "gatsby": "^2.0.76",
     "gatsby-image": "^2.0.20",
     "gatsby-plugin-catch-links": "^2.0.9",
@@ -24,6 +25,7 @@
     "gatsby-source-filesystem": "^2.0.8",
     "gatsby-transformer-remark": "^2.1.19",
     "gatsby-transformer-sharp": "^2.1.8",
+    "lodash.debounce": "^4.0.8",
     "polished": "^2.3.1",
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
