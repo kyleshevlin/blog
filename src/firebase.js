@@ -14,7 +14,6 @@ export const getFirebase = firebase => {
     return firebaseInstance
   }
 
-  console.log(config)
   firebase.initializeApp(config)
   firebaseInstance = firebase
 
