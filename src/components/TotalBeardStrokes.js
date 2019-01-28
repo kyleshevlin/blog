@@ -56,7 +56,7 @@ class TotalBeardStrokes extends Component {
       >
         <Beard width={20} />
         <div>
-          {count} {inflect('stroke', 'strokes')(count)} bestowed
+          {count} {inflect('stroke', 'strokes', count)} bestowed
         </div>
       </div>
     ) : null

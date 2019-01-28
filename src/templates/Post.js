@@ -11,7 +11,7 @@ import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import { FONTS } from '../constants'
+import { FONTS, COLORS } from '../constants'
 import { bs } from '../shevy'
 
 const newerOrOlderPostWrap = {
@@ -59,33 +59,51 @@ const Post = ({
         <PostHeader {...{ subtitle, title }} />
         <PostContent content={html} />
 
-        <BeardStrokes slug={slug} />
-
-        {relatedPosts && <RelatedPosts posts={relatedPosts} />}
-
         {categories && (
           <PostCategoriesOrTags items={categories} type="category" />
         )}
 
         {tags && <PostCategoriesOrTags items={tags} type="tag" />}
 
-        {newerPost ? (
-          <div css={newerOrOlderPostWrap}>
-            <span css={newerOrOlderHeading}>Newer Post: </span>
-            <Link to={newerPost.frontmatter.slug}>
-              {newerPost.frontmatter.title}
-            </Link>
-          </div>
-        ) : null}
+        <BeardStrokes slug={slug} />
 
-        {olderPost ? (
-          <div css={newerOrOlderPostWrap}>
-            <span css={newerOrOlderHeading}>Older Post: </span>
-            <Link to={olderPost.frontmatter.slug}>
-              {olderPost.frontmatter.title}
-            </Link>
-          </div>
-        ) : null}
+        {relatedPosts && <RelatedPosts posts={relatedPosts} />}
+
+        <div
+          css={{
+            backgroundColor: COLORS.lightGray,
+            fontFamily: FONTS.catamaran,
+            fontStyle: 'italic',
+            padding: bs(),
+            marginBottom: bs(2)
+          }}
+        >
+          Spot a typo? Submit a PR with the fix! This entire blog is open
+          sourced at{' '}
+          <a href="https://github.com/kyleshevlin/blog">
+            https://github.com/kyleshevlin/blog
+          </a>
+        </div>
+
+        <div css={{ marginTop: bs(2) }}>
+          {newerPost ? (
+            <div css={newerOrOlderPostWrap}>
+              <span css={newerOrOlderHeading}>Newer Post: </span>
+              <Link to={newerPost.frontmatter.slug}>
+                {newerPost.frontmatter.title}
+              </Link>
+            </div>
+          ) : null}
+
+          {olderPost ? (
+            <div css={newerOrOlderPostWrap}>
+              <span css={newerOrOlderHeading}>Older Post: </span>
+              <Link to={olderPost.frontmatter.slug}>
+                {olderPost.frontmatter.title}
+              </Link>
+            </div>
+          ) : null}
+        </div>
 
         <PostAuthor />
         <NewsletterCTA />

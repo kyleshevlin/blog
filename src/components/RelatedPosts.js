@@ -1,14 +1,20 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import { FONTS } from '../constants'
 import { bs } from '../shevy'
 import { inflect } from '../utils'
 
 const RelatedPosts = ({ posts }) => (
-  <div css={{ marginBottom: bs(4) }}>
-    <p>
-      If you enjoyed this post, you might also enjoy{' '}
-      {inflect('this other related post.', 'these other related posts.')(posts)}
-    </p>
+  <div css={{ marginBottom: bs(2) }}>
+    <div
+      css={{
+        fontFamily: FONTS.catamaran,
+        fontWeight: 'bold',
+        marginBottom: bs(0.5)
+      }}
+    >
+      Related {inflect('Post', 'Posts', posts)}:
+    </div>
 
     <div>
       {posts.map(({ slug, title }) => (
