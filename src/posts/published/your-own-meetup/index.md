@@ -1,6 +1,6 @@
 ---
 categories: ['Community', 'Personal Growth']
-date: '2019-01-31'
+date: '2019-02-02'
 description: "People express FOMO regarding our regular gatherings for drinks and conversation here in Portland. I think you can start your own gathering and here's why."
 keywords: ['gathering', 'meetups', 'Portland']
 slug: 'your-own-gathering'
