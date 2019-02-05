@@ -101,7 +101,7 @@ const elevatorService = interpret(elevatorMachine)
   .start() // 'stop'
 ```
 
-Now we cause use the `send` method on our `elevatorService` to send events and update the state.
+Now we can use the `send` method on our `elevatorService` to send events and update the state.
 
 ```javascript
 elevatorService.send('UP') // 'up'
@@ -109,7 +109,7 @@ elevatorService.send('DOWN') // 'down'
 elevatorService.send('STOP') // 'stop'
 ```
 
-Now, what happens if we send an event that's not one of the enumerated possibilities?
+Now, what happens if we send an event that's _not_ one of the enumerated possibilities?
 
 ```javascript
 elevatorService.send('FOO') // 'stop'
