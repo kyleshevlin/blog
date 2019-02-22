@@ -82,7 +82,7 @@ When I first came to React, my mental model treated components and the UI as a 1
 
 It is a perfectly legitimate use of a component to `render () { return null }`. This is particularly helpful when you need logic to exist that updates your store, but has no associated UI. In this case, you're making a container component that doesn't return any presentational components. For now, I call this a _renderless component_. This is an incredibly useful pattern.
 
-For a project I am working on, I need to update a value in my store, `currentTime`, with the current hours, minutes, and seconds. Since Redux requires reducers to be pure, the logic for updating the time must be in the action itself or passed to the action creator function as parameters. This means, I need a component to setup an interval to dispatch a function that will in turn update my store. Here's what a component like that might look like:
+For a project I am working on, I need to update a value in my store, `currentTime`, with the current hours, minutes, and seconds. Since Redux requires reducers to be pure, the logic for updating the time must be in the action itself or passed to the action creator function as parameters. This means, I need a component to set up an interval to dispatch a function that will in turn update my store. Here's what a component like that might look like:
 
 ```javascript
 import { Component, PropTypes } from 'react'
