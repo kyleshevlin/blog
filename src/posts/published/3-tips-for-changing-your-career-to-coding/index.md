@@ -34,11 +34,11 @@ Being a developer means going through waves of competency and struggle. As painf
 
 ### 3\. It's Probably Going to Take Longer Than You Thought
 
-We've all heard the story of so-and-so who was able to change their life entirely in just three months. That spunky person who went from minimum wage to six-figure salaries over night, all by learning to code.
+We've all heard the story of so-and-so who was able to change their life entirely in just three months. That spunky person who went from minimum wage to six-figure salaries overnight, all by learning to code.
 
 This is the exception, not the rule.
 
-The rule is you will in all likelihood, _eventually_ make a pretty good salary. The rule is you will likely get benefits you enjoy and find some decent challenges to overcome. But it often doesn't happen over night.
+The rule is you will in all likelihood, _eventually_ make a pretty good salary. The rule is you will likely get benefits you enjoy and find some decent challenges to overcome. But it often doesn't happen overnight.
 
 I think you should expect to put in about a year and a half of solid coding, that is doing some amount of coding, deliberate practice, most days for that time. It's not that you're not smart enough or capable enough sooner, but that a year and a half is about the amount of time it often takes to be comfortable enough with your new skills to pass an interview, build up enough projects to prove your new skills, and probably build up a network enough to even have places to apply. Be patient with yourself. You can do this.
 
