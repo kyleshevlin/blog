@@ -46,7 +46,7 @@ const Pagination = ({ index: currentPageIndex, totalPages }) => {
       {currentPageIndex !== 0 ? (
         <Link
           css={itemStyles}
-          to={prevPageNumber === 0 ? '/' : `/page-${prevPageNumber}`}
+          to={prevPageNumber > 1 ? `/page-${prevPageNumber}` : `/`}
         >
           Previous
         </Link>
