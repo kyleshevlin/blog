@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Container from './Container'
-import ValueSell from './ValueSell'
 import Footer from './Footer'
 import Header from './Header'
+import NewsletterCTA from './NewsletterCTA'
+import ValueSell from './ValueSell'
 import FontFaces from '../styles/FontFaces'
 import Miscellaneous from '../styles/Miscellaneous'
 import Reset from '../styles/Reset'
@@ -20,7 +21,6 @@ const Layout = ({ children }) => (
     <Typography />
     <Tweets />
     <Miscellaneous />
-
     <Header />
     <main
       css={{
@@ -31,6 +31,7 @@ const Layout = ({ children }) => (
     >
       <Container>{children}</Container>
     </main>
+    <NewsletterCTA />
     <ValueSell />
     <Footer />
   </Fragment>

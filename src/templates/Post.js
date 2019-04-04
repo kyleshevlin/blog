@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
-import NewsletterCTA from '../components/NewsletterCTA'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -106,7 +105,6 @@ const Post = ({
         </div>
 
         <PostAuthor />
-        <NewsletterCTA />
       </div>
     </Fragment>
   )
