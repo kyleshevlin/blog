@@ -9,7 +9,9 @@ const ValueSell = () => (
   <StaticQuery
     query={graphql`
       query EggheadCourseImage {
-        allImageSharp(filter: { original: { src: { regex: "/DSA/" } } }) {
+        allImageSharp(
+          filter: { original: { src: { regex: "/Just-Enough/" } } }
+        ) {
           edges {
             node {
               id
@@ -24,7 +26,7 @@ const ValueSell = () => (
     render={data => {
       const { src } = data.allImageSharp.edges[0].node.original
       const eggheadUrl =
-        'https://egghead.io/courses/data-structures-and-algorithms-in-javascript'
+        'https://egghead.io/courses/just-enough-functional-programming-in-javascript'
 
       return (
         <div
@@ -64,7 +66,7 @@ const ValueSell = () => (
                       }
                     }}
                     src={src}
-                    alt="Data Structures and Algorithms in JavaScript Logo"
+                    alt="Just Enough Functional Programming in JavaScript Logo"
                   />
                 </a>
               </div>
@@ -78,7 +80,7 @@ const ValueSell = () => (
               >
                 <h2>Check out my latest course on Egghead!</h2>
                 <a href={eggheadUrl}>
-                  <h3>Data Structures and Algorithms in JavaScript</h3>
+                  <h3>Just Enough Functional Programming in JavaScript</h3>
                 </a>
               </div>
             </div>
