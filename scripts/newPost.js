@@ -1,3 +1,11 @@
+/*
+ * This script is designed to create the directory structure and necessary files
+ * for a new blog post.
+ *
+ * Parameters:
+ * dirName: string - A hyphenated directory name
+ */
+
 const fs = require('fs')
 const path = require('path')
 
