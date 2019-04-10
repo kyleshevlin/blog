@@ -9,6 +9,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    'gatsby-transformer-json',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -28,6 +29,13 @@ module.exports = {
       options: {
         name: `portfolio`,
         path: `${__dirname}/src/portfolio/published`
+      }
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'courses',
+        path: `${__dirname}/src/courses`
       }
     },
     `gatsby-transformer-sharp`,
