@@ -1,6 +1,6 @@
 ---
-categories: ['JavaScript', 'Web Development']
-tags: ['Functional Programming']
+categories: ['JavaScript', 'Web Development', 'Functional Programming']
+tags: ['Just Enough FP']
 date: '2019-03-22'
 slug: 'just-enough-functional-programming-course-launch'
 title: 'Just Enough Functional Programming Course Launch'
@@ -28,3 +28,17 @@ In just 30 minutes, you'll learn more than "just enough".
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Alright, who of you is excited to learn &quot;just enough&quot; functional programming this weekend? I teach you an almost jargon-less introduction to FP to whet your appetite. Enjoy on <a href="https://twitter.com/eggheadio?ref_src=twsrc%5Etfw">@eggheadio</a>! <a href="https://t.co/PfdODXviOG">https://t.co/PfdODXviOG</a></p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1109158892469010432?ref_src=twsrc%5Etfw">March 22, 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+Here's the course intro video. Give it a watch!
+
+<div style="position: relative; overflow: hidden; padding-top: 56.25%;">
+  <iframe style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    "
+    src="https://egghead.io/lessons/javascript-course-introduction-to-just-enough-functional-programming-in-javascript/embed" />
+</div>
