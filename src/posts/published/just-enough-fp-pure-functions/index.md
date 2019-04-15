@@ -104,7 +104,7 @@ In my opinion, your goal should be to use more pure functions in your applicatio
 
 ---
 
-_In this series, I'm going over material from my [Just Enough Functional Programming in JavaScript](https://egghead.io/courses/just-enough-functional-programming-in-javascript) course on egghead. This post is based on the lesson [Modify Functions with Higher Order Functions in JavaScript](https://egghead.io/lessons/javascript-modify-functions-with-higher-order-functions-in-javascript)._
+_In this series, I'm going over material from my [Just Enough Functional Programming in JavaScript](https://egghead.io/courses/just-enough-functional-programming-in-javascript) course on egghead. This post is based on the lesson [Identify Side Effects by Comparing Pure and Impure Functions](https://egghead.io/lessons/javascript-identify-side-effects-by-comparing-pure-and-impure-javascript-functions-342b2167)._
 
 <div style="position: relative; overflow: hidden; padding-top: 56.25%;">
   <iframe style="
@@ -115,5 +115,5 @@ _In this series, I'm going over material from my [Just Enough Functional Program
       height: 100%;
       border: 0;
     "
-    src="https://egghead.io/lessons/javascript-modify-functions-with-higher-order-functions-in-javascript/embed" />
+    src="https://egghead.io/lessons/javascript-identify-side-effects-by-comparing-pure-and-impure-javascript-functions-342b2167/embed" />
 </div>
