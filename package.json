@@ -50,6 +50,7 @@
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.5",
     "babel-preset-gatsby": "^0.1.6",
+    "gatsby-plugin-remove-trailing-slashes": "^2.0.10",
     "prettier": "^1.15.2"
   },
   "repository": {
