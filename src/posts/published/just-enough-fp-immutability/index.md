@@ -103,7 +103,7 @@ The biggest downside to immutability has to do with memory consumption. Creating
 
 Understanding the difference between mutable and immutable data structures is very useful information. Being able to look at code and recognize mutations will really help you understand what transformations your data is going through and may even help you spot a bug or two.
 
-In functional programming, we require immutable changes because of the purity of our functions. Mutations cannot make the guarantees immutable data can. Mutations can lead to inconsistent results and/or side effects, and we can't have the if we're really going to unlock the power of functions in coming posts.
+In functional programming, we require immutable changes because of the purity of our functions. Mutations cannot make the guarantees immutable data can. Mutations can lead to inconsistent results and/or side effects, and we can't have that if we're really going to unlock the power of functions in coming posts.
 
 ---
 
