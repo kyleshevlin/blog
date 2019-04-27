@@ -64,14 +64,14 @@ Let's consider the array method `filter`. `filter` receives a predicate function
 const filter = predicate => array => array.filter(predicate)
 ```
 
-Our function receives the `predicate` argument first, returns a new function that awaits the `array` and then evaluates and returns the result. Let's create a callback and pass it to filter.
+Our function receives the `predicate` argument first, returns a new function that awaits the `array` and then evaluates and returns the result. Let's create a predicatge and pass it to filter.
 
 ```javascript
 const filter = predicate => array => array.filter(predicate)
 const filterForEvens = filter(x => x % 2 === 0)
 ```
 
-We have now created a new function, `filterForEvens` which has the predicate partially applied. This predicate returns true if dividing by zero returns a remainder of 0. The `filterForEvens` function awaits an an `array` argument. So let's give it some arrays.
+We have now created a new function, `filterForEvens` which has the predicate partially applied. This predicate returns true if dividing by two returns a remainder of 0. The `filterForEvens` function awaits an an `array` argument. So let's give it some arrays.
 
 ```javascript
 const filter = predicate => array => array.filter(predicate)
