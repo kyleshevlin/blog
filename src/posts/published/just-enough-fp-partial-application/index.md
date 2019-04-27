@@ -119,7 +119,7 @@ You can see how partial application gives us a lot of useful, reusable functions
 
 Partial application can be done without currying (though I've never had a reason to do so). The `bind` method on functions allows you to supply arguments to the function that are applied to the new returned function ([docs here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)).
 
-The first argument of `bind` is the `thisArg`. This argument will be bound to `this` for the new function. We're going to pass in null, because we don't want anything bound to `this`.
+The first argument of `bind` is the `thisArg`. This argument will be bound to `this` for the new function. We're going to pass in `null`, because we don't want anything bound to `this`.
 
 Any argument passed to `bind` after the the `thisArg` is partially applied as an argument to the function. We can pass any number of arguments, and if we pass in fewer than the function expects, we'll get a partially applied function.
 
