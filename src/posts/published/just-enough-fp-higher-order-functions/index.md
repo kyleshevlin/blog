@@ -4,6 +4,11 @@ tags: ['Just Enough FP']
 date: '2019-04-08'
 slug: 'just-enough-fp-higher-order-functions'
 title: 'Just Enough FP: Higher Order Functions'
+relatedPostsSlugs: [
+  'just-enough-fp-pure-functions',
+  'just-enough-fp-immutability',
+  'just-enough-fp-currying'
+]
 ---
 
 Making sense of functional programming requires a solid understanding of a few fundamental concepts. In my opinion, the first one you need to learn is the concept of "higher order functions".
@@ -21,7 +26,7 @@ Often, a higher order function will fulfill both criteria.
 
 ### Why Are Higher Order Functions Useful?
 
-There are several reasons higher order functions useful, including some that I will cover in future blog posts about _currying_, _partial application_, and _composition_. For now, I'll talk about more general uses of higher order functions.
+There are several reasons higher order functions useful, including some that I will cover in future blog posts about [_currying_](/just-enough-fp-currying), _partial application_, and _composition_. For now, I'll talk about more general uses of higher order functions.
 
 #### Hiding Implementation Details
 

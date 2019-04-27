@@ -4,6 +4,11 @@ tags: ['Just Enough FP']
 date: '2019-04-21'
 slug: 'just-enough-fp-immutability'
 title: 'Just Enough FP: Immutability'
+relatedPostsSlugs: [
+  'just-enough-fp-higher-order-functions',
+  'just-enough-fp-pure-functions',
+  'just-enough-fp-currying'
+]
 ---
 
 Alright, I know that the title of this post already contains some technical jargon that's potentially intimidating. But if you've made it this far, I assure you, you can understand this concept.

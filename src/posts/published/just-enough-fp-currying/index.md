@@ -4,6 +4,11 @@ tags: ['Just Enough FP']
 date: '2019-04-26'
 slug: 'just-enough-fp-currying'
 title: 'Just Enough FP: Currying'
+relatedPostsSlugs: [
+  'just-enough-fp-higher-order-functions',
+  'just-enough-fp-pure-functions',
+  'just-enough-fp-immutability'
+]
 ---
 
 Currying is, by far, one of the coolest things I've learned in the last few years. When it clicked in my brain, it was such an intense epiphany that I literally ran to the other room and begged my wife to join me in the office so I could explain it to her on the whiteboard. She doesn't know a thing about programming, but she listened to me. "Yeah, Kyle, that _kinda_ makes sense." Ha. I just had to share it with the first person I could find. Bless her for putting up with me.

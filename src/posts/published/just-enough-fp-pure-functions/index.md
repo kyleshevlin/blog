@@ -4,6 +4,11 @@ tags: ['Just Enough FP']
 date: '2019-04-14'
 slug: 'just-enough-fp-pure-functions'
 title: 'Just Enough FP: Pure Functions'
+relatedPostsSlugs: [
+  'just-enough-fp-higher-order-functions',
+  'just-enough-fp-immutability',
+  'just-enough-fp-currying'
+]
 ---
 
 Another fundamental of functional programming is a solid understanding of pure functions. A pure function is one in which its output is derived solely from its inputs, with no side effects. I know that might still seem like gibberish to some of you, so I'll break this down and hopefully make it simple and clear.
