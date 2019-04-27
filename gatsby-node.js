@@ -86,12 +86,7 @@ exports.createPages = ({ graphql, actions }) => {
 
         // Create individual Post pages
         allPosts.forEach((post, index) => {
-          const {
-            categories,
-            relatedPostsSlugs,
-            slug,
-            tags
-          } = post.node.frontmatter
+          const { relatedPostsSlugs, slug } = post.node.frontmatter
           const older = allPosts[index + 1]
           const newer = allPosts[index - 1]
           let relatedPosts = null
