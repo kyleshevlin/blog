@@ -1,0 +1,152 @@
+---
+categories: ['JavaScript', 'Web Development', 'Functional Programming']
+tags: ['Just Enough FP']
+date: '2019-04-27'
+slug: 'just-enough-fp-partial-application'
+title: 'Just Enough FP: Partial Application'
+relatedPostsSlugs: [
+  'just-enough-fp-higher-order-functions',
+  'just-enough-fp-pure-functions',
+  'just-enough-fp-immutability',
+  'just-enough-fp-currying'
+]
+---
+
+I mentioned partial application several times in my previous post on [currying](/just-enough-fp-currying) with the promise of going in more detail about it in the future. I'm fulfilling that promise now. Or resolving. There's an easy pun or two there if you look for them.
+
+Partial application is the act of applying some, but not all, of the arguments to a function and returning a new function awaiting the rest of the arguments. These applied arguments are stored in closure and remain available to any of the partially applied returned functions in the future. For those of you who are unfamiliar with closures, let me break that down for you.
+
+In JavaScript, we can use scopes in a way that allow us to supply state to a function or object, without exposing that state directly to the outside world. This process is called a closure. Let me give you an example.
+
+```javascript
+function withCallCount(fn) {
+  let count = 0
+
+  return (...args) => {
+    console.log(`This function has been called ${count++} times`)
+    fn(...args)
+  }
+}
+
+const add = (x, y) => x + y
+const addWithCount = withCallCount(add)
+
+addWithCount(2, 4) // This function has been called 1 times
+addWithCount(7, 5) // This function has been called 2 times
+addWithCount(2, 4) // This function has been called 3 times
+```
+
+So what's going on here? The `withCallCount` function creates a variable `count` that is restricted to the scope of that function body. I cannot access it from outside that function. However, the anonymous function I return makes use of `count`, so that value will remain available to the returned function for as long as it exists. Thus, the new function `addWithCount` is able to log out the state of the `count` with each call.
+
+Closures can get much more complex than this, but essentially it boils down to creating state within one scope and not exposing it, but using it, in another.
+
+With this in mind, partial application should start to click. Let's take our curried `add` function from the previous lesson and point out the closure over the `x` argument. I find it easier to point out the closure using the `function` keyword, so I'll do that here, but know that the same thing occurs when using arrow functions.
+
+```javascript
+function add(x) {
+  // `x` is held in closure here, it remains available to the returned function
+  // because it is used in the final return of `x + y`
+  return function(y) {
+    return x + y
+  }
+}
+```
+
+Now, if I take this function and only give it one argument, we can see how that value is stored in the new function and able to be reused over and over
+
+```javascript
+const add6 = add(6)
+
+console.log(add6(4)) // 10
+console.log(add6(20)) // 26
+console.log(add6(-14)) // -8
+```
+
+The same `x` value, in this case `6`, is held in closure for each call we make of the `add6` function. If we use our imaginations a bit, we can find a lot of great examples where this is useful.
+
+For example, let's imagine I need to fetch different resources from the same API. I can generate different endpoints quickly with partial application. Let's create an example with the Github API
+
+```javascript
+const getFromAPI = baseURL => endpoint => cb =>
+  fetch(`${baseURL}${endpoint}`)
+    .then(res => res.json())
+    .then(data => cb(data))
+    .catch(err => { console.log(err) })
+
+const getFromGithub = getFromAPI('https://api.github.com')
+
+// Now we have a partially applied getFromGithub function we can apply
+// different endpoints to
+const getUsersFromGithub = getFromGithub('/users')
+const getReposFromGithub = getFromGithub('/repositories')
+
+// Now I have two new partially applied functions. I can use
+// different callbacks with each, and do something with the data
+
+// Log out their logins
+getUsersFromGithub(data => {
+  data.map(user => {
+    console.log(user.login)
+  })
+})
+// ["mojombo", "defunkt", "pjhyett", "wycatz", ...]
+
+// Log out their avatar urls
+getUsersFromGithub(data => {
+  data.map(user => {
+    console.log(user.avatar_url)
+  })
+})
+// [
+//  "https://avatars0.githubusercontent.com/u/1?v=4",
+//  "https://avatars0.githubusercontent.com/u/2?v=4",
+//  "https://avatars0.githubusercontent.com/u/3?v=4",
+//  "https://avatars0.githubusercontent.com/u/4?v=4",
+// ]
+
+// Or I can get some repos and logout their names
+getReposFromGithub(data => {
+  data.map(repo => {
+    console.log(repo.name)
+  })
+})
+// ['grit', 'merb-core', 'rubinius', 'god', 'jsawesome']
+```
+
+You can see how partial application gives us a lot of useful, reusable functions we can pass around our app and reduces how much code we need to write in later uses.
+
+### Bonus
+
+Partial application can be done without currying (though I've never had a reason to do so). The `bind` method on functions allows you to supply arguments to the function that are applied to the new returned function.
+
+```javascript
+const multiply = (x, y) => x * y
+
+const multiply7 = multiply.bind(null, 7)
+
+console.log(multiply7(3)) // 21
+console.log(multiply7(4)) // 28
+console.log(multiply7(5)) // 35
+```
+
+So if writing curried functions isn't available to you for some reason (breaking change to API, frightened coworkers, etc) and you still want to create partially applied functions, here's an option for you.
+
+### Conclusion
+
+Partial application is just the natural combination of curried functions and closures. Arguments previously applied are stored and available to the new functions returned. This process could lead to easier to write and understand code, though you'll have to decide what's useful for you (and your team).
+
+---
+
+_In this series, I'm going over material from my [Just Enough Functional Programming in JavaScript](https://egghead.io/courses/just-enough-functional-programming-in-javascript) course on egghead. This post is based on the lesson [Create Reusable Functions with Partial Application in JavaScript](https://egghead.io/lessons/javascript-create-reusable-functions-with-partial-application-in-javascript)._
+
+<div style="position: relative; overflow: hidden; padding-top: 56.25%;">
+  <iframe style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    "
+    src="https://egghead.io/lessons/javascript-create-reusable-functions-with-partial-application-in-javascript/embed" />
+</div>

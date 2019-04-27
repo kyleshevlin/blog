@@ -7,7 +7,8 @@ title: 'Just Enough FP: Immutability'
 relatedPostsSlugs: [
   'just-enough-fp-higher-order-functions',
   'just-enough-fp-pure-functions',
-  'just-enough-fp-currying'
+  'just-enough-fp-currying',
+  'just-enough-fp-partial-application'
 ]
 ---
 

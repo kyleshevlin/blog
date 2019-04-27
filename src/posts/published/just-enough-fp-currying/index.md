@@ -7,7 +7,8 @@ title: 'Just Enough FP: Currying'
 relatedPostsSlugs: [
   'just-enough-fp-higher-order-functions',
   'just-enough-fp-pure-functions',
-  'just-enough-fp-immutability'
+  'just-enough-fp-immutability',
+  'just-enough-fp-partial-application'
 ]
 ---
 
@@ -59,7 +60,7 @@ add2(3) // 5
 add(4)(6) // 10
 ```
 
-Our curried function receives the `x` and `y` arguments one at a time. When we receive the `x` argument, we return a new function awaiting the `y`. This new function has our `x` value stored in closure. This is known as _partial application_. Partial application is a very powerful feature of currying that I'll explore in more detail in the next post, but for now just keep following along and try to grok it through context. It'll be ok.
+Our curried function receives the `x` and `y` arguments one at a time. When we receive the `x` argument, we return a new function awaiting the `y`. This new function has our `x` value stored in closure. This is known as [_partial application_](/just-enough-fp-partial-application). Partial application is a very powerful feature of currying that I'll explore in more detail in the [next post](/just-enough-fp-partial-application), but for now just keep following along and try to grok it through context. It'll be ok.
 
 If you're following with me, you now understand what currying is, but are probably still confused as to why this is an important technique. I'm going to give you an example that admittedly will skip ahead a bit, but should show you some of what gets unlocked when functions are curried.
 
