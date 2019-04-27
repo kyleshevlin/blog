@@ -81,7 +81,7 @@ const arr1 = [1, 2, 3, 4, 5, 6, 7]
 const arr2 = [1, 4, 9, 16, 25, 36, 49]
 const arr3 = [1, 8, 27, 64, 125, 216, 343]
 
-filterForEvens(arr1) // [2, 4]
+filterForEvens(arr1) // [2, 4, 6]
 filterForEvens(arr2) // [4, 16, 36]
 filterForEvens(arr3) // [8, 64, 216]
 ```
