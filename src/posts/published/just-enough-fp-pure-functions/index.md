@@ -8,7 +8,8 @@ relatedPostsSlugs: [
   'just-enough-fp-higher-order-functions',
   'just-enough-fp-immutability',
   'just-enough-fp-currying',
-  'just-enough-fp-partial-application'
+  'just-enough-fp-partial-application',
+  'just-enough-fp-argument-order'
 ]
 ---
 
