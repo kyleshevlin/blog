@@ -6,7 +6,12 @@ import Pagination from '../components/Pagination'
 
 const ExcerptList = ({ data, ...props }) => {
   const { index, totalPages } = props.pageContext
-  const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
+  const posts = data.allMdx.edges
+    .map(edge => edge.node)
+    .map(node => ({
+      ...node,
+      excerpt: `<p>${node.excerpt}</p>`
+    }))
 
   return (
     <Fragment>
@@ -26,7 +31,7 @@ export default ExcerptList
 
 export const query = graphql`
   query ExcerptListQuery($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
@@ -42,7 +47,7 @@ export const query = graphql`
             categories
             tags
           }
-          excerpt(pruneLength: 300, format: HTML)
+          excerpt(pruneLength: 300)
         }
       }
     }

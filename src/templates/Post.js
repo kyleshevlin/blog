@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
+import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
 import PostAuthor from '../components/PostAuthor'
@@ -27,8 +28,10 @@ const Post = ({
   data,
   pageContext: { olderPost, newerPost, relatedPosts }
 }) => {
+  console.log(data)
+  const { md, mdx } = data
+  const file = md ? md : mdx
   const {
-    html,
     frontmatter: {
       categories,
       coverImage,
@@ -40,7 +43,7 @@ const Post = ({
       tags,
       title
     }
-  } = data.markdownRemark
+  } = file
 
   return (
     <Fragment>
@@ -56,7 +59,7 @@ const Post = ({
         <PostDate date={date} />
         <TotalBeardStrokes slug={slug} />
         <PostHeader {...{ subtitle, title }} />
-        <PostContent content={html} />
+        {renderContent(file)}
 
         {categories && (
           <PostCategoriesOrTags items={categories} type="category" />
@@ -114,7 +117,7 @@ export default Post
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    markdownRemark(
+    md: markdownRemark(
       fileAbsolutePath: { regex: "/posts/" }
       frontmatter: { slug: { eq: $slug } }
     ) {
@@ -137,5 +140,39 @@ export const pageQuery = graphql`
         title
       }
     }
+
+    mdx: mdx(
+      fileAbsolutePath: { regex: "/posts/" }
+      frontmatter: { slug: { eq: $slug } }
+    ) {
+      code {
+        body
+      }
+      frontmatter {
+        categories
+        coverImage {
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
+        date(formatString: "MMMM DD, YYYY")
+        description
+        keywords
+        slug
+        subtitle
+        tags
+        title
+      }
+    }
   }
 `
+
+const renderContent = file => {
+  if (file.html) {
+    return <PostContent content={file.html} />
+  }
+
+  return <MDXRenderer>{file.code.body}</MDXRenderer>
+}

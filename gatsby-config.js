@@ -11,7 +11,15 @@ module.exports = {
     {
       resolve: 'gatsby-mdx',
       options: {
-        extensions: ['.md, .mdx']
+        extensions: ['.mdx', '.md'],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: 'gatsby-remark-prismjs',
+            options: {
+              noInlineHighlight: true
+            }
+          }
+        ]
       }
     },
     `gatsby-plugin-react-helmet`,

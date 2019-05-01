@@ -27,7 +27,7 @@ exports.createPages = ({ graphql, actions }) => {
     const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
       {
-        posts: allMarkdownRemark(
+        posts: allMdx(
           filter: { fileAbsolutePath: { regex: "/posts/" } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
