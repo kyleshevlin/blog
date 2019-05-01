@@ -13,6 +13,8 @@ relatedPostsSlugs: [
 ]
 ---
 
+import EggheadEmbed from '../../../components/EggheadEmbed'
+
 I mentioned partial application several times in my previous post on [currying](/just-enough-fp-currying) with the promise of going in more detail about it in the future. I'm fulfilling that promise now. Or resolving. There's an easy pun or two there if you look for them.
 
 Partial application is the act of applying some, but not all, of the arguments to a function and returning a new function awaiting the rest of the arguments. These applied arguments are stored in closure and remain available to any of the partially applied returned functions in the future. For those of you who are unfamiliar with closures, let me break that down for you.
@@ -72,7 +74,9 @@ const getFromAPI = baseURL => endpoint => cb =>
   fetch(`${baseURL}${endpoint}`)
     .then(res => res.json())
     .then(data => cb(data))
-    .catch(err => { console.log(err) })
+    .catch(err => {
+      console.log(err)
+    })
 
 const getFromGithub = getFromAPI('https://api.github.com')
 
@@ -144,14 +148,7 @@ Partial application is just the natural combination of curried functions and clo
 
 _In this series, I'm going over material from my [Just Enough Functional Programming in JavaScript](https://egghead.io/courses/just-enough-functional-programming-in-javascript) course on egghead. This post is based on the lesson [Create Reusable Functions with Partial Application in JavaScript](https://egghead.io/lessons/javascript-create-reusable-functions-with-partial-application-in-javascript)._
 
-<div style="position: relative; overflow: hidden; padding-top: 56.25%;">
-  <iframe style="
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    "
-    src="https://egghead.io/lessons/javascript-create-reusable-functions-with-partial-application-in-javascript/embed" />
-</div>
+<EggheadEmbed
+  src="https://egghead.io/lessons/javascript-create-reusable-functions-with-partial-application-in-javascript/embed"
+  title="Partial Application"
+/>

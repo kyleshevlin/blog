@@ -13,6 +13,8 @@ relatedPostsSlugs: [
 ]
 ---
 
+import EggheadEmbed from '../../../components/EggheadEmbed'
+
 In a previous post on [currying](/just-enough-fp-currying), I used a `filter` function in a way that may have left you scratching your head. Not because you were still learning currying, but for other reasons. Let me quickly write that function again for reference in this post:
 
 ```javascript
@@ -65,7 +67,9 @@ const getFromAPI = baseURL => endpoint => callback =>
   fetch(`${baseURL}${endpoint}`)
     .then(res => res.json())
     .then(data => callback(data))
-    .catch(err => { console.log(err) })
+    .catch(err => {
+      console.log(err)
+    })
 ```
 
 If we examine a REST APIs URLs (so many acronyms, sorry), the part of the URL that changes the least (and in a good API, _never_) is the `baseURL`. If I want to fetch data from Github, I can make a partially applied function like this one:
@@ -94,15 +98,7 @@ Argument order in curried functions makes a big difference in how useful and reu
 
 _In this series, I'm going over material from my [Just Enough Functional Programming in JavaScript](https://egghead.io/courses/just-enough-functional-programming-in-javascript) course on egghead. This post is based on the lesson [Improve JavaScript Function Usability with Proper Argument Order in Functional Programming](https://egghead.io/lessons/javascript-improve-javascript-function-usability-with-proper-argument-order-in-functional-programming)._
 
-<div style="position: relative; overflow: hidden; padding-top: 56.25%;">
-  <iframe style="
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    "
-    src="https://egghead.io/lessons/javascript-improve-javascript-function-usability-with-proper-argument-order-in-functional-programming/embed" />
-</div>
-
+<EggheadEmbed
+  src="https://egghead.io/lessons/javascript-improve-javascript-function-usability-with-proper-argument-order-in-functional-programming/embed"
+  title="Argument Order"
+/>
