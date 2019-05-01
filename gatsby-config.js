@@ -8,6 +8,12 @@ module.exports = {
     siteUrl: 'https://kyleshevlin.com'
   },
   plugins: [
+    {
+      resolve: 'gatsby-mdx',
+      options: {
+        extensions: ['.md, .mdx']
+      }
+    },
     `gatsby-plugin-react-helmet`,
     'gatsby-transformer-json',
     {
