@@ -104,8 +104,8 @@ Let's make this pointfree and break up the steps of our algorithm.
 // Same strings as before
 
 const lowerCase = str => str.toLowerCase()
-const split => separator => str => str.split(separator)
-const join => separator => arr => arr.join(separator)
+const split = separator => str => str.split(separator)
+const join = separator => arr => arr.join(separator)
 
 const splitAtSpace = split(' ')
 const joinWithHyphen = join('-')
