@@ -11,9 +11,15 @@ const path = require('path')
 
 const POSTS_PATH = path.resolve('./src/posts/published')
 const dirName = process.argv[2]
+const flag = process.argv[3]
+let isMDX = false
 
 if (!dirName) {
   throw new Error('You need to supply a name for the new directory!')
+}
+
+if (flag && flag === '--mdx') {
+  isMDX = true
 }
 
 try {
@@ -43,7 +49,10 @@ title: '${title}'
 ---
 `.trim()
 
-  fs.writeFileSync(path.resolve(POSTS_PATH, dirName, 'index.md'), frontmatter)
+  fs.writeFileSync(
+    path.resolve(POSTS_PATH, dirName, `index.${isMDX ? 'mdx' : 'md'}`),
+    frontmatter
+  )
 } catch (err) {
   console.log(err)
 }
