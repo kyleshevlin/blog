@@ -1,0 +1,53 @@
+---
+date: '2019-05-17'
+slug: 'just-enough-fp-composition-practical-example'
+title: 'Just Enough FP: Composition: A Practical Example'
+---
+
+Because many of these Just Enough FP posts are theoretical with very simple examples, I am often asked to provide a more practical use case for some of these patterns. I wanted to take the time to share how I used composition recently in a side project I am working on. If you haven't read the post on [composition](/just-enough-fp-composition), I suggest you do that first.
+
+I am a member of a men's golf club at one of my local courses. Every Sunday, we play a small money game and at the end, there's a process for finding out who won what amount of money. This process is often done by hand on paper and can take quite a bit of time (~1 hour some Sundays). This is precisely the kind of problem software is designed to solve, so I've set out to make a simple app that will enable someone to input all the scores and automatically calculate all the winners for them.
+
+### The Game and its Algorithm
+
+We play two games every Sunday, one related to our scores, and one related to who had the lowest score on a particular hole (we call this the payball game). We'll be ignoring the payball game (I can save that for another post on algorithms perhaps), and focus on calculating who won money based on their front nine, back nine, and total scores (for those of you who don't know golf well, golf courses come in a standard size of 18 holes, divided in half and known as the "front" and "back" nines).
+
+It's not good enough to simply find the lowest scores in a sort, we must also factor in handicap into the equation. A handicap is a way of assessing a player's abilities and creating a level playing field among otherwise inequal players. I, for example, have a -2 handicap. Which means when I finish a round of golf, you would subtract 2 strokes from my score to find my "net score". If I were to play a match against someone who is a -14 handicap, then I would give that person 12 strokes in the match, one for each of the 12 hardest holes as deemed by the handicap system for that particular course. Using this system, we actually split scores into two categories: gross and net. To make things more complicated, you can only win in one category. A player cannot shoot a low round and win the gross category and then win the net category as well.
+
+On top of all this, we do not all play from the same set of tees. The course we play has two sets of tees that our members play from: whites and blues. The blue tees create a longer, slightly more challenging course for the better players. Our game uses a stroke differential of 2 to more evenly match scores between white and blue tees.
+
+These factors must be considered in our algorithm to calculate our six categories of winners every Sunday: front nine gross, front nine net, back nine gross, back nine net, total gross, total net. Let's try and codify the steps we will need to take to calculate those winners:
+
+1. Get an array of players
+2. Filter out any players not eligible for that category (remove gross winners from the pool for net)
+3. Sort the players by score depending on the particular criteria (gross, net, and tee differential)
+4. Take a number of winners (depends on how many play)
+
+This algorithm will just find which players have won. I'll need another to calculate how much they've won.
+
+When I broke the algorithm down, certain functions immediately stood out. I'm `filter`ing and `sort`ing. Let's make some curried functions I can use in a composition to accomplish all of this. Take some time to read all of them and try and understand what they do.
+
+```javascript
+const compose = (...fns) => x => fns.reduceRight((acc, cur) => cur(acc), x)
+const map = cb => xs => xs.map(cb)
+const filter = predicate => xs => xs.filter(predicate)
+const sort = comparator => xs => [...xs].sort(comparator)
+const sortByFn = fn => (a, b) => fn(a) - fn(b)
+const take = num => xs => xs.slice(0, num)
+const prop = key => obj => obj[key]
+const identity = x => x
+const alwaysTrue = () => true // This will be useful, you'll see
+```
+
+With these, and a pragmatic approach (not everything has to be purely functional), we can make compositions that will cover all six of our cases.
+
+When I'm creating an algorithm or a composition, I don't always worry about going sequentially. I pick the parts I immediately understand and write those. In this case, where to put `take` in the composition is immediately understandable. It's the last step in our algorithm, so let's start there. For the sake of the example, I won't do all six categories (just yet).
+
+```javascript
+// For simplicity, we'll use a defined number of payouts
+const numberOfPayouts = 5
+
+const frontGrossWinners = compose(take(numberOfPayouts))
+```
+
+The next thing that stands out to me as that I need to filter out players. For gross, we don't want to filter out anyone, but for net we'll need to filter out the gross winners some how.
