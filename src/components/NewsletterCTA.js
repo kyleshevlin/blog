@@ -34,6 +34,7 @@ const NewsletterCTA = () => (
               textTransform: 'uppercase',
               lineHeight: 1,
               padding: `${bs(0.5)} ${bs(0.75)}`,
+              border: 'none',
               borderRadius: '4px',
               transition: 'all 0.3s ease',
 
