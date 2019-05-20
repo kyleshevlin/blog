@@ -28,7 +28,6 @@ const Post = ({
   data,
   pageContext: { olderPost, newerPost, relatedPosts }
 }) => {
-  console.log(data)
   const { md, mdx } = data
   const file = md ? md : mdx
   const {
