@@ -58,7 +58,7 @@ export function FootnoteMarker({ index, content }) {
 
   return (
     <FootnotesContext.Consumer>
-      {({ updateFootnote }) => (
+      {({ index: contextIndex, isVisible, updateFootnote }) => (
         <button
           css={{
             display: 'inline-block',
@@ -85,7 +85,12 @@ export function FootnoteMarker({ index, content }) {
             }
           }}
           onClick={() => {
-            updateFootnote({ content, index, isVisible: true })
+            updateFootnote({
+              content,
+              index,
+              // If the user clicks the same marker, close the footnote
+              isVisible: isVisible && index === contextIndex ? false : true
+            })
           }}
         >
           <span css={{ position: 'relative', top: '-1px' }}>{index}</span>
