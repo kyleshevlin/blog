@@ -108,35 +108,7 @@ export function FootnoteDisplay() {
   const { content, index, isVisible, updateFootnote } = useContext(
     FootnotesContext
   )
-
-  function handleOutsideClick(e) {
-    if (!isVisible) {
-      return
-    }
-
-    if (displayElement.current && !displayElement.current.contains(e.target)) {
-      updateFootnote({ isVisible: false })
-    }
-  }
-
-  function handleEscKey(e) {
-    if (e.key === 'Escape') {
-      updateFootnote({ isVisible: false })
-    }
-  }
-
-  useEffect(
-    () => {
-      document.addEventListener('click', handleOutsideClick)
-      document.addEventListener('keydown', handleEscKey)
-
-      return () => {
-        document.removeEventListener('click', handleOutsideClick)
-        document.removeEventListener('keydown', handleEscKey)
-      }
-    },
-    [isVisible]
-  )
+  useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (
     <div
@@ -206,4 +178,37 @@ export function FootnoteDisplay() {
       </Container>
     </div>
   ) : null
+}
+
+function useFootnoteDisplayEvents(markerRef) {
+  const { isVisible, updateFootnote } = useContext(FootnotesContext)
+
+  useEffect(
+    () => {
+      function handleOutsideClick(e) {
+        if (!isVisible) {
+          return
+        }
+
+        if (markerRef.current && !markerRef.current.contains(e.target)) {
+          updateFootnote({ isVisible: false })
+        }
+      }
+
+      function handleEscKey(e) {
+        if (e.key === 'Escape') {
+          updateFootnote({ isVisible: false })
+        }
+      }
+
+      document.addEventListener('click', handleOutsideClick)
+      document.addEventListener('keydown', handleEscKey)
+
+      return () => {
+        document.removeEventListener('click', handleOutsideClick)
+        document.removeEventListener('keydown', handleEscKey)
+      }
+    },
+    [isVisible]
+  )
 }
