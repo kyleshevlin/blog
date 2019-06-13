@@ -1,6 +1,6 @@
 /*
  * This script is designed to create the directory structure and necessary files
- * for a new blog post.
+ * for a new blog post with MDX.
  *
  * Parameters:
  * dirName: string - A hyphenated directory name
@@ -43,7 +43,7 @@ title: '${title}'
 ---
 `.trim()
 
-  fs.writeFileSync(path.resolve(POSTS_PATH, dirName, 'index.md'), frontmatter)
+  fs.writeFileSync(path.resolve(POSTS_PATH, dirName, 'index.mdx'), frontmatter)
 } catch (err) {
   console.log(err)
 }
