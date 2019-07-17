@@ -5,6 +5,7 @@ date: "2019-07-17"
 slug: "when-elses-make-your-code-worse"
 title: "When `else`s Make Your Code Worse"
 subtitle: "or An Example on How Small Refactors Can Improve Your Code"
+description: "In this article, Kyle Shevlin teaches us how we can simplify the conditional logic of our code by refactoring it without `else` blocks."
 ---
 
 Recently, I wrote a tweet that got some attention about not needing `else`s in your code. Some people got a bit upset about that. Here's that tweet.
