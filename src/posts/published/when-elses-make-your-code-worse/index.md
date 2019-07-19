@@ -1,0 +1,123 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['Refactoring']
+date: "2019-07-17"
+slug: "when-elses-make-your-code-worse"
+title: "When `else`s Make Your Code Worse"
+subtitle: "or An Example on How Small Refactors Can Improve Your Code"
+description: "In this article, Kyle Shevlin teaches us how we can simplify the conditional logic of our code by refactoring it without `else` blocks."
+---
+
+Recently, I wrote a tweet that got some attention about not needing `else`s in your code. Some people got a bit upset about that. Here's that tweet.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Random, lukewarm (as opposed to hot) take: You really don&#39;t need the `else` keyword in JavaScript. Any scenario you&#39;d think to use it, I might argue there&#39;s a better, and possibly simpler, way. *searches for smoking embers of a former fire emoji*</p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1131674209287979008?ref_src=twsrc%5Etfw">May 23, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+I still stand by what I said, and I recently came across some code that was a good example of what I was talking about. The code looked like this (more or less):
+
+```javascript
+function unimportantName(options) {
+  const {value, value2, value3, type} = options;
+
+  if (type === 'Date') {
+    if (value !== 0) {
+      return {
+        lte: [
+          String(value),
+          value2,
+          'from now',
+          'starting end of today',
+        ].join(' '),
+        gte: !value3 ? 'today' : 'tomorrow',
+      };
+    } else {
+      return {gte: 'today', lte: 'end of today'};
+    }
+  } else {
+    return {lte: value};
+  }
+}
+```
+
+We have an `if/else` nested in the `if` block of an outer `if/else`. I can only guess, but I'd say most people can reason about this level of complexity fairly easily. But just because people can, doesn't mean they should have to. This code is needlessly more complex than necessary, and I want to show you how just making a few small changes can really simplify this block of code.
+
+The primary thing I'm going to change is the order of the conditionals. This will make the code much simpler and here's how I would (actually, did) do it.
+
+The first thing I notice is the outer `if/else`. The condition is `if (type === 'Date')`. Thus, I can conclude the `else` block is the negation of this condition, which means it is `if (type !== 'Date')`. By using the negation, we can refactor the `else` away and create a guard statement that early returns with the object we have in the final return currently. Let's start with this refactor.
+
+```javascript
+function unimportantName(options) {
+  const {value, value2, value3, type} = options;
+
+  if (type !== 'Date') {
+    return {lte: value};
+  }
+
+  if (value !== 0) {
+    return {
+      lte: [
+        String(value),
+        value2,
+        'from now',
+        'starting end of today',
+      ].join(' '),
+      gte: !value3 ? 'today' : 'tomorrow',
+    };
+  } else {
+    return {gte: 'today', lte: 'end of today'};
+  }
+}
+```
+
+By doing this, we've unnested one level of `if/else` blocks. We've removed the `else` statement, early returned, and because we now know that if we have passed that first `if` guard, we are in the territory where logically `type === 'Date'`, we no longer need to check for it.
+
+Now, we have one `if/else` remaining, is anything gained from refactoring this? I believe so. Our conditional is `if (value !== 0)`, followed by a somewhat interesting object literal being created. Our `else` block, on the other hand, returns a very simple object. I'd prefer to switch the condition with the negation again, and move this part up as another guard statement and early return as well. Like so:
+
+```javascript
+function unimportantName(options) {
+  const {value, value2, value3, type} = options;
+
+  if (type !== 'Date') {
+    return {lte: value};
+  }
+
+  if (value === 0) {
+    return {gte: 'today', lte: 'end of today'};
+  }
+
+  return {
+    lte: [
+      String(value),
+      value2,
+      'from now',
+      'starting end of today',
+    ].join(' '),
+    gte: !value3 ? 'today' : 'tomorrow',
+  };
+}
+```
+
+Great, we've now gotten rid of any `else`s in our code, made it very clear which scenarios lead to early returns and have a final return if none of those conditions are met. Is there anything left to refactor? Yes!
+
+I think using an array and calling `join` when we can use a template string doesn't make sense. I'll refactor this as a template string.
+
+```javascript
+function unimportantName(options) {
+  const {value, value2, value3, type} = options;
+
+  if (type !== 'Date') {
+    return {lte: value};
+  }
+
+  if (value === 0) {
+    return {gte: 'today', lte: 'end of today'};
+  }
+
+  return {
+    lte: `${String(value)} ${value2} from now starting end of today`,
+    gte: !value3 ? 'today' : 'tomorrow',
+  };
+}
+```
+
+And there it is, the final code. With just a handful of simple refactors, we have simpler code that is easier to reason about (and, frankly, maintain). I hope you can see some of the value in this kind of refactor, and that it helps you when writing your own code.
