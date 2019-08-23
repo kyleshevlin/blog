@@ -1,17 +1,18 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
+import { MDXRenderer } from 'gatsby-plugin-mdx'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
 import PostAuthor from '../components/PostAuthor'
+import PostContent from '../components/PostContent'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
-import PostContent from '../components/PostContent'
+import PostOpenSourceContribution from '../components/PostOpenSourceContribution'
 import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import { FONTS, COLORS } from '../constants'
+import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
 const newerOrOlderPostWrap = {
@@ -70,21 +71,7 @@ const Post = ({
 
         {relatedPosts && <RelatedPosts posts={relatedPosts} />}
 
-        <div
-          css={{
-            backgroundColor: COLORS.lightGray,
-            fontFamily: FONTS.catamaran,
-            fontStyle: 'italic',
-            padding: bs(),
-            marginBottom: bs(2)
-          }}
-        >
-          Spot a typo? Submit a PR with the fix! This entire blog is open
-          sourced at{' '}
-          <a href="https://github.com/kyleshevlin/blog">
-            https://github.com/kyleshevlin/blog
-          </a>
-        </div>
+        <PostOpenSourceContribution />
 
         <div css={{ marginTop: bs(2) }}>
           {newerPost ? (
@@ -144,9 +131,7 @@ export const pageQuery = graphql`
       fileAbsolutePath: { regex: "/posts/" }
       frontmatter: { slug: { eq: $slug } }
     ) {
-      code {
-        body
-      }
+      body
       frontmatter {
         categories
         coverImage {

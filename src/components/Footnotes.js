@@ -209,6 +209,6 @@ function useFootnoteDisplayEvents(markerRef) {
         document.removeEventListener('keydown', handleEscKey)
       }
     },
-    [isVisible]
+    [isVisible, markerRef, updateFootnote]
   )
 }
