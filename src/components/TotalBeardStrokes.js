@@ -12,8 +12,8 @@ class TotalBeardStrokes extends Component {
   }
 
   componentDidMount() {
-    const lazyApp = import('firebase/app')
-    const lazyDatabase = import('firebase/database')
+    const lazyApp = import('@firebase/app')
+    const lazyDatabase = import('@firebase/database')
     const { slug } = this.props
 
     Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {

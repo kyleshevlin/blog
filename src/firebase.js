@@ -14,8 +14,10 @@ export const getFirebase = firebase => {
     return firebaseInstance
   }
 
-  firebase.initializeApp(config)
-  firebaseInstance = firebase
+  const defaultFirebase = firebase.default
 
-  return firebase
+  defaultFirebase.initializeApp(config)
+  firebaseInstance = defaultFirebase
+
+  return defaultFirebase
 }
