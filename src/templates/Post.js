@@ -158,5 +158,5 @@ const renderContent = file => {
     return <PostContent content={file.html} />
   }
 
-  return <MDXRenderer>{file.code.body}</MDXRenderer>
+  return <MDXRenderer>{file.body}</MDXRenderer>
 }
