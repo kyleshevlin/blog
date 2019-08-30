@@ -9,10 +9,12 @@
     "@mdx-js/mdx": "^1.0.15",
     "@mdx-js/react": "^1.0.15",
     "@mdx-js/tag": "^0.20.3",
+    "algoliasearch": "^3.33.0",
     "dotenv": "^8.1.0",
     "firebase": "^5.8.1",
     "gatsby": "^2.3.34",
     "gatsby-image": "^2.0.20",
+    "gatsby-plugin-algolia": "^0.3.3",
     "gatsby-plugin-catch-links": "^2.0.9",
     "gatsby-plugin-emotion": "^4.0.1",
     "gatsby-plugin-feed": "^2.0.11",
@@ -39,6 +41,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
+    "react-instantsearch-dom": "^5.7.0",
     "shevyjs": "^1.1.0"
   },
   "keywords": [

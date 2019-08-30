@@ -1,3 +1,5 @@
+const queries = require('./src/utils/algolia')
+
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`
 })
@@ -37,26 +39,35 @@ module.exports = {
         }
       }
     },
-    `gatsby-plugin-react-helmet`,
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        queries,
+        chunkSize: 10000
+      }
+    },
+    'gatsby-plugin-react-helmet',
     'gatsby-transformer-json',
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `images`,
+        name: 'images',
         path: `${__dirname}/src/images`
       }
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `posts`,
+        name: 'posts',
         path: `${__dirname}/src/posts/published`
       }
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `portfolio`,
+        name: 'portfolio',
         path: `${__dirname}/src/portfolio/published`
       }
     },
@@ -67,10 +78,10 @@ module.exports = {
         path: `${__dirname}/src/courses`
       }
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
           'gatsby-remark-copy-linked-files',
@@ -93,7 +104,7 @@ module.exports = {
     'gatsby-plugin-twitter',
     'gatsby-plugin-emotion',
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
         trackingId: 'UA-20937423-1',
         head: true
@@ -162,16 +173,16 @@ module.exports = {
       }
     },
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `Kyle Shevlin`,
-        short_name: `kyleshevlin`,
-        start_url: `/`,
-        background_color: `#fff`,
-        theme_color: `#fff`,
-        display: `minimal-ui`,
+        name: 'Kyle Shevlin',
+        short_name: 'kyleshevlin',
+        start_url: '/',
+        background_color: '#fff',
+        theme_color: '#fff',
+        display: 'minimal-ui',
         // This path is relative to the root of the site.
-        icon: `src/images/beard-favicon.png`
+        icon: 'src/images/beard-favicon.png'
       }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
