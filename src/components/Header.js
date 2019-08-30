@@ -5,7 +5,7 @@ import { bs } from '../shevy'
 import Container from './Container'
 import Nav from './Nav'
 
-const Header = ({ subTitle, title }) => (
+const Header = () => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
