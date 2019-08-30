@@ -50,13 +50,21 @@
     "develop": "gatsby develop",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint ./src",
     "newpost": "node ./scripts/newPost.js",
     "newmdx": "node ./scripts/newMdx.js",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.5",
+    "babel-eslint": "^10.0.3",
     "babel-preset-gatsby": "^0.1.6",
+    "eslint": "^6.2.2",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "prettier": "^1.15.2"
   },
   "repository": {
