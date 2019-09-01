@@ -1,62 +1,41 @@
-const pageQuery = `{
-  pages: allMarkdownRemark(
-    filter: {
-      fileAbsolutePath: { regex: "/pages/" },
-      frontmatter: {purpose: {eq: "page"}}
-    }
-  ) {
-    edges {
-      node {
-        objectID: id
-        frontmatter {
-          title
-          slug
-        }
-        excerpt(pruneLength: 5000)
-      }
-    }
-  }
-}`
-
-const postQuery = `{
-  posts: allMarkdownRemark(
+const mdxQuery = `{
+  allMdx(
     filter: { fileAbsolutePath: { regex: "/posts/" } }
   ) {
     edges {
       node {
-        objectID: id
+        excerpt
         frontmatter {
-          title
+          categories
+          description
+          keywords
+          shortTitle
           slug
-          date(formatString: "MMM D, YYYY")
+          subtitle
           tags
+          title
         }
-        excerpt(pruneLength: 5000)
+        objectID: id
+        rawBody
       }
     }
   }
 }`
 
-const flatten = arr =>
-  arr.map(({ node: { frontmatter, ...rest } }) => ({
+const unnestFrontmatter = node => {
+  const { frontmatter, ...rest } = node
+
+  return {
     ...frontmatter,
     ...rest
-  }))
-
-const settings = { attributesToSnippet: ['excerpt:20'] }
+  }
+}
 
 const queries = [
   {
-    query: pageQuery,
-    transformer: ({ data }) => flatten(data.pages.edges),
-    indexName: 'Pages',
-    settings
-  },
-  {
-    query: postQuery,
-    transformer: ({ data }) => flatten(data.posts.edges),
-    indexName: 'Posts',
-    settings
+    query: mdxQuery,
+    transformer: ({ data }) =>
+      data.allMdx.edges.map(edge => edge.node).map(unnestFrontmatter)
   }
 ]
 
