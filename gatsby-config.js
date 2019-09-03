@@ -50,6 +50,7 @@ module.exports = {
       }
     },
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-portal',
     'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',

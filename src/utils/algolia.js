@@ -6,13 +6,8 @@ const mdxQuery = `{
       node {
         excerpt
         frontmatter {
-          categories
-          description
-          keywords
-          shortTitle
           slug
           subtitle
-          tags
           title
         }
         objectID: id

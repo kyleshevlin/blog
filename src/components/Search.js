@@ -1,54 +1,153 @@
 import React from 'react'
 import {
-  Hits,
+  connectHits,
+  connectSearchBox,
+  connectStateResults,
+  Highlight,
   InstantSearch,
-  Index,
-  SearchBox,
-  connectStateResults
+  Pagination
 } from 'react-instantsearch-dom'
 import algoliasearch from 'algoliasearch/lite'
-import { inflect } from '../utils'
+import { Link } from 'gatsby'
+import { COLORS, FONTS } from '../constants'
+import shevy, { bs } from '../shevy'
+import Container from './Container'
+import Modal from './Modal'
 
-const Results = connectStateResults(
-  ({ children, searchResults, searchState }) =>
-    searchResults && searchResults.nbHits
-      ? children
-      : `No hits for ${searchState.query}`
-)
-
-const Stats = connectStateResults(({ searchResults }) => {
-  if (!searchResults) {
-    return null
-  }
-
-  const { nbHits } = searchResults
-
-  return nbHits > 0 ? `${nbHits} ${inflect('result', 'results', nbHits)}` : null
+const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+  return (
+    <div css={{ marginBottom: bs(0.5) }}>
+      {/* Regarding the lint error below, it has htmlFor, don't know what it's yelling about */}
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+      <label
+        css={{
+          ...shevy.h5,
+          display: 'block',
+          fontFamily: FONTS.catamaran,
+          fontWeight: 'bold',
+          marginBottom: bs(0.125)
+        }}
+        htmlFor="search"
+      >
+        Search Query
+      </label>
+      <input
+        css={{
+          border: `1px solid ${COLORS.gray}`,
+          borderRadius: 4,
+          display: 'block',
+          fontFamily: FONTS.catamaran,
+          padding: `${bs(0.25)} ${bs(0.5)}`,
+          width: '100%'
+        }}
+        id="search"
+        name="search"
+        onChange={event => refine(event.currentTarget.value)}
+        type="search"
+        value={currentRefinement}
+      />
+    </div>
+  )
 })
 
-export default function Search({ indices }) {
+const Hits = connectHits(({ hits }) => (
+  <div css={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div
+      css={{
+        fontFamily: FONTS.catamaran,
+        fontSize: '.85rem',
+        fontStyle: 'italic',
+        marginBottom: bs(),
+        maxWidth: '30rem'
+      }}
+    >
+      These are the results of your search. The title and excerpt are displayed,
+      though your search may have been found in the content of the post as well.
+    </div>
+
+    {hits.map(hit => {
+      return (
+        <div css={{ marginBottom: bs() }} key={hit.objectID}>
+          <Link css={{ display: 'block', marginBottom: bs(0.5) }} to={hit.slug}>
+            <h4 css={{ marginBottom: 0 }}>
+              <Highlight attribute="title" hit={hit} tagName="strong" />
+            </h4>
+            {hit.subtitle ? (
+              <h5 css={{ marginBottom: 0 }}>
+                <Highlight attribute="subtitle" hit={hit} tagName="strong" />
+              </h5>
+            ) : null}
+          </Link>
+          <div>
+            <Highlight attribute="excerpt" hit={hit} tagName="strong" />
+          </div>
+        </div>
+      )
+    })}
+  </div>
+))
+
+const Results = connectStateResults(({ searchResults }) => {
+  return searchResults &&
+    searchResults.query &&
+    searchResults.query.length > 0 ? (
+    <>
+      <Hits />
+      <Pagination />
+    </>
+  ) : null
+})
+
+const searchButtonStyles = {
+  backgroundColor: 'transparent',
+  border: 'none',
+  fontFamily: FONTS.catamaran,
+  fontWeight: 'bold'
+}
+
+export default function Search() {
   const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID,
     process.env.GATSBY_ALGOLIA_SEARCH_KEY
   )
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
 
-  return (
-    <InstantSearch searchClient={searchClient} indexName={indices[0].name}>
-      <SearchBox />
-      <div>
-        {indices.map(({ name, title }) => (
-          <Index key={name} indexName={name}>
-            <header>
-              <h3>{title}</h3>
-              <Stats />
-            </header>
-
-            <Results>
-              <Hits />
-            </Results>
-          </Index>
-        ))}
-      </div>
-    </InstantSearch>
-  )
+  return typeof document !== 'undefined' ? (
+    <>
+      <button css={searchButtonStyles} onClick={() => setIsModalOpen(true)}>
+        Search{' '}
+        <span role="img" aria-label="magnifying glass">
+          🔎
+        </span>
+      </button>
+      {isModalOpen ? (
+        <Modal>
+          <Container>
+            <div css={{ marginTop: bs(2), marginBottom: bs(2) }}>
+              <InstantSearch
+                searchClient={searchClient}
+                indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+              >
+                <div css={{ display: 'flex', marginBottom: bs() }}>
+                  <button
+                    css={{ ...searchButtonStyles, marginLeft: 'auto' }}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Close Search{' '}
+                    <span role="img" aria-label="a red X">
+                      ❌
+                    </span>
+                  </button>
+                </div>
+                <div>
+                  <CustomSearchBox />
+                </div>
+                <Results />
+              </InstantSearch>
+            </div>
+          </Container>
+        </Modal>
+      ) : null}
+    </>
+  ) : null
 }
