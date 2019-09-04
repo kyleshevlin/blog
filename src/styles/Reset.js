@@ -286,7 +286,7 @@ const Reset = () => (
 
       input[type='search'] {
         -webkit-appearance: textfield;
-        box-sizing: content-box;
+        box-sizing: border-box;
       }
 
       input[type='search']::-webkit-search-cancel-button,

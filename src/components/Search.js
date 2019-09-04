@@ -98,47 +98,63 @@ const Results = connectStateResults(({ searchResults }) => {
   ) : null
 })
 
-const searchButtonStyles = {
-  backgroundColor: 'transparent',
-  border: 'none',
-  fontFamily: FONTS.catamaran,
-  fontWeight: 'bold'
-}
-
 export default function Search() {
   const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID,
     process.env.GATSBY_ALGOLIA_SEARCH_KEY
   )
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const openButtonRef = React.useRef(null)
+  const closeButtonRef = React.useRef(null)
+
+  useCloseOnEsc(() => {
+    setIsModalOpen(false)
+    openButtonRef.current.focus()
+  })
 
   return typeof document !== 'undefined' ? (
     <>
-      <button css={searchButtonStyles} onClick={() => setIsModalOpen(true)}>
+      <button
+        aria-label="Open Modal"
+        css={{
+          backgroundColor: 'transparent',
+          border: 'none',
+          fontFamily: FONTS.catamaran
+        }}
+        onClick={() => {
+          setIsModalOpen(true)
+        }}
+        ref={openButtonRef}
+      >
         Search{' '}
         <span role="img" aria-label="magnifying glass">
           🔎
         </span>
       </button>
+
       {isModalOpen ? (
-        <Modal>
+        <Modal
+          ariaLabel="Search Modal"
+          closeButtonRef={closeButtonRef}
+          closeButtonText={
+            <>
+              Close Search{' '}
+              <span role="img" aria-label="a red X">
+                ❌
+              </span>
+            </>
+          }
+          onClick={() => {
+            setIsModalOpen(false)
+            openButtonRef.current.focus()
+          }}
+        >
           <Container>
             <div css={{ marginTop: bs(2), marginBottom: bs(2) }}>
               <InstantSearch
                 searchClient={searchClient}
                 indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
               >
-                <div css={{ display: 'flex', marginBottom: bs() }}>
-                  <button
-                    css={{ ...searchButtonStyles, marginLeft: 'auto' }}
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Close Search{' '}
-                    <span role="img" aria-label="a red X">
-                      ❌
-                    </span>
-                  </button>
-                </div>
                 <div>
                   <CustomSearchBox />
                 </div>
@@ -150,4 +166,20 @@ export default function Search() {
       ) : null}
     </>
   ) : null
+}
+
+function useCloseOnEsc(fn) {
+  React.useEffect(() => {
+    const closeOnEsc = event => {
+      if (event.key === 'Escape') {
+        fn()
+      }
+    }
+
+    document.addEventListener('keydown', closeOnEsc)
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEsc)
+    }
+  })
 }
