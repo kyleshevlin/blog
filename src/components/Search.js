@@ -1,11 +1,11 @@
 import React from 'react'
 import {
   connectHits,
+  connectPagination,
   connectSearchBox,
   connectStateResults,
   Highlight,
-  InstantSearch,
-  Pagination
+  InstantSearch
 } from 'react-instantsearch-dom'
 import algoliasearch from 'algoliasearch/lite'
 import { Link } from 'gatsby'
@@ -15,6 +15,7 @@ import Container from './Container'
 import Modal from './Modal'
 import SearchIcon from './icons/Search'
 import CloseIcon from './icons/Close'
+import * as PaginationStyles from './Pagination'
 
 const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   return (
@@ -88,6 +89,62 @@ const Hits = connectHits(({ hits }) => (
     })}
   </div>
 ))
+
+const Pagination = connectPagination(
+  ({ createURL, currentRefinement, nbPages, refine }) => (
+    <div css={{ fontFamily: FONTS.catamaran }}>
+      {currentRefinement > 1 ? (
+        <a
+          css={PaginationStyles.itemStyles}
+          href={createURL(currentRefinement - 1)}
+          onClick={e => {
+            e.preventDefault()
+            refine(currentRefinement - 1)
+          }}
+        >
+          Previous
+        </a>
+      ) : null}
+
+      {Array(nbPages)
+        .fill()
+        .map((_, index) => {
+          const page = index + 1
+
+          return currentRefinement === page ? (
+            <div css={PaginationStyles.nonLinkItemStyles} key={page}>
+              {page}
+            </div>
+          ) : (
+            <a
+              css={PaginationStyles.itemStyles}
+              href={createURL(page)}
+              key={page}
+              onClick={e => {
+                e.preventDefault()
+                refine(page)
+              }}
+            >
+              {page}
+            </a>
+          )
+        })}
+
+      {currentRefinement < nbPages ? (
+        <a
+          css={PaginationStyles.itemStyles}
+          href={createURL(currentRefinement + 1)}
+          onClick={e => {
+            e.preventDefault()
+            refine(currentRefinement + 1)
+          }}
+        >
+          Next
+        </a>
+      ) : null}
+    </div>
+  )
+)
 
 const Results = connectStateResults(({ searchResults }) => {
   return searchResults &&
