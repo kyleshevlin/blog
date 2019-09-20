@@ -13,6 +13,8 @@ import { COLORS, FONTS } from '../constants'
 import shevy, { bs } from '../shevy'
 import Container from './Container'
 import Modal from './Modal'
+import SearchIcon from './icons/Search'
+import CloseIcon from './icons/Close'
 
 const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   return (
@@ -127,8 +129,12 @@ export default function Search() {
         ref={openButtonRef}
       >
         Search{' '}
-        <span role="img" aria-label="magnifying glass">
-          🔎
+        <span
+          css={{ display: 'inline-block', verticalAlign: 'middle' }}
+          role="img"
+          aria-label="magnifying glass"
+        >
+          <SearchIcon stroke={COLORS.black} width={20} />
         </span>
       </button>
 
@@ -139,8 +145,8 @@ export default function Search() {
           closeButtonText={
             <>
               Close Search{' '}
-              <span role="img" aria-label="a red X">
-                ❌
+              <span role="img" aria-label="a black X">
+                <CloseIcon stroke={COLORS.black} width={16} />
               </span>
             </>
           }
