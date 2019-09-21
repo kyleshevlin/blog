@@ -1,21 +1,23 @@
 const mdxQuery = `{
-  allMdx(
-    filter: { fileAbsolutePath: { regex: "/posts/" } }
-  ) {
+  allMdx(filter: {fileAbsolutePath: {regex: "/posts/"}}) {
     edges {
       node {
         excerpt
         frontmatter {
+          categories
+          description
           slug
           subtitle
+          tags
           title
+          keywords
         }
         objectID: id
-        rawBody
       }
     }
   }
-}`
+}
+`
 
 const unnestFrontmatter = node => {
   const { frontmatter, ...rest } = node
