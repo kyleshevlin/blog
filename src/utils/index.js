@@ -7,5 +7,5 @@ export const formatStrForPath = str =>
     .split(' ')
     .join('-')
 
-export const inflect = (singular, plural, items) =>
-  items.length === 1 ? singular : plural
+export const inflect = (singular, plural, number) =>
+  number === 1 ? singular : plural

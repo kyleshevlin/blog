@@ -4,6 +4,7 @@ import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import Container from './Container'
 import Nav from './Nav'
+import Search from './Search'
 
 const Header = () => (
   <StaticQuery
@@ -29,31 +30,37 @@ const Header = () => (
           }}
         >
           <Container>
-            <Link
-              css={{
-                color: COLORS.black,
-                display: 'block'
-              }}
-              to="/"
-            >
-              <h1
+            <div css={{ display: 'flex', alignItems: 'center' }}>
+              <Link
                 css={{
-                  lineHeight: 1,
-                  marginBottom: 0
+                  color: COLORS.black,
+                  display: 'block'
                 }}
+                to="/"
               >
-                {title}
-              </h1>
-              <div
-                css={{
-                  fontFamily: FONTS.catamaran,
-                  fontSize: '1rem',
-                  marginBottom: 0
-                }}
-              >
-                {subTitle}
+                <h1
+                  css={{
+                    lineHeight: 1,
+                    marginBottom: 0
+                  }}
+                >
+                  {title}
+                </h1>
+                <div
+                  css={{
+                    fontFamily: FONTS.catamaran,
+                    fontSize: '1rem',
+                    marginBottom: 0
+                  }}
+                >
+                  {subTitle}
+                </div>
+              </Link>
+              <div css={{ marginLeft: 'auto' }}>
+                <Search />
+                {/* TODO: Night mode toggle could/should go here */}
               </div>
-            </Link>
+            </div>
             <Nav />
           </Container>
         </header>
