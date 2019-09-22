@@ -12,7 +12,7 @@ const mdxQuery = `{
           title
           keywords
         }
-        objectID: id
+        rawBody
       }
     }
   }
@@ -28,11 +28,29 @@ const unnestFrontmatter = node => {
   }
 }
 
+const handleRawBody = node => {
+  const { rawBody, ...rest } = node
+
+  // To improve search with smaller record sizes, we will divide all
+  // blog posts into sections (essentially by paragraph).
+  const sections = rawBody.split('\n\n')
+  const records = sections.map(section => ({
+    ...rest,
+    content: section
+  }))
+
+  return records
+}
+
 const queries = [
   {
     query: mdxQuery,
     transformer: ({ data }) =>
-      data.allMdx.edges.map(edge => edge.node).map(unnestFrontmatter)
+      data.allMdx.edges
+        .map(edge => edge.node)
+        .map(unnestFrontmatter)
+        .map(handleRawBody)
+        .reduce((acc, cur) => [...acc, ...cur], [])
   }
 ]
 
