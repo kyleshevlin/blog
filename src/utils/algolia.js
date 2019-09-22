@@ -45,6 +45,10 @@ const handleRawBody = node => {
 const queries = [
   {
     query: mdxQuery,
+    settings: {
+      attributeForDistinct: 'slug',
+      distinct: true
+    },
     transformer: ({ data }) =>
       data.allMdx.edges
         .map(edge => edge.node)

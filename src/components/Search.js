@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Configure,
   connectHits,
   connectPagination,
   connectSearchBox,
@@ -218,6 +219,7 @@ export default function Search() {
                 searchClient={searchClient}
                 indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
               >
+                <Configure distinct />
                 <div>
                   <CustomSearchBox />
                 </div>
