@@ -1,0 +1,472 @@
+---
+categories: ['JavaScript', 'Web Development']
+tags: ['Gatsby', 'React']
+date: '2019-09-22'
+slug: 'how-to-add-algolia-search-to-a-gatsby-site'
+title: 'How to Add Algolia Search to a Gatsby Site'
+description: 'Learn how I added Algolia Search to my Gatsby site or blog. It was pretty easy and a lot of fun.'
+relatedPostsSlugs: [
+  'why-i-rewrote-my-blog-with-gatsby',
+  'firebase-and-gatsby-together-at-last'
+]
+---
+
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+
+This weekend I shipped a new feature for my blog--search! Just have a look up and to the right. You should see it up there.
+
+Adding search was easier than I expected. I had almost no understanding of the work involved in making this happen, but between the Algolia service, their `react-instantsearch` library, and a little help from Twitter, this was pretty simple to do. This post will walk you through all the steps it took to make that happen.
+
+Before I do, quick shout out to [Scott Enock](https://twitter.com/ScottEnock) for sending me an email requesting this feature. <Marker index={1} content="He said some nice things, too!" /> I legit didn't know enough people were reading this blog to make it worth adding this feature. Thanks!
+
+### Step One - Algolia Setup
+
+First things first, you need to create an Algolia account to use their service. Head over to [https://www.algolia.com/users/sign_up](https://www.algolia.com/users/sign_up) and sign up. There are a few forms to fill out. Here's the break down of what you need to do for each form step.
+
+1. Fill out your information
+2. Pick the data center closest to you geographically
+3. You probably want to choose "Media - Content" and "As soon as possible"
+
+After signing up, you get a 14 day free trial, but don't worry about that running out. You can upgrade your plan to their "Community" level, and it'll stay free (with some restrictions I'll talk about later).
+
+You'll be taken to a screen with a few options, but head to the "Dashboard" first. Once you do, you'll be prompted to "Create an Index". Click that button and give it a good name. <Marker index={2} content="This form will inform you how to name indices for particular environments if that is something you require." /> You'll be prompted to "Upload Records", but we are actually going to let Gatsby create those records for us in a later step. At this point, you need to grab 4 pieces of information to take to the next step.
+
+- The name you just gave your index
+- Click "API Keys" in the left menu and get the following strings
+  - Your App ID
+  - Your Search-Only API Key
+  - Your Admin API Key
+
+### Step Two - `gatsby-plugin-algolia`
+
+The next step in adding search to the blog is setting up the Algolia plugin for Gatsby. You can check out the repository [here](https://github.com/algolia/gatsby-plugin-algolia). Get started by installing the package.
+
+```
+npm install gatsby-plugin-algolia
+```
+
+Once installed, we need to do a few things to get the plugin fully configured. To start, we need to add some keys to our `.env` files. It is likely that you have both an `.env.development` and an `.env.production` file in your Gatsby application. For the sake of this tutorial, I will have you copy your keys _identically into both files_, but for your particular situation, it might make sense to setup separate Algolia indices for your `development` and `production` environments.
+
+Take the four strings I had you save from the previous step, and add them to both `.env.*` files like so:
+
+```javascript
+// .env.*
+
+GATSBY_ALGOLIA_APP_ID = YOUR_ALGOLIA_APP_ID
+GATSBY_ALGOLIA_INDEX_NAME = YOUR_INDEX_NAME
+GATSBY_ALGOLIA_SEARCH_KEY = YOUR_ALGOLIA_SEARCH_KEY
+GATSBY_ALGOLIA_ADMIN_KEY = YOUR_ALGOLIA_ADMIN_KEY
+```
+
+Now that we have our environment variables setup, we are going to need to be able to access them in `gatsby-config.js`. Gatsby has a few special rules around how it injects various environment variables into your Gatsby builds. One of the rules requires that we inject our own variables into the `gatsby-config.js` file, and this will require using the `dotenv` package. Install this package.
+
+```
+npm install dotenv
+```
+
+Now, we're going to require `dotenv` in our `gatsby-config.js` file to have access to our environment variables. Put the following code above your plugin setup in `gatsby-config.js`.
+
+```javascript
+// gatsby-config.js
+
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+})
+```
+
+Now that we have access to our environment variables, let's setup the plugin. In your `plugins` array, add a config object for `gatsby-plugin-algolia`, like so:
+
+```javascript
+// We will define and import `queries` in the next step
+// replacing this empty array.
+const queries = []
+
+module.exports = {
+  plugins: [
+    // You like have other plugins here
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.GATSBY_ALGOLIA_ADMIN_KEY,
+        indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME,
+        queries,
+        chunkSize: 10000
+      }
+    }
+  ]
+}
+```
+
+At this point, our plugin is configured. However, we still need to create some `queries` to be used by the plugin to create the Algolia index records (and UI to follow after that). So let's work on our `queries` next.
+
+### Step Three - Creating our Record Queries
+
+An Algolia index is made up of _records_. In Gatsby, we create query objects that utilize GraphQL to get the data we send to Algolia to create these records. At this time, my blog only requires one query object, so I'll show you how I wrote that. Your specific needs might vary at this step in the process.
+
+I want to create a record for each one of my posts. To do this, I need to write a GraphQL query that gets me an object of data for each post. I'm going to do this in a separate file I've named `algolia.js`.
+
+This file will export the `queries` array to be used by our configuartion in `gatsby-config.js`, so I like to start my file with that, and then go back and fill in the rest of the logic.
+
+```javascript
+// algolia.js
+const queries = []
+
+module.exports = queries
+```
+
+And in `gatsby-config.js`:
+
+```javascript
+// gatsby-config.js
+
+// replace the line `const queries = []` with the following,
+// Make sure the path matches where you've put your file
+const queries = require('./src/utils/algolia')
+```
+
+Now that our files are wired up, we need to provide at least one query object to our `queries` array. This object will likely take at minimum two propertes (though, you should read the documenation for your own specific needs). Those properties are the `query` and `transformer`. The value provided for the `query` property is a GraphQL query string. The `transformer` is a function that takes the data retrieved by the query and transforms it into the array of objects that will become your Algolia index records.
+
+My particular needs here are likely a bit different than yours. My blog explicitly uses Markdown and MDX files, but I can get all of the necessary files with one query to the `allMdx` property in my GraphQL schema. Let me show you the pieces I wrote for my initial query:
+
+```javascript
+// algolia.js
+
+const mdxQuery = `
+  allMdx(filter: {fileAbsolutePath: {regex: "/posts/"}}) {
+    edges {
+      node {
+        excerpt
+        frontmatter {
+          categories
+          description
+          slug
+          subtitle
+          tags
+          title
+          keywords
+        }
+        rawBody
+      }
+    }
+  }
+}
+`
+
+const unnestFrontmatter = node => {
+  const { frontmatter, ...rest } = node
+
+  return {
+    ...frontmatter,
+    ...rest
+  }
+}
+
+const queries = [
+  {
+    query: mdxQuery,
+    transformer: ({ data }) =>
+      data.allMdx.edges.map(edge => edge.node).map(unnestFrontmatter)
+  }
+]
+
+module.exports = queries
+```
+
+My `mdxQuery` retrieves all the published posts. <Marker index={3} content="I may add queries for my courses and portfolio in the future." /> Then my `transformer` method takes the data received and massages it into a shape I can use for my Algolia records by lifting the keys of the `frontmatter` object up to the same level as the rest of the `node`.
+
+Again, your exact query will probably look different than mine. You can tweak your query using the Graphiql explorer that Gatsby has integrated.
+
+As of right now, we are at a place where we can get some records into your Algolia index. The way I managed to do this was to run a production build of my Gatsby site, which triggered the plugin to generate the records.
+
+```
+npm run build
+```
+
+If everything worked, you should see in the output of the build some communication indicating that records were added to your index. You can now head to your Algolia dashboard, click the "Indices" link in the menu and see that your index now has records.
+
+We're going to revisit this file in a step later on in the tutorial to improve our query.
+
+### Step Four - Create a Search UI
+
+To create the UI for our search, we're going to make use of two more packages from Algolia: the `algoliasearch` SDK and the `react-instantsearch-dom` set of components that go with it. As you might expect by now, let's install them both:
+
+```
+npm install algoliasearch react-instantsearch-dom
+```
+
+Now, before we dive into the UI, please note that you might make very different decisions than I did when making yours. I chose to put my search in a modal that takes up the full screen. I did this because it allowed the user to always have access to search regardless of what page they were on, without needing to navigate else where. It is possible that in the future, my UI might change. Since our UIs might be so different, I want to first show you the minimum example that you need, and then explain what I did with my UI.
+
+I have made a new component file, `Search.js`, and the minimal example would look like this:
+
+```javascript
+// Search.js
+
+import React from 'react'
+import algoliasearch from 'algoliasearch/lite'
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom'
+
+const searchClient = algoliasearch(
+  process.env.GATSBY_ALGOLIA_APP_ID,
+  process.env.GATSBY_ALGOLIA_SEARCH_KEY
+)
+
+export default function Search() {
+  return (
+    <InstantSearch
+      indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+      searchClient={searchClient}
+    >
+      <SearchBox />
+      <Hits />
+    </InstantSearch>
+  )
+}
+```
+
+This minimal example follows the documentation of the package, but also makes use of our `env` variables to wire things up correctly. If you import this somewhere in your app, you should be able to do searches on your index now.
+
+All the components in `react-instantsearch` work together as "compound components". That is, used in the right way, each component receives the data it needs to render properly under the hood. You don't have to do any wiring yourself.
+
+However, you might not be completely satisfied with the UI this gives you. I wasn't. That's ok, there are options.
+
+If you are using traditional CSS, you might be able to make all the customizations you need just by updating a stylesheet. Use the inspector (or look at the docs) to find the class names Algolia provides each of these components, and then write styles accordingly.
+
+In my case, I'm using [`emotion`](https://github.com/emotion-js/emotion) for my styles, specifically the wonderful `css` prop (which I should totally blog about sometime). Lucky for me `react-instantsearch` also provides higher order components that allow you to create your own UI, which means combining it with `emotion` is no big deal.
+
+In my case, I specifically customized the `Searchbox`, `Hits` and `Pagination` components of my UI. I'm going to focus on the customized `Hits` in this article, you can view the other customizations at [https://github.com/kyleshevlin/blog/blob/master/src/components/Search.js](https://github.com/kyleshevlin/blog/blob/master/src/components/Search.js).
+
+The `Hits` are the individual results of your query. In my case, I just want a simple list of results running down the page, but wiht my styles. To do this, I'll use the `connectHits` higher order component provided, and then provide it a component that makes use of the `hits` props it provides.
+
+```javascript
+// Search.js
+
+import React from 'react'
+import algoliasearch from 'algoliasearch/lite'
+import { connectHits, InstantSearch, SearchBox } from 'react-instantsearch-dom'
+import { FONTS } from '../constants' // an object of the font family strings in my app
+import { bs } from '../shevy' // a helper function for spacing from my vertical rhythm library
+
+const searchClient = algoliasearch(
+  process.env.GATSBY_ALGOLIA_APP_ID,
+  process.env.GATSBY_ALGOLIA_SEARCH_KEY
+)
+
+// Please note, that to get the `css` prop to work, you'll either
+// need to add a jsx pragma or use a babel plugin. Consult the
+// Emotion documentation for setting that up for your project.
+const Hits = connectHits(({ hits }) => (
+  <div css={{ display: 'flex', flexWrap: 'wrap' }}>
+    {/* Always use a ternary when coercing an array length */}
+    {/* otherwise you might print out "0" to your UI */}
+    {hits.length ? (
+      <>
+        {/* I wanted to give a little explanation of the search here */}
+        <div
+          css={{
+            fontFamily: FONTS.catamaran,
+            fontSize: '.85rem',
+            fontStyle: 'italic',
+            marginBottom: bs(),
+            maxWidth: '30rem'
+          }}
+        >
+          These are the results of your search. The title and excerpt are
+          displayed, though your search may have been found in the content of
+          the post as well.
+        </div>
+
+        {/* Here is the crux of the component */}
+        {hits.map(hit => {
+          return (
+            <div css={{ marginBottom: bs() }} key={hit.objectID}>
+              <Link
+                css={{ display: 'block', marginBottom: bs(0.5) }}
+                to={hit.slug}
+              >
+                <h4 css={{ marginBottom: 0 }}>
+                  <Highlight attribute="title" hit={hit} tagName="strong" />
+                </h4>
+                {hit.subtitle ? (
+                  <h5 css={{ marginBottom: 0 }}>
+                    <Highlight
+                      attribute="subtitle"
+                      hit={hit}
+                      tagName="strong"
+                    />
+                  </h5>
+                ) : null}
+              </Link>
+              <div>
+                <Highlight attribute="excerpt" hit={hit} tagName="strong" />
+              </div>
+            </div>
+          )
+        })}
+      </>
+    ) : (
+      <p>There were no results for your query. Please try again.</p>
+    )}
+  </div>
+))
+
+export default function Search() {
+  return (
+    <InstantSearch
+      indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+      searchClient={searchClient}
+    >
+      <SearchBox />
+      <Hits />
+    </InstantSearch>
+  )
+}
+```
+
+With the higher order component, I've been able to use the markup I prefer and style it in a way that fits my blog. Explore the docs and the other higher order components to get the results you're looking for.
+
+### Optional Step Five - Optimize Your Record Size
+
+At this point, you should have fully functioning search working on your Gatsby site. Congratulations!
+
+That said, if you're like me and adding search to a blog with many long posts, you may have run into an issue while creating your index--some of your records are **too big**.
+
+I have a few lengthy posts that were breaking the allowable size limit for Algolia's "Community" plan. Luckily, the people over at Algolia have already thought about this for you and have written this handy post about handling long documents: [https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/indexing-long-documents/](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/indexing-long-documents/).
+
+Here's the TL;DR; If your records are too big, we need to divide the content of those records into smaller pieces and index those instead. How you do this is up to you and your specific data, but for a blog, a could place to start might be every paragraph (seriously). We aren't concerned with how big the index is, just the size of the records. At the start of this process I only had 77 records. By the end, I had over 1.7K records! Let me show you how I did it.
+
+Reopen the `algolia.js` file from before, we're going to make some modifications to it. The culprit of my large records is the `rawBody` data I'm getting from my query. This contains all the text in the body of my blog post. Thus, a long post means a big record. We need to manipulate this data in a way to reduce it's size.
+
+```javascript
+// algolia.js
+
+// `mdxQuery` and `unnestfrontmatter` are the same as before
+// so scroll up to take a look at them
+
+// I'm defining a function that will map over our data nodes
+// We're going to return an array of record objects
+const handleRawBody = node => {
+  // We want to split `rawBody` from the node
+  const { rawBody, ...rest } = node
+
+  // To improve search with smaller record sizes, we will divide all
+  // blog posts into sections (essentially by paragraph).
+
+  // Since the body of my posts is markdown, we will split
+  // whereever there are two adjacent new lines, this is a
+  // reasonable proxy for paragraphs
+  const sections = rawBody.split('\n\n')
+
+  // Now, we're goint to map over each section, returning
+  // an object that contains all the frontmatter and excerpt,
+  // but only has the specific content on that key.
+  // This way the results are still associated with the
+  // correct post.
+  const records = sections.map(section => ({
+    ...rest,
+    content: section
+  }))
+
+  return records
+}
+
+const queries = [
+  {
+    query: mdxQuery,
+    transformer: ({ data }) =>
+      data.allMdx.edges
+        .map(edge => edge.node)
+        .map(unnestFrontmatter)
+        // Now we take rawBody and manipulate it into many more records
+        .map(handleRawBody)
+        // And we flatten those records into a single array
+        // alternatively, flatMap is available wherever ES2019 is implemented
+        .reduce((acc, cur) => [...acc, ...cur], [])
+  }
+]
+
+module.exports = queries
+```
+
+Now, our index has lots of tiny records, which is exactly what Algolia wants. Also, each record still contains all the necessary data for our search UI. There is one final problem though.
+
+If I were to do a search at this moment, say for the word 'React', I'll get results that show the same article over and over and over again because I use the `tag` React for my record objects. This isn't good. We need a way to dedupe the records. Luckily again, Algolia has thought of this.
+
+We just need to update two places in our app to make this happen. First, we'll make a small update to the query object in `algolia.js`.
+
+```javascript
+// algolia.js
+
+// mdxQuery, unnestFrontmatter and handleRawBody are all the same as before
+
+const queries = [
+  {
+    query: mdxQuery,
+    // Here's the change
+    settings: {
+      attributeForDistinct: 'slug',
+      distinct: true
+    },
+    transformer: ({ data }) =>
+      data.allMdx.edges
+        .map(edge => edge.node)
+        .map(unnestFrontmatter)
+        .map(handleRawBody)
+        .reduce((acc, cur) => [...acc, ...cur], [])
+  }
+]
+
+module.exports = queries
+```
+
+In the `settings` object of our query, we are telling Algolia that we want distinct results, and that they should be recognized as distinct by there `slug` property (which is unique to each post).
+
+Now, we need to inform our UI that we only want distinct results. In our `Search` component, we need to add the `Configure` component. Since I don't want to show _all_ my customizations (the code text would be quite long), I'll take the minimal version and add the `Configure` component to that. Make adjustments as you need to for your situation.
+
+```javascript
+// Search.js
+
+import React from 'react'
+import algoliasearch from 'algoliasearch/lite'
+import {
+  Configure,
+  InstantSearch,
+  SearchBox,
+  Hits
+} from 'react-instantsearch-dom'
+
+const searchClient = algoliasearch(
+  process.env.GATSBY_ALGOLIA_APP_ID,
+  process.env.GATSBY_ALGOLIA_SEARCH_KEY
+)
+
+export default function Search() {
+  return (
+    <InstantSearch
+      indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+      searchClient={searchClient}
+    >
+      {/* Here's the change */}
+      <Configure distinct />
+      <SearchBox />
+      <Hits />
+    </InstantSearch>
+  )
+}
+```
+
+Seriously, that is all it took. Adding the `distinct` prop to our `Configure` component, and now my results return only one `hit` instead of many duplicates. I owe some props to [Haroen](https://twitter.com/haroenv) who helped me out over the weekend to figure this last bit out.
+
+### Conclusion
+
+And that's it! We're done. We got search working on a Gatsby blog (and you can apply this to any Gatsby site). To recap, the steps are:
+
+- Setup Algolia
+- Configure `gatsby-plugin-algolia`
+- Create queries to get and set your records
+- Create a UI with `react-instantsearch-dom`
+- And optionally, optimize your records
+
+I hope you you find this process as relatively painless as I did. If you're confused, be sure to check the documentation. If you're looking for additional resources, I recommend checking out this video from my friend Jason Lengstorf on his YouTube channel about doing this very same thing: [Add Algolia search to your Gatsby site (with Bram Adams) — Learn With Jason](https://www.youtube.com/watch?v=VSkXyuXzwlc). I know I found parts of the video helpful in this process.
+
+I know that this tutorial is still not _exhaustive_ but I hope it's a big help to what you're trying to accomplish. Hit me up on Twitter if you have any questions I can help with regarding the post!

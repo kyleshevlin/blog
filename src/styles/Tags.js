@@ -53,7 +53,15 @@ const GlobalStyles = () => (
 
       ul,
       ol {
+        list-style-position: inside;
         margin-bottom: ${bs()};
+      }
+
+      ul ul,
+      ul ol,
+      ol ul,
+      ol ol {
+        margin-left: ${bs()};
       }
 
       pre,
