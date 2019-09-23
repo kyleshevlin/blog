@@ -11,7 +11,7 @@ keywords:
     'singleton',
     'environment variables',
   ]
-relatedPostsSlugs: ['why-i-rewrote-my-blog-with-gatsby']
+relatedPostsSlugs: ['why-i-rewrote-my-blog-with-gatsby', 'how-to-add-algolia-search-to-a-gatsby-site']
 subtitle: 'or How I Fixed an Unexpected Snafu'
 slug: 'firebase-and-gatsby-together-at-last'
 tags: ['Firebase', 'Gatsby', 'React']

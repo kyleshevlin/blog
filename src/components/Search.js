@@ -18,7 +18,7 @@ import SearchIcon from './icons/Search'
 import CloseIcon from './icons/Close'
 import * as PaginationStyles from './Pagination'
 
-const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   return (
     <div css={{ marginBottom: bs(0.5) }}>
       {/* Regarding the lint error below, it has htmlFor, don't know what it's yelling about */}
@@ -221,7 +221,7 @@ export default function Search() {
               >
                 <Configure distinct />
                 <div>
-                  <CustomSearchBox />
+                  <SearchBox />
                 </div>
                 <Results />
               </InstantSearch>
