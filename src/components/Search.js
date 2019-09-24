@@ -54,7 +54,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   )
 })
 
-const Hits = connectHits(({ hits }) => (
+const Hits = connectHits(({ closeModal, hits }) => (
   <div css={{ display: 'flex', flexWrap: 'wrap' }}>
     <div
       css={{
@@ -72,7 +72,11 @@ const Hits = connectHits(({ hits }) => (
     {hits.map(hit => {
       return (
         <div css={{ marginBottom: bs() }} key={hit.objectID}>
-          <Link css={{ display: 'block', marginBottom: bs(0.5) }} to={hit.slug}>
+          <Link
+            css={{ display: 'block', marginBottom: bs(0.5) }}
+            onClick={closeModal}
+            to={hit.slug}
+          >
             <h4 css={{ marginBottom: 0 }}>
               <Highlight attribute="title" hit={hit} tagName="strong" />
             </h4>
@@ -147,12 +151,12 @@ const Pagination = connectPagination(
   )
 )
 
-const Results = connectStateResults(({ searchResults }) => {
+const Results = connectStateResults(({ closeModal, searchResults }) => {
   return searchResults &&
     searchResults.query &&
     searchResults.query.length > 0 ? (
     <>
-      <Hits />
+      <Hits closeModal={closeModal} />
       <Pagination />
     </>
   ) : null
@@ -223,7 +227,11 @@ export default function Search() {
                 <div>
                   <SearchBox />
                 </div>
-                <Results />
+                <Results
+                  closeModal={() => {
+                    setIsModalOpen(false)
+                  }}
+                />
               </InstantSearch>
             </div>
           </Container>
