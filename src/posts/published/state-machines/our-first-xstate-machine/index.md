@@ -22,7 +22,7 @@ import { Machine } from 'xstate'
 import { interpret } from 'xstate/lib/interpreter'
 ```
 
-Now, let's create an example. I'm going to use the same example that I used in an [egghead lesson I made to introduce this topic](https://egghead.io/lessons/javascript-handle-state-transitions-through-events-in-a-finite-state-machine-with-xstate), an elevator. Specifically, a single elevator box.
+Now, let's create an example. I'm going to use the same example that I used in an [egghead lesson I made to introduce this topic](https://egghead.io/lessons/javascript-handle-state-transitions-through-events-in-a-finite-state-machine-with-xstate/?af=8u8eik), an elevator. Specifically, a single elevator box.
 
 The box of an elevator can have three possible states: stopped, moving up, or moving down. Let's start configuring our `elevatorMachine` with these states.
 
