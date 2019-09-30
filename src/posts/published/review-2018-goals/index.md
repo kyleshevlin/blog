@@ -58,7 +58,7 @@ I think I need to make some real concrete goals in this category, and I have to 
 
 ### Teach More
 
-I did accomplish this and am really stoked on what I might be able to do in 2019 to continue this trend. The big win of the year in this regard was releasing my [first egghead course](https://egghead.io/courses/data-structures-and-algorithms-in-javascript). It was a really huge success and made me realize that there's a possibility of a future for me in making courses and lessons like this. I've got to setup some real goals in this regard for 2019, so lot's more about this in that post.
+I did accomplish this and am really stoked on what I might be able to do in 2019 to continue this trend. The big win of the year in this regard was releasing my [first egghead course](https://egghead.io/courses/data-structures-and-algorithms-in-javascript/?af=8u8eik). It was a really huge success and made me realize that there's a possibility of a future for me in making courses and lessons like this. I've got to setup some real goals in this regard for 2019, so lot's more about this in that post.
 
 ### Play Golf
 

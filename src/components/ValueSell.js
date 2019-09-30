@@ -26,7 +26,7 @@ const ValueSell = () => (
     render={data => {
       const { src } = data.allImageSharp.edges[0].node.original
       const eggheadUrl =
-        'https://egghead.io/courses/just-enough-functional-programming-in-javascript'
+        'https://egghead.io/courses/just-enough-functional-programming-in-javascript/?af=8u8eik'
 
       return (
         <div
