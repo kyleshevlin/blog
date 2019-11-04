@@ -3,9 +3,16 @@ import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
+import { inflect } from '../utils'
+
+const WORKSHOP_DATE = new Date(2019, 10, 13)
+const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24
 
 export default function AnnouncementBanner() {
-  return (
+  const now = new Date()
+  const daysLeft = Math.floor((WORKSHOP_DATE - now) / MILLISECONDS_IN_A_DAY)
+
+  return daysLeft > 0 ? (
     <div
       css={{
         backgroundColor: COLORS.teal,
@@ -22,8 +29,12 @@ export default function AnnouncementBanner() {
             display: 'flex'
           }}
         >
+          <div></div>
           <div css={{ marginRight: bs(0.5) }}>
-            Attend my live, online workshop about State Machines on Nov. 13th.
+            Attend my live, online workshop about State Machines on Nov. 13th.{' '}
+            <strong>
+              Only {daysLeft} {inflect('day', 'days', daysLeft)} left.
+            </strong>{' '}
             Get your ticket now!
           </div>
           <OutboundLink
@@ -54,5 +65,5 @@ export default function AnnouncementBanner() {
         </div>
       </Container>
     </div>
-  )
+  ) : null
 }
