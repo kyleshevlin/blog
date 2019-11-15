@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import AnnouncementBanner from './AnnouncementBanner'
 import Container from './Container'
 import Footer from './Footer'
 import { FootnotesContainer, FootnoteDisplay } from './Footnotes'
@@ -25,7 +24,6 @@ const Layout = ({ children }) => (
     <Miscellaneous />
 
     <FootnotesContainer>
-      <AnnouncementBanner />
       <Header />
       <main
         css={{
