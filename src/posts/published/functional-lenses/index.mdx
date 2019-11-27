@@ -4,15 +4,27 @@ slug: 'functional-lenses'
 title: 'Functional Lenses'
 ---
 
-The other day I was making changes to a part of Webflow's codebase that heavily depends on _lenses_. If you've never heard about them, have no fear. I had no idea what they were either. But after some research, I quickly realized just how useful they can be and why we use them at Webflow and why I might use them in my own projects going forward. Let me teach you what I've learned.
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+
+The other day I was making changes to a part of Webflow's codebase that heavily depends on _lenses_. If you've never heard about them, have no fear. I had no idea what they were either. But after some research, I quickly realized just how useful they can be, why we use them at Webflow, and why I might use them in my own projects going forward. Let me teach you what I've learned.
 
 ### What is a `lens`?
 
-A lens is a composable pair of pure functions, a "getter" and a "setter", that focuses in on a particular part of a greater data structure (typically an object, but it can be other data structures as well). The lens is used to `view` and `set` that focused part and decouples how we do that from the structure of the data itself. This will make more sense soon.
+A lens is a composable pair of pure functions, a "getter" and "setter", focused on a particular part of a greater data structure. <Marker index={1} content="Typically this data structure is an object, but it can be used on some other data structures as well" /> The lens is used to `view` and `set` the focused part, such as a key on an object (even a particular deeply nested key).
 
-The getter of a lens receives the whole data structure and returns just the part on which it is focused. The setter of a lens receives the whole data structure, the value we'd like to set at the part on which we are focused, and returns a brand new data structure with the updated data (this is an immutable update, to learn more about immutability, you can read my blog post on it [here](/just-enough-fp-immutability)).
+The "getter" of a lens receives the whole data structure and returns just the part on which it is focused.
 
-If we were to make some functions that do this ourselves, they might look something like this:
+```javascript
+const getter = whole => part
+```
+
+The setter of a lens receives the whole data structure, the value we would like to set at the part on which we are focused, and returns a brand new data structure with the updated data (this is an immutable update, to learn more about immutability, you can read my blog post on it [here](/just-enough-fp-immutability)).
+
+```javascript
+const setter = whole => update => newWholeWithUpdateApplied
+```
+
+Now, if we were to take these concepts and write some real code that accomplished this from scratch, it might look something like this:
 
 ```javascript
 // Generic `view` and `set` functions that can be used on any lens
@@ -30,7 +42,7 @@ const lensProp = prop => ({
 })
 ```
 
-Now with our functions, we can create lenses for particular props of an object, and `view` and `set` those propertys immutably as pure functions.
+Now with our functions, we can create lenses for particular props of an object, and `view` and `set` those properties immutably as pure functions.
 
 ```javascript
 const author = {
@@ -49,11 +61,11 @@ As is, this might not seem very impressive, but let's add a feature that will un
 
 ### Adding Ramda to the Mix
 
-I want you to completely forget about my naive implementation of `view`, `set`, and even `lensProp` right now. They were just to whet your tongue, a lens appetizer, if you will. We need something more substantial, though, something that'll do for a real main course.
+I want you to completely forget about our naive implementation of `view`, `set`, and even `lensProp` right now. They were just to whet your tongue, a lens appetizer, if you will. We need something more substantial, though, for the real main course.
 
 The [Ramda](https://ramdajs.com) library is a powerful utility library made for functional programming. It's worth checking out more fully on your own time, but right now, we're going to use a few of its methods that are specifically designed for lenses. **From this point forward, we are using methods from the Ramda library to unlock the power of lenses**.
 
-Ramda provides a `view`, `set`, and `lensProp` function similar to what I built before, but these are composable, meaning that I can combine `lensProp`s to be able to get and set data that is deeply nested in a structure. Let's imagine that our `author` object from before got a little more complex.
+Ramda provides a `view`, `set`, and `lensProp` function similar to what we built before, but these are composable. That means we can combine `lensProp`s to be able to get and set data that is deeply nested in a structure. Let's imagine that our `author` object from before became a little more complex.
 
 ```javascript
 const author = {
@@ -91,11 +103,11 @@ const nameLens = lensProp('name')
 const stateLens = lensProps('state')
 
 // That's enough lenses to get started. Let's compose some for the nested objects
-const firstNameLens = compose(
+const firstnameLens = compose(
   nameLens,
   firstLens
 )
-const hobbiesHeadLens = compose(
+const firstHobbyLens = compose(
   hobbiesLens,
   headLens
 )
@@ -104,10 +116,10 @@ const locationStateLens = compose(
   stateLens
 )
 
-// Now we can use these combined lenses to get and set our data
-console.log(view(firstNameLens, author)) // 'Kyle'
-console.log(view(hobbiesHeadLens, author)) // 'Golf'
-console.log(set(stateLens, 'ME', author))
+// Now we can use these composed lenses to get and set our data
+console.log(view(firstnameLens, author)) // 'Kyle'
+console.log(view(firstHobbyLens, author)) // 'Golf'
+console.log(set(locationStateLens, 'ME', author))
 // {
 //   name: {
 //     first: 'Kyle',
@@ -123,4 +135,28 @@ console.log(set(stateLens, 'ME', author))
 // }
 ```
 
-Don't worry, I'm not moving to Maine (though I bet fall looks gorgeous there right now). But look how easy it is to create a function that can get deeply nested data. This is powerful because if I use lenses to get and set my data, then when the data structure changes, I only have to update what the lens focuses on, not all the locations I'm calling that data. If instead of nesting the first name in `name.first`, we changed it to `firstName`, I only have to update the `firstNameLens` to `lensProp('firstName')` instead of its current composition and the lens still works through out my application.
+Don't worry, I'm not moving to Maine. <Marker index={2} content="Though I would love to visit in the fall sometime" /> But look how easy it is to create a function that can get and set deeply nested data. This is powerful because if I use lenses to get and set my data, then when the data structure changes, I only have to update what the lens focuses on, not all the locations I'm calling that data. If instead of nesting the first name in `name.first`, we changed it to `firstName`, I only have to update the `firstnameLens` composition. <Marker index={3} content="It won't actually be a composition if that change is made, but roll with me" /> This is all we do:
+
+```javascript
+const firstnameLens = lensProp('firstName')
+```
+
+And now every use of `firstnameLens` in my application is updated to the newly structured data. In this way, we can decouple how we handle our data from the actual structure itself.
+
+Imagine using this with something like Redux stores? Or perhaps you have a central store of data somehow in your application. You can create a function designed to be focused on a part of the store and pass that around.
+
+```javascript
+// settingsStore.js
+export const darkModeLens = compose()
+// ...all the lenses needed for the dark mode setting
+
+// someOtherFile.js
+import { darkModeLens } from './settingsStore'
+
+//...further down that file
+function DarkModeToggle = () => (
+  <button onClick={() => { set(darkModeLens, !view(darkModeLens)) }}>
+    Toggle Dark Mode
+  </button>
+)
+```
