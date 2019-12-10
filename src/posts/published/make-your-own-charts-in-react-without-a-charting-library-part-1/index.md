@@ -2,8 +2,8 @@
 categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2017-06-24'
-slug: 'make-your-own-charts-in-react-without-a-charting-library-part-1'
-title: 'Make Your Own Charts in React Without a Charting Library - Part 1'
+slug: 'make-your-own-charts-in-react-without-a-charting-library'
+title: 'Make Your Own Charts in React Without a Charting Library'
 ---
 
 Occasionally I see someone ask, "What's the best way to make bar charts with React? Are there any great libraries?" I often respond with, "Why not build it with React yourself?"
@@ -136,6 +136,6 @@ const BarChart = ({ data }) => {
 }
 ```
 
-And there you have it, a very simple to make bar chart. We'll add axes to our chart in the next post. Take a look and play with the chart below:
+And there you have it, a very simple to make bar chart. Take a look and play with the chart below:
 
 <iframe src="https://codesandbox.io/embed/oQGjvR6ZK" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
