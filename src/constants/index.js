@@ -16,3 +16,5 @@ export const COLORS = {
 export const FONTS = {
   catamaran: 'Catamaran, sans-serif'
 }
+
+export const EGGHEAD_AFFILIATE_QUERY_PARAM = '?af=8u8eik'

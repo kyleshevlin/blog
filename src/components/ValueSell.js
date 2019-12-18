@@ -1,6 +1,10 @@
 import React from 'react'
 import { graphql, StaticQuery } from 'gatsby'
-import { BREAKPOINTS, COLORS } from '../constants'
+import {
+  BREAKPOINTS,
+  COLORS,
+  EGGHEAD_AFFILIATE_QUERY_PARAM
+} from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 import Container from './Container'
@@ -8,25 +12,27 @@ import Container from './Container'
 const ValueSell = () => (
   <StaticQuery
     query={graphql`
-      query EggheadCourseImage {
-        allImageSharp(
-          filter: { original: { src: { regex: "/Just-Enough/" } } }
-        ) {
+      query LatestCourse {
+        allCoursesJson(sort: { fields: date, order: DESC }, limit: 1) {
           edges {
             node {
-              id
-              original {
-                src
+              logo {
+                publicURL
               }
+              title
+              url
             }
           }
         }
       }
     `}
     render={data => {
-      const { src } = data.allImageSharp.edges[0].node.original
-      const eggheadUrl =
-        'https://egghead.io/courses/just-enough-functional-programming-in-javascript/?af=8u8eik'
+      const {
+        logo: { publicURL },
+        title,
+        url
+      } = data.allCoursesJson.edges[0].node
+      const eggheadUrl = url + EGGHEAD_AFFILIATE_QUERY_PARAM
 
       return (
         <div
@@ -65,8 +71,8 @@ const ValueSell = () => (
                         opacity: 0.85
                       }
                     }}
-                    src={src}
-                    alt="Just Enough Functional Programming in JavaScript Logo"
+                    src={publicURL}
+                    alt={`${title} Logo`}
                   />
                 </a>
               </div>
@@ -80,7 +86,7 @@ const ValueSell = () => (
               >
                 <h2>Check out my latest course on Egghead!</h2>
                 <a href={eggheadUrl}>
-                  <h3>Just Enough Functional Programming in JavaScript</h3>
+                  <h3>{title}</h3>
                 </a>
               </div>
             </div>

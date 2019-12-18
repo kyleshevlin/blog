@@ -1,7 +1,6 @@
 import React from 'react'
 import { bs } from '../shevy'
-
-const AFFILIATE_QUERY_PARAM = '?af=8u8eik'
+import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 
 export default function EggheadEmbed({ src, title }) {
   return (
@@ -22,7 +21,7 @@ export default function EggheadEmbed({ src, title }) {
           height: '100%',
           border: 0
         }}
-        src={src + AFFILIATE_QUERY_PARAM}
+        src={src + EGGHEAD_AFFILIATE_QUERY_PARAM}
         title={title}
       />
     </div>
