@@ -20,6 +20,12 @@ module.exports = {
         extensions: ['.mdx', '.md'],
         gatsbyRemarkPlugins: [
           {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 960
+            }
+          },
+          {
             resolve: 'gatsby-remark-prismjs',
             options: {
               noInlineHighlight: true
