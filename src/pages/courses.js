@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { graphql, StaticQuery } from 'gatsby'
 import Seo from '../components/Seo'
-import { BREAKPOINTS } from '../constants'
+import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 
@@ -65,7 +65,7 @@ function CourseItem({ description, logo, title, url }) {
       </a>
       <div>
         <h3>
-          <a href={url}>{title}</a>
+          <a href={url + EGGHEAD_AFFILIATE_QUERY_PARAM}>{title}</a>
         </h3>
         <p>{description}</p>
       </div>
