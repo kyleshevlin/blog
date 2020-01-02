@@ -2,7 +2,7 @@ import React from 'react'
 import { bs } from '../shevy'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 
-export default function EggheadEmbed({ src, title }) {
+export default function EggheadEmbed({ src, title = '' }) {
   return (
     <div
       style={{
