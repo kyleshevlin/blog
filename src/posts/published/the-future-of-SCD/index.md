@@ -1,0 +1,47 @@
+---
+date: '2020-01-04'
+slug: 'the-future-of-second-career-devs'
+title: 'The Future of Second Career Devs'
+description: 'I started the Second Career Devs podcast in 2017 with a lot of excitement and hope. Let me tell you where my head is at now on the project'
+categories: ['Side Projects']
+tags: ['Second Career Devs', 'Podcast']
+relatedPostsSlugs: ['i-started-a-podcast']
+---
+
+![Second Career Devs Logo](./images/scdLogoWide.jpg)
+
+At the time of this post, it has been roughly seven and a half months since I released an episode of [Second Career Devs](https://secondcareerdevs.com). I thought it was time to try and write down my thoughts regarding the future of SCD. I warn you, this is mostly a brain dump. It won't be very orderly. I'm not going to spend a lot of time editing this post. I'm just gonna spew words at my text editor and see what comes out.
+
+Before I started SCD, I knew I wanted to do _something_ that both got me some recognition and was useful to others. Vain, I know, but my father never said he was proud of me or that he loved me so I constantly seek the approval of others, yada yada yada. I don't have a lot of great app or OSS ideas that accomplish that need/goal, but I knew I could talk to people well and knew I had an angle to share with others. So I started SCD with no real plan, kind of like most of the things I do.
+
+In the beginning, running a podcast was new and interesting. I like new and shiny things (as I imagine many with ADHD do). It was so new and interesting that I wasn't really aware of what it was costing me in time, money and energy. As time went on, this would become painfully obvious.
+
+I think the first time it dawned on me that a podcast was more than I bargained for was when people asked for swag. I had no budget for swag.
+
+The next time was when people complained I didn't have an episode out when I said I would. I couldn't tell them that a guest flaked on me not once, not twice, not even thrice, but four times. That was really shitty.
+
+The next time was when someone more or less yelled at me publicly demanding to know when they would be a guest on the podcast. There was no sense of "guests are invited", it was total entitlement, "I added myself to your guestlist, so I demand to be on your podcast". Felt pretty shitty on that one, too.
+
+Then another time was when it dawned on me just how much time goes into making a _single_ episode. The act of finding a guest, scheduling the guest, recording the episode, editing, doing the admin to load the episode, update the website, etc, it amounts from 4-8 hours per episode, depending on how innefficient the process went. You can't shrink the time of recording, it takes what it takes. Editing takes at minimum the time it took to record. Scheduling is a nightmare. Everyone's always busy (including myself). If I were to try and put out an episode every week, we're talking between 200-400 hours of work in a year. That's 10-20% more work in my week. For what? Nothing. I make absolutely nothing from making a podcast.
+
+Ok, so I can remedy that with ads and sponsors, right? Except they're just as flaky as guests. Now I have to get real contracts together, come up with rates and invoices and budgets and on and on and on. And if I do that I might want to start an LLC and all of a sudden I'm running a business I never planned on and that's more time and more energy being taken from me.
+
+But the money is good, right? Kind of. It was nice to ask for some money and get it, but I used most of the sponsor money I made to pay for transcripts. Every episode with a transcript costs $1/minute to get transcribed by the most affordable service I can find. I was very happy with their work, but now each episode costs me $45-$60. I'm not complaining that accessibility costs money. I believe that making the podcast available to people is a good thing. It's simply a cost I never considered and didn't have a strategy to afford.
+
+"What about Patreon, Kyle? What about donations to keep this going?" Still more work, plus I'm now begging for help _and_ now I'm obligated to other people in a way I wasn't before. If someone makes a donation and I can't come up with a guest or the time or energy to finish a new episode, I've now let them down, too.
+
+All of this, all of the crap _around_ just trying to have a conversation with someone with an interesting story, the part of the whole project I was _actually_ interested in, was a huge drain to me.
+
+You can ask my wife, I've had very little energy for the last few years. I don't really want to hash out why my energy is low here, that's for another blog, but when you don't have a lot of excess energy and something isn't _giving_ you any back, you're just not inclined to work on it. And so, here we are, me not working on SCD.
+
+There was a time where I considered expanding SCD. I still think this is a good idea, but an SCD themed job board could be a real revenue maker. I even started the project once, but I found myself realizing that I don't want to beholden myself to this. I don't want it to be my job and that's what all this was becoming. I'm not sure _what_ I want to be my job in the long run of my career, but I saw a future where I was trying to scrape a living out of running a podcast and a job board and I was not convinced that is what I wanted to do.
+
+So this is where my head is at. SCD is loved by a bunch of people. It's useful and is a good thing for the world. Awesome. All the work around it. Completely not awesome. People want more. I'd love to give it to them, but the only part that interests me is the interviews and making the music for the ad spots and intro (yes, I made those all from scratch). I'm also interested in making the job board, but only if I knew it wouldn't _have_ to be a full-time job. It could sustain itself after an initial effort. But I would rather not waste a second of my life on the other stuff at this rate.
+
+I can't afford to hire someone to do all the scheduling, do all the editing, and do all the administrative work around SCD and I don't have the plans to remedy this situation. I'm not looking to add a part-time job to my life, and I'm not looking to put in the work to secure ads, sponsors, and/or donations to get to a place to afford to hire the other help I need to keep SCD going forward.
+
+Which kind of leads me to an empasse. I would love for more stories to be out there, but I'm not willing to make the time, energy and monetary commitment to make it happen (especially when other uses of those commitments reap much better financial rewards, like my egghead courses). I just don't really know what to do at this empasse. I don't want to let it just die, but it kind of already has. I've honestly started to wonder what's the cheapest way I can keep the podcast hosted so at least the episodes remain available to everyone.
+
+I'm going to stop spewing there. I know I'm not being very linear, and possibly incoherent, but I needed to share what was on my heart. I still love what I was trying to do, I wish it could stay simple and cost nothing to do. It's hard to do something that costs you when you don't feel like you have ample resources to be generous in that way. I'm sorry if I've let you down, but at least now you might know where I am.
+
+If you want to respond to this post, feel free to send a tweet to [@2ndCareerDevs](https://twitter.com/2ndCareerDevs). I would love to hear your responses. I do read them all, even if I'm a bit slow to respond to them.
