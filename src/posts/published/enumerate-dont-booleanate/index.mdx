@@ -1,0 +1,480 @@
+---
+categories: ['JavaScript', 'Software Engineering', 'Web Development']
+tags: ['XState', 'React']
+date: '2020-01-25'
+slug: 'enumerate-dont-booleanate'
+title: "Enumerate, Don't Booleanate"
+description: 'We learn how to use booleans early and often, but they are not the right tool for the job sometimes. A enum may solve our problems with greater precision.'
+---
+
+I want to teach you something that's taken me a few years to learn and a lot of trial and error. I could teach it to you in a couple tweets, but I want to take you on a bit of a journey instead. I want to show a problem, and show you different ways I would attempt to solve it as I go from "naive Kyle" (who am I kidding, I'm probably still naive Kyle) to "knows better Kyle".
+
+Let's imagine me just a few years back. I show up to work one morning and my project manager has a request for me.
+
+"Kyle, our customers want donuts and they want them fast. They want a simple form that'll deliver them directly to their door. We already have their address. We only need them to select how many they want. Can you build this?"
+
+"Of course I can!"
+
+I would head off to my work station and start building a form just as fast as I could and probably came up with something like this:
+
+```javascript
+import React from 'react'
+
+export default function DonutForm() {
+  const [quantity, setQuantity] = React.useState(0)
+  const [isSuccess, setSuccess] = React.useState(false)
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    sendOrder({ quantity }).then(response => {
+      console.log(response)
+      setSuccess(true)
+    })
+  }
+
+  const handleChange = e => {
+    setQuantity(Number(e.target.value))
+  }
+
+  const reset = () => {
+    setQuantity(0)
+    setSuccess(false)
+  }
+
+  return (
+    <div className="donut_form-wrap">
+      {isSuccess ? (
+        <>
+          <div>Donuts are on their way!</div>
+          <button type="button" onClick={reset}>
+            Reset
+          </button>
+        </>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <h4>Get Yummy Donuts!</h4>
+
+          <div>
+            <label htmlFor="donutFormQuantity">Quantity</label>
+            <input
+              id="donutFormQuantity"
+              min={0}
+              name="donutFormQuantity"
+              onChange={handleChange}
+              step={1}
+              type="number"
+              value={quantity}
+            />
+          </div>
+
+          <button type="submit">Order</button>
+        </form>
+      )}
+    </div>
+  )
+}
+
+function inflect(singular, plural, value) {
+  return value === 1 ? singular : plural
+}
+
+// Pretend this is an API call that orders the donuts
+function sendOrder({ quantity }) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(`Ordered ${quantity} ${inflect('donut', 'donuts', quantity)}!`)
+    }, 2000)
+  })
+}
+```
+
+You can see a running example of this code at: [https://codesandbox.io/s/hopeful-ritchie-lk7cs](https://codesandbox.io/s/hopeful-ritchie-lk7cs).
+
+Disregarding the anachronism that React existed when I was starting my career (let alone Hooks), this form is pretty decent. Naive Kyle even managed to think of `isSuccess`, a bit of state that will tell the user that they successfully ordered there donuts. However, as often happens with projects, the scope wasn't fully defined or something important was forgetten. The project manager comes back to me,
+
+"Kyle, that's great, but you forgot that sometimes the API is going to fail. As scary as it might be to tell people who want donuts that their donuts aren't on the way just yet, we gotta do it. We had one customer, Dinah, who tried to order some donuts, but didn't know that the order had failed. She just sat there, waiting for them to be delivered, until she shriveled up and died of donut starvation. Tragic, I know. We can't lose customers like that. Can you handle errors for us?"
+
+"Woah! Of course, I can!"
+
+So back to the code we go to add some error handling. What's the first thing we do? Well, we add another bit of state to the component, of course:
+
+```javascript
+const [quantity, setQuantity] = React.useState(0)
+const [isSuccess, setSuccess] = React.useState(false)
+const [error, setError] = React.useState(null)
+//...
+```
+
+Ok, we've added a way to track the error. Great, now we need a way to set it:
+
+```javascript
+//...
+const handleSubmit = e => {
+  e.preventDefault()
+
+  if (error) {
+    setError(null)
+  }
+
+  sendOrder({ quantity })
+    .then(response => {
+      console.log(response)
+      setSuccess(true)
+    })
+    .catch(err => {
+      setError(err)
+      setSuccess(false) // just to be sure!
+    })
+}
+//...
+```
+
+Great, we're setting the error when the `sendOrder` promise rejects _and_ we were thoughtful enough to clear any existing error when we try to submit the form. Just one last thing we have to add:
+
+```javascript
+error ? <div className="error_wrap">{error}</div> : null
+```
+
+Perfect, now we display the error to the user and we only had to add one bit of state (that even though it's not technically a boolean, we actually coerce into a boolean _twice_). Slightly less naive Kyle is proud. You can see a running example of this code at: [https://codesandbox.io/s/vibrant-kirch-w67vx](https://codesandbox.io/s/vibrant-kirch-w67vx)
+
+Slightly less naive Kyle's project manager sees our progress and comes back with, "Kyle, that's amazing! But you forgot that the API call takes some actual _time_. Because you forgot to disable the submit button while an order is pending, Methuselah over there was so impatient for some donuts that he smashed the submit button 18 times before the order went through. That's right! 18 baker's dozens showed up at his door! Being the donut fiend he is, Methuselah ate _all of them_. He's in a coma now, poor guy. May never wake up from his body handling all those donuts. We've lost one of our best customers. You need to fix this."
+
+"Oh damn! I'll fix it right away"
+
+So back to the code we go to disable the submit button while an order is pending. Let's add another bit of state to track whether we are submitting or not.
+
+```javascript
+const [quantity, setQuantity] = React.useState(0)
+const [isSuccess, setSuccess] = React.useState(false)
+const [error, setError] = React.useState(null)
+const [isSubmitting, setSubmitting] = React.useState(false)
+```
+
+Alright, so we need to couple this to the submit button, like so:
+
+```javascript
+<button disabled={isSubmitting} type="submit">
+  Submit
+</button>
+```
+
+And lastly, we need to update when we are or aren't submitting:
+
+```javascript
+const handleSubmit = e => {
+  e.preventDefault()
+  setSubmitting(true)
+
+  if (error) {
+    setError(null)
+  }
+
+  sendOrder({ quantity })
+    .then(response => {
+      console.log(response)
+      setSuccess(true)
+      setSubmitting(false) // Do we really need this here? We'll be on the success screen. ¯\_(ツ)_/¯
+    })
+    .catch(err => {
+      setError(err)
+      setSuccess(false) // just to be sure!
+      setSubmitting(false)
+    })
+}
+```
+
+Awesome. Our form now tracks when it's submitting and prevents the user from ordering more donuts than intended. Huzzah! It works. You can see a running example of this code at: [https://codesandbox.io/s/lucid-noyce-832f0](https://codesandbox.io/s/lucid-noyce-832f0).
+
+But, at this point, we need to ask ourselves a question: would you really want to be the next developer to work on this form?
+
+I don't think I'd want to be. The code is convoluted. We're setting states left and right. We even have some setters in places where we aren't even sure if we need them. Why? Because we're "good" programmers and we're trying to avoid a problem that we haven't even give a name to yet. We're trying to avoid getting our component into **impossible states**.
+
+It should be impossible to order donuts while we're ordering donuts already. It should be impossible that we show an error while we are showing the user that they have been successful. We've done so by using a bunch of booleans (and treated other values like booleans) in order to achieve this, but our component has undergone a bit of boolean explosion.
+
+Boolean explosion is when, through the use of booleans, we have introduced more states than are actually possible in our program. For every boolean we add to a program, we are adding 2^n states (where _n_ is the number of booleans). Let's just iterate on that a few times.
+
+- 1 boolean === 2 states
+- 2 booleans === 4 states
+- 3 booleans === 8 states
+- 4 booleans === 16 states
+- 5 booleans === 32 states...
+
+You can see that the number of states starts to grow very quickly. But do you _actually_ have that many states in your program? Our form currently uses three booleans, but does it really have eight states? No, most of those states are impossible. For example, we cannot be in a state where `isSuccess`, `error`, and `isSubmitting` all coerce to `true`. It's impossible.
+
+So why do we even give our programs the _opportunity_ to be in states that are impossible?
+
+Because we don't _enumerate_.
+
+Enumeration, the act of identifying a set of _things_ one by one, is simple, but effective way to make our programs a bit more robust. Slightly more experienced Kyle can show you how.
+
+Given the same requirements, slightly more experienced Kyle realizes that there are really only a handful full of states that our form can ever be in. Let's enumerate those:
+
+```javascript
+const DONUT_FORM_STATES = {
+  idle: 'idle',
+  submitting: 'submitting',
+  success: 'success',
+  failure: 'failure'
+}
+```
+
+Turns out, our form can only be in 4 states, not the 8 possible states suggested by our previous use of booleans. Now, let's track this state in our component.
+
+```javascript
+function DonutForm() {
+  const [quantity, setQuantity] = React.useState(0)
+  const [current, setCurrent] = React.useState(DONUT_FORM_STATES.idle)
+  //...
+}
+```
+
+The next thing slightly more experienced Kyle realizes is that we can only _transition_ to certain states from particular other states. For example, we can never go straight from `idle` to `success`. We need to be in `submitting` to go to `success`. So not only have we enumerated the possible states, but we need to enumerate the possible transitions between those states, too.
+
+```javascript
+const DONUT_FORM_TRANSITIONS = {
+  [DONUT_FORM_STATES.idle]: {
+    SUBMIT: DONUT_FORM_STATES.submitting
+  },
+  [DONUT_FORM_STATES.submitting]: {
+    SUCCEED: DONUT_FORM_STATES.success,
+    FAIL: DONUT_FORM_STATES.failure
+  },
+  [DONUT_FORM_STATES.success]: {
+    RESET: DONUT_FORM_STATES.idle
+  },
+  [DONUT_FORM_STATES.failure]: {
+    SUBMIT: DONUT_FORM_STATES.submitting
+  }
+}
+```
+
+At first this might seem a bit confusing, but don't worry. We are using [computed property names](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer) to guarantee the values in our states enum are the keys of our transitions enum. We also want to ensure that our next state target is one of enumerated states. Lastly, we've added objects with "events" (the uppercased key) to each state which strictly defines what events a state will even respond to. That means we can create a function that _guarantees_ we correctly get the next state, given the current state and an event. Like so:
+
+```javascript
+const transition = (state, event) => {
+  const nextState = DONUT_FORM_TRANSITIONS[state][event]
+  return nextState ? nextState : state
+}
+```
+
+We need to add one last thing to make all these pieces come into place. We need a way of sending events to our enumerated transitions and updating to the next state. We need to define a `send` function inside our component that makes use of our `transition` function, and updates the current state.
+
+```javascript
+const send = event => {
+  setCurrent(currentState => transition(currentState, event))
+}
+```
+
+With all of this in place, we're ready to make the most robust donut form you've seen (so far in this blog post). We're going to add the important parts to the functions and markup inside this component.
+
+```javascript
+//...
+const handleSubmit = e => {
+  e.preventDefault()
+
+  send('SUBMIT')
+
+  sendOrder({ quantity })
+    .then(response => {
+      console.log(response)
+      send('SUCCEED')
+    })
+    .catch(err => {
+      send('FAIL')
+    })
+}
+//...
+const reset = () => {
+  send('RESET')
+}
+//..
+return (
+  <div className="donut_form-wrap">
+    {current === DONUT_FORM_STATES.success ? (
+      <>
+        <div>Donuts are on their way!</div>
+        <button type="button" onClick={reset}>
+          Reset
+        </button>
+      </>
+    ) : (
+      <form onSubmit={handleSubmit}>
+        <h4>Get Yummy Donuts!</h4>
+
+        {current === DONUT_FORM_STATES.failure ? (
+          <div className="error_wrap">Failed to order donuts</div>
+        ) : null}
+
+        <div>
+          <label htmlFor="donutFormQuantity">Quantity</label>
+          <input
+            id="donutFormQuantity"
+            min={0}
+            name="donutFormQuantity"
+            onChange={handleChange}
+            step={1}
+            type="number"
+            value={quantity}
+          />
+        </div>
+
+        <button
+          disabled={current === DONUT_FORM_STATES.submitting}
+          type="submit"
+        >
+          Order
+        </button>
+      </form>
+    )}
+  </div>
+)
+//...
+```
+
+You can see a running example of this code at: [https://codesandbox.io/s/vibrant-jackson-vy7qi](https://codesandbox.io/s/vibrant-jackson-vy7qi).
+
+Notice how simple it is to `send` events and trust that our component is in the correct state. We also have far fewer checks and guards than we did before. By eliminating the _existence_ of impossible states, we've created a program we can have a lot of confidence in.
+
+But, at this point, we need to ask ourselves a question: would you really want to be the next developer to work on this form?
+
+If I'm honest, I'd be _alright_ if this was where we stopped, but I do see some maintenance challenges. While we've made a huge step forward by **enumerating, not booleanating**, we have two enums to keep in sync, and had to create several functions that could probably be gathered together into a nice library with a friendly API.
+
+What we've created through the enums and a few functions is create an _ad hoc_ finite state machine. We have all the possible states of the system, all the possible transitions, and a way to safely transition from state to state. These are all the components of a good state machine library. So for one final step in this article, let's implement this same form with a popular state machine library, [XState](https://xstate.js.org).
+
+With XState, knows-even-a-little-bit-better Kyle can create a state chart that combines our enums together, making it easier to keep them in sync. Let's start by making a new variable we will call `chart`. `chart` will only have 3 properties, `id`, `initial` and `states`.
+
+```javascript
+const chart = {
+  id: 'donutForm',
+  initial: '',
+  states: {}
+}
+```
+
+`initial` is the initial state of our machine. In our case, our form starts in the initial state of `idle`.
+
+```javascript
+const chart = {
+  id: 'donutForm',
+  initial: 'idle',
+  states: {}
+}
+```
+
+Next, the `states` object will be an enum that combines our previous states and transitions enums together. Let's start by adding just our individual states to this object.
+
+```javascript
+const chart = {
+  id: 'donutForm',
+  initial: 'idle',
+  states: {
+    idle: {},
+    submitting: {},
+    success: {},
+    failure: {}
+  }
+}
+```
+
+Next, we're going to add our events and transitions on the object values of their corresponding state, underneath the `on` property. This way our code reads "When `idle`, `on` the `SUBMIT` event, transition to `submitting`".
+
+```javascript
+const chart = {
+  id: 'donutForm',
+  initial: 'idle',
+  states: {
+    idle: {
+      on: { SUBMIT: 'submitting' }
+    },
+    submitting: {
+      on: {
+        SUCCEED: 'success',
+        FAIL: 'failure'
+      }
+    },
+    success: {
+      on: { RESET: 'idle' }
+    },
+    failure: {
+      on: { SUBMIT: 'submitting' }
+    }
+  }
+}
+```
+
+Next, we're going to add a few libraries to our code that will let us use XState in our React component easily.
+
+```javascript
+import React from 'react'
+import { Machine } from 'xstate'
+import { useMachine } from '@xstate/react'
+//...
+```
+
+Let's create our state machine by combining our `initial` and `states` into a configuration object for our machine.
+
+```javascript
+const donutFormMachine = Machine(chart)
+```
+
+Now, let's bring that machine into our component with the `useMachine` hook.
+
+```javascript
+export default DonutForm() {
+  const [value, setValue] = React.useState('')
+  const [current, send] = useMachine(donutFormMachine)
+}
+```
+
+We no longer need the `transition` function. It still exists, since it is a method on every `XState.Machine`, but the `useMachine` hook manages it for us. We also can get rid of our `send` function and replace it directly with the `send` function given to us by the custom hook.
+
+We only have one update left to make. `current` now points to a state _object_, not simply a string. We need to replace all of our uses of `current === 'some value'` with `current.matches('some value')`. `matches` is a method on state objects that takes a string or object that represents a state in the machine, and returns true or false if it matches. Our component ends up looking like this:
+
+```javascript
+return (
+  <div className="donut_form-wrap">
+    {current.matches('success') ? (
+      <>
+        <div>Donuts are on their way!</div>
+        <button type="button" onClick={reset}>
+          Reset
+        </button>
+      </>
+    ) : (
+      <form onSubmit={handleSubmit}>
+        <h4>Get Yummy Donuts!</h4>
+
+        {current.matches('failure') ? (
+          <div className="error_wrap">Failed to order donuts</div>
+        ) : null}
+
+        <div>
+          <label htmlFor="donutFormQuantity">Quantity</label>
+          <input
+            id="donutFormQuantity"
+            min={0}
+            name="donutFormQuantity"
+            onChange={handleChange}
+            step={1}
+            type="number"
+            value={quantity}
+          />
+        </div>
+
+        <button disabled={current.matches('submitting')} type="submit">
+          Order
+        </button>
+      </form>
+    )}
+  </div>
+)
+```
+
+You can see a running example of this code at: [https://codesandbox.io/s/quirky-shtern-ef40n](https://codesandbox.io/s/quirky-shtern-ef40n).
+
+Now, this is a form I'd be happy to come back to six months later and work on. Need to add some inputs? No problem. Need to add some states? No problem.
+
+By enumerating instead of booleanating, we were able to create a program that grows in complexity linearly, not exponentially. Each additional state only adds the complexity of one more state, rather than the boolean explosion of 2^n states. This alone, is enough to reduce vast amounts of complexity in our applications today.
+
+My hope is that you'll start to think differently about booleans. Really evaluate if they are the right tool for the job you are trying to accomplish. You might find creating a simple object enum is a better tool for the task at hand. Learn to reach for it more often. I'm sure you'll find many uses of it. I know I have.
