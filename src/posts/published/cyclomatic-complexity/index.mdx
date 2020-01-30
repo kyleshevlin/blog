@@ -1,0 +1,50 @@
+---
+date: '2020-01-25'
+slug: 'cyclomatic-complexity'
+title: 'Cyclomatic Complexity'
+---
+
+How many logical paths are there through the following function:
+
+```javascript
+function double(number) {
+  return number * 2
+}
+```
+
+It's not a trick question. There is only one logical path through the function. Another way to describe this is that it only takes one cycle to touch every logical branch of the program. These cycles are where we get the term cyclomatic. And a lot of cycles means a lot of complexity.
+
+How many logical paths are there through the following function:
+
+```javascript
+function aConditionalMess(number) {
+  if (number > 50) {
+    if (number < 100) {
+      if (number % 2 === 0) {
+        //
+      } else {
+        //
+      }
+    } else if (number < 200) {
+      //
+    } else {
+      //
+    }
+  } else {
+    if (number < 30) {
+      if (number % 2 === 1) {
+        //
+      } else {
+        //
+      }
+    } else if (number < 10) {
+      //
+    } else {
+      //
+    }
+  }
+}
+```
+
+TODO: build a little code mirror cyclomatic complexity checker
+TODO: make it work with react components
