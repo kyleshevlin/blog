@@ -13,7 +13,7 @@ One reason I love React is the simple fact that the same component can render di
 
 Let's take a very simple component for an example.
 
-```javascript
+```jsx
 class MyComponent extends React.Component {
   constructor() {
     super()

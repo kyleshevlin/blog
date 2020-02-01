@@ -91,7 +91,7 @@ We don't import any of the `firebase` packages into the module. Instead, we expo
 
 Now, in the components that need `firebase`, I can wait until the `componentDidMount` lifecycle method has been called, which guarantees that the `window` object exists. Once I can make this guarantee, I can then _dynamically import_ the `firebase` modules I need and pass them into my function. The `firebase` instance is returned from the function, which I can then get the database from. That code looks like this:
 
-```javascript
+```jsx
 componentDidMount() {
   const lazyApp = import('firebase/app')
   const lazyDatabase = import('firebase/database')
