@@ -17,7 +17,7 @@ Let's imagine me just a few years back. I show up to work one morning and my pro
 
 I would head off to my work station and start building a form just as fast as I could and probably came up with something like this:
 
-```javascript
+```jsx
 import React from 'react'
 
 export default function DonutForm() {
@@ -268,7 +268,7 @@ const send = event => {
 
 With all of this in place, we're ready to make the most robust donut form you've seen (so far in this blog post). We're going to add the important parts to the functions and markup inside this component.
 
-```javascript
+```jsx
 //...
 const handleSubmit = e => {
   e.preventDefault()
@@ -431,7 +431,7 @@ We no longer need the `transition` function. It still exists, since it is a meth
 
 We only have one update left to make. `current` now points to a state _object_, not simply a string. We need to replace all of our uses of `current === 'some value'` with `current.matches('some value')`. `matches` is a method on state objects that takes a string or object that represents a state in the machine, and returns true or false if it matches. Our component ends up looking like this:
 
-```javascript
+```jsx
 return (
   <div className="donut_form-wrap">
     {current.matches('success') ? (
