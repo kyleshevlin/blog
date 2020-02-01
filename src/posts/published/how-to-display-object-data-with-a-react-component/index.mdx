@@ -20,7 +20,7 @@ The trick I'm about to show you I learned so early on in my days of learning Rea
 
 Have you ever made the mistake of trying to display an object in a React component?
 
-```javascript
+```jsx
 const Component = ({ obj }) => <div>{obj}</div>
 ```
 
@@ -32,7 +32,7 @@ Classic mistake. Don't worry, we've all made it a time or two. We can't render a
 
 We can do that with `JSON.stringify` ([docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)). `JSON.stringify` takes an object and turns it into a JSON string. We can make a component that does this for us.
 
-```javascript
+```jsx
 // I encourage you to look at the JSON.stringify docs to understand the
 // `replacer` and `space` arguments
 const Log = ({ value, replacer = null, space = 2 }) => (

@@ -16,7 +16,7 @@ Presentational components, on the other hand, are used solely for displaying dat
 
 A stateless functional component is simply a function that returns the markup (React functions or JSX). Props are passed as arguments to the function, and then utilized within the markup. Let's make a simple example of a stateless functional component that expects an array of items, and displays each one of those items.
 
-```javascript
+```jsx
 import React, { PropTypes } from 'react'
 
 const DisplayItems = ({ items }) => (
@@ -50,7 +50,7 @@ It is possible to reconfigure this component to display alternative markup if th
 
 Imagine that I have built another component called `LoadingSpinner` which simply shows the user a loading spinner animation. Perhaps it looks something like this:
 
-```javascript
+```jsx
 import React, { PropTypes } from 'react'
 
 const LoadingSpinner = () => (
@@ -123,7 +123,7 @@ And maybe I've written some basic styles for it to animate the circles:
 
 Now, I can set up my `DisplayList` component to either render the `LoadingSpinner` component, or my list, depending on whether any `items` have been passed to it. Like so:
 
-```javascript
+```jsx
 import React, { PropTypes } from 'react'
 import LoadingSpinner from './LoadingSpinner'
 
