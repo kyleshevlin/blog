@@ -1,0 +1,50 @@
+---
+date: '2020-01-30'
+slug: 'lessons-learned-in-the-data-structure-trenches'
+title: 'Lessons Learned in the Data Structure Trenches'
+---
+
+### Don't be clever if you don't have to.
+
+```javascript
+const filters = {
+  name: {
+    eq: 'Kyle'
+  },
+  age: {
+    lte: 35
+  }
+}
+```
+
+In this structure, the first key is the `field` the filter applies to. The object on that `field` then has keys that are `operator`s with an associated `value`.
+
+This is an efficient data structure, until you want to do filters for the same `field` and `operator` combination. For historical reasons, we can't change the `value` to an array, we need to change the whole structure to an array.
+
+```javascript
+const filters = [
+  { field: 'name', operator: 'eq', value: 'Kyle' },
+  { field: 'age', operator: 'lte', value: 35 }
+]
+```
+
+This structure is more verbose, but it makes adding filters with the same combination of `field`s and `operator`s very simple.
+
+```javascript
+const filters = [
+  { field: 'name', operator: 'eq', value: 'Kyle' },
+  { field: 'name', operator: 'eq', value: 'Anna' }
+]
+```
+
+"But Kyle, that's a logical impossibility! No one can both be named Kyle _and_ Anna at the same time!"
+
+You're correct, which is why the original data structure was just fine. However, when you add the concept of "logical or" (`||`) filtering, now it's not impossible.
+
+Filter for Kyle _or_ Anna.
+
+The issue here is that the original structure was too clever. It should have always been a list of filters because, well it's a list of filters. Being clever, and then having everything depend on the cleverness created a huge time suck of engineering to undo.
+
+### Versioning of some sort would be nice
+
+### Hide things behind declarative code
