@@ -58,7 +58,7 @@ const data = [
 
 Next, we need to build a few basic components to represent this data. We'll start with a `Chart` component and a `Bar` component.
 
-```javascript
+```jsx
 const Chart = ({ children, width, height }) => (
   <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
     {children}
@@ -74,7 +74,7 @@ These are really simple components. Our `Chart` component creates an `svg` based
 
 Putting this together (with some math to handle the discrepancy in repo totals), we can make our bar chart like so:
 
-```javascript
+```jsx
 const BarChart = ({ data }) => {
   // Width of each bar
   const itemWidth = 20
@@ -120,7 +120,7 @@ This is a typical problem with bar charts and is easily solved. I just wanted to
 
 In our `BarChart` component, we need to change the `y` prop to place the `rect` such that they all line up on the bottom. To do this, we can set `y` equal to `chartHeight` minus that `rect`'s height. Let's make some small changes to the component:
 
-```javascript
+```jsx
 const BarChart = ({ data }) => {
   // all the same ...
 

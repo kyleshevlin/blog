@@ -20,7 +20,7 @@ I knew that each object in the array had a `type` property. I needed to make ind
 
 For this example, imagine that I have several built out components. Each of these components represents a type of block. We're going to import these into what will become our `BlocksLoop` component. I'll also setup our component to accept a `blocks` prop, but it won't do anything important yet.
 
-```javascript
+```jsx
 import React, { Component, PropTypes } from 'react'
 import HeadingBlock from './HeadingBlock'
 import TextBlock from './TextBlock'
@@ -42,7 +42,7 @@ export default class BlocksLoop extends Component {
 
 Right now, I'm just returning all the blocks as a simple `div` and not utilizing the imported individual blocks. Let's solve that with a `switch` statement. To make it cleaner, we'll move this logic into a method on the component that's called each time a block item is mapped over.
 
-```javascript
+```jsx
 // ...
 
 export default class BlocksLoop extends Component {

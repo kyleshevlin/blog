@@ -207,7 +207,7 @@ Now, before we dive into the UI, please note that you might make very different 
 
 I have made a new component file, `Search.js`, and the minimal example would look like this:
 
-```javascript
+```jsx
 // Search.js
 
 import React from 'react'
@@ -244,7 +244,7 @@ In my case, I specifically customized the `Searchbox`, `Hits` and `Pagination` c
 
 The `Hits` are the individual results of your query. In my case, I just want a simple list of results running down the page, but with my styles. To do this, I'll use the `connectHits` higher order component provided, and then provide it a component that makes use of the `hits` prop it provides.
 
-```javascript
+```jsx
 // Search.js
 
 import React from 'react'
@@ -431,7 +431,7 @@ In the `settings` object of our query, we are telling Algolia that we want disti
 
 Now, we need to inform our UI that we only want distinct results. In our `Search` component, we need to add the `Configure` component. Since I don't want to show _all_ my customizations (the code block would be quite long), I'll take the minimal version and add the `Configure` component to that. Make adjustments as you need to for your situation.
 
-```javascript
+```jsx
 // Search.js
 
 import React from 'react'
