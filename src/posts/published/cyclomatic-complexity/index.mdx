@@ -135,12 +135,14 @@ class GildedRose {
 }
 
 const rose = new GildedRose()
+
 rose.addItem(new Item('+5 Dexterity Vest', 10, 20))
 rose.addItem(new Item('Aged Brie', 2, 0))
 rose.addItem(new Item('Elixir of the Mongoose', 5, 7))
 rose.addItem(new Item('Sulfuras, Hand of Ragnaros', 0, 80))
 rose.addItem(new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20))
 rose.addItem(new Item('Conjured Mana Cake', 3, 6))
+
 rose.updateQuality()
 ```
 
@@ -156,7 +158,7 @@ For the record, it wasn't my amazing brain <Marker index={3} content="It's not t
 
 I hope it just dawned on you that this also means you have to write 25 tests to have confident coverage regarding `updateQuality`. A method this complex _demands_ good tests.
 
-Now, I don't plan to solve this problem for you in the rest of this post. In fact, I recommend watching [this video from Sandi Metz on that covers the subject](https://www.youtube.com/watch?v=8bZh5LMaSmE). Rather, I want to explore how I think about handling complexity in situations like these.
+Now, I don't plan to solve this problem for you in the rest of this post. In fact, I recommend watching [this video from Sandi Metz that covers the subject](https://www.youtube.com/watch?v=8bZh5LMaSmE). Rather, I want to explore how I think about handling complexity in situations like these.
 
 ### How Complexity Exists in A Program
 
@@ -216,16 +218,17 @@ The code that follows is taken from the Webflow codebase, but it's not big enoug
     .get('bind', Map())
     .update(
       _cleanUpBindings(hasBindableItem, collectionId, collections)
-    );
+    )
   if (bindingData.size > 0) {
-    dynData = dynData.set('bind', bindingData);
+    dynData = dynData.set('bind', bindingData)
   } else {
-    const originalBindings = dynData.get('bind');
+    const originalBindings = dynData.get('bind')
     dynData =
       originalBindings && originalBindings.size === 0
         ? dynData
-        : dynData.delete('bind');
+        : dynData.delete('bind')
   }
+
   const conditionData = dynData
     .getIn(COND_VIS_DATA_PATH, Map())
     .update(
@@ -236,12 +239,13 @@ The code that follows is taken from the Webflow codebase, but it's not big enoug
         pageCollection,
         collections
       )
-    );
+    )
   dynData =
     conditionData.size > 0
       ? dynData.setIn(COND_VIS_DATA_PATH, conditionData)
-      : dynData.delete('condition');
-  const filterPath = ['query', 'fields'];
+      : dynData.delete('condition')
+
+  const filterPath = ['query', 'fields']
   const filterData = dynData
     .getIn(filterPath, Map())
     .update(
@@ -252,24 +256,25 @@ The code that follows is taken from the Webflow codebase, but it's not big enoug
       )
     );
   if (filterData.size > 0) {
-    dynData = dynData.setIn(filterPath, filterData);
+    dynData = dynData.setIn(filterPath, filterData)
   } else {
-    const originalFilter = dynData.getIn(filterPath);
+    const originalFilter = dynData.getIn(filterPath)
     dynData =
       originalFilter && originalFilter.size === 0
         ? dynData
-        : dynData.deleteIn(filterPath);
+        : dynData.deleteIn(filterPath)
   }
-  const sortPath = ['query', 'sort'];
-  // Concatenating to a List as sort value can be a List of a String
+
+  const sortPath = ['query', 'sort']
   const sortData = List()
     .concat(dynData.getIn(sortPath, List()))
-    .update(_cleanUpSort(listCollection));
+    .update(_cleanUpSort(listCollection))
   if (sortData.size > 0) {
-    dynData = dynData.setIn(sortPath, sortData);
+    dynData = dynData.setIn(sortPath, sortData)
   } else {
-    dynData = dynData.deleteIn(sortPath);
+    dynData = dynData.deleteIn(sortPath)
   }
+
   return dynData;
 })
 ```
@@ -285,6 +290,7 @@ First, we need to identify what the groups are in this code. It turns out there 
 const bindingData = dynData
   .get('bind', Map())
   .update(_cleanUpBindings(hasBindableItem, collectionId, collections))
+
 if (bindingData.size > 0) {
   dynData = dynData.set('bind', bindingData)
 } else {
@@ -309,6 +315,7 @@ const conditionData = dynData
       collections
     )
   )
+
 dynData =
   conditionData.size > 0
     ? dynData.setIn(COND_VIS_DATA_PATH, conditionData)
@@ -321,6 +328,7 @@ const filterPath = ['query', 'fields']
 const filterData = dynData
   .getIn(filterPath, Map())
   .update(_cleanUpFilters(listCollection, bindableCollection, hasPageItem))
+
 if (filterData.size > 0) {
   dynData = dynData.setIn(filterPath, filterData)
 } else {
@@ -337,6 +345,7 @@ if (filterData.size > 0) {
 const sortData = List()
   .concat(dynData.getIn(sortPath, List()))
   .update(_cleanUpSort(listCollection))
+
 if (sortData.size > 0) {
   dynData = dynData.setIn(sortPath, sortData)
 } else {
