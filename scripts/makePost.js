@@ -48,7 +48,7 @@ title: '${title}'
 description: ''
 categories: ['JavaScript', 'Software Engineering', 'Web Development']
 tags: ['React']
-relatedPosts: []
+relatedPostsSlugs: []
 ---
 `).trim()
 

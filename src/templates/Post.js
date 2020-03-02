@@ -49,7 +49,13 @@ const Post = ({
     <Fragment>
       <Seo title={title} description={description} keywords={keywords || []} />
 
-      <div>
+      <div
+        css={{
+          '> h3': {
+            marginTop: bs(2)
+          }
+        }}
+      >
         {coverImage && (
           <BannerImage
             src={coverImage.childImageSharp.original.src}
