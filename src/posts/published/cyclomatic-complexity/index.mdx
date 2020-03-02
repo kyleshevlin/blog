@@ -279,7 +279,7 @@ The code that follows is taken from the Webflow codebase, but it's not big enoug
 })
 ```
 
-There's a lot going on in this function, and I don't expect it to make a ton of sense right away. Let me try and break it down a little bit. This function receives a piece of data, `dynData`, and mutates it as necessary based which conditionals are met along the way. That's pretty standard for programming.
+There's a lot going on in this function, and I don't expect it to make a ton of sense right away. Let me try and break it down a little bit. This function receives a piece of data, `dynData`, and mutates it as necessary based on which conditionals are met along the way. That's pretty standard for programming.
 
 The complexity score isn't terribly high, it's only a `7`, but the code is still more difficult to reason about than necessary and has too many responsibilities. We can make this better. With some changes, this bit of code will be easier to understand and update in the future, while also reducing the average complexity per group.
 
