@@ -9,8 +9,6 @@ import Search from './Search'
 export default function Header() {
   const theme = useTheme()
 
-  console.log(theme)
-
   return (
     <StaticQuery
       query={graphql`
@@ -62,8 +60,8 @@ export default function Header() {
                   </div>
                 </Link>
                 <div css={{ marginLeft: 'auto' }}>
+                  <button onClick={theme.toggleTheme}>Toggle Theme</button>
                   <Search />
-                  {/* TODO: Night mode toggle could/should go here */}
                 </div>
               </div>
               <Nav />
