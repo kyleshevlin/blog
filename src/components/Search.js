@@ -9,8 +9,8 @@ import {
   InstantSearch
 } from 'react-instantsearch-dom'
 import algoliasearch from 'algoliasearch/lite'
+import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
-import { COLORS, FONTS } from '../constants'
 import shevy, { bs } from '../shevy'
 import Container from './Container'
 import Modal from './Modal'
@@ -19,6 +19,8 @@ import CloseIcon from './icons/Close'
 import * as PaginationStyles from './Pagination'
 
 const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+  const theme = useTheme()
+
   return (
     <div css={{ marginBottom: bs(0.5) }}>
       {/* Regarding the lint error below, it has htmlFor, don't know what it's yelling about */}
@@ -27,7 +29,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
         css={{
           ...shevy.h5,
           display: 'block',
-          fontFamily: FONTS.catamaran,
+          fontFamily: theme.fonts.catamaran,
           fontWeight: 'bold',
           marginBottom: bs(0.125)
         }}
@@ -37,10 +39,10 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
       </label>
       <input
         css={{
-          border: `1px solid ${COLORS.gray}`,
+          border: `1px solid ${theme.colors.offsetMore}`,
           borderRadius: 4,
           display: 'block',
-          fontFamily: FONTS.catamaran,
+          fontFamily: theme.fonts.catamaran,
           padding: `${bs(0.25)} ${bs(0.5)}`,
           width: '100%'
         }}
@@ -54,101 +56,110 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   )
 })
 
-const Hits = connectHits(({ closeModal, hits }) => (
-  <div css={{ display: 'flex', flexWrap: 'wrap' }}>
-    <div
-      css={{
-        fontFamily: FONTS.catamaran,
-        fontSize: '.85rem',
-        fontStyle: 'italic',
-        marginBottom: bs(),
-        maxWidth: '30rem'
-      }}
-    >
-      These are the results of your search. The title and excerpt are displayed,
-      though your search may have been found in the content of the post as well.
-    </div>
+const Hits = connectHits(({ closeModal, hits }) => {
+  const theme = useTheme()
 
-    {hits.map(hit => {
-      return (
-        <div css={{ marginBottom: bs() }} key={hit.objectID}>
-          <Link
-            css={{ display: 'block', marginBottom: bs(0.5) }}
-            onClick={closeModal}
-            to={hit.slug}
-          >
-            <h4 css={{ marginBottom: 0 }}>
-              <Highlight attribute="title" hit={hit} tagName="strong" />
-            </h4>
-            {hit.subtitle ? (
-              <h5 css={{ marginBottom: 0 }}>
-                <Highlight attribute="subtitle" hit={hit} tagName="strong" />
-              </h5>
-            ) : null}
-          </Link>
-          <div>
-            <Highlight attribute="excerpt" hit={hit} tagName="strong" />
-          </div>
-        </div>
-      )
-    })}
-  </div>
-))
+  return (
+    <div css={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div
+        css={{
+          fontFamily: theme.fonts.catamaran,
+          fontSize: '.85rem',
+          fontStyle: 'italic',
+          marginBottom: bs(),
+          maxWidth: '30rem'
+        }}
+      >
+        These are the results of your search. The title and excerpt are
+        displayed, though your search may have been found in the content of the
+        post as well.
+      </div>
 
-const Pagination = connectPagination(
-  ({ createURL, currentRefinement, nbPages, refine }) => (
-    <div css={{ fontFamily: FONTS.catamaran }}>
-      {currentRefinement > 1 ? (
-        <a
-          css={PaginationStyles.itemStyles}
-          href={createURL(currentRefinement - 1)}
-          onClick={e => {
-            e.preventDefault()
-            refine(currentRefinement - 1)
-          }}
-        >
-          Previous
-        </a>
-      ) : null}
-
-      {Array(nbPages)
-        .fill()
-        .map((_, index) => {
-          const page = index + 1
-
-          return currentRefinement === page ? (
-            <div css={PaginationStyles.nonLinkItemStyles} key={page}>
-              {page}
-            </div>
-          ) : (
-            <a
-              css={PaginationStyles.itemStyles}
-              href={createURL(page)}
-              key={page}
-              onClick={e => {
-                e.preventDefault()
-                refine(page)
-              }}
+      {hits.map(hit => {
+        return (
+          <div css={{ marginBottom: bs() }} key={hit.objectID}>
+            <Link
+              css={{ display: 'block', marginBottom: bs(0.5) }}
+              onClick={closeModal}
+              to={hit.slug}
             >
-              {page}
-            </a>
-          )
-        })}
-
-      {currentRefinement < nbPages ? (
-        <a
-          css={PaginationStyles.itemStyles}
-          href={createURL(currentRefinement + 1)}
-          onClick={e => {
-            e.preventDefault()
-            refine(currentRefinement + 1)
-          }}
-        >
-          Next
-        </a>
-      ) : null}
+              <h4 css={{ marginBottom: 0 }}>
+                <Highlight attribute="title" hit={hit} tagName="strong" />
+              </h4>
+              {hit.subtitle ? (
+                <h5 css={{ marginBottom: 0 }}>
+                  <Highlight attribute="subtitle" hit={hit} tagName="strong" />
+                </h5>
+              ) : null}
+            </Link>
+            <div>
+              <Highlight attribute="excerpt" hit={hit} tagName="strong" />
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
+})
+
+const Pagination = connectPagination(
+  ({ createURL, currentRefinement, nbPages, refine }) => {
+    const theme = useTheme()
+
+    return (
+      <div css={{ fontFamily: theme.fonts.catamaran }}>
+        {currentRefinement > 1 ? (
+          <a
+            css={PaginationStyles.itemStyles}
+            href={createURL(currentRefinement - 1)}
+            onClick={e => {
+              e.preventDefault()
+              refine(currentRefinement - 1)
+            }}
+          >
+            Previous
+          </a>
+        ) : null}
+
+        {Array(nbPages)
+          .fill()
+          .map((_, index) => {
+            const page = index + 1
+
+            return currentRefinement === page ? (
+              <div css={PaginationStyles.nonLinkItemStyles} key={page}>
+                {page}
+              </div>
+            ) : (
+              <a
+                css={PaginationStyles.itemStyles}
+                href={createURL(page)}
+                key={page}
+                onClick={e => {
+                  e.preventDefault()
+                  refine(page)
+                }}
+              >
+                {page}
+              </a>
+            )
+          })}
+
+        {currentRefinement < nbPages ? (
+          <a
+            css={PaginationStyles.itemStyles}
+            href={createURL(currentRefinement + 1)}
+            onClick={e => {
+              e.preventDefault()
+              refine(currentRefinement + 1)
+            }}
+          >
+            Next
+          </a>
+        ) : null}
+      </div>
+    )
+  }
 )
 
 const Results = connectStateResults(({ closeModal, searchResults }) => {
@@ -170,6 +181,7 @@ export default function Search() {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const openButtonRef = React.useRef(null)
   const closeButtonRef = React.useRef(null)
+  const theme = useTheme()
 
   useCloseOnEsc(() => {
     setIsModalOpen(false)
@@ -183,7 +195,7 @@ export default function Search() {
         css={{
           backgroundColor: 'transparent',
           border: 'none',
-          fontFamily: FONTS.catamaran
+          fontFamily: theme.fonts.catamaran
         }}
         onClick={() => {
           setIsModalOpen(true)
@@ -196,7 +208,7 @@ export default function Search() {
           role="img"
           aria-label="magnifying glass"
         >
-          <SearchIcon stroke={COLORS.black} width={20} />
+          <SearchIcon stroke={theme.colors.text} width={20} />
         </span>
       </button>
 
@@ -208,7 +220,7 @@ export default function Search() {
             <>
               Close Search{' '}
               <span role="img" aria-label="a black X">
-                <CloseIcon stroke={COLORS.black} width={16} />
+                <CloseIcon stroke={theme.colors.text} width={16} />
               </span>
             </>
           }
