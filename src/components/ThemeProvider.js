@@ -2,6 +2,21 @@ import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { COLORS, FONTS } from '../constants'
 
+const newsletterCTA = {
+  background: COLORS.teal,
+  text: COLORS.white,
+
+  outboundLink: {
+    background: COLORS.lightGray,
+    text: COLORS.teal,
+
+    '&:hover': {
+      background: COLORS.white,
+      text: COLORS.teal
+    }
+  }
+}
+
 const lightTheme = {
   colors: {
     background: COLORS.white,
@@ -14,7 +29,8 @@ const lightTheme = {
     footer: {
       background: COLORS.black,
       text: COLORS.white
-    }
+    },
+    newsletterCTA
   },
   fonts: FONTS
 }
@@ -31,7 +47,8 @@ const darkTheme = {
     footer: {
       background: '#040D10',
       text: '#e8e8e8'
-    }
+    },
+    newsletterCTA
   },
   fonts: FONTS
 }
