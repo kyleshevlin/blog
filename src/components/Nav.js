@@ -1,6 +1,6 @@
 import React from 'react'
+import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 
 const LINKS = [
@@ -12,31 +12,33 @@ const LINKS = [
   { to: '/contact', title: 'Contact' }
 ]
 
-const linkStyles = {
+const linkStyles = theme => ({
   display: 'inline-block',
-  fontFamily: FONTS.catamaran,
-  color: COLORS.black,
+  fontFamily: theme.fonts.catamaran,
+  color: theme.colors.text,
   padding: bs(0.5)
+})
+
+export default function Nav() {
+  const theme = useTheme()
+
+  return (
+    <nav css={{ marginLeft: bs(-0.5) }}>
+      {LINKS.map(link => {
+        const { to, title } = link
+
+        return (
+          <Link
+            key={title}
+            css={linkStyles(theme)}
+            activeStyle={{ color: theme.colors.accent }}
+            title={title}
+            to={to}
+          >
+            {title}
+          </Link>
+        )
+      })}
+    </nav>
+  )
 }
-
-const Nav = () => (
-  <nav css={{ marginLeft: bs(-0.5) }}>
-    {LINKS.map(link => {
-      const { to, title } = link
-
-      return (
-        <Link
-          key={title}
-          css={linkStyles}
-          activeStyle={{ color: COLORS.teal }}
-          title={title}
-          to={to}
-        >
-          {title}
-        </Link>
-      )
-    })}
-  </nav>
-)
-
-export default Nav
