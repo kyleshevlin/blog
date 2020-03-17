@@ -21,6 +21,11 @@ const portfolioItem = {
   text: COLORS.white
 }
 
+const themeToggle = {
+  background: COLORS.teal,
+  text: COLORS.white
+}
+
 const lightTheme = {
   colors: {
     background: COLORS.white,
@@ -35,7 +40,8 @@ const lightTheme = {
       text: COLORS.white
     },
     newsletterCTA,
-    portfolioItem
+    portfolioItem,
+    themeToggle
   },
   fonts: FONTS
 }
@@ -54,7 +60,8 @@ const darkTheme = {
       text: '#e8e8e8'
     },
     newsletterCTA,
-    portfolioItem
+    portfolioItem,
+    themeToggle
   },
   fonts: FONTS
 }

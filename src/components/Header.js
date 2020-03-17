@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTheme } from 'emotion-theming'
 import { graphql, Link, StaticQuery } from 'gatsby'
+import { lighten } from 'polished'
 import { bs } from '../shevy'
 import Container from './Container'
 import Nav from './Nav'
@@ -60,7 +61,7 @@ export default function Header() {
                   </div>
                 </Link>
                 <div css={{ marginLeft: 'auto' }}>
-                  <button onClick={theme.toggleTheme}>Toggle Theme</button>
+                  <ThemeToggle />
                   <Search />
                 </div>
               </div>
@@ -70,5 +71,39 @@ export default function Header() {
         )
       }}
     />
+  )
+}
+
+const buttonStyles = theme => {
+  const {
+    components: { themeToggle }
+  } = theme
+
+  return {
+    display: 'inline-block',
+    backgroundColor: themeToggle.background,
+    color: themeToggle.text,
+    fontFamily: theme.fonts.catamaran,
+    fontSize: '0.75rem',
+    paddingLeft: bs(0.5),
+    paddingRight: bs(0.5),
+    border: 'none',
+    marginRight: bs(0.25),
+    transition: 'background-color 0.3s ease',
+
+    '&:hover': {
+      backgroundColor: lighten(0.1, themeToggle.background),
+      color: themeToggle.text
+    }
+  }
+}
+
+function ThemeToggle() {
+  const theme = useTheme()
+
+  return (
+    <button css={buttonStyles} onClick={theme.toggleTheme}>
+      Toggle Theme
+    </button>
   )
 }
