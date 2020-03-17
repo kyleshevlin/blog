@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
+import { useTheme } from 'emotion-theming'
 import Container from './Container'
 import { bs } from '../shevy'
-import { COLORS, FONTS } from '../constants'
 import { darken, lighten } from 'polished'
 
 const initialState = {
@@ -21,9 +21,7 @@ const reducer = (state, action) => {
 
     default:
       throw new Error(
-        `The action.type ${
-          action.type
-        } was unaccounted for in FootnotesContainer.`
+        `The action.type ${action.type} was unaccounted for in FootnotesContainer.`
       )
   }
 }
@@ -54,6 +52,7 @@ export function FootnoteMarker({ index, content }) {
   const { index: contextIndex, isVisible, updateFootnote } = useContext(
     FootnotesContext
   )
+  const theme = useTheme()
 
   if (!index) {
     throw new Error('This marker needs an index defined')
@@ -69,10 +68,10 @@ export function FootnoteMarker({ index, content }) {
         display: 'inline-block',
         width: 20,
         height: 20,
-        backgroundColor: COLORS.teal,
-        color: COLORS.white,
+        backgroundColor: theme.colors.accent,
+        color: theme.colors.background,
         fontSize: '12px',
-        fontFamily: FONTS.catamaran,
+        fontFamily: theme.fonts.catamaran,
         lineHeight: 0,
         border: 'none',
         borderRadius: '50%',
@@ -81,12 +80,12 @@ export function FootnoteMarker({ index, content }) {
         transition: 'background-color .3s ease',
 
         '&:hover': {
-          backgroundColor: lighten(0.1, COLORS.teal)
+          backgroundColor: lighten(0.1, theme.colors.accent)
         },
 
         '&:focus': {
           outline: 'none',
-          boxShadow: `0 0 3px 1px ${darken(0.15, COLORS.teal)}`
+          boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`
         }
       }}
       onClick={() => {
@@ -108,6 +107,7 @@ export function FootnoteDisplay() {
   const { content, index, isVisible, updateFootnote } = useContext(
     FootnotesContext
   )
+  const theme = useTheme()
   useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (
@@ -115,10 +115,10 @@ export function FootnoteDisplay() {
       ref={displayElement}
       css={{
         width: '100%',
-        backgroundColor: COLORS.white,
+        backgroundColor: theme.colors.background,
         position: 'fixed',
         bottom: 0,
-        borderTop: `4px solid ${COLORS.teal}`,
+        borderTop: `4px solid ${theme.colors.accent}`,
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
         paddingTop: bs(),
         paddingBottom: bs(2)
@@ -137,10 +137,10 @@ export function FootnoteDisplay() {
               display: 'inline-block',
               width: 20,
               height: 20,
-              backgroundColor: COLORS.teal,
-              color: COLORS.white,
+              backgroundColor: theme.colors.accent,
+              color: theme.colors.background,
               fontSize: '12px',
-              fontFamily: FONTS.catamaran,
+              fontFamily: theme.fonts.catamaran,
               lineHeight: 1,
               border: 'none',
               borderRadius: '50%',
@@ -152,9 +152,9 @@ export function FootnoteDisplay() {
           <button
             css={{
               display: 'inline-block',
-              backgroundColor: COLORS.teal,
-              color: COLORS.white,
-              fontFamily: FONTS.catamaran,
+              backgroundColor: theme.colors.accent,
+              color: theme.colors.background,
+              fontFamily: theme.fonts.catamaran,
               fontSize: '.75em',
               textTransform: 'uppercase',
               lineHeight: 1,
@@ -164,7 +164,7 @@ export function FootnoteDisplay() {
               transition: 'background-color .3s ease',
 
               '&:hover': {
-                backgroundColor: lighten(0.1, COLORS.teal)
+                backgroundColor: lighten(0.1, theme.colors.accent)
               }
             }}
             onClick={() => {
@@ -183,32 +183,29 @@ export function FootnoteDisplay() {
 function useFootnoteDisplayEvents(markerRef) {
   const { isVisible, updateFootnote } = useContext(FootnotesContext)
 
-  useEffect(
-    () => {
-      function handleOutsideClick(e) {
-        if (!isVisible) {
-          return
-        }
-
-        if (markerRef.current && !markerRef.current.contains(e.target)) {
-          updateFootnote({ isVisible: false })
-        }
+  useEffect(() => {
+    function handleOutsideClick(e) {
+      if (!isVisible) {
+        return
       }
 
-      function handleEscKey(e) {
-        if (e.key === 'Escape') {
-          updateFootnote({ isVisible: false })
-        }
+      if (markerRef.current && !markerRef.current.contains(e.target)) {
+        updateFootnote({ isVisible: false })
       }
+    }
 
-      document.addEventListener('click', handleOutsideClick)
-      document.addEventListener('keydown', handleEscKey)
-
-      return () => {
-        document.removeEventListener('click', handleOutsideClick)
-        document.removeEventListener('keydown', handleEscKey)
+    function handleEscKey(e) {
+      if (e.key === 'Escape') {
+        updateFootnote({ isVisible: false })
       }
-    },
-    [isVisible, markerRef, updateFootnote]
-  )
+    }
+
+    document.addEventListener('click', handleOutsideClick)
+    document.addEventListener('keydown', handleEscKey)
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick)
+      document.removeEventListener('keydown', handleEscKey)
+    }
+  }, [isVisible, markerRef, updateFootnote])
 }
