@@ -26,8 +26,8 @@ export default function Footer() {
   return (
     <div
       css={{
-        backgroundColor: theme.colors.text,
-        color: theme.colors.background,
+        backgroundColor: theme.components.footer.background,
+        color: theme.components.footer.text,
         paddingTop: bs(2),
         paddingBottom: bs(2),
         textAlign: 'center'

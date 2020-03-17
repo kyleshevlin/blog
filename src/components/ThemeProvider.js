@@ -10,6 +10,12 @@ const lightTheme = {
     offset: COLORS.lightGray,
     offsetMore: COLORS.gray
   },
+  components: {
+    footer: {
+      background: COLORS.black,
+      text: COLORS.white
+    }
+  },
   fonts: FONTS
 }
 
@@ -20,6 +26,12 @@ const darkTheme = {
     accent: COLORS.teal,
     offset: '#0E2D39',
     offsetMore: '#184D62'
+  },
+  components: {
+    footer: {
+      background: '#040D10',
+      text: '#e8e8e8'
+    }
   },
   fonts: FONTS
 }
