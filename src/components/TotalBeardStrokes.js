@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { getFirebase } from '../firebase'
 import Beard from './icons/Beard'
 import { inflect } from '../utils'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 
 class TotalBeardStrokes extends Component {
@@ -37,10 +36,10 @@ class TotalBeardStrokes extends Component {
 
     return hasFetchedOnce ? (
       <div
-        css={{
+        css={theme => ({
           display: 'flex',
           alignItems: 'center',
-          fontFamily: FONTS.catamaran,
+          fontFamily: theme.fonts.catamaran,
           fontSize: '0.75em',
           marginLeft: bs(-0.25),
           marginTop: bs(-0.25),
@@ -48,11 +47,11 @@ class TotalBeardStrokes extends Component {
 
           '& svg': {
             display: 'block',
-            fill: COLORS.teal,
+            fill: theme.colors.accent,
             marginLeft: bs(0.25),
             marginRight: bs(0.25)
           }
-        }}
+        })}
       >
         <Beard width={20} />
         <div>
