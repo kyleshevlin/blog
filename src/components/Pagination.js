@@ -19,7 +19,7 @@ export const itemStyles = theme => ({
   color: theme.colors.background,
 
   '&:hover': {
-    backgroundcolor: lighten(0.1, theme.colors.accent),
+    backgroundColor: lighten(0.1, theme.colors.accent),
     color: theme.colors.background
   }
 })
