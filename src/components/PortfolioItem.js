@@ -28,28 +28,34 @@ const linkStyles = css`
   }
 `
 
-const titleStyles = theme => ({
-  width: '100%',
-  color: theme.colors.background,
-  fontSize: rem(35),
-  lineHeight: 1.2,
-  textAlign: 'center',
-  paddingLeft: bs(0.5),
-  paddingRight: bs(0.5),
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  opacity: 0,
-  transition: 'opacity 0.3s ease',
+const titleStyles = theme => {
+  const {
+    components: { portfolioItem: portfolioItemTheme }
+  } = theme
 
-  [createMediaQuery(BREAKPOINTS.alpha)]: {
-    fontSize: rem(25)
-  },
+  return {
+    width: '100%',
+    color: portfolioItemTheme.text,
+    fontSize: rem(35),
+    lineHeight: 1.2,
+    textAlign: 'center',
+    paddingLeft: bs(0.5),
+    paddingRight: bs(0.5),
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    opacity: 0,
+    transition: 'opacity 0.3s ease',
 
-  [createMediaQuery(BREAKPOINTS.delta)]: {
-    fontSize: rem(30)
+    [createMediaQuery(BREAKPOINTS.alpha)]: {
+      fontSize: rem(25)
+    },
+
+    [createMediaQuery(BREAKPOINTS.delta)]: {
+      fontSize: rem(30)
+    }
   }
-})
+}
 
 export default function PortfolioItem({
   shortTitle,

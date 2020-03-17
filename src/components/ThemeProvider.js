@@ -17,6 +17,10 @@ const newsletterCTA = {
   }
 }
 
+const portfolioItem = {
+  text: COLORS.white
+}
+
 const lightTheme = {
   colors: {
     background: COLORS.white,
@@ -30,7 +34,8 @@ const lightTheme = {
       background: COLORS.black,
       text: COLORS.white
     },
-    newsletterCTA
+    newsletterCTA,
+    portfolioItem
   },
   fonts: FONTS
 }
@@ -48,7 +53,8 @@ const darkTheme = {
       background: '#040D10',
       text: '#e8e8e8'
     },
-    newsletterCTA
+    newsletterCTA,
+    portfolioItem
   },
   fonts: FONTS
 }
