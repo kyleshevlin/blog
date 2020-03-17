@@ -1,9 +1,10 @@
 import React from 'react'
+import { useTheme } from 'emotion-theming'
 import { graphql, useStaticQuery } from 'gatsby'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 
-function PostOpenSourceContribution() {
+export default function PostOpenSourceContribution() {
+  const theme = useTheme()
   const data = useStaticQuery(graphql`
     query ContributorsInTheLast100PullRequests {
       github {
@@ -48,8 +49,8 @@ function PostOpenSourceContribution() {
   return (
     <div
       css={{
-        backgroundColor: COLORS.lightGray,
-        fontFamily: FONTS.catamaran,
+        backgroundColor: theme.colors.offset,
+        fontFamily: theme.fonts.catamaran,
         fontStyle: 'italic',
         padding: bs(),
         marginBottom: bs(2),
@@ -96,5 +97,3 @@ function PostOpenSourceContribution() {
     </div>
   )
 }
-
-export default PostOpenSourceContribution
