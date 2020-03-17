@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { useTheme } from 'emotion-theming'
 import { transparentize } from 'polished'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import Container from './Container'
 
@@ -13,6 +13,7 @@ export default function Modal({
   onClick
 }) {
   const el = React.useRef(document.createElement('div'))
+  const theme = useTheme()
 
   React.useEffect(() => {
     const portalRoot = document.getElementById('portal')
@@ -34,7 +35,7 @@ export default function Modal({
       aria-label={ariaLabel}
       aria-modal
       css={{
-        backgroundColor: transparentize(0.05, COLORS.white),
+        backgroundColor: transparentize(0.05, theme.colors.background),
         position: 'absolute',
         top: 0,
         right: 0,
@@ -53,7 +54,7 @@ export default function Modal({
             css={{
               backgroundColor: 'transparent',
               border: 'none',
-              fontFamily: FONTS.catamaran,
+              fontFamily: theme.fonts.catamaran,
               marginLeft: 'auto'
             }}
             onClick={onClick}

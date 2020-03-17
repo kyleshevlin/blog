@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import debounce from 'lodash.debounce'
 import { darken } from 'polished'
 import Beard from '../components/icons/Beard'
-import { FONTS, COLORS } from '../constants'
 import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
 
@@ -112,12 +111,13 @@ class BeardStrokes extends Component {
         <div css={{ display: 'flex', alignItems: 'center' }}>
           <div css={{ marginRight: bs(), textAlign: 'center' }}>
             <button
-              css={{
+              css={theme => ({
                 appearance: 'none',
                 border: 'none',
                 padding: `${bs(0.25)} ${bs(0.5)}`,
                 '& svg': {
-                  fill: count === 0 ? COLORS.gray : COLORS.teal,
+                  fill:
+                    count === 0 ? theme.colors.offsetMore : theme.colors.accent,
                   transform: 'scale(.95)',
                   transition: 'fill 0.3s ease, transform .15s ease'
                 },
@@ -125,20 +125,22 @@ class BeardStrokes extends Component {
                   transform: 'scale(1)'
                 },
                 '&:disabled svg': {
-                  fill: darken(0.1, COLORS.teal),
+                  fill: darken(0.1, theme.colors.accent),
                   transform: 'scale(1)'
                 },
                 '&:hover svg': {
-                  fill: darken(0.1, COLORS.teal)
+                  fill: darken(0.1, theme.colors.accent)
                 }
-              }}
+              })}
               onClick={this.handleBeardClick}
               disabled={count === 50}
               type="button"
             >
               <Beard width={60} />
             </button>
-            <div css={{ fontFamily: FONTS.catamaran }}>{`+${count}`}</div>
+            <div
+              css={theme => ({ fontFamily: theme.fonts.catamaran })}
+            >{`+${count}`}</div>
           </div>
           <div>
             <p css={{ marginBottom: 0 }}>

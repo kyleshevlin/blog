@@ -1,16 +1,16 @@
 import React from 'react'
+import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
 import { lighten } from 'polished'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 
-const linkStyles = {
+const linkStyles = theme => ({
   display: 'inline-block',
-  backgroundColor: COLORS.teal,
-  color: COLORS.white,
+  backgroundColor: theme.colors.accent,
+  color: theme.colors.background,
   height: '24px',
-  fontFamily: FONTS.catamaran,
+  fontFamily: theme.fonts.catamaran,
   fontSize: '0.75rem',
   lineHeight: '24px',
   paddingLeft: bs(0.5),
@@ -19,10 +19,10 @@ const linkStyles = {
   transition: 'background-color 0.3s ease',
 
   '&:hover': {
-    backgroundColor: lighten(0.1, COLORS.teal),
-    color: COLORS.white
+    backgroundColor: lighten(0.1, theme.colors.accent),
+    color: theme.colors.background
   }
-}
+})
 
 const formatItemPath = (item, type) => {
   const paths = {
@@ -43,23 +43,25 @@ const getTypeHeading = type => {
   return headings[type]
 }
 
-const PostCategoriesOrTags = ({ items, type }) => (
-  <div css={{ marginBottom: bs() }}>
-    <div
-      css={{
-        fontFamily: FONTS.catamaran,
-        fontSize: '0.75em',
-        lineHeight: 1.8
-      }}
-    >
-      {getTypeHeading(type)}
-    </div>
-    {items.map(item => (
-      <Link css={linkStyles} key={item} to={formatItemPath(item, type)}>
-        {item}
-      </Link>
-    ))}
-  </div>
-)
+export default function PostCategoriesOrTags({ items, type }) {
+  const theme = useTheme()
 
-export default PostCategoriesOrTags
+  return (
+    <div css={{ marginBottom: bs() }}>
+      <div
+        css={{
+          fontFamily: theme.fonts.catamaran,
+          fontSize: '0.75em',
+          lineHeight: 1.8
+        }}
+      >
+        {getTypeHeading(type)}
+      </div>
+      {items.map(item => (
+        <Link css={linkStyles} key={item} to={formatItemPath(item, type)}>
+          {item}
+        </Link>
+      ))}
+    </div>
+  )
+}

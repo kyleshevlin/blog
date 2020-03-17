@@ -1,37 +1,38 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { css } from '@emotion/core'
+import { useTheme } from 'emotion-theming'
 import { lighten } from 'polished'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 
-export const baseItemStyles = css`
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
-  margin-right: 3px;
-  margin-bottom: 3px;
-`
+export const baseItemStyles = {
+  display: 'inline-block',
+  height: 30,
+  lineHeight: '30px',
+  padding: '0 10px',
+  marginRight: 3,
+  marginBottom: 3
+}
 
-export const itemStyles = css`
-  ${baseItemStyles};
-  background-color: ${COLORS.teal};
-  color: ${COLORS.white};
+export const itemStyles = theme => ({
+  ...baseItemStyles,
+  backgroundColor: theme.colors.accent,
+  color: theme.colors.background,
 
-  &:hover {
-    background-color: ${lighten(0.1, COLORS.teal)};
-    color: ${COLORS.white};
+  '&:hover': {
+    backgroundcolor: lighten(0.1, theme.colors.accent),
+    color: theme.colors.background
   }
-`
+})
 
-export const nonLinkItemStyles = css`
-  ${baseItemStyles};
-  background-color: ${COLORS.lightGray};
-  color: ${COLORS.teal};
-`
+export const nonLinkItemStyles = theme => ({
+  ...baseItemStyles,
+  backgroundColor: theme.colors.offset,
+  color: theme.colors.accent
+})
 
-const Pagination = ({ index: currentPageIndex, totalPages }) => {
+export default function Pagination({ index: currentPageIndex, totalPages }) {
+  const theme = useTheme()
+
   const currentPageNumber = currentPageIndex + 1
   const prevPageNumber = currentPageNumber - 1
   const nextPageNumber = currentPageNumber + 1
@@ -39,7 +40,7 @@ const Pagination = ({ index: currentPageIndex, totalPages }) => {
   return (
     <div
       css={{
-        fontFamily: FONTS.catamaran,
+        fontFamily: theme.fonts.catamaran,
         marginBottom: bs(2)
       }}
     >
@@ -78,5 +79,3 @@ const Pagination = ({ index: currentPageIndex, totalPages }) => {
     </div>
   )
 }
-
-export default Pagination

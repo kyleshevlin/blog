@@ -1,50 +1,53 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
+import { useTheme } from 'emotion-theming'
 import shevy from '../shevy'
 
-const Typography = () => (
-  <Global
-    styles={css`
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: 'Catamaran', sans-serif;
-        font-weight: 400;
-        text-rendering: optimizeLegibility;
-      }
+export default function Typography() {
+  const theme = useTheme()
 
-      h1 {
-        ${shevy.h1}
-      }
+  return (
+    <Global
+      styles={css`
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          font-family: ${theme.fonts.catamaran};
+          font-weight: 400;
+          text-rendering: optimizeLegibility;
+        }
 
-      h2 {
-        ${shevy.h2}
-      }
+        h1 {
+          ${shevy.h1}
+        }
 
-      h3 {
-        ${shevy.h3}
-      }
+        h2 {
+          ${shevy.h2}
+        }
 
-      h4 {
-        ${shevy.h4}
-      }
+        h3 {
+          ${shevy.h3}
+        }
 
-      h5 {
-        ${shevy.h5}
-      }
+        h4 {
+          ${shevy.h4}
+        }
 
-      h6 {
-        ${shevy.h6}
-      }
+        h5 {
+          ${shevy.h5}
+        }
 
-      p {
-        ${shevy.content}
-      }
-    `}
-  />
-)
+        h6 {
+          ${shevy.h6}
+        }
 
-export default Typography
+        p {
+          ${shevy.content}
+        }
+      `}
+    />
+  )
+}

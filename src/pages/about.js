@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
-import { COLORS, FONTS } from '../constants'
 import { bs } from '../shevy'
 import Seo from '../components/Seo'
 
@@ -87,13 +86,13 @@ const About = ({ data }) => {
           alt="Anna and Kyle at FINE's Christmas Party"
         />
         <div
-          css={{
-            backgroundColor: COLORS.lightGray,
-            fontFamily: FONTS.catamaran,
+          css={theme => ({
+            backgroundColor: theme.colors.offset,
+            fontFamily: theme.fonts.catamaran,
             fontStyle: 'italic',
             lineHeight: 1.5,
             padding: `${bs(0.5)} ${bs()}`
-          }}
+          })}
         >
           My wife trying to eat me with one of those hats that Sherlock Holmes
           would wear. I don't blame her. I'm definitely nom-ible.

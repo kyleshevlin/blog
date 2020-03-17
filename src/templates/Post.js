@@ -12,7 +12,6 @@ import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import { FONTS } from '../constants'
 import { bs } from '../shevy'
 
 const newerOrOlderPostWrap = {
@@ -20,10 +19,10 @@ const newerOrOlderPostWrap = {
   paddingBottom: bs(0.25)
 }
 
-const newerOrOlderHeading = {
-  fontFamily: FONTS.catamaran,
+const newerOrOlderHeading = theme => ({
+  fontFamily: theme.fonts.catamaran,
   fontWeight: 700
-}
+})
 
 const Post = ({
   data,

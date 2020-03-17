@@ -1,17 +1,16 @@
 import React, { Fragment } from 'react'
 import { Link } from 'gatsby'
-import { COLORS } from '../constants'
 import { bs } from '../shevy'
 
-const postLinkStyles = {
+const postLinkStyles = theme => ({
   display: 'block',
-  color: COLORS.black,
+  color: theme.colors.text,
   '&:hover': {
-    color: COLORS.teal
+    color: theme.colors.accent
   }
-}
+})
 
-const PostHeader = ({ slug, subtitle, title }) => {
+export default function PostHeader({ slug, subtitle, title }) {
   const Wrap = slug ? Link : Fragment
   const wrapProps = slug ? { css: postLinkStyles, to: slug } : {}
 
@@ -26,5 +25,3 @@ const PostHeader = ({ slug, subtitle, title }) => {
     </header>
   )
 }
-
-export default PostHeader
