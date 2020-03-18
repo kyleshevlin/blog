@@ -1,12 +1,11 @@
 import React from 'react'
-import { COLORS } from '../../../constants'
 
 export default function Log({ value, replacer = null, space = 2 }) {
   return (
     <pre
-      css={{
-        backgroundColor: COLORS.lightGray
-      }}
+      css={theme => ({
+        backgroundColor: theme.colors.offset
+      })}
     >
       <code>{JSON.stringify(value, replacer, space)}</code>
     </pre>

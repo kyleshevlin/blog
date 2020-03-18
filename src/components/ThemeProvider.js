@@ -7,6 +7,23 @@ const categoriesAndTags = {
   text: COLORS.white
 }
 
+const footnotes = {
+  display: {
+    closeButton: {
+      background: COLORS.teal,
+      text: COLORS.white
+    },
+    marker: {
+      background: COLORS.teal,
+      text: COLORS.white
+    }
+  },
+  marker: {
+    background: COLORS.teal,
+    text: COLORS.white
+  }
+}
+
 const newsletterCTA = {
   background: COLORS.teal,
   text: COLORS.white,
@@ -49,6 +66,7 @@ const lightTheme = {
       background: COLORS.black,
       text: COLORS.white
     },
+    footnotes,
     newsletterCTA,
     pagination: {
       normal: {
@@ -81,6 +99,7 @@ const darkTheme = {
       background: '#040D10',
       text: '#e8e8e8'
     },
+    footnotes,
     newsletterCTA,
     pagination: {
       normal: {
