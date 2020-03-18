@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'lodash.debounce'
-import { darken } from 'polished'
+import { darken, transparentize } from 'polished'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
@@ -113,6 +113,7 @@ class BeardStrokes extends Component {
             <button
               css={theme => ({
                 appearance: 'none',
+                backgroundColor: 'transparent',
                 border: 'none',
                 padding: `${bs(0.25)} ${bs(0.5)}`,
                 '& svg': {
