@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTheme } from 'emotion-theming'
-import { COLORS, FONTS } from '../../../constants'
 import { bs } from '../../../shevy'
 
 // The absurd width is partnered with negative margins to create an svg that almost
