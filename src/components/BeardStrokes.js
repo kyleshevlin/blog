@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'lodash.debounce'
-import { darken, transparentize } from 'polished'
+import { darken } from 'polished'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
