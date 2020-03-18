@@ -2,6 +2,11 @@ import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { COLORS, FONTS } from '../constants'
 
+const categoriesAndTags = {
+  background: COLORS.teal,
+  text: COLORS.white
+}
+
 const newsletterCTA = {
   background: COLORS.teal,
   text: COLORS.white,
@@ -35,6 +40,7 @@ const lightTheme = {
     offsetMore: COLORS.gray
   },
   components: {
+    categoriesAndTags,
     footer: {
       background: COLORS.black,
       text: COLORS.white
@@ -55,6 +61,7 @@ const darkTheme = {
     offsetMore: '#184D62'
   },
   components: {
+    categoriesAndTags,
     footer: {
       background: '#040D10',
       text: '#e8e8e8'

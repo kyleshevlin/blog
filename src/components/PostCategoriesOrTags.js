@@ -5,24 +5,30 @@ import { lighten } from 'polished'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 
-const linkStyles = theme => ({
-  display: 'inline-block',
-  backgroundColor: theme.colors.accent,
-  color: theme.colors.background,
-  height: '24px',
-  fontFamily: theme.fonts.catamaran,
-  fontSize: '0.75rem',
-  lineHeight: '24px',
-  paddingLeft: bs(0.5),
-  paddingRight: bs(0.5),
-  marginRight: bs(0.25),
-  transition: 'background-color 0.3s ease',
+const linkStyles = theme => {
+  const {
+    components: { categoriesAndTags }
+  } = theme
 
-  '&:hover': {
-    backgroundColor: lighten(0.1, theme.colors.accent),
-    color: theme.colors.background
+  return {
+    display: 'inline-block',
+    backgroundColor: categoriesAndTags.background,
+    color: categoriesAndTags.text,
+    height: '24px',
+    fontFamily: theme.fonts.catamaran,
+    fontSize: '0.75rem',
+    lineHeight: '24px',
+    paddingLeft: bs(0.5),
+    paddingRight: bs(0.5),
+    marginRight: bs(0.25),
+    transition: 'background-color 0.3s ease',
+
+    '&:hover': {
+      backgroundColor: lighten(0.1, categoriesAndTags.background),
+      color: categoriesAndTags.text
+    }
   }
-})
+}
 
 const formatItemPath = (item, type) => {
   const paths = {
