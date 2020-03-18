@@ -127,11 +127,15 @@ const LOCAL_STORAGE_KEY = 'kyleshevlin:theme'
 
 export default function ThemeProvider({ children }) {
   const initialTheme = () => {
-    if (!window) {
-      return 'light'
+    let theme
+
+    try {
+      theme = window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'light'
+    } catch (e) {
+      theme = 'light'
     }
 
-    return window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'light'
+    return theme
   }
   const [theme, setTheme] = React.useState(initialTheme)
 
