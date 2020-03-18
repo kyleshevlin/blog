@@ -126,8 +126,13 @@ const THEMES = {
 const LOCAL_STORAGE_KEY = 'kyleshevlin:theme'
 
 export default function ThemeProvider({ children }) {
-  const initialTheme = () =>
-    window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'light'
+  const initialTheme = () => {
+    if (!window) {
+      return 'light'
+    }
+
+    return window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'light'
+  }
   const [theme, setTheme] = React.useState(initialTheme)
 
   const toggleTheme = () => {
