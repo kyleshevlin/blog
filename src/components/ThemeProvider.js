@@ -26,6 +26,10 @@ const portfolioItem = {
   text: COLORS.white
 }
 
+const searchBox = {
+  text: COLORS.black
+}
+
 const themeToggle = {
   background: COLORS.teal,
   text: COLORS.white
@@ -57,6 +61,7 @@ const lightTheme = {
       }
     },
     portfolioItem,
+    searchBox,
     themeToggle
   },
   fonts: FONTS
@@ -88,6 +93,7 @@ const darkTheme = {
       }
     },
     portfolioItem,
+    searchBox,
     themeToggle
   },
   fonts: FONTS
