@@ -46,6 +46,16 @@ const lightTheme = {
       text: COLORS.white
     },
     newsletterCTA,
+    pagination: {
+      normal: {
+        background: COLORS.teal,
+        text: COLORS.white
+      },
+      active: {
+        background: COLORS.lightGray,
+        text: COLORS.teal
+      }
+    },
     portfolioItem,
     themeToggle
   },
@@ -67,6 +77,16 @@ const darkTheme = {
       text: '#e8e8e8'
     },
     newsletterCTA,
+    pagination: {
+      normal: {
+        background: COLORS.teal,
+        text: COLORS.white
+      },
+      active: {
+        background: '#0E2D39',
+        text: COLORS.white
+      }
+    },
     portfolioItem,
     themeToggle
   },

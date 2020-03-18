@@ -13,22 +13,34 @@ export const baseItemStyles = {
   marginBottom: 3
 }
 
-export const itemStyles = theme => ({
-  ...baseItemStyles,
-  backgroundColor: theme.colors.accent,
-  color: theme.colors.background,
+export const itemStyles = theme => {
+  const {
+    components: { pagination }
+  } = theme
 
-  '&:hover': {
-    backgroundColor: lighten(0.1, theme.colors.accent),
-    color: theme.colors.background
+  return {
+    ...baseItemStyles,
+    backgroundColor: pagination.normal.background,
+    color: pagination.normal.text,
+
+    '&:hover': {
+      backgroundColor: lighten(0.1, pagination.normal.background),
+      color: pagination.normal.text
+    }
   }
-})
+}
 
-export const nonLinkItemStyles = theme => ({
-  ...baseItemStyles,
-  backgroundColor: theme.colors.offset,
-  color: theme.colors.accent
-})
+export const nonLinkItemStyles = theme => {
+  const {
+    components: { pagination }
+  } = theme
+
+  return {
+    ...baseItemStyles,
+    backgroundColor: pagination.active.background,
+    color: pagination.active.text
+  }
+}
 
 export default function Pagination({ index: currentPageIndex, totalPages }) {
   const theme = useTheme()
