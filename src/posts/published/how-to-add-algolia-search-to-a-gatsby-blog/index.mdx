@@ -5,10 +5,8 @@ date: '2019-09-22'
 slug: 'how-to-add-algolia-search-to-a-gatsby-site'
 title: 'How to Add Algolia Search to a Gatsby Site'
 description: 'Learn how I added Algolia Search to my Gatsby site or blog. It was pretty easy and a lot of fun.'
-relatedPostsSlugs: [
-  'why-i-rewrote-my-blog-with-gatsby',
-  'firebase-and-gatsby-together-at-last'
-]
+relatedPostsSlugs:
+  ['why-i-rewrote-my-blog-with-gatsby', 'firebase-and-gatsby-together-at-last']
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -179,7 +177,7 @@ const queries = [
 module.exports = queries
 ```
 
-My `mdxQuery` retrieves all the published posts. <Marker index={3} content="I may add queries for my courses and portfolio in the future." /> Then my `transformer` method takes the data received and massages it into a shape I can use for my Algolia records by lifting the keys of the `frontmatter` object up to the same level as the rest of the `node`.
+My `mdxQuery` retrieves all the published posts. <Marker index={3} content="I may add queries for my courses in the future." /> Then my `transformer` method takes the data received and massages it into a shape I can use for my Algolia records by lifting the keys of the `frontmatter` object up to the same level as the rest of the `node`.
 
 Again, your exact query will probably look different than mine. You can tweak your query using the Graphiql explorer that Gatsby has integrated.
 

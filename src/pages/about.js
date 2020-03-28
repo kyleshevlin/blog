@@ -102,10 +102,9 @@ const About = ({ data }) => {
       <h3>More Interested In My Resume?</h3>
       <p>
         You can find my resume on my{' '}
-        <a href="https://kyleshevlin.github.io">Github Page</a> and see the work
-        I do on my <a href="https://github.com/kyleshevlin">Github Profile</a>.
-        You can also look at the <a href="/portfolio">Portfolio</a> page to see
-        highlights of my recent work.
+        <a href="https://kyleshevlin.github.io">Github Page</a> (though it may
+        be out of date at any given time) and see the work I do on my{' '}
+        <a href="https://github.com/kyleshevlin">Github Profile</a>.
       </p>
     </Fragment>
   )

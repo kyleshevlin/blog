@@ -6,7 +6,7 @@ title: 'Frazier Healthcare'
 squareImage: './images/alan_frazier.jpg'
 ---
 
-[Frazier Healthchare Partners](http://www.frazierhealthcare.com) was a project that began in the late spring of 2015. This site was significantly larger than both [Eroica](portfolio/eroica-wine/) or [Motto](/portfolio/motto-wines/). I took great pride in getting to craft the front end architecture for such a large site and had the opportunity to write a lot of JavaScript functionality into the site as well.
+[Frazier Healthchare Partners](http://www.frazierhealthcare.com) was a project that began in the late spring of 2015. This site was significantly larger than both Eroica or Motto. I took great pride in getting to craft the front end architecture for such a large site and had the opportunity to write a lot of JavaScript functionality into the site as well.
 
 Starting with the homepage, we have a dynamically driven carousel. What might not be obvious, is that there are actually _two_ carousels. The images on the right and the small block of text on the left are two separate carousels, which gave me greater control when positioning them for responsivity. Thanks to [Ken Wheeler and his excellent slider plugin, Slick](http://kenwheeler.github.io/slick/), it was easy to configure two carousels to utilize the same navigation.
 
