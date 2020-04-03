@@ -67,7 +67,7 @@ const unlit = {
 
 We define "events" on the `on` property of a state node in XState (and by convention, they are in scream case 😱). States respond to these events. In this case, if an event of `type: 'TURN_OFF'` is sent to the machine, only when we are in the `lit` state will we respond to it. Sending the `TURN_OFF` event to a light bulb that's already off will do nothing.
 
-Let's combine this all together into an actual XState machine. Machine's receive an `id`, an `initial` state, and a `states` object of the enumerated state nodes.
+Let's combine this all together into an actual XState machine. Machines receive an `id`, an `initial` state, and a `states` object of the enumerated state nodes.
 
 ```javascript
 import { Machine } from 'xstate'
