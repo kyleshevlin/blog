@@ -68,13 +68,9 @@ const unlit = {
 
 We define "events" on the `on` property of a state node in XState (and by convention, they are in scream case 😱). Machines respond to these events, but only when the current state has an enumerated event of the same type. In the context of this example, if an event of `type: 'TURN_OFF'` is sent to the machine, it will respond and transitions states only when we are in the `lit` state. Sending the `TURN_OFF` event to a light bulb that's in the `unlit` state will have no effect.
 
-<<<<<<< HEAD
 In this example, our events use the common shorthand of `EVENT_NAME: 'nextStateName'` In long form, this is equivalent to `EVENT_NAME: { target: 'nextStateName' }`. Use the shorthand if you do not need to add any "actions" or "conditions", the longhand otherwise. "Actions" and "conditions" will be covered later in these guidelines.
 
 Let's combine what we've written so far into an actual XState machine. Machines receive an `id`, an `initial` state, and a `states` object of the enumerated state nodes.
-=======
-Let's combine this all together into an actual XState machine. Machines receive an `id`, an `initial` state, and a `states` object of the enumerated state nodes.
->>>>>>> dc5a86650dc3499d7ad86f22c8e478aab643edb8
 
 ```javascript
 import { Machine } from 'xstate'
