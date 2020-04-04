@@ -9,8 +9,6 @@ import Search from './Search'
 export default function Header() {
   const theme = useTheme()
 
-  console.log(theme)
-
   return (
     <StaticQuery
       query={graphql`
