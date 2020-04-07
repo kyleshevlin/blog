@@ -54,7 +54,7 @@ exports.createPages = ({ graphql, actions }) => {
         const allPosts = result.data.posts.edges
 
         // Create paginated Excerpt pages
-        const postsPerPage = 6
+        const postsPerPage = 10
         const totalPages = Math.ceil(allPosts.length / postsPerPage)
         Array.from({ length: totalPages }).forEach((_, index) => {
           createPage({
