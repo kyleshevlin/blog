@@ -425,7 +425,7 @@ Guards are a simple, yet effective way to model conditional state transitions. B
 
 The `@xstate/react` package ships a very useful hook, `useMachine`, that can be used in function components to easily instantiate a service for a machine. `useMachine` accepts a `Machine` as its first argument and an `options` object as its second object. In this way, we're able to create a machine that defines our component's enumerated states and transitions _outside the scope of the function_, but use any props or functions in the scope of the component within the `options` object.
 
-```javascript
+```jsx
 import React from 'react'
 import {Machine} from 'xstate'
 import {useMachine} from '@xstate/react'
@@ -485,7 +485,7 @@ In the above example, we render all of the buttons regardless of what `state.val
 
 `state.matches()` accepts a string or object representing a state and returns a boolean regarding if it matches or not. We can use it like this:
 
-```javascript
+```jsx
 return (
   <div>
     {TEXTS_BY_STATE[state.value]}
@@ -526,7 +526,7 @@ A state machine, specifically the `transition` method on a machine, is a pure fu
 
 A `service` is used to maintain the current state. We also `send` events to the `service` (hence where `send` comes from with the `useMachine` hook) which are passed along the machine's `transition` method internally. We can start a service by using the `interpret` function from XState. Let's write our light bulb component as a class component.
 
-```javascript
+```jsx
 import React from 'react'
 import {Machine, interpret} from 'xstate'
 
