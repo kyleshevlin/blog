@@ -39,6 +39,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
       </label>
       <input
         css={{
+          color: theme.components.searchBox.text,
           border: `1px solid ${theme.colors.offsetMore}`,
           borderRadius: 4,
           display: 'block',

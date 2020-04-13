@@ -53,6 +53,11 @@ export function FootnoteMarker({ index, content }) {
     FootnotesContext
   )
   const theme = useTheme()
+  const {
+    components: {
+      footnotes: { marker }
+    }
+  } = theme
 
   if (!index) {
     throw new Error('This marker needs an index defined')
@@ -68,8 +73,8 @@ export function FootnoteMarker({ index, content }) {
         display: 'inline-block',
         width: 20,
         height: 20,
-        backgroundColor: theme.colors.accent,
-        color: theme.colors.background,
+        backgroundColor: marker.background,
+        color: marker.text,
         fontSize: '12px',
         fontFamily: theme.fonts.catamaran,
         lineHeight: 0,
@@ -80,7 +85,7 @@ export function FootnoteMarker({ index, content }) {
         transition: 'background-color .3s ease',
 
         '&:hover': {
-          backgroundColor: lighten(0.1, theme.colors.accent)
+          backgroundColor: lighten(0.1, marker.background)
         },
 
         '&:focus': {
@@ -108,6 +113,11 @@ export function FootnoteDisplay() {
     FootnotesContext
   )
   const theme = useTheme()
+  const {
+    components: {
+      footnotes: { display }
+    }
+  } = theme
   useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (
@@ -137,8 +147,8 @@ export function FootnoteDisplay() {
               display: 'inline-block',
               width: 20,
               height: 20,
-              backgroundColor: theme.colors.accent,
-              color: theme.colors.background,
+              backgroundColor: display.marker.background,
+              color: display.marker.text,
               fontSize: '12px',
               fontFamily: theme.fonts.catamaran,
               lineHeight: 1,
@@ -152,8 +162,8 @@ export function FootnoteDisplay() {
           <button
             css={{
               display: 'inline-block',
-              backgroundColor: theme.colors.accent,
-              color: theme.colors.background,
+              backgroundColor: display.closeButton.background,
+              color: display.closeButton.text,
               fontFamily: theme.fonts.catamaran,
               fontSize: '.75em',
               textTransform: 'uppercase',
@@ -164,7 +174,7 @@ export function FootnoteDisplay() {
               transition: 'background-color .3s ease',
 
               '&:hover': {
-                backgroundColor: lighten(0.1, theme.colors.accent)
+                backgroundColor: lighten(0.1, display.closeButton.background)
               }
             }}
             onClick={() => {

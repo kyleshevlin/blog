@@ -113,6 +113,7 @@ class BeardStrokes extends Component {
             <button
               css={theme => ({
                 appearance: 'none',
+                backgroundColor: 'transparent',
                 border: 'none',
                 padding: `${bs(0.25)} ${bs(0.5)}`,
                 '& svg': {

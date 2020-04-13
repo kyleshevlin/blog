@@ -6,12 +6,15 @@ import Container from './Container'
 
 export default function NewsletterCTA() {
   const theme = useTheme()
+  const {
+    components: { newsletterCTA: newsletterCTATheme }
+  } = theme
 
   return (
     <div
       css={{
-        backgroundColor: theme.colors.accent,
-        color: theme.colors.background,
+        backgroundColor: newsletterCTATheme.background,
+        color: newsletterCTATheme.text,
         paddingTop: bs(2),
         paddingBottom: bs(2),
         textAlign: 'center'
@@ -30,8 +33,8 @@ export default function NewsletterCTA() {
             <OutboundLink
               css={{
                 display: 'inline-block',
-                backgroundColor: theme.colors.offset,
-                color: theme.colors.accent,
+                backgroundColor: newsletterCTATheme.outboundLink.background,
+                color: newsletterCTATheme.outboundLink.text,
                 fontFamily: theme.fonts.catamaran,
                 fontSize: '1.25em',
                 textTransform: 'uppercase',
@@ -42,8 +45,9 @@ export default function NewsletterCTA() {
                 transition: 'all 0.3s ease',
 
                 '&:hover': {
-                  backgroundColor: theme.colors.background,
-                  color: theme.colors.accent,
+                  backgroundColor:
+                    newsletterCTATheme.outboundLink['&:hover'].background,
+                  color: newsletterCTATheme.outboundLink['&:hover'].text,
                   transform: 'translateY(-2px)'
                 },
 
