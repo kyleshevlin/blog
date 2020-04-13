@@ -5,7 +5,6 @@ import Footer from './Footer'
 import { FootnotesContainer, FootnoteDisplay } from './Footnotes'
 import Header from './Header'
 import NewsletterCTA from './NewsletterCTA'
-import ThemeProvider from './ThemeProvider'
 import ValueSell from './ValueSell'
 import FontFaces from '../styles/FontFaces'
 import Miscellaneous from '../styles/Miscellaneous'
@@ -16,7 +15,7 @@ import Typography from '../styles/Typography'
 import { bs } from '../shevy'
 
 const Layout = ({ children }) => (
-  <ThemeProvider>
+  <>
     <Reset />
     <FontFaces />
     <Tags />
@@ -40,7 +39,7 @@ const Layout = ({ children }) => (
       <Footer />
       <FootnoteDisplay />
     </FootnotesContainer>
-  </ThemeProvider>
+  </>
 )
 
 Layout.propTypes = {
