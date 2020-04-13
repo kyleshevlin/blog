@@ -128,26 +128,10 @@ const NEXT_THEME = {
   light: 'dark'
 }
 
-const LOCAL_STORAGE_KEY = 'kyleshevlin:theme'
-
-export const getTheme = () => {
-  let theme
-
-  try {
-    theme = window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'light'
-  } catch (e) {
-    theme = 'light'
-  }
-
-  return theme
-}
+const getInitialTheme = () => 'light'
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = React.useState(getTheme)
-
-  React.useEffect(() => {
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, theme)
-  }, [theme])
+  const [theme, setTheme] = React.useState(getInitialTheme)
 
   const toggleTheme = () => {
     setTheme(NEXT_THEME[theme])
