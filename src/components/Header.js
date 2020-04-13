@@ -125,7 +125,7 @@ function ThemeToggle() {
   const theme = useTheme()
 
   return (
-    <button css={buttonStyles} onClick={theme.toggleTheme}>
+    <button css={buttonStyles} onClick={theme.toggleTheme} type="button">
       Toggle Theme
     </button>
   )
