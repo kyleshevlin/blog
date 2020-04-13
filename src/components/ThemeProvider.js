@@ -39,10 +39,6 @@ const newsletterCTA = {
   }
 }
 
-const portfolioItem = {
-  text: COLORS.white
-}
-
 const searchBox = {
   text: COLORS.black
 }
@@ -78,7 +74,6 @@ const lightTheme = {
         text: COLORS.teal
       }
     },
-    portfolioItem,
     searchBox,
     themeToggle
   },
@@ -111,7 +106,6 @@ const darkTheme = {
         text: COLORS.white
       }
     },
-    portfolioItem,
     searchBox,
     themeToggle
   },
