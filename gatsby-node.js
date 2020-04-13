@@ -19,7 +19,6 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
     const postTemplate = path.resolve('src/templates/Post.js')
-    const portfolioTemplate = path.resolve('src/templates/Portfolio.js')
     const allCategoriesOrTagsTemplate = path.resolve(
       'src/templates/AllCategoriesOrTags.js'
     )
@@ -43,19 +42,6 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
-
-        portfolio: allMarkdownRemark(
-          filter: { fileAbsolutePath: { regex: "/portfolio/" } }
-          sort: { fields: [frontmatter___date], order: DESC }
-        ) {
-          edges {
-            node {
-              frontmatter {
-                slug
-              }
-            }
-          }
-        }
       }
     `)
 
@@ -68,7 +54,7 @@ exports.createPages = ({ graphql, actions }) => {
         const allPosts = result.data.posts.edges
 
         // Create paginated Excerpt pages
-        const postsPerPage = 6
+        const postsPerPage = 10
         const totalPages = Math.ceil(allPosts.length / postsPerPage)
         Array.from({ length: totalPages }).forEach((_, index) => {
           createPage({
@@ -111,17 +97,6 @@ exports.createPages = ({ graphql, actions }) => {
               relatedPosts,
               slug
             }
-          })
-        })
-
-        // Create individual Portfolio pages
-        result.data.portfolio.edges.forEach(edge => {
-          const { slug } = edge.node.frontmatter
-
-          createPage({
-            path: `portfolio/${slug}`,
-            component: portfolioTemplate,
-            context: { slug }
           })
         })
 

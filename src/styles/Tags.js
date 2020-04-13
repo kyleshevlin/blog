@@ -57,7 +57,7 @@ export default function Tags() {
 
         ul,
         ol {
-          list-style-position: inside;
+          list-style-position: outside;
           margin-bottom: ${bs()};
         }
 
@@ -66,6 +66,17 @@ export default function Tags() {
         ol ul,
         ol ol {
           margin-left: ${bs()};
+          margin-bottom: 0;
+        }
+
+        ul li,
+        ol li {
+          margin-bottom: ${bs(0.5)};
+        }
+
+        li ul,
+        li ol {
+          margin-top: ${bs(0.5)};
         }
 
         pre,
@@ -128,6 +139,26 @@ export default function Tags() {
         iframe[sandbox] {
           margin-top: ${bs(0.5)};
           margin-bottom: ${bs(0.5)};
+        }
+
+        table {
+          border: 2px solid ${theme.colors.offset};
+          border-collapse: collapse;
+          margin-bottom: ${bs()};
+          width: 100%;
+        }
+
+        th {
+          background-color: ${theme.colors.accent};
+          border: 2px solid ${theme.colors.offset};
+          color: ${theme.colors.background};
+          font-family: ${theme.fonts.catamaran};
+          padding: ${bs(0.25)} ${bs(0.5)};
+        }
+
+        td {
+          border: 2px solid ${theme.colors.offset};
+          padding: ${bs(0.25)} ${bs(0.5)};
         }
       `}
     />

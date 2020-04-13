@@ -6,7 +6,6 @@ import { bs } from '../shevy'
 const LINKS = [
   { to: '/', title: 'Home' },
   { to: '/about', title: 'About' },
-  { to: '/portfolio', title: 'Portfolio' },
   { to: '/courses', title: 'Courses' },
   { to: '/podcast', title: 'Podcast' },
   { to: '/contact', title: 'Contact' }

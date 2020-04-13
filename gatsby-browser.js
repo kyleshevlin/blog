@@ -6,6 +6,6 @@
 
 // You can delete this file if you're not using it
 import CustomLayout from './src/wrapPageElement'
-require('prismjs/themes/prism-tomorrow.css')
+import './src/styles/prism-theme-night-owl-forked.css'
 
 export const wrapPageElement = CustomLayout

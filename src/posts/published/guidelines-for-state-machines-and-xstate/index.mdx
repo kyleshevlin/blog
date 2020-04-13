@@ -1,0 +1,807 @@
+---
+date: '2020-04-03'
+slug: 'guidelines-for-state-machines-and-xstate'
+title: 'Guidelines for State Machines and XState'
+description: 'Here are some guidelines for creating and using state machines with the XState library with React.'
+excerpt: 'This exists as a living document to define some guidelines regarding state machines and their usage. They are by no means exhaustive, but hopefully set you on the right path. It is _highly recommended_ that you read the <a href="https://xstate.js.org/docs">XState docs</a> for more information.'
+categories: ['JavaScript', 'Software Engineering', 'Web Development']
+tags: ['XState', 'React']
+relatedPostsSlugs:
+  [
+    'what-are-state-machines',
+    'our-first-xstate-machine',
+    'xstate-visualizer',
+    'enumerate-dont-booleanate',
+  ]
+---
+
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+
+<!-- ### Table of Contents
+
+1. [Intro](#intro)
+2. [What is a State Machine?](#what-is-a-state-machine)
+3. [Why Booleans are a Misguided Approach](#why-booleans-are-a-misguided-approach)
+4. [Side Effects with State Machines](#side-effects-with-state-machines)
+5. [Context in State Machines](#context-in-state-machines)
+6. [Guards and Conditions](#guards-and-conditions)
+7. [Function Components & Hooks](#function-components--hooks)
+8. [Class Components](#class-components)
+9. [Complex Machines](#complex-machines)
+   1. [Hierarchical Machines](#hierarchical-machines)
+   2. [Parallel Machines](#parallel-machines)
+10. [Visualizing State Machines](#visualizing-state-machines)
+11. [How to Approach Creating a State Machine](#how-to-approach-creating-a-state-machine)
+12. [Testing](#testing)
+13. [Resources](#resources) -->
+
+### Intro
+
+This exists as a living document to define some guidelines regarding state machines and their usage. These guidelines are by no means exhaustive, but hopefully set you on the right path. It is _highly recommended_ that you read the [XState docs](https://xstate.js.org/docs) for more information.
+
+### What is a State Machine?
+
+A state machine, more specifically a _finite_ state machine, is a means of representing all the possible enumerated states of a system and the possible enumerated transitions between states in that system. That was a bit jargon heavy, so let's use a brief example to illuminate what this means.
+
+Consider a light bulb. A light bulb typically has two states: `lit` and `unlit`. When we have two states, we are often tempted to represent this state with a boolean, `true` or `false`, but often this is a misguided approach to state management. We will explore why in the next section. Instead, let's define these two states as objects.
+
+```javascript
+const lit = {}
+const unlit = {}
+
+const states = {
+  lit,
+  unlit
+}
+```
+
+Next, let's define the possible transitions for each state to the other states. I will follow the conventions of the XState library, in order to introduce the API to you.
+
+```javascript
+const lit = {
+  on: { TURN_OFF: 'unlit' }
+}
+const unlit = {
+  on: { TURN_ON: 'lit' }
+}
+```
+
+We define "events" on the `on` property of a state node in XState (and by convention, they are in scream case 😱). Machines respond to these events, but only when the current state has an enumerated event of the same type. In the context of this example, if an event of `type: 'TURN_OFF'` is sent to the machine, it will respond and transitions states only when we are in the `lit` state. Sending the `TURN_OFF` event to a light bulb that's in the `unlit` state will have no effect.
+
+In this example, our events use the common shorthand of `EVENT_NAME: 'nextStateName'` In long form, this is equivalent to `EVENT_NAME: { target: 'nextStateName' }`. Use the shorthand if you do not need to add any "actions" or "conditions", the longhand otherwise. "Actions" and "conditions" will be covered later in these guidelines.
+
+Let's combine what we've written so far into an actual XState machine. Machines receive an `id`, an `initial` state, and a `states` object of the enumerated state nodes.
+
+```javascript
+import { Machine } from 'xstate'
+
+const lit = {
+  on: { TURN_OFF: 'unlit' }
+}
+
+const unlit = {
+  on: { TURN_ON: 'lit' }
+}
+
+const states = {
+  lit,
+  unlit
+}
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states
+})
+```
+
+Let's move our `lit` and `unlit` states directly into the `Machine` config object to tidy this up:
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      on: { TURN_OFF: 'unlit' }
+    },
+    unlit: {
+      on: { TURN_ON: 'lit' }
+    }
+  }
+})
+```
+
+Every machine has a `transition` method, which receives a `state` and an `event` and returns the next state. _This is very similar to a reducer for Flux or Redux_.
+
+```javascript
+lightBulbMachine.transition('lit', 'TURN_OFF').value // 'unlit'
+lightBulbMachine.transition('unlit', 'TURN_OFF').value // 'unlit'
+lightBulbMachine.transition('unlit', 'TURN_ON').value // 'lit'
+```
+
+Using the `transition` method explicitly is not common for most state machine usage with XState. Instead, a `service` is used to maintain the current state of the machine and `send` events to the machine. This will be discussed further, specifically in the section on [Class Components](#class-components)
+
+### Why Booleans are a Misguided Approach
+
+Looking more closely at our light bulb, one might realize that there is actually a _third_ state that a light bulb can be in: `broken`.
+
+A `broken` light bulb is different than an `unlit` light bulb and deserves its own state. If we were attempting to model a light bulb with these three states using booleans, we'll discover a problem right away.
+
+Most likely we would use two booleans to cover the possible states: `isLit` and `isBroken`. Since we are representing these states with booleans, each state has two possible outcomes. We can calculate the possible state permutations with the equation `2^n`, where `n` is the number of states (`2` because the enumerated states of a boolean is `2`: `true` and `false`). Thus, trying to cover our light bulb with two booleans reveals that we've actually created _four_ states.
+
+| isLit | isBroken |
+| ----- | -------- |
+| false | false    |
+| false | true     |
+| true  | false    |
+| true  | true     |
+
+But we only have three states in our model? Where did this fourth state come from? This fourth state is an "impossible state", a state our system should not be capable of getting to. It occurs when we have `isLit && isBroken`.
+
+Now, we're decent programmers and can typically code around this with guards and conditional logic, but as we start to add booleans to manage state, that explosion of possible permutations continues at a rapid pace. In just a few iterations, the permutations grow: 2, 4, 8, 16, 32, 64, 128, etc.
+
+State machines avoid this problem by forcing us to enumerate only the _possible states and transitions_, which more accurately models what we are trying to achieve anyways. Making an accurate light bulb devoid of impossible states is as simple as adding a new state node and some events to respond to.
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+    }
+  }
+})
+```
+
+For a bonus touch, we add the `type: 'final` to the `broken` state. It is encouraged that you add this to any final state in your machine, though it is not necessary. It is useful in more complex situations where machines invoke other machines. That will not be covered in this guideline. Please refer to the XState docs about [Invoking Services](https://xstate.js.org/docs/guides/communication.html#the-invoke-property).
+
+### Side Effects with State Machines
+
+State machines respond to events. Events may or may not trigger a transition. As a result of transitions, we have the opportunity to produce side effects. These side effects are called "actions".
+
+We can call actions at three moments in the state transition cycle, and they happen in this order.
+
+- on `exit` from a state
+- on the transition to a state
+- on `entry` to a state
+
+Let's fire actions of each kind in our light bulb example.
+
+```javascript
+import { Machine } from 'xstate'
+
+// We can break pieces of our chart out and compose them together
+// just as we would any other object
+const breakEvent = {
+  BREAK: {
+    // BREAK: 'broken' is a shorthand for BREAK: { target: 'broken' }
+    target: 'broken',
+    actions: ['informUserOfBrokeLightBulb']
+  }
+}
+
+const lightBulbMachine = Machine(
+  {
+    id: 'lightBulb',
+    initial: 'unlit',
+    states: {
+      lit: {
+        entry: 'enterLit', // If only a single action is taken, a string will suffice
+        on: {
+          TURN_OFF: 'unlit',
+          ...breakEvent
+        }
+      },
+      unlit: {
+        exit: ['leaveUnlit'],
+        on: {
+          TURN_ON: 'lit',
+          ...breakEvent
+        }
+      },
+      broken: {
+        type: 'final'
+      }
+    }
+  },
+  {
+    actions: {
+      // all actions receive the machine's `context` and the `event` that triggered the action.
+      // More on context later
+      enterLit: (context, event) => {
+        console.log(`Light bulb lit from ${JSON.stringify(event)}`)
+      },
+      leaveUnlit: () => {
+        console.log('We can do more than log stuff, this is just an example')
+      },
+      informUserOfBrokeLightBulb: (_, event) => {
+        // we can put more information on an event object, such as
+        // { type: 'BREAK', bulbId: 'someUUIDOrSomething' }
+        contactUserAboutBrokenBulb(event.bulbId)
+      }
+    }
+  }
+)
+```
+
+We have defined all our actions as strings and made matching methods in the second argument to `Machine()`. **This is the preferred way to add actions to machines**. You _can_ write functions inline in `actions` or `entry` or `exit`, **however**, following the guideline of using strings will be _especially_ useful when we start combining XState and React.
+
+### Context in State Machines
+
+The concept of `context` has a different meaning in state machines than it does in React. In React, `context` is a state held in closure to be referenced by many components via a providing and consuming component architecture. It is used to avoid excessive "prop drilling" among other things.
+
+In state machines, `context` is used to store data that cannot be easily represented by finite states. In fact, it is most often used to keep track of _infinite_ states.
+
+Consider a text input. There exists an infinite number of strings that could be used as the `value` of that input. It therefore would require an infinite number of states to model that system. This is simply impossible.
+
+That said, occasionally we need values that result in infinite states in order to accomplish a variety of tasks. Thus, `context` in state machines.
+
+Think of `context` in a state machine similar to how you think of `state` in React. It is localized to the machine. It can be updated when necessary and can be referenced by the machine.
+
+`context` is added as a `context` object on the `config` object of a machine. Let's take our light bulb example and add a `color` to it in context.
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  // We'll add `context` here
+  context: {
+    color: '#fff'
+  },
+  states: {
+    lit: {
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+    }
+  }
+})
+```
+
+We've added `color` to context. Now, let's create an event to update the `color`.
+
+```javascript
+import { assign, Machine } from 'xstate'
+
+const lightBulbMachine = Machine(
+  {
+    id: 'lightBulb',
+    initial: 'unlit',
+    // We'll add `context` here
+    context: {
+      color: '#fff'
+    },
+    states: {
+      lit: {
+        on: {
+          CHANGE_COLOR: {
+            actions: ['updateColor']
+          },
+          TURN_OFF: 'unlit',
+          BREAK: 'broken'
+        }
+      },
+      unlit: {
+        on: {
+          CHANGE_COLOR: {
+            actions: ['updateColor']
+          },
+          TURN_ON: 'lit',
+          BREAK: 'broken'
+        }
+      },
+      broken: {
+        type: 'final'
+      }
+    }
+  },
+  {
+    actions: {
+      updateColor: assign((context, event) => ({
+        color: event.color
+      }))
+    }
+  }
+)
+```
+
+We've added a `CHANGE_COLOR` event to the `lit` and `unlit` states. We can send a `color` value on an event object. The machine responds to the event, calling the actions for that event. The action in this case is `updateColor`, which is a special action known as an `assign`.
+
+`assign` is a action creator function for XState used specifically to update `context`. It works very similar to React's `setState`. It has two APIs that will be familiar to React developers:
+
+- `assign` can take an object as an argument, merging it with the current `context` to get the `nextContext`
+
+```javascript
+assign({
+  color: '#f00'
+})
+```
+
+- It can receive an updater function that returns an object to be merged with the current `context` to get the `nextContext`. This updater function receives the current `context` and the `event` as arguments.
+
+```javascript
+assign((context, event) => ({
+  color: event.color
+}))
+```
+
+- A third API exists that is different from `React.setState`, an object whose values are function updaters
+
+```javascript
+assign({
+  color: (context, event) => event.color
+})
+```
+
+Any of these APIs is fine to use. In some ways, it is simpler than `React.setState` as there are no async issues to concern yourself with. There is one "gotcha" to understand about `assign`s though. **All `assign`s are run _before_ other actions.** This is simple to understand when you consider that `Machine.transition` is a pure function that receives a `state`, `event` and `context` to derive the nextState. In order to give it the correct `context`, `assign`s must be run to determine the next state. Read more about this in the XState docs under [Context - Action Order](https://xstate.js.org/docs/guides/context.html#action-order).
+
+Now that we understand `assign` actions, let's use it on our light bulb machine to change the color.
+
+```javascript
+const nextState = lightBulbMachine.transition('lit', {
+  type: 'CHANGE_COLOR',
+  color: '#f00'
+}) // { value: 'lit', context: { color: '#f00' } }
+```
+
+Take notice that we have an event that _only_ triggers actions. It does not have a `target` state. This is useful when we want to respond to events in a state without making a state transition.
+
+### Guards and Conditions
+
+It won't be long before you come to a point where you would like to make a transition to a state conditional. This is accomplished through the use of a `guard` function on the `cond` property of a state node.
+
+Let's consider a fancier light bulb, one with a "locking mechanism" that prevents a user from turning it on. Perhaps it's a child's bedside lamp and we'd like to prevent them from reading during the night. We can create a condition that prevents the transition to the `lit` state to model this.
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: {
+          target: 'lit',
+          cond: 'isDaylightHours'
+        ],
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+    }
+  }
+}, {
+  guards: {
+    isDaylightHours: (context, event) => {
+      return event.time.getHours() > 7 || event.time.getHours() < 21
+    }
+  }
+})
+```
+
+We've created a `guard` function named `isDaylightHours`. It's a predicate function (a function that returns a boolean). We've referenced that function on the `cond` property of the `TURN_ON` event in the `unlit` state. If the guard returns `true`, the transition is taken to `lit`, otherwise it will remain `unlit`.
+
+Guards are a simple, yet effective way to model conditional state transitions. Be wary if your guard is really a child state of a parent state in disguise. This refers to hierarchical states, which will be covered in the [Hierarchical Machines](#hierarchical-machines) section.
+
+### Function Components & Hooks
+
+The `@xstate/react` package ships a very useful hook, `useMachine`, that can be used in function components to easily instantiate a service for a machine. `useMachine` accepts a `Machine` as its first argument and an `options` object as its second object. In this way, we're able to create a machine that defines our component's enumerated states and transitions _outside the scope of the function_, but use any props or functions in the scope of the component within the `options` object.
+
+```jsx
+import React from 'react'
+import {Machine} from 'xstate'
+import {useMachine} from '@xstate/react'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+      entry: ['logBroken']
+    }
+  }
+})
+
+const TEXTS_BY_STATE = {
+  lit: 'LIGHT!',
+  unlit: 'not light',
+  broken: 'so borked'
+}
+
+function LightBulb({ id }) {
+  const [state, send] = useMachine(lightBulbMachine, {
+    actions: {
+      logBroken: () => {
+        console.log(`Light bulb with id: ${id} has broken`)
+      }
+    }
+  })
+
+  return (
+    <div>
+      {TEXTS_BY_STATE[state.value]}
+      <div>
+        <button onClick={() => send('TURN_ON')} type="button">Turn On</button>
+        <button onClick={() => send('TURN_OFF')} type="button">Turn Off</button>
+        <button onClick={() => send('BREAK')} type="button">Break</button>
+      </div>
+    </div>
+  )
+}
+```
+
+In the above example, we render all of the buttons regardless of what `state.value` is. We can disable buttons based on the current state with `state.matches()`.
+
+`state.matches()` accepts a string or object representing a state and returns a boolean regarding if it matches or not. We can use it like this:
+
+```jsx
+return (
+  <div>
+    {TEXTS_BY_STATE[state.value]}
+    <div>
+      <button
+        disabled={state.matches('lit')}
+        onClick={() => send('TURN_ON')}
+        type="button"
+      >
+        Turn On
+      </button>
+      <button
+        disabled={state.matches('unlit')}
+        onClick={() => send('TURN_OFF')}
+        type="button"
+      >
+        Turn Off
+      </button>
+      <button
+        disabled={state.matches('broken')}
+        onClick={() => send('BREAK')}
+        type="button"
+      >
+        Break
+      </button>
+    </div>
+  </div>
+)
+```
+
+We can extrapolate this API, the use of `state.value` and `state.matches()` to handle all condition based rendering and functionality in our components and more.
+
+### Class Components
+
+It is possible to use XState with class components as well, but this will require a few extra steps and a new concept. The concept first.
+
+A state machine, specifically the `transition` method on a machine, is a pure function. We give it a `state` and an `event` (and we can supply a `context` as the third argument) and we should get the same next state every time. Being pure means that the machine itself does not store the current state. Instead, we are responsible for that. We can accomplish this through using a `service`.
+
+A `service` is used to maintain the current state. We also `send` events to the `service` (hence where `send` comes from with the `useMachine` hook) which are passed along the machine's `transition` method internally. We can start a service by using the `interpret` function from XState. Let's write our light bulb component as a class component.
+
+```jsx
+import React from 'react'
+import {Machine, interpret} from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+      entry: ['logBroken']
+    }
+  }
+})
+
+const TEXTS_BY_STATE = {
+  lit: 'LIGHT!',
+  unlit: 'not light',
+  broken: 'so borked'
+}
+
+class LightBulb extends React.Component {
+  state = {
+    current: lightBulbMachine.initialState
+  }
+
+  config = {
+    actions: {
+      logBroken: () => {
+        const { id } = this.props
+        console.log(`Light bulb with id: ${id} has broken`)
+      }
+    }
+  }
+
+  service = interpret(lightBulbMachine.withConfig(this.config))
+    .onTransition(current => {
+      this.setState({ current })
+    })
+
+  componentDidMount() {
+    this.service.start()
+  }
+
+  componentWillUnmount() {
+    this.service.stop()
+  }
+
+  render() {
+    const { current } = this.state
+    const { send } = this.service
+
+    return (
+      <div>
+        {TEXTS_BY_STATE[current.value]}
+        <div>
+          <button onClick={() => send('TURN_ON')} type="button">Turn On</button>
+          <button onClick={() => send('TURN_OFF')} type="button">Turn Off</button>
+          <button onClick={() => send('BREAK')} type="button">Break</button>
+        </div>
+      </div>
+    )
+  }
+}
+```
+
+I want you to take notice of a few key things:
+
+1. We need to `start` and `stop` our service. This is because in complex state machines, there `activities` and long running side effects that depend on these methods being called.
+2. We can configure our state machine with local `props` and methods, but we must do so by extending the machine using the `withConfig` method. This is different than the `useMachine` hook, where we could supply a second argument to the function instead.
+3. We store the `current` state in local React state. We use the `service`'s `onTransition` method to keep state in sync in our component.
+
+While it is more code, it does mean that state machines can be introduced to legacy components without the need to update them to function components that can use the `useMachine` hook.
+
+### Complex Machines
+
+So far, our state machines have been relatively simple. They have been one level of states and one single system of states. At some point, it is likely you'll need something more complex. It is highly recommended you read the XState docs for a deep dive on more complex machines, but two common ones will be covered here: Hierarchical and Parallel machines.
+
+#### Hierarchical Machines
+
+As you're developing a machine, you may realize that some of your enumerated states are really _child states of a parent state_. Let's extend our light bulb example further.
+
+Our light bulb has a new feature, it can shine at three different levels of brightness: `low`, `normal`, and `high`. These states are child states (or "substates") of our `lit` state. Let's write a hierarchical state machine to convey this.
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      // Child states start here
+      initial: 'normal',
+      states: {
+        low: {
+          on: {
+            INCREASE_BRIGHTNESS: 'normal'
+          }
+        },
+        normal: {
+          on: {
+            DECREASE_BRIGHTNESS: 'low',
+            INCREASE_BRIGHTNESS: 'high'
+          }
+        },
+        high: {
+          on: {
+            DECREASE_BRIGHTNESS: 'normal'
+          }
+        }
+      },
+      // Child states end here
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+    }
+  }
+})
+```
+
+To create a hierarchical machine, we essentially create the same structure as a normal state machine, but nest it in the parent state. We add an `initial` state and enumerate the child states under the `states` property.
+
+Now if our light bulb is in the `lit` state, it will initially start in the `{ lit: 'normal' }` state. We can send events to our machine to change the brightness.
+
+```javascript
+lightBulbMachine({ lit: 'normal' }, 'INCREASE_BRIGHTNESS').value // { lit: 'high' }
+lightBulbMachine({ lit: 'high' }, 'DECREASE_BRIGHTNESS').value // { lit: 'normal' }
+```
+
+Hiearchical states are an excellent way to model states that should only exist as a child state of another state. This allows us to avoid a lot of conditional logic since our machine won't respond to events unless it is in the correct state.
+
+#### Parallel Machines
+
+Occasionally, you'll find your model requires a machine be in multiple states simultaneously. This is what a parallel machine is for. A parallel machine allows a machine to be in multiple states simultaneously and independently. Let's extend our light bulb further and turn it into one for the dance floor. Lights on the dance floor flash in various patterns, and they can oscillate in different ways. We'll focus on just those two parallel states in our example (which will also include a hierarchical state since these can only occur in the `lit` state).
+
+```javascript
+import { Machine } from 'xstate'
+
+const lightBulbMachine = Machine({
+  id: 'lightBulb',
+  initial: 'unlit',
+  states: {
+    lit: {
+      // parallel child states start here
+      type: 'parallel', // no initial state, requires `type: 'parallel'` be set
+      states: {
+        // 1st parallel state
+        pattern: {
+          // We can easily have hiearchical child states inside our parent parallel state
+          initial: 'steady',
+          states: {
+            steady: {
+              on: {
+                PULSE: 'pulsing',
+                FLASH: 'flashing'
+              }
+            },
+            pulsing: {
+              on: {
+                STEADY: 'steady',
+                FLASH: 'flashing'
+              }
+            },
+            flashing: {
+              on: {
+                STEADY: 'steady',
+                PULSE: 'pulsing'
+              }
+            }
+          }
+        },
+        // 2nd parallel state
+        movement: {
+          initial: 'stationary',
+          states: {
+            stationary: {
+              on: { OSCILLATE: 'oscillating' }
+            },
+            oscillating: {
+              on: { STOP: 'stationary' }
+            }
+          }
+        }
+      },
+      // parallel child states end here
+      on: {
+        TURN_OFF: 'unlit',
+        BREAK: 'broken'
+      }
+    },
+    unlit: {
+      on: {
+        TURN_ON: 'lit',
+        BREAK: 'broken'
+      }
+    },
+    broken: {
+      type: 'final'
+    }
+  }
+})
+```
+
+We added quite a bit of complexity here, but it's just the combination of parallel and hierarchical states that make it happen. Let's break it down.
+
+Under the `lit` state, we add a couple parallel states: one for the light `pattern` and one for the `movement` of the bulb. The bulb is in both states simultaneously and independently. We can send events that affect one without affecting the other.
+
+Next, inside of each parallel state, we've added a hierarchical state chart to govern the states held within each parallel state. This is precisely what we've seen thus far. We have a subchart that controls the `pattern` states, and one that governs the `movement` states.
+
+If we were to examine the value returned by the `lit` state, it would initially look like this:
+
+```javascript
+lightBulbMachine.transition('unlit', 'TURN_ON')
+// {
+//   value: {
+//     lit: {
+//       pattern: 'steady',
+//       movement: 'stationary',
+//     }
+//   }
+// }
+```
+
+Notice that the `lit` state is an object with the states of all our parallel states contained within.
+
+### Visualizing State Machines
+
+XState has a very handy visualizer at [xstate.js.org/viz](xstate.js.org./viz). You can save machines as gists from the visualizer as well.
+
+### How to Approach Creating a State Machine
+
+Here is a general heuristic of how to approach creating a state machine.
+
+1. Enumerate the states of your program
+2. Enumerate the transitions between those states
+3. Examine if any of the states can only exist as a substate of another state. If so, know you can use a hierachical state machine.
+4. Examine if any of the states can exist simultaneously and independently. If so, know you can use a parallel state machine.
+5. Create objects for all of your states
+6. Add the transitions to the `on` property of those states
+7. Combine these into the `states` property of your machine
+8. Add the `initial` state to your machine
+9. Add an `id` to your machine
+10. Start the service of your machine through either `interpret` or `useMachine` depending on your situation.
+11. Profit.
+
+### Testing
+
+Tests can be written just as any other test would be written regarding UI interactions to verify expected behavior.
+
+There is also the `@xstate/test` library that can _automatically generate all possible branches of your state machine_. More will be added to this section in the future.
+
+### Resources
+
+- [XState Docs](https://xstate.js.org/docs)
+- [XState Viz](https://xstate.js.org/viz)
+- [Introduction to State Machines and XState on egghead.io](https://kyleshevl.in/xstate) (if you have an egghead account. Access for Webflow engineers will come soon.)

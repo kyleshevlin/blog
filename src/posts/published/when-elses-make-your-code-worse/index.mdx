@@ -1,40 +1,58 @@
 ---
 categories: ['JavaScript', 'Web Development']
 tags: ['Refactoring']
-date: "2019-07-17"
-slug: "when-elses-make-your-code-worse"
-title: "When `else`s Make Your Code Worse"
-subtitle: "or An Example on How Small Refactors Can Improve Your Code"
-description: "In this article, Kyle Shevlin teaches us how we can simplify the conditional logic of our code by refactoring it without `else` blocks."
+date: '2019-07-17'
+slug: 'when-elses-make-your-code-worse'
+title: 'When `else`s Make Your Code Worse'
+subtitle: 'or An Example on How Small Refactors Can Improve Your Code'
+description: 'In this article, Kyle Shevlin teaches us how we can simplify the conditional logic of our code by refactoring it without `else` blocks.'
 ---
+
+import EggheadEmbed from '../../../components/EggheadEmbed'
+
+Prefer a video lesson? Watch it instead.
+
+<EggheadEmbed
+  src="https://egghead.io/lessons/javascript-remove-unnecessary-else-blocks-with-guards-and-early-returns/embed"
+  title="Remove Unnecessary Else Blocks with Guards and Early Returns"
+/>
 
 Recently, I wrote a tweet that got some attention about not needing `else`s in your code. Some people got a bit upset about that. Here's that tweet.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Random, lukewarm (as opposed to hot) take: You really don&#39;t need the `else` keyword in JavaScript. Any scenario you&#39;d think to use it, I might argue there&#39;s a better, and possibly simpler, way. *searches for smoking embers of a former fire emoji*</p>&mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1131674209287979008?ref_src=twsrc%5Etfw">May 23, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-lang="en">
+  <p lang="en" dir="ltr">
+    Random, lukewarm (as opposed to hot) take: You really don&#39;t need the
+    `else` keyword in JavaScript. Any scenario you&#39;d think to use it, I
+    might argue there&#39;s a better, and possibly simpler, way. *searches for
+    smoking embers of a former fire emoji*
+  </p>
+  &mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1131674209287979008?ref_src=twsrc%5Etfw">May 23, 2019</a>
+</blockquote>
+<script
+  async
+  src="https://platform.twitter.com/widgets.js"
+  charset="utf-8"
+></script>
 
 I still stand by what I said, and I recently came across some code that was a good example of what I was talking about. The code looked like this (more or less):
 
 ```javascript
 function unimportantName(options) {
-  const {value, value2, value3, type} = options;
+  const { value, value2, value3, type } = options
 
   if (type === 'Date') {
     if (value !== 0) {
       return {
-        lte: [
-          String(value),
-          value2,
-          'from now',
-          'starting end of today',
-        ].join(' '),
-        gte: !value3 ? 'today' : 'tomorrow',
-      };
+        lte: [String(value), value2, 'from now', 'starting end of today'].join(
+          ' '
+        ),
+        gte: !value3 ? 'today' : 'tomorrow'
+      }
     } else {
-      return {gte: 'today', lte: 'end of today'};
+      return { gte: 'today', lte: 'end of today' }
     }
   } else {
-    return {lte: value};
+    return { lte: value }
   }
 }
 ```
@@ -47,24 +65,21 @@ The first thing I notice is the outer `if/else`. The condition is `if (type === 
 
 ```javascript
 function unimportantName(options) {
-  const {value, value2, value3, type} = options;
+  const { value, value2, value3, type } = options
 
   if (type !== 'Date') {
-    return {lte: value};
+    return { lte: value }
   }
 
   if (value !== 0) {
     return {
-      lte: [
-        String(value),
-        value2,
-        'from now',
-        'starting end of today',
-      ].join(' '),
-      gte: !value3 ? 'today' : 'tomorrow',
-    };
+      lte: [String(value), value2, 'from now', 'starting end of today'].join(
+        ' '
+      ),
+      gte: !value3 ? 'today' : 'tomorrow'
+    }
   } else {
-    return {gte: 'today', lte: 'end of today'};
+    return { gte: 'today', lte: 'end of today' }
   }
 }
 ```
@@ -75,25 +90,20 @@ Now, we have one `if/else` remaining, is anything gained from refactoring this? 
 
 ```javascript
 function unimportantName(options) {
-  const {value, value2, value3, type} = options;
+  const { value, value2, value3, type } = options
 
   if (type !== 'Date') {
-    return {lte: value};
+    return { lte: value }
   }
 
   if (value === 0) {
-    return {gte: 'today', lte: 'end of today'};
+    return { gte: 'today', lte: 'end of today' }
   }
 
   return {
-    lte: [
-      String(value),
-      value2,
-      'from now',
-      'starting end of today',
-    ].join(' '),
-    gte: !value3 ? 'today' : 'tomorrow',
-  };
+    lte: [String(value), value2, 'from now', 'starting end of today'].join(' '),
+    gte: !value3 ? 'today' : 'tomorrow'
+  }
 }
 ```
 
@@ -103,20 +113,20 @@ I think using an array and calling `join` when we can use a template string does
 
 ```javascript
 function unimportantName(options) {
-  const {value, value2, value3, type} = options;
+  const { value, value2, value3, type } = options
 
   if (type !== 'Date') {
-    return {lte: value};
+    return { lte: value }
   }
 
   if (value === 0) {
-    return {gte: 'today', lte: 'end of today'};
+    return { gte: 'today', lte: 'end of today' }
   }
 
   return {
     lte: `${String(value)} ${value2} from now starting end of today`,
-    gte: !value3 ? 'today' : 'tomorrow',
-  };
+    gte: !value3 ? 'today' : 'tomorrow'
+  }
 }
 ```
 
