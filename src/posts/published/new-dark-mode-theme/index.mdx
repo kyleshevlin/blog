@@ -1,0 +1,68 @@
+---
+date: '2020-04-13'
+slug: 'new-dark-mode-theme'
+title: 'New Dark Mode Theme'
+description: 'I added a dark theme to my blog for your reading pleasure'
+categories: ['JavaScript', 'Software Engineering', 'Web Development']
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+
+I decided one evening, while trying to look at my own blog and aghast at how bright it was, to create a dark theme for your reading pleasure. You can toggle it on and off with that handy button up above that says "Toggle Theme". <Marker index={1} content="I've always tried to be <em>very</em> clear about what my UI does." />
+
+You can see most of the work for making this happen in [this pull request](https://github.com/kyleshevlin/blog/pull/25), but I thought I'd break down what I did so far, a pitfall I ran into, and what I plan to do next.
+
+### Step 1 - Add a Light Theme
+
+My first step to making a dark theme for my blog was to actually make a _light_ theme for my blog. Nothing about the styles of [kyleshevlin.com](https://kyleshevlin.com) was to change, but by setting it up so that it consumed a `theme`, I would be able to create new `theme`s as I saw fit in the future. I did this work in [this pull request](https://github.com/kyleshevlin/blog/pull/24).
+
+My blog uses [Emotion](https://emotion.sh/docs/introduction) for CSS-in-JS styles. Among the many packages that Emotion ships is [`emotion-theming`](https://emotion.sh/docs/emotion-theming). This package creates a theme context and gives you a `ThemeProvider` component to use in your app. `ThemeProvider` receives a `theme` prop which is passed which is passed as an argument wherever you can apply styles with a function, such as a `styled` component, `css` template tag, or my preferred method, the `css` prop.
+
+```jsx
+import React from 'react'
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+
+const theme = {
+  backgroundColor: '#eee',
+  color: '#222'
+}
+
+function Box({ children }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <div
+        css={theme => ({
+          backgroundColor: theme.backgroundColor,
+          color: theme.color
+        })}
+      >
+        {children}
+      </div>
+    </ThemeProvider>
+  )
+}
+```
+
+If I supply a different `theme` to the provider, the elements and components that use `theme` for their styles will update accordingly. Perfect. I went ahead and made a small `lightTheme` object to pass to my provider.
+
+```javascript
+import { COLORS, FONTS } from '../constants'
+
+const lightTheme = {
+  colors: {
+    background: COLORS.white,
+    text: COLORS.black,
+    accent: COLORS.teal,
+    offset: COLORS.lightGray, // I couldn't think of better names and this works for me :)
+    offsetMore: COLORS.gray
+  },
+  fonts: { ...FONTS }
+}
+```
+
+The next step was to do the tedious work of updating every component and style in my app to use `theme` instead of the constants of `COLORS` or `FONTS`. I won't bore you with the details of that task.
+
+## Step 2 - Add A Dark Theme
