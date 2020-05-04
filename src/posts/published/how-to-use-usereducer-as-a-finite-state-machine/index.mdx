@@ -118,7 +118,7 @@ const NEXT_STATE_GRAPH = {
 }
 ```
 
-Now each state node will have a key for any `event`, but explicitly returns `undefined` in those situations where we do not want to make a state transition. This will appease any exhaustive check a type system demands.
+Now each state node will have a key for any `event` and explicitly returns `undefined` in those situations where we do not want to make a state transition. We simply override the non-responsive `events` with responsive ones below, taking advantage of how object spreading works. <Marker index={3} content="Key/value pairs that have the same key as a previous one will overwrite the previous value with the new one." /> This will appease any exhaustive check a type system demands.
 
 ### Conclusion
 
