@@ -40,12 +40,11 @@ export const query = graphql`
       edges {
         node {
           frontmatter {
-            title
-            subtitle
-            slug
             date(formatString: "MMMM DD, YYYY")
-            categories
+            slug
+            subtitle
             tags
+            title
           }
           excerpt(pruneLength: 300)
         }

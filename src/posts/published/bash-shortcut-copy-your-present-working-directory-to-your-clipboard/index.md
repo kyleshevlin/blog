@@ -1,5 +1,4 @@
 ---
-categories: ['Web Development']
 date: '2015-07-25'
 slug: 'bash-shortcut-copy-your-present-working-directory-to-your-clipboard'
 title: 'Bash Shortcut: Copy your Present Working Directory to your Clipboard'

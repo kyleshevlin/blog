@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2016-12-01'
 slug: 'how-to-use-client-side-libraries-in-a-universal-javascript-app'

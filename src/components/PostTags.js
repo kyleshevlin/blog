@@ -7,13 +7,13 @@ import { formatStrForPath } from '../utils'
 
 const linkStyles = theme => {
   const {
-    components: { categoriesAndTags }
+    components: { tags }
   } = theme
 
   return {
     display: 'inline-block',
-    backgroundColor: categoriesAndTags.background,
-    color: categoriesAndTags.text,
+    backgroundColor: tags.background,
+    color: tags.text,
     height: '24px',
     fontFamily: theme.fonts.catamaran,
     fontSize: '0.75rem',
@@ -24,32 +24,17 @@ const linkStyles = theme => {
     transition: 'background-color 0.3s ease',
 
     '&:hover': {
-      backgroundColor: lighten(0.1, categoriesAndTags.background),
-      color: categoriesAndTags.text
+      backgroundColor: lighten(0.1, tags.background),
+      color: tags.text
     }
   }
 }
 
-const formatItemPath = (item, type) => {
-  const paths = {
-    category: 'categories',
-    tag: 'tags'
-  }
-  const typePath = paths[type]
-
-  return `${typePath}/${formatStrForPath(item)}`
+const formatItemPath = item => {
+  return `tags/${formatStrForPath(item)}`
 }
 
-const getTypeHeading = type => {
-  const headings = {
-    category: 'Categories',
-    tag: 'Tags'
-  }
-
-  return headings[type]
-}
-
-export default function PostCategoriesOrTags({ items, type }) {
+export default function PostTags({ items }) {
   const theme = useTheme()
 
   return (
@@ -61,10 +46,10 @@ export default function PostCategoriesOrTags({ items, type }) {
           lineHeight: 1.8
         }}
       >
-        {getTypeHeading(type)}
+        Tags
       </div>
       {items.map(item => (
-        <Link css={linkStyles} key={item} to={formatItemPath(item, type)}>
+        <Link css={linkStyles} key={item} to={formatItemPath(item)}>
           {item}
         </Link>
       ))}

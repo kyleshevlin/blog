@@ -46,7 +46,6 @@ date: '${year}-${month}-${day}'
 slug: '${dirName}'
 title: '${title}'
 description: ''
-categories: ['JavaScript', 'Software Engineering', 'Web Development']
 tags: ['React']
 relatedPostsSlugs: []
 ---

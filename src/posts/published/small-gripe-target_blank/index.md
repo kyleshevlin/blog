@@ -1,5 +1,4 @@
 ---
-categories: ['Web Development']
 date: '2015-01-26'
 slug: 'small-gripe-target_blank'
 title: 'Small Gripe: Target="_blank"'

@@ -1,5 +1,4 @@
 ---
-categories: ['Designing My Life']
 date: '2018-06-23'
 relatedPostsSlugs: ['designing-my-life-exercise-2']
 slug: 'designing-my-life-exercise-1'

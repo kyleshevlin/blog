@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 tags: ['React']
 date: '2017-02-08'
 slug: 'how-to-dynamically-render-react-components'

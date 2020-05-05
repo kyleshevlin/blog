@@ -3,7 +3,6 @@ title: 'Why I Rewrote My Blog With Gatsby'
 subtitle: 'Or How to Respond When Your WordPress Blog Gets Hacked'
 date: '2019-01-09'
 slug: 'why-i-rewrote-my-blog-with-gatsby'
-categories: ['JavaScript', 'Web Development']
 tags: ['Gatsby', 'React']
 ---
 

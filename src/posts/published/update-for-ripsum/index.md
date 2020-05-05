@@ -1,5 +1,4 @@
 ---
-categories: ['Web Development']
 date: '2015-12-16'
 slug: 'update-for-ripsum'
 title: 'Update for Ripsum'

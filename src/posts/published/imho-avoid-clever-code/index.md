@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 date: '2016-12-03'
 slug: 'imho-avoid-clever-code'
 subtitle: 'or Code is for Humans, Not for Computers'

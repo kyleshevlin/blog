@@ -8,7 +8,7 @@ import PostContent from '../components/PostContent'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostOpenSourceContribution from '../components/PostOpenSourceContribution'
-import PostCategoriesOrTags from '../components/PostCategoriesOrTags'
+import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
@@ -32,7 +32,6 @@ const Post = ({
   const file = md ? md : mdx
   const {
     frontmatter: {
-      categories,
       coverImage,
       date,
       description,
@@ -66,11 +65,7 @@ const Post = ({
         <PostHeader {...{ subtitle, title }} />
         {renderContent(file)}
 
-        {categories && (
-          <PostCategoriesOrTags items={categories} type="category" />
-        )}
-
-        {tags && <PostCategoriesOrTags items={tags} type="tag" />}
+        {tags && <PostTags items={tags} />}
 
         <BeardStrokes slug={slug} />
 
@@ -114,7 +109,6 @@ export const pageQuery = graphql`
     ) {
       html
       frontmatter {
-        categories
         coverImage {
           childImageSharp {
             original {
@@ -138,7 +132,6 @@ export const pageQuery = graphql`
     ) {
       body
       frontmatter {
-        categories
         coverImage {
           childImageSharp {
             original {

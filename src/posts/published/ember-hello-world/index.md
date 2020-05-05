@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 tags: ['Ember']
 date: '2016-05-14'
 slug: 'ember-hello-world'

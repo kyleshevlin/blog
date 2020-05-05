@@ -1,5 +1,4 @@
 ---
-categories: ['Web Development']
 date: "2017-08-02"
 slug: "what-ive-learned-from-git-commiting-every-day-for-three-months"
 subtitle: "or Code and the Shackles of Behavioral Psychology"

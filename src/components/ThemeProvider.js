@@ -2,7 +2,7 @@ import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { COLORS, FONTS } from '../constants'
 
-const categoriesAndTags = {
+const tags = {
   background: COLORS.teal,
   text: COLORS.white
 }
@@ -57,7 +57,7 @@ const lightTheme = {
     offsetMore: COLORS.gray
   },
   components: {
-    categoriesAndTags,
+    tags,
     footer: {
       background: COLORS.black,
       text: COLORS.white
@@ -89,7 +89,7 @@ const darkTheme = {
     offsetMore: '#184D62'
   },
   components: {
-    categoriesAndTags,
+    tags,
     footer: {
       background: '#040D10',
       text: '#e8e8e8'

@@ -1,5 +1,4 @@
 ---
-categories: ['Web Development']
 tags: ['CSS', 'Sass']
 date: '2014-07-03'
 slug: 'sassy-rhythm-vertical-rhythm-with-sass'

@@ -4,13 +4,13 @@ import { bs } from '../shevy'
 import PostDate from './PostDate'
 import PostHeader from './PostHeader'
 import PostContent from './PostContent'
-import PostCategoriesOrTags from './PostCategoriesOrTags'
+import PostTags from './PostTags'
 import TotalBeardStrokes from './TotalBeardStrokes'
 
 const ExcerptedPost = ({ post }) => {
   const {
     excerpt,
-    frontmatter: { categories, date, slug, subtitle, tags, title }
+    frontmatter: { date, slug, subtitle, tags, title }
   } = post
 
   return (
@@ -23,11 +23,7 @@ const ExcerptedPost = ({ post }) => {
         <Link to={slug}>Read More</Link>
       </div>
 
-      {categories && (
-        <PostCategoriesOrTags items={categories} type="category" />
-      )}
-
-      {tags && <PostCategoriesOrTags items={tags} type="tag" />}
+      {tags && <PostTags items={tags} />}
     </div>
   )
 }

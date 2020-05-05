@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 date: "2017-05-17"
 slug: "shevyjs"
 title: "ShevyJS"

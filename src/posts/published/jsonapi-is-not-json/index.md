@@ -1,5 +1,4 @@
 ---
-categories: ['JavaScript', 'Web Development']
 tags: ['Ember', 'Rails']
 date: "2016-06-11"
 slug: "jsonapi-is-not-json"
