@@ -1,5 +1,4 @@
 ---
-
 date: '2019-01-27'
 description: 'Kyle Shevlin breaks down the steps it took to get Firebase, Gatsby, and Netlify to work for the new "beard stroke" post-liking feature of his blog'
 keywords:

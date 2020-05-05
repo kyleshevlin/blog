@@ -1,5 +1,4 @@
 ---
-
 date: "2017-02-11"
 slug: "response-to-css-vs-sass"
 title: "Response to CSS vs Sass"

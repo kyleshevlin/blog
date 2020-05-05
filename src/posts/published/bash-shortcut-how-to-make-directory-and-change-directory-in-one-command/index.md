@@ -1,5 +1,4 @@
 ---
-
 date: '2015-07-25'
 slug: 'bash-shortcut-how-to-make-directory-and-change-directory-in-one-command'
 title: 'Bash Shortcut: How to Make Directory and Change Directory in One Command'

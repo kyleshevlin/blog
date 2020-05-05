@@ -1,5 +1,4 @@
 ---
-
 date: "2018-01-20"
 slug: "i-went-on-the-accidental-engineer-podcast"
 subtitle: "and Hopefully Didn't Sound Like Too Much of an Ass"

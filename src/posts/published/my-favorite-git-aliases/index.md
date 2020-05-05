@@ -1,5 +1,4 @@
 ---
-
 date: "2015-09-10"
 slug: "my-favorite-git-aliases"
 title: "My Favorite Git Aliases"

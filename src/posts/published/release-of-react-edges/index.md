@@ -1,5 +1,4 @@
 ---
-
 date: "2018-11-10"
 slug: "release-of-react-edges"
 subtitle: "The Tiniest, Possibly Least Useful React Component Library Out There"

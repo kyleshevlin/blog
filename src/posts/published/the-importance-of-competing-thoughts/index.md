@@ -1,5 +1,4 @@
 ---
-
 date: "2018-11-10"
 slug: "the-importance-of-competing-thoughts"
 title: "The Importance of Competing Thoughts"

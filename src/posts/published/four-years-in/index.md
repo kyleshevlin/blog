@@ -1,5 +1,4 @@
 ---
-
 date: "2017-11-10"
 slug: "four-years-in"
 title: "Four Years In"

@@ -1,5 +1,4 @@
 ---
-
 date: '2017-07-12'
 slug: 'how-to-write-your-own-javascript-dom-element-factory'
 subtitle: 'A Basic HyperScript h() Function'

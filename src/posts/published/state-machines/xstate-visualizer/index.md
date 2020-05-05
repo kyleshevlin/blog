@@ -1,5 +1,4 @@
 ---
-
 date: '2019-01-24'
 description: 'Sometimes seeing is understanding. XState provides a visualizer tool that allows us to see our state machine as a graphical interface, and not just code.'
 keywords: ['state machines', 'finite state automata', 'XState']

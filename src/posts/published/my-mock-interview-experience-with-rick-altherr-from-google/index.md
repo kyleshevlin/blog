@@ -1,5 +1,4 @@
 ---
-
 date: "2017-07-03"
 slug: "my-mock-interview-experience-with-rick-altherr-from-google"
 subtitle: "or Practice Without the Pressure"

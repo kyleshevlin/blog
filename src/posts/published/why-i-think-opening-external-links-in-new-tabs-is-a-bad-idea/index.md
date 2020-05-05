@@ -1,5 +1,4 @@
 ---
-
 date: "2016-03-27"
 slug: "why-i-think-opening-external-links-in-new-tabs-is-a-bad-idea"
 title: "Why I Think Opening External Links In New Tabs Is a Bad Idea"

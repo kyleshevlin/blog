@@ -1,5 +1,4 @@
 ---
-
 date: "2017-02-26"
 slug: "what-is-most-important-to-a-web-developer"
 subtitle: "the Tech, the Product, or the People"

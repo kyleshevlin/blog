@@ -1,5 +1,4 @@
 ---
-
 date: '2016-03-09'
 slug: 'using-and-and-or-in-bash-scripts'
 title: 'Using && and || in Bash Scripts'
