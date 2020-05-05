@@ -1,5 +1,4 @@
 ---
-
 tags: ['React']
 date: '2017-01-20'
 slug: 'loading-state-trick-for-stateless-functional-components-in-react'

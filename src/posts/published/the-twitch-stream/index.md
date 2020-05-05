@@ -1,5 +1,4 @@
 ---
-
 tags: ['LiveCoding', 'React']
 date: "2017-10-12"
 slug: "the-twitch-stream"

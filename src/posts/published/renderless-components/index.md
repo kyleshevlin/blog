@@ -1,5 +1,4 @@
 ---
-
 tags: ['React', 'Redux']
 date: '2017-02-23'
 slug: 'renderless-components'

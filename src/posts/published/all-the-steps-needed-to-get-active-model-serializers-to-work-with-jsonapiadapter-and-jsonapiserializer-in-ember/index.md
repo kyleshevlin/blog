@@ -1,5 +1,4 @@
 ---
-
 tags: ['Ember', 'Rails']
 date: '2016-06-14'
 slug: 'all-the-steps-needed-to-get-active-model-serializers-to-work-with-jsonapiadapter-and-jsonapiserializer-in-ember'

@@ -1,5 +1,4 @@
 ---
-
 tags: ['React']
 date: '2017-04-22'
 slug: 'what-i-love-about-react-1'

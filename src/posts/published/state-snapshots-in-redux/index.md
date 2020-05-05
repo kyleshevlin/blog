@@ -1,5 +1,4 @@
 ---
-
 tags: ['Redux']
 date: '2016-11-16'
 slug: 'state-snapshots-in-redux'

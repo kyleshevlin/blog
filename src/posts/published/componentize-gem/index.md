@@ -1,5 +1,4 @@
 ---
-
 tags: ['Rails', 'Ruby']
 date: '2016-07-02'
 slug: 'componentize-gem'
