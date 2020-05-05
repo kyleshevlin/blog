@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 tags: ['Podcast']
 date: "2017-11-27"
 slug: "i-started-a-podcast"

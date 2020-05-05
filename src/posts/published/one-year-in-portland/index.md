@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: '2014-08-31'
 slug: 'one-year-in-portland'
 title: 'One Year In Portland'

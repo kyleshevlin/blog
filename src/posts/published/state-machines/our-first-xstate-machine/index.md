@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 date: '2019-01-22'
 description: 'How do we create a state machine using the XState library. In this article, we will create our first state machine using XState.'
 keywords: ['state machines', 'finite state automata', 'XState']

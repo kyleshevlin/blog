@@ -4,7 +4,6 @@ const mdxQuery = `{
       node {
         excerpt
         frontmatter {
-          categories
           description
           slug
           subtitle

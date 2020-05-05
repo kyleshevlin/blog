@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: "2012-01-29"
 slug: "some-good-news"
 title: "Some Good News"

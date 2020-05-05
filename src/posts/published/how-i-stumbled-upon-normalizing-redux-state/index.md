@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['Redux']
 date: '2017-05-18'
 slug: 'how-i-stumbled-upon-normalizing-redux-state'

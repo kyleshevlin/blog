@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: "2018-09-28"
 slug: "how-to-be-more-successful-on-your-next-web-developer-job-hunt"
 title: "How to be More Successful on Your Next Web Developer Job Hunt"

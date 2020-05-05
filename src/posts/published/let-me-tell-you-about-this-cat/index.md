@@ -1,5 +1,5 @@
 ---
-categories: ['Random']
+
 date: "2018-08-21"
 slug: "let-me-tell-you-about-this-cat"
 title: "Let Me Tell You About This Cat"

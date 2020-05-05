@@ -10,13 +10,9 @@ const linkStyles = css`
   margin-bottom: ${bs(0.5)};
 `
 
-const AllCategoriesOrTags = ({ pageContext }) => {
-  const { categories, tags } = pageContext
-
-  // Has to be one or the other
-  const title = tags ? 'All Tags' : 'All Categories'
-  const itemType = tags ? 'tags' : 'categories'
-  const items = tags ? tags : categories
+const AllTags = ({ pageContext }) => {
+  const { tags } = pageContext
+  const title = 'All Tags'
 
   return (
     <Fragment>
@@ -24,11 +20,11 @@ const AllCategoriesOrTags = ({ pageContext }) => {
 
       <h1>{title}</h1>
       <div>
-        {items.map(item => (
+        {tags.map(item => (
           <Link
             key={item}
             css={linkStyles}
-            to={`${itemType}/${formatStrForPath(item)}`}
+            to={`tags/${formatStrForPath(item)}`}
           >
             {item}
           </Link>
@@ -38,4 +34,4 @@ const AllCategoriesOrTags = ({ pageContext }) => {
   )
 }
 
-export default AllCategoriesOrTags
+export default AllTags

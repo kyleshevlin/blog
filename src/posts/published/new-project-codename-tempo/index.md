@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['Ember']
 date: "2016-06-09"
 slug: "new-project-codename-tempo"

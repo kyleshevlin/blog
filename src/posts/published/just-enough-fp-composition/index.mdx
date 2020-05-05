@@ -1,19 +1,19 @@
 ---
-categories: ['JavaScript', 'Web Development', 'Functional Programming']
 tags: ['Just Enough FP']
 date: '2019-05-17'
 description: 'Functional composition is the act of taking the output of one function and passing it directly as the input to the next function.'
 slug: 'just-enough-fp-composition'
 title: 'Just Enough FP: Composition'
-relatedPostsSlugs: [
-  'just-enough-fp-higher-order-functions',
-  'just-enough-fp-pure-functions',
-  'just-enough-fp-immutability',
-  'just-enough-fp-currying',
-  'just-enough-fp-partial-application',
-  'just-enough-fp-argument-order',
-  'just-enough-fp-pointfree'
-]
+relatedPostsSlugs:
+  [
+    'just-enough-fp-higher-order-functions',
+    'just-enough-fp-pure-functions',
+    'just-enough-fp-immutability',
+    'just-enough-fp-currying',
+    'just-enough-fp-partial-application',
+    'just-enough-fp-argument-order',
+    'just-enough-fp-pointfree',
+  ]
 ---
 
 import EggheadEmbed from '../../../components/EggheadEmbed'
@@ -59,11 +59,7 @@ const compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
 The `compose` function accepts any number of functions as arguments and returns a new function that awaits any value `x`. When `x` is received, we take our array of functions and call `reduceRight` (the same as `Array.prototype.reduce`, but we start from the end and work towards the beginning of the array), passing in the accumulated result as the input to the next function, starting with our value `x`. `compose` can be used like this:
 
 ```javascript
-const withExuberance = compose(
-  repeat,
-  exclaim,
-  scream
-)
+const withExuberance = compose(repeat, exclaim, scream)
 
 withExuberance('this is a-maz-ing')
 // THIS IS A-MAZ-ING! THIS IS A-MAZ-ING!
@@ -78,14 +74,8 @@ In our mathematical compositions, the innermost function is always called first.
 We can actually break our composition down into smaller compositions and compose them together. Since we only have three functions, I'll only compose `scream` and `exclaim`.
 
 ```javascript
-const withExcitement = compose(
-  exclaim,
-  scream
-)
-const withExuberance = compose(
-  repeat,
-  withExcitement
-)
+const withExcitement = compose(exclaim, scream)
+const withExuberance = compose(repeat, withExcitement)
 
 withExuberance('composition is blowing my mind')
 // COMPOSITION IS BLOWING MY MIND! COMPOSITION IS BLOWING MY MIND!
@@ -106,14 +96,8 @@ const pipe = (...fns) => x => fns.reduce((acc, fn) => fn(acc), x)
 Our compositions now read left-to-right, top-to-bottom. <Marker index={4} content="This is also how the pipeline operator <code>|></code> works in other languages" /> Forgive me, I had to teach you composition the mathematical way first. Our `pipe` compositions now would look like this:
 
 ```javascript
-const withExcitement = pipe(
-  scream,
-  exclaim
-)
-const withExuberance = pipe(
-  withExcitement,
-  repeat
-)
+const withExcitement = pipe(scream, exclaim)
+const withExuberance = pipe(withExcitement, repeat)
 
 withExuberance("I can't think of an interesting string")
 // I CAN'T THINK OF AN INTERESTING STRING! I CAN'T THINK OF AN INTERESTING STRING!

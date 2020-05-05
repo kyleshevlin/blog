@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 date: '2017-02-17'
 slug: 'zenos-paradox-of-infinite-loop-scrolling'
 subtitle: 'or Everything Moves but You'

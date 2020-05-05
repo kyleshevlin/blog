@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['life story', 'pastor', 'programmer']
 date: "2018-02-05"
 slug: "from-pastor-to-programmer"

@@ -19,10 +19,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
     const postTemplate = path.resolve('src/templates/Post.js')
-    const allCategoriesOrTagsTemplate = path.resolve(
-      'src/templates/AllCategoriesOrTags.js'
-    )
-    const categoriesTemplate = path.resolve('src/templates/Categories.js')
+    const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
       {
@@ -33,7 +30,6 @@ exports.createPages = ({ graphql, actions }) => {
           edges {
             node {
               frontmatter {
-                categories
                 relatedPostsSlugs
                 slug
                 tags
@@ -100,59 +96,28 @@ exports.createPages = ({ graphql, actions }) => {
           })
         })
 
-        // Reduce categories and tags
-        const { categories, tags } = allPosts.reduce(
-          (acc, post) => {
-            const { categories, tags } = post.node.frontmatter
+        // Reduce tags
+        const tags = allPosts.reduce((acc, post) => {
+          const { tags } = post.node.frontmatter
 
-            if (!(categories || tags)) {
-              return acc
-            }
-
-            if (categories) {
-              categories.forEach(category => {
-                acc.categories.add(category)
-              })
-            }
-
-            if (tags) {
-              tags.forEach(tag => {
-                acc.tags.add(tag)
-              })
-            }
-
+          if (!tags) {
             return acc
-          },
-          { categories: new Set(), tags: new Set() }
-        )
-
-        // Create All Categories page
-        createPage({
-          path: 'categories',
-          component: allCategoriesOrTagsTemplate,
-          context: {
-            categories: Array.from(categories)
           }
-        })
+
+          tags.forEach(tag => {
+            acc.add(tag)
+          })
+
+          return acc
+        }, new Set())
 
         // Create All Tags page
         createPage({
           path: 'tags',
-          component: allCategoriesOrTagsTemplate,
+          component: allTags,
           context: {
             tags: Array.from(tags)
           }
-        })
-
-        // Create individual Category pages
-        categories.forEach(category => {
-          createPage({
-            path: `categories/${formatStrForPath(category)}`,
-            component: categoriesTemplate,
-            context: {
-              category
-            }
-          })
         })
 
         // Create individual Tag pages

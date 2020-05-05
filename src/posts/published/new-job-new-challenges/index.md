@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: "2013-11-13"
 slug: "new-job-new-challenges"
 title: "New Job. New Challenges"

@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['React']
 date: '2017-02-16'
 slug: 'head-scratcher-1-2d-array-from-array-of-objects'

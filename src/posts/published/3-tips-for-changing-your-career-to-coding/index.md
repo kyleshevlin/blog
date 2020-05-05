@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: '2018-09-15'
 slug: '3-tips-for-changing-your-career-to-coding'
 subtitle: 'and One Bonus Tip! (Why Keep You in Suspense, Right?!)'

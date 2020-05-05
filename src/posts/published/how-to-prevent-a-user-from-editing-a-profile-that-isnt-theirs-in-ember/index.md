@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['Ember']
 date: '2016-06-18'
 slug: 'how-to-prevent-a-user-from-editing-a-profile-that-isnt-theirs-in-ember'

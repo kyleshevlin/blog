@@ -3,7 +3,7 @@ date: '2020-01-04'
 slug: 'the-future-of-second-career-devs'
 title: 'The Future of Second Career Devs'
 description: 'I started the Second Career Devs podcast in 2017 with a lot of excitement and hope. Let me tell you where my head is at now on the project'
-categories: ['Side Projects']
+
 tags: ['Second Career Devs', 'Podcast']
 relatedPostsSlugs: ['i-started-a-podcast']
 ---

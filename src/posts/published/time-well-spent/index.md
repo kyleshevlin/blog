@@ -1,5 +1,5 @@
 ---
-categories: ['JavaScript', 'Web Development']
+
 tags: ['OSS', 'Programming', 'Time Management']
 date: "2017-10-31"
 slug: "time-well-spent"

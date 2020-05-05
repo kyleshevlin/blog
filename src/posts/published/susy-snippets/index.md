@@ -1,5 +1,5 @@
 ---
-categories: ['Web Development']
+
 date: "2014-10-23"
 slug: "susy-snippets"
 title: "Susy Snippets"
