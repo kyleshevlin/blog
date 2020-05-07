@@ -9,6 +9,7 @@
     "@mdx-js/mdx": "^1.5.7",
     "@mdx-js/react": "^1.5.7",
     "@mdx-js/tag": "^0.20.3",
+    "@xstate/react": "^0.8.1",
     "algoliasearch": "^3.35.1",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
@@ -44,7 +45,8 @@
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.0",
     "react-instantsearch-dom": "^5.7.0",
-    "shevyjs": "^1.1.0"
+    "shevyjs": "^1.1.0",
+    "xstate": "^4.9.1"
   },
   "keywords": [
     "gatsby"
