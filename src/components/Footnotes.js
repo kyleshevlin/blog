@@ -124,6 +124,7 @@ export function FootnoteMarker({ content }) {
   return (
     <button
       css={{
+        appearance: 'none',
         display: 'inline-block',
         width: 20,
         height: 20,
