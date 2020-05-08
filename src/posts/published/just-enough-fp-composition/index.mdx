@@ -19,9 +19,9 @@ relatedPostsSlugs:
 import EggheadEmbed from '../../../components/EggheadEmbed'
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
 
-Composition is the culmination of all the previous "Just Enough FP" blog posts. <Marker index={1} content="Don't worry, there are still more posts to come." /> It's where we combine our knowledge of [higher order functions](/just-enough-fp-higher-order-functions), [currying](/just-enough-fp-currying), [partial application](/just-enough-fp-partial-application), and [pointfree programming](/just-enough-fp-pointfree) into a new concept that can really unlock our functional potential.
+Composition is the culmination of all the previous "Just Enough FP" blog posts. <Marker content="Don't worry, there are still more posts to come." /> It's where we combine our knowledge of [higher order functions](/just-enough-fp-higher-order-functions), [currying](/just-enough-fp-currying), [partial application](/just-enough-fp-partial-application), and [pointfree programming](/just-enough-fp-pointfree) into a new concept that can really unlock our functional potential.
 
-Before I get into explaining this concept, I want you to think back to your high school math classes. <Marker index={2} content="I hope this isn't <em>too</em> traumatic a thought for you." /> You might recall somewhere around the time of Algebra 1 or 2 learning about mathematical functions, like this simple one: `f(x) = x + 1`. This function takes any `x` and always returns `x + 1`. You might recognize this as a pure function (all mathematical functions are pure functions).
+Before I get into explaining this concept, I want you to think back to your high school math classes. <Marker content="I hope this isn't <em>too</em> traumatic a thought for you." /> You might recall somewhere around the time of Algebra 1 or 2 learning about mathematical functions, like this simple one: `f(x) = x + 1`. This function takes any `x` and always returns `x + 1`. You might recognize this as a pure function (all mathematical functions are pure functions).
 
 Now, let's add a second function: `g(x) = x * 3`. This is also a pure function. What if I wanted to take the output of one function and feed it as the input of another function? It would look like this: `f(g(x))`. Now, `x` will first be mulitplied by `3`, and then `1` will be added to it. If I provide an argument of `4` for `x`, the result will be `13`.
 
@@ -69,7 +69,7 @@ You see, we were able to generate a composition by passing in the functions from
 
 "Wait! What?!" No, I can't read your mind, it's just the response I get every time I teach this.
 
-In our mathematical compositions, the innermost function is always called first. When we nested our functions, they read from right-to-left: `repeat(exclaim(scream(x)))`. So `compose` is designed to order its functions the same way, from right-to-left (or bottom-to-top if you have so many they don't fit on one line). This takes some time to get used to, but with a little practice, becomes fairly easy to read. <Marker index={3} content="<strong>Remember</strong>: reading top-to-bottom, left-to-right is not <em>natural</em>, it's <em>cultural</em>." />
+In our mathematical compositions, the innermost function is always called first. When we nested our functions, they read from right-to-left: `repeat(exclaim(scream(x)))`. So `compose` is designed to order its functions the same way, from right-to-left (or bottom-to-top if you have so many they don't fit on one line). This takes some time to get used to, but with a little practice, becomes fairly easy to read. <Marker content="<strong>Remember</strong>: reading top-to-bottom, left-to-right is not <em>natural</em>, it's <em>cultural</em>." />
 
 We can actually break our composition down into smaller compositions and compose them together. Since we only have three functions, I'll only compose `scream` and `exclaim`.
 
@@ -93,7 +93,7 @@ It's exactly the same as `compose`, but instead of `reduceRight`, we use `reduce
 const pipe = (...fns) => x => fns.reduce((acc, fn) => fn(acc), x)
 ```
 
-Our compositions now read left-to-right, top-to-bottom. <Marker index={4} content="This is also how the pipeline operator <code>|></code> works in other languages" /> Forgive me, I had to teach you composition the mathematical way first. Our `pipe` compositions now would look like this:
+Our compositions now read left-to-right, top-to-bottom. <Marker content="This is also how the pipeline operator <code>|></code> works in other languages" /> Forgive me, I had to teach you composition the mathematical way first. Our `pipe` compositions now would look like this:
 
 ```javascript
 const withExcitement = pipe(scream, exclaim)

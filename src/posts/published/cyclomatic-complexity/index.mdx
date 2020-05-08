@@ -44,7 +44,7 @@ Another way to describe this function is that it takes 2 cycles through it to to
 
 ![A drawing of a program with 2 branches](/images/two-cycles.jpg)
 
-Let's take a look at a far more complex example. This is known as the "Gilded Rose" kata <Marker index={1} content="A &quot;kata&quot; is a martial arts training exercise. It has been co-opted to describe coding exercises. It's probably why we can't get rid of the term &quot;coding ninjas.&quot;" />. You can Google it and find solutions to it all over <Marker index={2} content="And I recommend you do. I think it would be a good use of your time" />. I was once given a take home exercise that was basically this kata adjusted for items the company worked with. It looks like this:
+Let's take a look at a far more complex example. This is known as the "Gilded Rose" kata <Marker content="A &quot;kata&quot; is a martial arts training exercise. It has been co-opted to describe coding exercises. It's probably why we can't get rid of the term &quot;coding ninjas.&quot;" />. You can Google it and find solutions to it all over <Marker content="And I recommend you do. I think it would be a good use of your time" />. I was once given a take home exercise that was basically this kata adjusted for items the company worked with. It looks like this:
 
 ```javascript
 class Item {
@@ -153,7 +153,7 @@ Got it yet?
 
 It's 25! It takes 25 cycles to cover every branch of this function.
 
-For the record, it wasn't my amazing brain <Marker index={3} content="It's not that amazing." /> that could read that code and know the answer was 25. I used [JSHint](https://jshint.com) in the browser to check it out. Another good option would be to use the `complexity` rule from [ESLint](https://eslint.org/docs/rules/complexity).
+For the record, it wasn't my amazing brain <Marker content="It's not that amazing." /> that could read that code and know the answer was 25. I used [JSHint](https://jshint.com) in the browser to check it out. Another good option would be to use the `complexity` rule from [ESLint](https://eslint.org/docs/rules/complexity).
 
 I hope it just dawned on you that this also means you have to write 25 tests to have confident coverage regarding `updateQuality`. A method this complex _demands_ good tests.
 
@@ -163,7 +163,7 @@ Now, I don't plan to solve this problem for you in the rest of this post. In fac
 
 Before we learn how to deal with complexity, we must first learn some truths about complexity. I'm going to work through a bit of a metaphor here. I'm not sure it will land with everyone, but I hope it helps some of you understand "complexity" in a new way.
 
-First, I want to be clear, that I am not describing subjective complexity. This is not about what programming style you prefer, or your preference for `for` loops instead of `forEach`. This is about an objective measurement of complexity in an application. <Marker index={4} content="The formula for calculating cyclomatic complexity is <code>E - N + 2P</code>, where <code>E</code> represents the edges of a control flow graph, <code>N</code> the nodes of the graph, and <code>P</code> the number of connected components of the graph. I don't want people to fixate on the formula in this conversation, so I encourage you to Google it and read more on your own. There is plenty of material out there." />
+First, I want to be clear, that I am not describing subjective complexity. This is not about what programming style you prefer, or your preference for `for` loops instead of `forEach`. This is about an objective measurement of complexity in an application. <Marker content="The formula for calculating cyclomatic complexity is <code>E - N + 2P</code>, where <code>E</code> represents the edges of a control flow graph, <code>N</code> the nodes of the graph, and <code>P</code> the number of connected components of the graph. I don't want people to fixate on the formula in this conversation, so I encourage you to Google it and read more on your own. There is plenty of material out there." />
 
 Every program has a minimum level of overall complexity that is required to exist. That is, without removing features from the program, it will have an aggregate complexity score of `X`, where `X` represents the minimum complexity required to accomplish that program. Let's imagine a program, as a collection of nodes.
 
@@ -209,7 +209,7 @@ The most common example I can think of in modern web development would be a stat
 
 A few months ago, I came across a bit of code that had a high level of complexity for a single group. I'm going to share the change I made, and hopefully you'll agree that it was the right way to manage the complexity.
 
-The code that follows is taken from the Webflow codebase, but it's not big enough portion to really give anything substantial away. Webflow's architecture involves a lot of "nodes" and these nodes need to be validated and transformed. At one particular point during those transformations, I found this code: <Marker index={5} content="We use Flow and ImmutableJS at Webflow. This is why some of the APIs you will see might not be familiar to you." />
+The code that follows is taken from the Webflow codebase, but it's not big enough portion to really give anything substantial away. Webflow's architecture involves a lot of "nodes" and these nodes need to be validated and transformed. At one particular point during those transformations, I found this code: <Marker content="We use Flow and ImmutableJS at Webflow. This is why some of the APIs you will see might not be familiar to you." />
 
 ```javascript
 .update('dyn', Map(), dynData => {
@@ -478,4 +478,4 @@ We have not changed the overall complexity. It remained constant as it must, but
 
 Paying attention to cyclomatic complexity can be a game changer in your programming career. It can take you from being the kind of person that writes code that works (which is awesome), to writing code that is easier for you and others to make changes to (which is awesomer). Recognizing complexity and developing strategies for managing it are important for creating maintainable and reasonable programs.
 
-Remember, we can't change the overall complexity of a program without changing what the program is. <Marker index={6} content="Sometimes removing code <em>is</em> the answer to complexity; just know it won't be the same program" /> Try to keep average complexity per group low. Many functions, classes, modules with low complexity is _often_ (but not always) easier to manage. Encapsulate high levels of complexity where necessary as an exception.
+Remember, we can't change the overall complexity of a program without changing what the program is. <Marker content="Sometimes removing code <em>is</em> the answer to complexity; just know it won't be the same program" /> Try to keep average complexity per group low. Many functions, classes, modules with low complexity is _often_ (but not always) easier to manage. Encapsulate high levels of complexity where necessary as an exception.

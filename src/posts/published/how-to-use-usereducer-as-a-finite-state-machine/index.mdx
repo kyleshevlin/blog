@@ -21,7 +21,7 @@ I recently attempted to get XState into the Webflow codebase to manage some chal
 
 One of the things you need when that happens is a good imagination. How do we make the tools we already have do the things we want in a reasonable way? I'm going to help you with that today by showing you a way to make `useReducer` behave like a simple finite state machine in React.
 
-I've started using the following pattern in some of my work and I think it will help you. <Marker index={1} content="A few caveats up front. You won't have access to hierarchical state machines with this approach. You also will not have the ability to trigger side effects from state changes. I will discuss this briefly here, but plan to cover it in another blog post." /> If we look at the `reducer` of `useReducer` and a state machine, we can see that they are quite similar. They both take a current `state` and an `event` (Redux calls this an `action`, but I will use `event` throughout this post), and return the next state. The differences are:
+I've started using the following pattern in some of my work and I think it will help you. <Marker content="A few caveats up front. You won't have access to hierarchical state machines with this approach. You also will not have the ability to trigger side effects from state changes. I will discuss this briefly here, but plan to cover it in another blog post." /> If we look at the `reducer` of `useReducer` and a state machine, we can see that they are quite similar. They both take a current `state` and an `event` (Redux calls this an `action`, but I will use `event` throughout this post), and return the next state. The differences are:
 
 - A `reducer` does not restrict itself to a set of finite states
 - A `reducer` has no mechanism for calling side effects from state transitions
@@ -84,7 +84,7 @@ function LightBulb() {
 }
 ```
 
-You can see it in action right here. Be sure to click buttons a state _shouldn't_ respond to as well! <Marker index={2} content="You can check out my blog repo for more details on how I implemented <code>reset</code> in my reducer here." />
+You can see it in action right here. Be sure to click buttons a state _shouldn't_ respond to as well! <Marker content="You can check out my blog repo for more details on how I implemented <code>reset</code> in my reducer here." />
 
 <LightBulb />
 
@@ -117,7 +117,7 @@ const NEXT_STATE_GRAPH = {
 }
 ```
 
-Now each state node will have a key for any `event` and explicitly returns `undefined` in those situations where we do not want to make a state transition. We simply override the non-responsive `events` with responsive ones below, taking advantage of how object spreading works. <Marker index={3} content="Key/value pairs that have the same key as a previous one will overwrite the previous value with the new one." /> This will appease any exhaustive check a type system demands.
+Now each state node will have a key for any `event` and explicitly returns `undefined` in those situations where we do not want to make a state transition. We simply override the non-responsive `events` with responsive ones below, taking advantage of how object spreading works. <Marker content="Key/value pairs that have the same key as a previous one will overwrite the previous value with the new one." /> This will appease any exhaustive check a type system demands.
 
 ### Conclusion
 

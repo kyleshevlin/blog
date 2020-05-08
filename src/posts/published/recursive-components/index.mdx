@@ -15,7 +15,7 @@ It can be easy to forget that React components are _just_ functions. They receiv
 
 ### What is recursion?
 
-Recursion is the pattern of a function calling itself. A very common example of a recursive function is calculating a _factorial_ of a number. <Marker index={1} content="A factorial is a positive number multiplied by every number between itself and 1. So <code>6!</code> is <code>6 * 5 * 4 * 3 * 2 * 1</code>." /> Consider the following function:
+Recursion is the pattern of a function calling itself. A very common example of a recursive function is calculating a _factorial_ of a number. <Marker content="A factorial is a positive number multiplied by every number between itself and 1. So <code>6!</code> is <code>6 * 5 * 4 * 3 * 2 * 1</code>." /> Consider the following function:
 
 ```javascript
 function factorial(number) {
@@ -41,7 +41,7 @@ If we take this list of equal values and reverse the order of the functions we s
 
 `factorial(4)` leads to `factorial(3)` getting called, which leads to `factorial(2)` getting called, which leads to `factorial(1)` getting called, which returns the value of `1`, which is fed back into `factorial(2)` which returns the value of `2`, which is fed back into `factorial(3)` which returns the value of `6`, which is fed back into `factorial(4)`, which returns the value of `24`.
 
-Easy, right?! <Marker index={2} content="It is. It just takes practice." />
+Easy, right?! <Marker content="It is. It just takes practice." />
 
 ### Base Cases
 
@@ -96,7 +96,7 @@ const folders = [
 
 We have a top level of folders, and folders nested up those are on a `children` property. Now that we have our data, how do we make use of it in a recursive component?
 
-Similar to how we recognized that `factorial` can be solved by using the result of `factorial` called on smaller numbers, we can recognize that a tree is the result of combining smaller trees. <Marker index={3} content="One might think of it as a fractal." /> Understanding this, we can make a `Tree` component that will call itself to render smaller `Tree`s.
+Similar to how we recognized that `factorial` can be solved by using the result of `factorial` called on smaller numbers, we can recognize that a tree is the result of combining smaller trees. <Marker content="One might think of it as a fractal." /> Understanding this, we can make a `Tree` component that will call itself to render smaller `Tree`s.
 
 ```jsx
 function Tree({ items }) {
