@@ -7,11 +7,41 @@ import { darken, lighten } from 'polished'
 const initialState = {
   content: null,
   index: null,
-  isVisible: false
+  isVisible: false,
+  markers: {}
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'ADD_MARKER': {
+      const length = Object.keys(state.markers).length
+
+      return {
+        ...state,
+        markers: {
+          ...state.markers,
+          [action.payload]: length + 1
+        }
+      }
+    }
+
+    case 'REMOVE_MARKER': {
+      const markersClone = { ...state.markers }
+      delete markersClone[action.payload]
+
+      return {
+        ...state,
+        markers: markersClone
+      }
+    }
+
+    case 'HIDE_FOOTNOTE': {
+      return {
+        ...state,
+        isVisible: false
+      }
+    }
+
     case 'UPDATE_FOOTNOTE': {
       return {
         ...state,
@@ -26,21 +56,35 @@ const reducer = (state, action) => {
   }
 }
 
-const FootnotesContext = React.createContext({
-  ...initialState,
-  updateFootnote: () => {}
-})
+const FootnotesContext = React.createContext()
 
 export function FootnotesContainer({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const addMarker = payload => {
+    dispatch({ type: 'ADD_MARKER', payload })
+  }
+
+  const removeMarker = payload => {
+    dispatch({ type: 'REMOVE_MARKER', payload })
+  }
+
+  const updateFootnote = payload => {
+    dispatch({ type: 'UPDATE_FOOTNOTE', payload })
+  }
+
+  const hideFootnote = () => {
+    dispatch({ type: 'HIDE_FOOTNOTE' })
+  }
 
   return (
     <FootnotesContext.Provider
       value={{
         ...state,
-        updateFootnote: payload => {
-          dispatch({ type: 'UPDATE_FOOTNOTE', payload })
-        }
+        addMarker,
+        removeMarker,
+        hideFootnote,
+        updateFootnote
       }}
     >
       {children}
@@ -48,24 +92,34 @@ export function FootnotesContainer({ children }) {
   )
 }
 
-export function FootnoteMarker({ index, content }) {
-  const { index: contextIndex, isVisible, updateFootnote } = useContext(
-    FootnotesContext
-  )
+export function FootnoteMarker({ content }) {
+  const {
+    addMarker,
+    index: contextIndex,
+    isVisible,
+    markers,
+    removeMarker,
+    updateFootnote
+  } = useContext(FootnotesContext)
   const theme = useTheme()
   const {
     components: {
       footnotes: { marker }
     }
   } = theme
-
-  if (!index) {
-    throw new Error('This marker needs an index defined')
-  }
+  const index = markers[content]
 
   if (!content) {
     throw new Error('Uhh, think you need some content.')
   }
+
+  React.useEffect(() => {
+    addMarker(content)
+
+    return () => {
+      removeMarker(content)
+    }
+  }, [])
 
   return (
     <button
@@ -109,7 +163,7 @@ export function FootnoteMarker({ index, content }) {
 
 export function FootnoteDisplay() {
   const displayElement = useRef(null)
-  const { content, index, isVisible, updateFootnote } = useContext(
+  const { content, hideFootnote, index, isVisible } = useContext(
     FootnotesContext
   )
   const theme = useTheme()
@@ -177,9 +231,7 @@ export function FootnoteDisplay() {
                 backgroundColor: lighten(0.1, display.closeButton.background)
               }
             }}
-            onClick={() => {
-              updateFootnote(initialState)
-            }}
+            onClick={hideFootnote}
           >
             <span css={{ position: 'relative', top: '-1px' }}>Close</span>
           </button>
@@ -191,7 +243,7 @@ export function FootnoteDisplay() {
 }
 
 function useFootnoteDisplayEvents(markerRef) {
-  const { isVisible, updateFootnote } = useContext(FootnotesContext)
+  const { isVisible, hideFootnote } = useContext(FootnotesContext)
 
   useEffect(() => {
     function handleOutsideClick(e) {
@@ -200,13 +252,13 @@ function useFootnoteDisplayEvents(markerRef) {
       }
 
       if (markerRef.current && !markerRef.current.contains(e.target)) {
-        updateFootnote({ isVisible: false })
+        hideFootnote()
       }
     }
 
     function handleEscKey(e) {
       if (e.key === 'Escape') {
-        updateFootnote({ isVisible: false })
+        hideFootnote()
       }
     }
 
@@ -217,5 +269,5 @@ function useFootnoteDisplayEvents(markerRef) {
       document.removeEventListener('click', handleOutsideClick)
       document.removeEventListener('keydown', handleEscKey)
     }
-  }, [isVisible, markerRef, updateFootnote])
+  }, [isVisible, markerRef, hideFootnote])
 }
