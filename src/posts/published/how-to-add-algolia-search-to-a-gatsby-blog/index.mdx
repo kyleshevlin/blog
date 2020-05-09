@@ -14,7 +14,7 @@ This weekend I shipped a new feature for my blog--search! Just have a look up an
 
 Adding search was easier than I expected. I had almost no understanding of the work involved in making this happen, but between the Algolia service, their `react-instantsearch` library, and a little help from Twitter, this was pretty simple to do. This post will walk you through all the steps it took to make that happen.
 
-Before I do, quick shout out to [Scott Enock](https://twitter.com/ScottEnock) for sending me an email requesting this feature. <Marker index={1} content="He said some nice things, too!" /> I legit didn't know enough people were reading this blog to make it worth adding this feature. Thanks!
+Before I do, quick shout out to [Scott Enock](https://twitter.com/ScottEnock) for sending me an email requesting this feature. <Marker content="He said some nice things, too!" /> I legit didn't know enough people were reading this blog to make it worth adding this feature. Thanks!
 
 ---
 
@@ -28,7 +28,7 @@ First things first, you need to create an Algolia account to use their service. 
 
 After signing up, you get a 14 day free trial, but don't worry about that running out. You can upgrade your plan to their "Community" level, and it'll stay free (with some restrictions I'll talk about later).
 
-You'll be taken to a screen with a few options, but head to the "Dashboard" first. Once you do, you'll be prompted to "Create an Index". Click that button and give it a good name. <Marker index={2} content="This form will inform you how to name indices for particular environments if that is something you require." /> You'll be prompted to "Upload Records", but we are actually going to let Gatsby create those records for us in a later step. At this point, you need to grab 4 pieces of information to take to the next step.
+You'll be taken to a screen with a few options, but head to the "Dashboard" first. Once you do, you'll be prompted to "Create an Index". Click that button and give it a good name. <Marker content="This form will inform you how to name indices for particular environments if that is something you require." /> You'll be prompted to "Upload Records", but we are actually going to let Gatsby create those records for us in a later step. At this point, you need to grab 4 pieces of information to take to the next step.
 
 - The name you just gave your index
 - Click "API Keys" in the left menu and get the following strings
@@ -175,7 +175,7 @@ const queries = [
 module.exports = queries
 ```
 
-My `mdxQuery` retrieves all the published posts. <Marker index={3} content="I may add queries for my courses in the future." /> Then my `transformer` method takes the data received and massages it into a shape I can use for my Algolia records by lifting the keys of the `frontmatter` object up to the same level as the rest of the `node`.
+My `mdxQuery` retrieves all the published posts. <Marker content="I may add queries for my courses in the future." /> Then my `transformer` method takes the data received and massages it into a shape I can use for my Algolia records by lifting the keys of the `frontmatter` object up to the same level as the rest of the `node`.
 
 Again, your exact query will probably look different than mine. You can tweak your query using the Graphiql explorer that Gatsby has integrated.
 

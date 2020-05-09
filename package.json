@@ -60,11 +60,14 @@
     "lint": "eslint ./src",
     "newpost": "node ./scripts/newPost.js",
     "newmdx": "node ./scripts/newMdx.js",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@testing-library/react": "^10.0.4",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
     "babel-preset-gatsby": "^0.1.6",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
@@ -72,6 +75,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
+    "jest": "^26.0.1",
     "prettier": "^1.19.1"
   },
   "repository": {
