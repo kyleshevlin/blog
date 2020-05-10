@@ -205,13 +205,6 @@ export default function DirectedGraph({
 
 const scriptCache = {}
 
-// TODO: this is really imperfect. It'll just keep adding the same script tag even
-// if it's already on the page. That said, it reads it from browser cache so it's not a big deal.
-//
-// The challenge is we can't just see if it's on the page. The script can be on the page, and
-// and still have not loaded yet. IMO we'd need to use observables in some way. A script orchestrator
-// would store any urls being added and delegate when a particular script url is loaded that all
-// subscribers can now switch to an isReady state.
 function useScript(url) {
   const [isReady, setIsReady] = React.useState(false)
 
