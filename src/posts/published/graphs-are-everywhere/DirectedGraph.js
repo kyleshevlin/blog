@@ -30,9 +30,9 @@ export default function DirectedGraph({
 }) {
   options = { ...defaultOptions, ...options }
   const svgRef = React.useRef(null)
-  const isReady = useScript({
-    url: 'https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js'
-  })
+  const isReady = useScript(
+    'https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js'
+  )
   const theme = useTheme()
 
   React.useEffect(() => {
@@ -205,8 +205,6 @@ export default function DirectedGraph({
 
 const scriptCache = {}
 
-const noop = () => {}
-
 // TODO: this is really imperfect. It'll just keep adding the same script tag even
 // if it's already on the page. That said, it reads it from browser cache so it's not a big deal.
 //
@@ -214,37 +212,48 @@ const noop = () => {}
 // and still have not loaded yet. IMO we'd need to use observables in some way. A script orchestrator
 // would store any urls being added and delegate when a particular script url is loaded that all
 // subscribers can now switch to an isReady state.
-function useScript({ onCreate = noop, onError = noop, onLoad = noop, url }) {
+function useScript(url) {
   const [isReady, setIsReady] = React.useState(false)
 
   React.useEffect(() => {
-    if (scriptCache[url] === 'LOADED') {
-      setIsReady(true)
+    if (scriptCache[url]) {
       return
     }
 
+    scriptCache[url] = 'CREATING'
     const script = document.createElement('script')
-    onCreate()
 
     script.src = url
     script.async = true
 
-    script.onerror = err => {
-      onError(err)
-    }
-
     script.onload = () => {
       scriptCache[url] = 'LOADED'
       setIsReady(true)
-      onLoad()
     }
 
     document.body.appendChild(script)
+    scriptCache[url] = 'ADDED'
 
     return () => {
       document.body.removeChild(script)
+      delete scriptCache[url]
     }
-  }, [onCreate, onError, onLoad, url])
+  }, [url])
+
+  // Poll for readiness of script
+  React.useEffect(() => {
+    if (isReady) {
+      return
+    }
+
+    const intervalId = setInterval(() => {
+      if (scriptCache[url] === 'LOADED') {
+        setIsReady(true)
+      }
+    }, 100)
+
+    return () => clearInterval(intervalId)
+  }, [isReady])
 
   return isReady
 }
