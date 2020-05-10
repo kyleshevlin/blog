@@ -84,7 +84,7 @@ export default function ValueSell() {
                     }
                   }}
                 >
-                  <h2>Check out my latest course on Egghead!</h2>
+                  <h2>Check out my latest course on egghead.io!</h2>
                   <a href={eggheadUrl}>
                     <h3>{title}</h3>
                   </a>
