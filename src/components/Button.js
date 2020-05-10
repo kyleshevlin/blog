@@ -2,7 +2,7 @@ import React from 'react'
 import { lighten } from 'polished'
 import { bs } from '../shevy'
 
-const buttonStyles = theme => {
+export const buttonStyles = theme => {
   const {
     components: { themeToggle }
   } = theme

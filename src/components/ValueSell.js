@@ -20,7 +20,7 @@ export default function ValueSell() {
                   publicURL
                 }
                 title
-                url
+                eggheadUrl
               }
             }
           }
@@ -30,9 +30,9 @@ export default function ValueSell() {
         const {
           logo: { publicURL },
           title,
-          url
+          eggheadUrl
         } = data.allCoursesJson.edges[0].node
-        const eggheadUrl = url + EGGHEAD_AFFILIATE_QUERY_PARAM
+        const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
         return (
           <div
@@ -61,7 +61,7 @@ export default function ValueSell() {
                     }
                   }}
                 >
-                  <a href={eggheadUrl}>
+                  <a href={eggheadUrlWithParams}>
                     <img
                       css={{
                         display: 'block',
@@ -85,7 +85,7 @@ export default function ValueSell() {
                   }}
                 >
                   <h2>Check out my latest course on egghead.io!</h2>
-                  <a href={eggheadUrl}>
+                  <a href={eggheadUrlWithParams}>
                     <h3>{title}</h3>
                   </a>
                 </div>

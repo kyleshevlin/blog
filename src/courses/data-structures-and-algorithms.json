@@ -3,5 +3,6 @@
   "title": "Data Structures and Algorithms",
   "description": "This is an introduction course for data structures and algorithms, taught in JavaScript.",
   "logo": "../images/DSA.png",
-  "url": "https://egghead.io/courses/data-structures-and-algorithms-in-javascript"
+  "eggheadUrl": "https://egghead.io/courses/data-structures-and-algorithms-in-javascript",
+  "justEnoughDevUrl": ""
 }

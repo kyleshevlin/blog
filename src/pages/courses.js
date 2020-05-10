@@ -4,6 +4,7 @@ import Seo from '../components/Seo'
 import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
+import LinkButton from '../components/LinkButton'
 
 const query = graphql`
   {
@@ -21,14 +22,23 @@ const query = graphql`
               }
             }
           }
-          url
+          eggheadUrl
+          justEnoughDevUrl
         }
       }
     }
   }
 `
 
-function CourseItem({ description, logo, title, url }) {
+function CourseItem({
+  description,
+  eggheadUrl,
+  justEnoughDevUrl,
+  logo,
+  title
+}) {
+  const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
+
   return (
     <div
       css={{
@@ -49,7 +59,7 @@ function CourseItem({ description, logo, title, url }) {
             marginBottom: 0
           }
         }}
-        href={url}
+        href={eggheadUrlWithParams}
       >
         <img
           css={{
@@ -64,10 +74,20 @@ function CourseItem({ description, logo, title, url }) {
         />
       </a>
       <div>
-        <h3>
-          <a href={url + EGGHEAD_AFFILIATE_QUERY_PARAM}>{title}</a>
-        </h3>
+        <h3>{title}</h3>
         <p>{description}</p>
+        <div css={{ 'a + a': { marginLeft: bs(0.5) } }}>
+          {justEnoughDevUrl && (
+            <LinkButton href={justEnoughDevUrl}>
+              View on JustEnoughDev
+            </LinkButton>
+          )}
+          {eggheadUrl && (
+            <LinkButton href={eggheadUrlWithParams}>
+              View on egghead.io
+            </LinkButton>
+          )}
+        </div>
       </div>
     </div>
   )
