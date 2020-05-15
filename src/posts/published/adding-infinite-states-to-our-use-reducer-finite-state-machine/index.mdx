@@ -228,6 +228,8 @@ I made a component for you to play with that contains a few extra bells and whis
 
 <HueLightBulb />
 
+If you prefer to tinker with the code itself, an iteration of this example exists on Codesandbox for you to fork: [https://codesandbox.io/s/usereducer-fsm-with-infinite-states-v2b1g](https://codesandbox.io/s/usereducer-fsm-with-infinite-states-v2b1g)
+
 ### Conclusion
 
 Infinite data cannot be modeled as a finite set of states, but we still want to have the control and guarantees a state machine gives us about our program. We can achieve this by storing this extra `data` in our `state`. We can make updates to this `data` through `event` objects. We only make updates to our `data` when our state graph allows it, and we guarantee the deterministic output of our `state` through reducers for our `current` state and our `data`.
