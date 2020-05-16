@@ -16,6 +16,7 @@ import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
 import { createMediaQuery } from '../utils'
+import { useTheme } from 'emotion-theming'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -34,6 +35,7 @@ const Post = ({
   const { md, mdx } = data
   const file = md ? md : mdx
   const {
+    fileAbsolutePath,
     frontmatter: {
       coverImage,
       date,
@@ -65,7 +67,17 @@ const Post = ({
         )}
         <PostDate date={date} />
         <TotalBeardStrokes slug={slug} />
-        <PostHeader {...{ subtitle, title }} />
+        <div
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '3fr 1fr',
+            alignItems: 'end',
+            marginBottom: bs()
+          }}
+        >
+          <PostHeader {...{ subtitle, title }} />
+          <EditLink fileAbsolutePath={fileAbsolutePath} />
+        </div>
         {renderContent(file)}
 
         <Share slug={slug} title={title} />
@@ -136,6 +148,7 @@ export const pageQuery = graphql`
       frontmatter: { slug: { eq: $slug } }
     ) {
       html
+      fileAbsolutePath
       frontmatter {
         coverImage {
           childImageSharp {
@@ -159,6 +172,7 @@ export const pageQuery = graphql`
       frontmatter: { slug: { eq: $slug } }
     ) {
       body
+      fileAbsolutePath
       frontmatter {
         coverImage {
           childImageSharp {
@@ -185,4 +199,43 @@ const renderContent = file => {
   }
 
   return <MDXRenderer>{file.body}</MDXRenderer>
+}
+
+const generateEditLink = fileAbsolutePath => {
+  const [, filePath] = fileAbsolutePath.split('src')
+  return `https://github.com/kyleshevlin/blog/edit/master/src${filePath}`
+}
+
+function EditLink({ fileAbsolutePath }) {
+  const theme = useTheme()
+
+  return (
+    <div css={{ textAlign: 'right' }}>
+      <a
+        css={{
+          display: 'inline-block',
+          fontFamily: theme.fonts.catamaran,
+          fontStyle: 'italic',
+          paddingLeft: bs(0.5),
+          paddingRight: bs(0.5)
+        }}
+        href={generateEditLink(fileAbsolutePath)}
+      >
+        edit <EditSVG fill={theme.colors.accent} width={18} />
+      </a>
+    </div>
+  )
+}
+
+function EditSVG({ fill = '#000', width }) {
+  return (
+    <svg
+      width={width}
+      viewBox="0 0 31 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.5 23H0L4 14L25 0L30.5 8.5L9.5 23Z" fill={fill} />
+    </svg>
+  )
 }

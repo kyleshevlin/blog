@@ -17,7 +17,9 @@ const ExcerptedPost = ({ post }) => {
     <div css={{ marginBottom: bs(2) }}>
       <PostDate date={date} />
       <TotalBeardStrokes slug={slug} />
-      <PostHeader {...{ slug, subtitle, title }} />
+      <div css={{ marginBottom: bs() }}>
+        <PostHeader {...{ slug, subtitle, title }} />
+      </div>
       <PostContent content={excerpt} />
       <div css={{ marginBottom: bs() }}>
         <Link to={slug}>Read More</Link>

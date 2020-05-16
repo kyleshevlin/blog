@@ -15,7 +15,7 @@ export default function PostHeader({ slug, subtitle, title }) {
   const wrapProps = slug ? { css: postLinkStyles, to: slug } : {}
 
   return (
-    <header css={{ marginBottom: bs() }}>
+    <header>
       <Wrap {...wrapProps}>
         <h2 css={{ marginBottom: 0 }}>{title}</h2>
         {subtitle && (
