@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Link } from 'gatsby'
-import { bs } from '../shevy'
 
 const postLinkStyles = theme => ({
   display: 'block',
