@@ -11,6 +11,7 @@ import PostOpenSourceContribution from '../components/PostOpenSourceContribution
 import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
+import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 
@@ -64,6 +65,8 @@ const Post = ({
         <TotalBeardStrokes slug={slug} />
         <PostHeader {...{ subtitle, title }} />
         {renderContent(file)}
+
+        <Share slug={slug} title={title} />
 
         {tags && <PostTags items={tags} />}
 
