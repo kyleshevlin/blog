@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
+import AddedValue from '../components/AddedValue'
 
 const linkStyles = css`
   display: block;
@@ -30,6 +31,7 @@ const AllTags = ({ pageContext }) => {
           </Link>
         ))}
       </div>
+      <AddedValue />
     </Fragment>
   )
 }

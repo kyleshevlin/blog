@@ -38,59 +38,56 @@ export default function ValueSell() {
           <div
             css={{
               backgroundColor: theme.colors.offset,
-              paddingTop: bs(2),
-              paddingBottom: bs(2)
+              padding: bs(2)
             }}
           >
-            <Container>
+            <div
+              css={{
+                [createMediaQuery(BREAKPOINTS.alpha)]: {
+                  display: 'grid',
+                  gridGap: bs(),
+                  gridTemplateColumns: '1fr 3fr',
+                  alignItems: 'center'
+                }
+              }}
+            >
               <div
                 css={{
+                  marginBottom: bs(),
                   [createMediaQuery(BREAKPOINTS.alpha)]: {
-                    display: 'grid',
-                    gridGap: bs(),
-                    gridTemplateColumns: '1fr 3fr',
-                    alignItems: 'center'
+                    marginBottom: 0
                   }
                 }}
               >
-                <div
-                  css={{
-                    marginBottom: bs(),
-                    [createMediaQuery(BREAKPOINTS.alphs)]: {
-                      marginBottom: 0
-                    }
-                  }}
-                >
-                  <a href={eggheadUrlWithParams}>
-                    <img
-                      css={{
-                        display: 'block',
-                        width: '100%',
-                        transition: 'opacity 0.3s ease',
-                        '&:hover': {
-                          opacity: 0.85
-                        }
-                      }}
-                      src={publicURL}
-                      alt={`${title} Logo`}
-                    />
-                  </a>
-                </div>
-                <div
-                  css={{
-                    textAlign: 'center',
-                    [createMediaQuery(BREAKPOINTS.alpha)]: {
-                      textAlign: 'left'
-                    }
-                  }}
-                >
-                  <h2>Check out my latest course on egghead.io!</h2>
-                  <a href={eggheadUrlWithParams}>
-                    <h3>{title}</h3>
-                  </a>
-                </div>
+                <a css={{ display: 'block' }} href={eggheadUrlWithParams}>
+                  <img
+                    css={{
+                      display: 'block',
+                      width: '100%',
+                      transition: 'opacity 0.3s ease',
+                      '&:hover': {
+                        opacity: 0.85
+                      }
+                    }}
+                    src={publicURL}
+                    alt={`${title} Logo`}
+                  />
+                </a>
               </div>
-            </Container>
+              <div
+                css={{
+                  textAlign: 'center',
+                  [createMediaQuery(BREAKPOINTS.alpha)]: {
+                    textAlign: 'left'
+                  }
+                }}
+              >
+                <h2>Check out my latest course on egghead.io!</h2>
+                <a href={eggheadUrlWithParams}>
+                  <h3>{title}</h3>
+                </a>
+              </div>
+            </div>
           </div>
         )
       }}

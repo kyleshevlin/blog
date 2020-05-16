@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
 import { bs } from '../shevy'
 import Seo from '../components/Seo'
+import AddedValue from '../components/AddedValue'
 
 const About = ({ data }) => {
   const imgSrc = data.allImageSharp.edges[0].node.original.src
@@ -99,13 +100,7 @@ const About = ({ data }) => {
         </div>
       </div>
 
-      <h3>More Interested In My Resume?</h3>
-      <p>
-        You can find my resume on my{' '}
-        <a href="https://kyleshevlin.github.io">Github Page</a> (though it may
-        be out of date at any given time) and see the work I do on my{' '}
-        <a href="https://github.com/kyleshevlin">Github Profile</a>.
-      </p>
+      <AddedValue />
     </Fragment>
   )
 }

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
 import Seo from '../components/Seo'
+import AddedValue from '../components/AddedValue'
 import ExcerptedPost from '../components/ExcerptedPost'
 import Pagination from '../components/Pagination'
 
@@ -23,6 +24,7 @@ const ExcerptList = ({ data, ...props }) => {
         ))}
       </div>
       <Pagination {...{ index, totalPages }} />
+      <AddedValue />
     </Fragment>
   )
 }

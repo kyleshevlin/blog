@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
+import { useTheme } from 'emotion-theming'
 import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
+import AddedValue from '../components/AddedValue'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
 import PostAuthor from '../components/PostAuthor'
@@ -15,7 +17,6 @@ import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
 import { createMediaQuery } from '../utils'
-import { useTheme } from 'emotion-theming'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -114,6 +115,8 @@ const Post = ({
           olderPost={olderPost}
           relatedPosts={relatedPosts}
         />
+
+        <AddedValue />
 
         <PostAuthor />
       </div>

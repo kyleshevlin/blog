@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
+import AddedValue from '../components/AddedValue'
 
 const linkStyles = {
   display: 'block',
@@ -29,6 +30,8 @@ const NotFoundPage = ({ data }) => (
           </Link>
         )
       })}
+
+    <AddedValue />
   </Fragment>
 )
 

@@ -3,6 +3,7 @@ import { css } from '@emotion/core'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
+import AddedValue from '../components/AddedValue'
 
 const linkStyles = css`
   display: block;
@@ -29,6 +30,7 @@ const Tags = ({ data, ...props }) => {
           )
         })}
       </div>
+      <AddedValue />
     </Fragment>
   )
 }

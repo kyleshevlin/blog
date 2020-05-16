@@ -5,6 +5,7 @@ import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 import LinkButton from '../components/LinkButton'
+import NewsletterCTA from '../components/NewsletterCTA'
 
 const query = graphql`
   {
@@ -111,6 +112,8 @@ const Courses = () => (
         )
       }}
     />
+
+    <NewsletterCTA />
   </Fragment>
 )
 

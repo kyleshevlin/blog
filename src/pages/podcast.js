@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import Seo from '../components/Seo'
+import AddedValue from '../components/AddedValue'
 
 const Podcast = () => (
   <Fragment>
@@ -24,6 +25,8 @@ const Podcast = () => (
       <a href="https://secondcareerdevs.com">https://secondcareerdevs.com</a>{' '}
       and anywhere you subscribe and listen to podcasts!
     </p>
+
+    <AddedValue />
   </Fragment>
 )
 
