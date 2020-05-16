@@ -15,7 +15,7 @@ describe('Markers', () => {
           <Marker content="foo" />
           <Marker content="bar" />
           <Marker content="baz" />
-        </Provider>
+        </FootnotesProvider>
       </ThemeProvider>
     )
 
