@@ -6,22 +6,12 @@ import { FootnoteDisplay } from './Footnotes'
 import Header from './Header'
 import NewsletterCTA from './NewsletterCTA'
 import ValueSell from './ValueSell'
-import FontFaces from '../styles/FontFaces'
-import Miscellaneous from '../styles/Miscellaneous'
-import Reset from '../styles/Reset'
-import Tags from '../styles/Tags'
-import Tweets from '../styles/Tweets'
-import Typography from '../styles/Typography'
 import { bs } from '../shevy'
+import AllGlobalStyles from '../styles/AllGlobalStyles'
 
 const Layout = ({ children }) => (
   <>
-    <Reset />
-    <FontFaces />
-    <Tags />
-    <Typography />
-    <Tweets />
-    <Miscellaneous />
+    <AllGlobalStyles />
     <Header />
     <main
       css={{
