@@ -51,14 +51,14 @@ const reducer = (state, action) => {
 
     default:
       throw new Error(
-        `The action.type ${action.type} was unaccounted for in FootnotesContainer.`
+        `The action.type ${action.type} was unaccounted for in FootnotesProvider.`
       )
   }
 }
 
 const FootnotesContext = React.createContext()
 
-export function FootnotesContainer({ children }) {
+export function FootnotesProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const addMarker = payload => {
