@@ -21,6 +21,7 @@ const linkStyles = theme => {
     paddingLeft: bs(0.5),
     paddingRight: bs(0.5),
     marginRight: bs(0.25),
+    marginBottom: bs(0.25),
     transition: 'background-color 0.3s ease',
 
     '&:hover': {
@@ -38,7 +39,7 @@ export default function PostTags({ items }) {
   const theme = useTheme()
 
   return (
-    <div css={{ marginBottom: bs() }}>
+    <div>
       <div
         css={{
           fontFamily: theme.fonts.catamaran,

@@ -14,6 +14,8 @@ import Seo from '../components/Seo'
 import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
+import { BREAKPOINTS } from '../constants'
+import { createMediaQuery } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -68,12 +70,35 @@ const Post = ({
 
         <Share slug={slug} title={title} />
 
-        {tags && <PostTags items={tags} />}
+        <div
+          css={{
+            [createMediaQuery(BREAKPOINTS.alpha)]: {
+              alignItems: 'center',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              marginBottom: bs(2)
+            },
 
-        <BeardStrokes slug={slug} />
+            [createMediaQuery(BREAKPOINTS.bravo)]: {
+              gridTemplateColumns: '2fr 3fr'
+            },
+
+            [createMediaQuery(BREAKPOINTS.charlie)]: {
+              gridTemplateColumns: '1fr 2fr'
+            }
+          }}
+        >
+          <div css={{ marginRight: bs(1.5), marginBottom: bs() }}>
+            <BeardStrokes slug={slug} />
+          </div>
+          {tags && (
+            <div css={{ flexGrow: 0, marginBottom: bs() }}>
+              <PostTags items={tags} />
+            </div>
+          )}
+        </div>
 
         {relatedPosts && <RelatedPosts posts={relatedPosts} />}
-
         <PostOpenSourceContribution />
 
         <div css={{ marginTop: bs(2) }}>

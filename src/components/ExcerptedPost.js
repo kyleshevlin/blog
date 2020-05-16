@@ -23,7 +23,11 @@ const ExcerptedPost = ({ post }) => {
         <Link to={slug}>Read More</Link>
       </div>
 
-      {tags && <PostTags items={tags} />}
+      {tags && (
+        <div css={{ marginBottom: bs() }}>
+          <PostTags items={tags} />
+        </div>
+      )}
     </div>
   )
 }

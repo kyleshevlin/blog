@@ -107,9 +107,14 @@ class BeardStrokes extends Component {
 
     return (
       <Fragment>
-        <hr />
-        <div css={{ display: 'flex', alignItems: 'center' }}>
-          <div css={{ marginRight: bs(), textAlign: 'center' }}>
+        <div
+          css={theme => ({
+            display: 'flex',
+            alignItems: 'center',
+            fontFamily: theme.fonts.catamaran
+          })}
+        >
+          <div css={{ textAlign: 'center' }}>
             <button
               css={theme => ({
                 appearance: 'none',
@@ -137,21 +142,16 @@ class BeardStrokes extends Component {
               disabled={count === 50}
               type="button"
             >
-              <Beard width={60} />
+              <Beard width={40} />
             </button>
             <div
               css={theme => ({ fontFamily: theme.fonts.catamaran })}
             >{`+${count}`}</div>
           </div>
-          <div>
-            <p css={{ marginBottom: 0 }}>
-              Liked the post? Why not show it?! Stroke Kyle's ego by clicking
-              his beard. You can click up to 50 times if you <em>really</em>{' '}
-              liked it.
-            </p>
+          <div css={{ fontStyle: 'italic' }}>
+            Liked the post? Click the beard a few times.
           </div>
         </div>
-        <hr />
       </Fragment>
     )
   }
