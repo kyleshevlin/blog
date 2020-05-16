@@ -7,7 +7,7 @@ import { bs } from '../shevy'
 class TotalBeardStrokes extends Component {
   state = {
     count: 0,
-    hasFetchedOnce: false
+    hasFetchedOnce: false,
   }
 
   componentDidMount() {
@@ -49,8 +49,8 @@ class TotalBeardStrokes extends Component {
             display: 'block',
             fill: theme.colors.accent,
             marginLeft: bs(0.25),
-            marginRight: bs(0.25)
-          }
+            marginRight: bs(0.25),
+          },
         })}
       >
         <Beard width={20} />

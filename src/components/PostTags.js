@@ -7,7 +7,7 @@ import { formatStrForPath } from '../utils'
 
 const linkStyles = theme => {
   const {
-    components: { tags }
+    components: { tags },
   } = theme
 
   return {
@@ -26,8 +26,8 @@ const linkStyles = theme => {
 
     '&:hover': {
       backgroundColor: lighten(0.1, tags.background),
-      color: tags.text
-    }
+      color: tags.text,
+    },
   }
 }
 
@@ -44,7 +44,7 @@ export default function PostTags({ items }) {
         css={{
           fontFamily: theme.fonts.catamaran,
           fontSize: '0.75em',
-          lineHeight: 1.8
+          lineHeight: 1.8,
         }}
       >
         Tags

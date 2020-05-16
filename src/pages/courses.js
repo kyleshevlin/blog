@@ -36,7 +36,7 @@ function CourseItem({
   eggheadUrl,
   justEnoughDevUrl,
   logo,
-  title
+  title,
 }) {
   const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
@@ -47,8 +47,8 @@ function CourseItem({
           display: 'grid',
           gridTemplateColumns: '1fr 3fr',
           alignItems: 'center',
-          marginBottom: bs(2)
-        }
+          marginBottom: bs(2),
+        },
       }}
     >
       <a
@@ -57,8 +57,8 @@ function CourseItem({
           padding: bs(0.5),
           marginBottom: bs(),
           [createMediaQuery(BREAKPOINTS.alpha)]: {
-            marginBottom: 0
-          }
+            marginBottom: 0,
+          },
         }}
         href={eggheadUrlWithParams}
       >
@@ -67,8 +67,8 @@ function CourseItem({
             display: 'block',
             transition: 'opacity .3s ease',
             '&:hover': {
-              opacity: 0.85
-            }
+              opacity: 0.85,
+            },
           }}
           src={logo.childImageSharp.original.src}
           alt={title}

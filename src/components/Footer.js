@@ -16,9 +16,9 @@ const links = [
   {
     href: 'https://linkedin.com/in/kyleshevlin',
     icon: LinkedIn,
-    title: 'LinkedIn'
+    title: 'LinkedIn',
   },
-  { href: 'https://twitch.tv/kyleshevlin', icon: Twitch, title: 'Twitch' }
+  { href: 'https://twitch.tv/kyleshevlin', icon: Twitch, title: 'Twitch' },
 ]
 
 export default function Footer() {
@@ -31,7 +31,7 @@ export default function Footer() {
         color: theme.components.footer.text,
         paddingTop: bs(2),
         paddingBottom: bs(2),
-        textAlign: 'center'
+        textAlign: 'center',
       }}
     >
       <Container>
@@ -46,11 +46,11 @@ export default function Footer() {
                 display: 'inline-block',
                 padding: bs(0.5),
                 '&:hover svg': {
-                  fill: lighten(0.1, theme.colors.accent)
+                  fill: lighten(0.1, theme.colors.accent),
                 },
                 svg: {
-                  transition: 'fill 0.3s ease'
-                }
+                  transition: 'fill 0.3s ease',
+                },
               }}
               key={title}
               href={href}

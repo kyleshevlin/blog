@@ -30,16 +30,16 @@ describe('statechart', () => {
       lit: {
         on: {
           TOGGLE: 'unlit',
-          BREAK: 'broken'
-        }
+          BREAK: 'broken',
+        },
       },
       unlit: {
         on: {
           TOGGLE: 'lit',
-          BREAK: 'broken'
-        }
+          BREAK: 'broken',
+        },
       },
-      broken: {}
+      broken: {},
     })
   })
 })

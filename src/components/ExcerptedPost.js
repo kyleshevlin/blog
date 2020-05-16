@@ -10,7 +10,7 @@ import TotalBeardStrokes from './TotalBeardStrokes'
 const ExcerptedPost = ({ post }) => {
   const {
     excerpt,
-    frontmatter: { date, slug, subtitle, tags, title }
+    frontmatter: { date, slug, subtitle, tags, title },
   } = post
 
   return (

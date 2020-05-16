@@ -5,8 +5,8 @@ const postLinkStyles = theme => ({
   display: 'block',
   color: theme.colors.text,
   '&:hover': {
-    color: theme.colors.accent
-  }
+    color: theme.colors.accent,
+  },
 })
 
 export default function PostHeader({ slug, subtitle, title }) {

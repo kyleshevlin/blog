@@ -10,12 +10,12 @@ export const baseItemStyles = {
   lineHeight: '30px',
   padding: '0 10px',
   marginRight: 3,
-  marginBottom: 3
+  marginBottom: 3,
 }
 
 export const itemStyles = theme => {
   const {
-    components: { pagination }
+    components: { pagination },
   } = theme
 
   return {
@@ -25,20 +25,20 @@ export const itemStyles = theme => {
 
     '&:hover': {
       backgroundColor: lighten(0.1, pagination.normal.background),
-      color: pagination.normal.text
-    }
+      color: pagination.normal.text,
+    },
   }
 }
 
 export const nonLinkItemStyles = theme => {
   const {
-    components: { pagination }
+    components: { pagination },
   } = theme
 
   return {
     ...baseItemStyles,
     backgroundColor: pagination.active.background,
-    color: pagination.active.text
+    color: pagination.active.text,
   }
 }
 
@@ -53,7 +53,7 @@ export default function Pagination({ index: currentPageIndex, totalPages }) {
     <div
       css={{
         fontFamily: theme.fonts.catamaran,
-        marginBottom: bs(2)
+        marginBottom: bs(2),
       }}
     >
       {currentPageIndex !== 0 ? (

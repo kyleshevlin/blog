@@ -11,7 +11,7 @@ const ExcerptList = ({ data, ...props }) => {
     .map(edge => edge.node)
     .map(node => ({
       ...node,
-      excerpt: `<p>${node.excerpt}</p>`
+      excerpt: `<p>${node.excerpt}</p>`,
     }))
 
   return (

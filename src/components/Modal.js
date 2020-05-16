@@ -10,7 +10,7 @@ export default function Modal({
   children,
   closeButtonRef,
   closeButtonText,
-  onClick
+  onClick,
 }) {
   const el = React.useRef(document.createElement('div'))
   const theme = useTheme()
@@ -42,7 +42,7 @@ export default function Modal({
         bottom: 0,
         left: 0,
         paddingTop: bs(),
-        paddingBottom: bs()
+        paddingBottom: bs(),
       }}
       role="dialog"
       tabIndex={-1}
@@ -55,7 +55,7 @@ export default function Modal({
               backgroundColor: 'transparent',
               border: 'none',
               fontFamily: theme.fonts.catamaran,
-              marginLeft: 'auto'
+              marginLeft: 'auto',
             }}
             onClick={onClick}
             ref={closeButtonRef}

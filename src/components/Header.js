@@ -32,7 +32,7 @@ export default function Header() {
             css={{
               paddingTop: bs(),
               paddingBottom: bs(),
-              marginBottom: bs()
+              marginBottom: bs(),
             }}
           >
             <Container>
@@ -43,21 +43,21 @@ export default function Header() {
 
                   [createMediaQuery(BREAKPOINTS.alpha)]: {
                     flexDirection: 'row',
-                    alignItems: 'center'
-                  }
+                    alignItems: 'center',
+                  },
                 }}
               >
                 <Link
                   css={{
                     color: theme.colors.text,
-                    display: 'block'
+                    display: 'block',
                   }}
                   to="/"
                 >
                   <h1
                     css={{
                       lineHeight: 1,
-                      marginBottom: 0
+                      marginBottom: 0,
                     }}
                   >
                     {title}
@@ -66,7 +66,7 @@ export default function Header() {
                     css={{
                       fontFamily: theme.fonts.catamaran,
                       fontSize: '1rem',
-                      marginBottom: 0
+                      marginBottom: 0,
                     }}
                   >
                     {subTitle}
@@ -79,8 +79,8 @@ export default function Header() {
 
                     [createMediaQuery(BREAKPOINTS.alpha)]: {
                       marginTop: 0,
-                      marginLeft: 'auto'
-                    }
+                      marginLeft: 'auto',
+                    },
                   }}
                 >
                   <ThemeToggle />
@@ -98,7 +98,7 @@ export default function Header() {
 
 const buttonStyles = theme => {
   const {
-    components: { themeToggle }
+    components: { themeToggle },
   } = theme
 
   return {
@@ -116,8 +116,8 @@ const buttonStyles = theme => {
 
     '&:hover': {
       backgroundColor: lighten(0.1, themeToggle.background),
-      color: themeToggle.text
-    }
+      color: themeToggle.text,
+    },
   }
 }
 

@@ -14,7 +14,7 @@ export default function Layout({ children }) {
       <main
         css={{
           paddingBottom: bs(2),
-          minHeight: '65vh'
+          minHeight: '65vh',
         }}
         role="main"
       >

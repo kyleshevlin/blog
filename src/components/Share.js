@@ -28,7 +28,7 @@ export default function Share(props) {
       css={{
         margin: `${bs(3)} auto`,
         textAlign: 'center',
-        width: '75%'
+        width: '75%',
       }}
     >
       <button
@@ -44,8 +44,8 @@ export default function Share(props) {
 
           '&:hover': {
             backgroundColor: darken(0.05, theme.colors.offset),
-            color: theme.colors.accent
-          }
+            color: theme.colors.accent,
+          },
         })}
         onClick={handleClick}
       >

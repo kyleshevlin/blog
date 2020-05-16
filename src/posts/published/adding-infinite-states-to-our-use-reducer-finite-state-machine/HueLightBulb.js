@@ -15,8 +15,8 @@ const toEventObject = event => {
 const initialState = {
   current: 'unlit',
   data: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 }
 
 const BREAK_EVENT = { BREAK: 'broken' }
@@ -27,16 +27,16 @@ const NEXT_STATE_GRAPH = {
     ...BREAK_EVENT,
     ...RESET_EVENT,
     CHANGE_COLOR: 'lit',
-    TOGGLE: 'unlit'
+    TOGGLE: 'unlit',
   },
   unlit: {
     ...BREAK_EVENT,
     ...RESET_EVENT,
-    TOGGLE: 'lit'
+    TOGGLE: 'lit',
   },
   broken: {
-    ...RESET_EVENT
-  }
+    ...RESET_EVENT,
+  },
 }
 
 const stateReducer = (state, event) =>
@@ -44,7 +44,7 @@ const stateReducer = (state, event) =>
 
 const DATA_UPDATERS = {
   CHANGE_COLOR: (data, eventObj) => ({ ...data, color: eventObj.color }),
-  RESET: () => initialState.data
+  RESET: () => initialState.data,
 }
 
 const dataReducer = (data, eventObj) => {
@@ -62,7 +62,7 @@ const reducer = (state, event) => {
 
   return {
     current: nextState,
-    data: nextData
+    data: nextData,
   }
 }
 
@@ -73,7 +73,7 @@ const COLOR_MAP = {
   white: '#feffeb',
   red: '#ff674f',
   blue: '#5cb6ff',
-  green: '#8ff244'
+  green: '#8ff244',
 }
 
 export default function HueLightBulb() {
@@ -102,13 +102,13 @@ export default function HueLightBulb() {
             'colors bulb'
             'code bulb'
           `,
-          textAlign: 'left'
+          textAlign: 'left',
         },
 
         [createMediaQuery(BREAKPOINTS.delta)]: {
           gridColumnGap: bs(2),
-          gridTemplateColumns: 'auto 300px'
-        }
+          gridTemplateColumns: 'auto 300px',
+        },
       })}
     >
       <div
@@ -118,8 +118,8 @@ export default function HueLightBulb() {
           marginBottom: bs(0.5),
           [createMediaQuery(BREAKPOINTS.bravo)]: {
             marginTop: 0,
-            marginBottom: 0
-          }
+            marginBottom: 0,
+          },
         }}
       >
         <div
@@ -127,12 +127,12 @@ export default function HueLightBulb() {
             width: 75,
 
             [createMediaQuery(BREAKPOINTS.alpha)]: {
-              width: 150
+              width: 150,
             },
 
             [createMediaQuery(BREAKPOINTS.delta)]: {
-              width: 300
-            }
+              width: 300,
+            },
           }}
         >
           {current === 'unlit' && <BulbSVG color="none" />}
@@ -150,8 +150,8 @@ export default function HueLightBulb() {
           gridArea: 'code',
 
           [createMediaQuery(BREAKPOINTS.bravo)]: {
-            marginBottom: 0
-          }
+            marginBottom: 0,
+          },
         })}
       >
         <code>{JSON.stringify(state, null, 2)}</code>
@@ -161,8 +161,8 @@ export default function HueLightBulb() {
           marginBottom: bs(),
           gridArea: 'events',
           [createMediaQuery(BREAKPOINTS.bravo)]: {
-            marginBottom: 0
-          }
+            marginBottom: 0,
+          },
         }}
       >
         <div>Events</div>
@@ -180,8 +180,8 @@ export default function HueLightBulb() {
           marginBottom: bs(),
           gridArea: 'colors',
           [createMediaQuery(BREAKPOINTS.bravo)]: {
-            marginBottom: 0
-          }
+            marginBottom: 0,
+          },
         }}
       >
         <div>Change Colors</div>

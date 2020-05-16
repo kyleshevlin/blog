@@ -28,7 +28,7 @@ export default function Contributors() {
   const contributorsHash = data.github.repository.pullRequests.nodes.reduce(
     (acc, cur) => {
       const {
-        author: { avatarUrl, login, url }
+        author: { avatarUrl, login, url },
       } = cur
 
       if (login === 'kyleshevlin') return acc
@@ -37,7 +37,7 @@ export default function Contributors() {
       acc[login] = {
         avatarUrl,
         login,
-        url
+        url,
       }
 
       return acc
@@ -51,7 +51,7 @@ export default function Contributors() {
       css={{
         fontFamily: theme.fonts.catamaran,
         fontStyle: 'italic',
-        textAlign: 'center'
+        textAlign: 'center',
       }}
     >
       <div css={{ marginBottom: bs(0.5) }}>
@@ -70,7 +70,7 @@ export default function Contributors() {
             justifyContent: 'center',
             flexWrap: 'wrap',
             fontSize: '.75rem',
-            fontStyle: 'normal'
+            fontStyle: 'normal',
           }}
         >
           {contributors.map(contributor => {
@@ -86,8 +86,8 @@ export default function Contributors() {
                   transition: 'opacity .3s ease',
 
                   '&:hover': {
-                    opacity: 1
-                  }
+                    opacity: 1,
+                  },
                 }}
                 key={login}
                 href={url}

@@ -12,8 +12,8 @@ export default function Miscellaneous() {
         '.gatsby-resp-image-wrapper': {
           boxShadow: `0 4px 8px ${theme.colors.offsetMore}`,
           marginTop: bs(2),
-          marginBottom: bs(2)
-        }
+          marginBottom: bs(2),
+        },
       }}
     />
   )

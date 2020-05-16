@@ -55,7 +55,7 @@ function Tree({ items, depth = 0 }) {
             display: 'flex',
             alignItems: 'center',
             fontFamily: theme.fonts.catamaran,
-            paddingLeft: depth * 15
+            paddingLeft: depth * 15,
           }}
         >
           {folder}

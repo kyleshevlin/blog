@@ -6,7 +6,7 @@ import { bs } from '../shevy'
 export default function NewsletterCTA() {
   const theme = useTheme()
   const {
-    components: { newsletterCTA: newsletterCTATheme }
+    components: { newsletterCTA: newsletterCTATheme },
   } = theme
 
   return (
@@ -15,7 +15,7 @@ export default function NewsletterCTA() {
         backgroundColor: newsletterCTATheme.background,
         color: newsletterCTATheme.text,
         padding: bs(2),
-        textAlign: 'center'
+        textAlign: 'center',
       }}
     >
       <div>
@@ -48,19 +48,19 @@ export default function NewsletterCTA() {
                 backgroundColor:
                   newsletterCTATheme.outboundLink['&:hover'].background,
                 color: newsletterCTATheme.outboundLink['&:hover'].text,
-                transform: 'translateY(-2px)'
+                transform: 'translateY(-2px)',
               },
 
               '&:active': {
-                transform: 'translateY(0)'
-              }
+                transform: 'translateY(0)',
+              },
             }}
             href="https://buttondown.email/kyleshevlin"
           >
             <span
               css={{
                 position: 'relative',
-                top: '-2px'
+                top: '-2px',
               }}
             >
               Sign Up Now

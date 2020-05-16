@@ -5,7 +5,7 @@ import { bs } from '../shevy'
 const linkButtonStyles = theme => ({
   ...buttonStyles(theme),
   paddingTop: bs(0.125),
-  paddingBottom: bs(0.125)
+  paddingBottom: bs(0.125),
 })
 
 export default function LinkButton({ children, href }) {

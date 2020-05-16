@@ -24,7 +24,7 @@ export default function LightBulb() {
     <div
       css={theme => ({
         backgroundColor: theme.colors.offset,
-        padding: bs()
+        padding: bs(),
       })}
     >
       State: {state}

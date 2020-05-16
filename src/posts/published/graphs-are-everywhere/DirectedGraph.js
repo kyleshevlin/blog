@@ -13,20 +13,20 @@ const ARROW_SIZE = 6
 
 const initialData = {
   nodes: [],
-  links: []
+  links: [],
 }
 
 const defaultOptions = {
   chargeStrength: -50,
   linkDistance: 100,
-  linkStrength: 2
+  linkStrength: 2,
 }
 
 export default function DirectedGraph({
   caption,
   data = initialData,
   showNodeIDs = false,
-  options = {}
+  options = {},
 }) {
   options = { ...defaultOptions, ...options }
   const svgRef = React.useRef(null)
@@ -181,7 +181,7 @@ export default function DirectedGraph({
           ...(caption ? { borderBottom: 'none' } : {}),
           display: 'flex',
           justifyContent: 'center',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <svg ref={svgRef} />
@@ -193,7 +193,7 @@ export default function DirectedGraph({
             fontFamily: theme.fonts.catamaran,
             fontStyle: 'italic',
             padding: `${bs(0.5)} ${bs()}`,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           {caption}

@@ -78,7 +78,7 @@ const About = ({ data }) => {
           maxWidth: '640px',
           marginLeft: 'auto',
           marginRight: 'auto',
-          marginBottom: bs(2)
+          marginBottom: bs(2),
         }}
       >
         <img
@@ -92,7 +92,7 @@ const About = ({ data }) => {
             fontFamily: theme.fonts.catamaran,
             fontStyle: 'italic',
             lineHeight: 1.5,
-            padding: `${bs(0.5)} ${bs()}`
+            padding: `${bs(0.5)} ${bs()}`,
           })}
         >
           My wife trying to eat me with one of those hats that Sherlock Holmes

@@ -15,7 +15,7 @@ export default function PostDate({ date }) {
           lineHeight: 1.8,
           paddingLeft: '2px',
           paddingRight: '2px',
-          borderBottom: `3px solid ${theme.colors.accent}`
+          borderBottom: `3px solid ${theme.colors.accent}`,
         }}
       >
         {date}

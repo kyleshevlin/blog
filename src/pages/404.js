@@ -6,7 +6,7 @@ import AddedValue from '../components/AddedValue'
 
 const linkStyles = {
   display: 'block',
-  marginBottom: bs(0.5)
+  marginBottom: bs(0.5),
 }
 
 const NotFoundPage = ({ data }) => (

@@ -20,17 +20,17 @@ import { createMediaQuery } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
-  paddingBottom: bs(0.25)
+  paddingBottom: bs(0.25),
 }
 
 const newerOrOlderHeading = theme => ({
   fontFamily: theme.fonts.catamaran,
-  fontWeight: 700
+  fontWeight: 700,
 })
 
 const Post = ({
   data,
-  pageContext: { olderPost, newerPost, relatedPosts }
+  pageContext: { olderPost, newerPost, relatedPosts },
 }) => {
   const { md, mdx } = data
   const file = md ? md : mdx
@@ -44,8 +44,8 @@ const Post = ({
       slug,
       subtitle,
       tags,
-      title
-    }
+      title,
+    },
   } = file
 
   return (
@@ -55,8 +55,8 @@ const Post = ({
       <div
         css={{
           '> h3': {
-            marginTop: bs(2)
-          }
+            marginTop: bs(2),
+          },
         }}
       >
         {coverImage && (
@@ -72,7 +72,7 @@ const Post = ({
             display: 'grid',
             gridTemplateColumns: '3fr 1fr',
             alignItems: 'end',
-            marginBottom: bs()
+            marginBottom: bs(),
           }}
         >
           <PostHeader {...{ subtitle, title }} />
@@ -88,16 +88,16 @@ const Post = ({
               alignItems: 'center',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              marginBottom: bs(2)
+              marginBottom: bs(2),
             },
 
             [createMediaQuery(BREAKPOINTS.bravo)]: {
-              gridTemplateColumns: '2fr 3fr'
+              gridTemplateColumns: '2fr 3fr',
             },
 
             [createMediaQuery(BREAKPOINTS.charlie)]: {
-              gridTemplateColumns: '1fr 2fr'
-            }
+              gridTemplateColumns: '1fr 2fr',
+            },
           }}
         >
           <div css={{ marginRight: bs(1.5), marginBottom: bs() }}>
@@ -202,7 +202,7 @@ function EditLink({ fileAbsolutePath }) {
           fontFamily: theme.fonts.catamaran,
           fontStyle: 'italic',
           paddingLeft: bs(0.5),
-          paddingRight: bs(0.5)
+          paddingRight: bs(0.5),
         }}
         href={generateEditLink(fileAbsolutePath)}
       >

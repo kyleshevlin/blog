@@ -38,8 +38,8 @@ const PostAuthor = () => (
             display: 'grid',
             gridTemplateColumns: '1fr 3fr',
             gridGap: bs(),
-            alignItems: 'center'
-          }
+            alignItems: 'center',
+          },
         }}
       >
         <img
@@ -54,8 +54,8 @@ const PostAuthor = () => (
             marginBottom: bs(),
 
             [createMediaQuery(BREAKPOINTS.alpha)]: {
-              marginBottom: 0
-            }
+              marginBottom: 0,
+            },
           }}
           src={allImageSharp.edges[0].node.original.src}
           alt="Kyle Shevlin's face, which is mostly a beard with eyes"

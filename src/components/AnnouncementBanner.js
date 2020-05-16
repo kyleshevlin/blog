@@ -13,14 +13,14 @@ export default function AnnouncementBanner({ content = '' }) {
         color: theme.colors.background,
         fontFamily: theme.fonts.catamaran,
         paddingTop: bs(0.5),
-        paddingBottom: bs(0.5)
+        paddingBottom: bs(0.5),
       }}
     >
       <Container>
         <div
           css={{
             alignItems: 'center',
-            display: 'flex'
+            display: 'flex',
           }}
         >
           {content}

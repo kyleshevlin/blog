@@ -23,7 +23,7 @@ const unnestFrontmatter = node => {
 
   return {
     ...frontmatter,
-    ...rest
+    ...rest,
   }
 }
 
@@ -35,7 +35,7 @@ const handleRawBody = node => {
   const sections = rawBody.split('\n\n')
   const records = sections.map(section => ({
     ...rest,
-    content: section
+    content: section,
   }))
 
   return records
@@ -46,15 +46,15 @@ const queries = [
     query: mdxQuery,
     settings: {
       attributeForDistinct: 'slug',
-      distinct: true
+      distinct: true,
     },
     transformer: ({ data }) =>
       data.allMdx.edges
         .map(edge => edge.node)
         .map(unnestFrontmatter)
         .map(handleRawBody)
-        .reduce((acc, cur) => [...acc, ...cur], [])
-  }
+        .reduce((acc, cur) => [...acc, ...cur], []),
+  },
 ]
 
 module.exports = queries

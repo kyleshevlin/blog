@@ -4,24 +4,24 @@ import { COLORS, FONTS } from '../constants'
 
 const tags = {
   background: COLORS.teal,
-  text: COLORS.white
+  text: COLORS.white,
 }
 
 const footnotes = {
   display: {
     closeButton: {
       background: COLORS.teal,
-      text: COLORS.white
+      text: COLORS.white,
     },
     marker: {
       background: COLORS.teal,
-      text: COLORS.white
-    }
+      text: COLORS.white,
+    },
   },
   marker: {
     background: COLORS.teal,
-    text: COLORS.white
-  }
+    text: COLORS.white,
+  },
 }
 
 const newsletterCTA = {
@@ -34,18 +34,18 @@ const newsletterCTA = {
 
     '&:hover': {
       background: COLORS.white,
-      text: COLORS.teal
-    }
-  }
+      text: COLORS.teal,
+    },
+  },
 }
 
 const searchBox = {
-  text: COLORS.black
+  text: COLORS.black,
 }
 
 const themeToggle = {
   background: COLORS.teal,
-  text: COLORS.white
+  text: COLORS.white,
 }
 
 const lightTheme = {
@@ -54,30 +54,30 @@ const lightTheme = {
     text: COLORS.black,
     accent: COLORS.teal,
     offset: COLORS.lightGray,
-    offsetMore: COLORS.gray
+    offsetMore: COLORS.gray,
   },
   components: {
     tags,
     footer: {
       background: COLORS.black,
-      text: COLORS.white
+      text: COLORS.white,
     },
     footnotes,
     newsletterCTA,
     pagination: {
       normal: {
         background: COLORS.teal,
-        text: COLORS.white
+        text: COLORS.white,
       },
       active: {
         background: COLORS.lightGray,
-        text: COLORS.teal
-      }
+        text: COLORS.teal,
+      },
     },
     searchBox,
-    themeToggle
+    themeToggle,
   },
-  fonts: FONTS
+  fonts: FONTS,
 }
 
 const darkTheme = {
@@ -86,40 +86,40 @@ const darkTheme = {
     text: '#e8e8e8',
     accent: COLORS.teal,
     offset: '#0E2D39',
-    offsetMore: '#184D62'
+    offsetMore: '#184D62',
   },
   components: {
     tags,
     footer: {
       background: '#040D10',
-      text: '#e8e8e8'
+      text: '#e8e8e8',
     },
     footnotes,
     newsletterCTA,
     pagination: {
       normal: {
         background: COLORS.teal,
-        text: COLORS.white
+        text: COLORS.white,
       },
       active: {
         background: '#0E2D39',
-        text: COLORS.white
-      }
+        text: COLORS.white,
+      },
     },
     searchBox,
-    themeToggle
+    themeToggle,
   },
-  fonts: FONTS
+  fonts: FONTS,
 }
 
 const THEMES = {
   dark: darkTheme,
-  light: lightTheme
+  light: lightTheme,
 }
 
 const NEXT_THEME = {
   dark: 'light',
-  light: 'dark'
+  light: 'dark',
 }
 
 const getInitialTheme = () => 'light'

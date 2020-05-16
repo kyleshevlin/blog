@@ -29,7 +29,7 @@ export default function ValueSell() {
         const {
           logo: { publicURL },
           title,
-          eggheadUrl
+          eggheadUrl,
         } = data.allCoursesJson.edges[0].node
         const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
@@ -37,7 +37,7 @@ export default function ValueSell() {
           <div
             css={{
               backgroundColor: theme.colors.offset,
-              padding: bs(2)
+              padding: bs(2),
             }}
           >
             <div
@@ -46,16 +46,16 @@ export default function ValueSell() {
                   display: 'grid',
                   gridGap: bs(),
                   gridTemplateColumns: '1fr 3fr',
-                  alignItems: 'center'
-                }
+                  alignItems: 'center',
+                },
               }}
             >
               <div
                 css={{
                   marginBottom: bs(),
                   [createMediaQuery(BREAKPOINTS.alpha)]: {
-                    marginBottom: 0
-                  }
+                    marginBottom: 0,
+                  },
                 }}
               >
                 <a css={{ display: 'block' }} href={eggheadUrlWithParams}>
@@ -65,8 +65,8 @@ export default function ValueSell() {
                       width: '100%',
                       transition: 'opacity 0.3s ease',
                       '&:hover': {
-                        opacity: 0.85
-                      }
+                        opacity: 0.85,
+                      },
                     }}
                     src={publicURL}
                     alt={`${title} Logo`}
@@ -77,8 +77,8 @@ export default function ValueSell() {
                 css={{
                   textAlign: 'center',
                   [createMediaQuery(BREAKPOINTS.alpha)]: {
-                    textAlign: 'left'
-                  }
+                    textAlign: 'left',
+                  },
                 }}
               >
                 <h2>Check out my latest course on egghead.io!</h2>

@@ -11,7 +11,7 @@ export default function statechart(string) {
     .map(([start, end, event]) => ({
       start,
       end,
-      event
+      event,
     }))
 
   const states = stateNodes.reduce((acc, cur) => {
@@ -36,7 +36,7 @@ export default function statechart(string) {
     // [event]: end key/value pairs
     acc[start].on = {
       ...acc[start].on,
-      [event]: end
+      [event]: end,
     }
 
     return acc
@@ -45,6 +45,6 @@ export default function statechart(string) {
   return {
     id,
     initial,
-    states
+    states,
   }
 }

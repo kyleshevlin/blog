@@ -8,7 +8,7 @@ const initialState = {
   content: null,
   index: null,
   isVisible: false,
-  markers: {}
+  markers: {},
 }
 
 const reducer = (state, action) => {
@@ -20,8 +20,8 @@ const reducer = (state, action) => {
         ...state,
         markers: {
           ...state.markers,
-          [action.payload]: length + 1
-        }
+          [action.payload]: length + 1,
+        },
       }
     }
 
@@ -31,21 +31,21 @@ const reducer = (state, action) => {
 
       return {
         ...state,
-        markers: markersClone
+        markers: markersClone,
       }
     }
 
     case 'HIDE_FOOTNOTE': {
       return {
         ...state,
-        isVisible: false
+        isVisible: false,
       }
     }
 
     case 'UPDATE_FOOTNOTE': {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     }
 
@@ -84,7 +84,7 @@ export function FootnotesProvider({ children }) {
         addMarker,
         removeMarker,
         hideFootnote,
-        updateFootnote
+        updateFootnote,
       }}
     >
       {children}
@@ -99,13 +99,13 @@ export function FootnoteMarker({ content }) {
     isVisible,
     markers,
     removeMarker,
-    updateFootnote
+    updateFootnote,
   } = useContext(FootnotesContext)
   const theme = useTheme()
   const {
     components: {
-      footnotes: { marker }
-    }
+      footnotes: { marker },
+    },
   } = theme
   const index = markers[content]
 
@@ -140,20 +140,20 @@ export function FootnoteMarker({ content }) {
         transition: 'background-color .3s ease',
 
         '&:hover': {
-          backgroundColor: lighten(0.1, marker.background)
+          backgroundColor: lighten(0.1, marker.background),
         },
 
         '&:focus': {
           outline: 'none',
-          boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`
-        }
+          boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`,
+        },
       }}
       onClick={() => {
         updateFootnote({
           content,
           index,
           // If the user clicks the same marker, close the footnote
-          isVisible: isVisible && index === contextIndex ? false : true
+          isVisible: isVisible && index === contextIndex ? false : true,
         })
       }}
     >
@@ -170,8 +170,8 @@ export function FootnoteDisplay() {
   const theme = useTheme()
   const {
     components: {
-      footnotes: { display }
-    }
+      footnotes: { display },
+    },
   } = theme
   useFootnoteDisplayEvents(displayElement)
 
@@ -186,7 +186,7 @@ export function FootnoteDisplay() {
         borderTop: `4px solid ${theme.colors.accent}`,
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
         paddingTop: bs(),
-        paddingBottom: bs(2)
+        paddingBottom: bs(2),
       }}
     >
       <Container>
@@ -194,7 +194,7 @@ export function FootnoteDisplay() {
           css={{
             display: 'flex',
             justifyContent: 'space-between',
-            marginBottom: bs(1)
+            marginBottom: bs(1),
           }}
         >
           <div
@@ -209,7 +209,7 @@ export function FootnoteDisplay() {
               lineHeight: 1,
               border: 'none',
               borderRadius: '50%',
-              textAlign: 'center'
+              textAlign: 'center',
             }}
           >
             <span css={{ position: 'relative', top: 2 }}>{index}</span>
@@ -229,8 +229,8 @@ export function FootnoteDisplay() {
               transition: 'background-color .3s ease',
 
               '&:hover': {
-                backgroundColor: lighten(0.1, display.closeButton.background)
-              }
+                backgroundColor: lighten(0.1, display.closeButton.background),
+              },
             }}
             onClick={hideFootnote}
           >

@@ -5,13 +5,13 @@ import Button from '../../../components/Button'
 const NEXT_STATE_GRAPH = {
   lit: {
     TOGGLE: 'unlit',
-    BREAK: 'broken'
+    BREAK: 'broken',
   },
   unlit: {
     TOGGLE: 'lit',
-    BREAK: 'broken'
+    BREAK: 'broken',
   },
-  broken: {}
+  broken: {},
 }
 
 const initialState = 'unlit'
@@ -33,7 +33,7 @@ export default function LightBulb() {
       css={theme => ({
         backgroundColor: theme.colors.offset,
         marginBottom: bs(),
-        padding: bs()
+        padding: bs(),
       })}
     >
       State: {state}

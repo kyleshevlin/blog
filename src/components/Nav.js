@@ -8,14 +8,14 @@ const LINKS = [
   { to: '/about', title: 'About' },
   { to: '/courses', title: 'Courses' },
   { to: '/podcast', title: 'Podcast' },
-  { to: '/contact', title: 'Contact' }
+  { to: '/contact', title: 'Contact' },
 ]
 
 const linkStyles = theme => ({
   display: 'inline-block',
   fontFamily: theme.fonts.catamaran,
   color: theme.colors.text,
-  padding: bs(0.5)
+  padding: bs(0.5),
 })
 
 export default function Nav() {

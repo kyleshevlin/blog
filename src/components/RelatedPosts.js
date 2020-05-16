@@ -9,7 +9,7 @@ const RelatedPosts = ({ posts }) => (
       css={theme => ({
         fontFamily: theme.fonts.catamaran,
         fontWeight: 'bold',
-        marginBottom: bs(0.5)
+        marginBottom: bs(0.5),
       })}
     >
       Related {inflect('Post', 'Posts', posts.length)}:

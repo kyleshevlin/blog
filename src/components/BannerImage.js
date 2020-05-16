@@ -10,11 +10,11 @@ const BannerImage = ({ alt, src }) => (
 
 BannerImage.propTypes = {
   alt: PropTypes.string,
-  src: PropTypes.string.isRequired
+  src: PropTypes.string.isRequired,
 }
 
 BannerImage.defaultProps = {
-  alt: ''
+  alt: '',
 }
 
 export default BannerImage

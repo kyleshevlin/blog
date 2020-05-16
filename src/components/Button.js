@@ -4,7 +4,7 @@ import { bs } from '../shevy'
 
 export const buttonStyles = theme => {
   const {
-    components: { themeToggle }
+    components: { themeToggle },
   } = theme
 
   return {
@@ -21,8 +21,8 @@ export const buttonStyles = theme => {
 
     '&:hover': {
       backgroundColor: lighten(0.1, themeToggle.background),
-      color: themeToggle.text
-    }
+      color: themeToggle.text,
+    },
   }
 }
 

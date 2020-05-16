@@ -9,14 +9,14 @@ const Container = ({ children }) => (
       marginRight: 'auto',
       width: '80%',
       [createMediaQuery(BREAKPOINTS.bravo)]: {
-        width: '70%'
+        width: '70%',
       },
       [createMediaQuery(BREAKPOINTS.charlie)]: {
-        width: '60%'
+        width: '60%',
       },
       [createMediaQuery(BREAKPOINTS.delta)]: {
-        width: '50%'
-      }
+        width: '50%',
+      },
     }}
   >
     {children}

@@ -11,7 +11,7 @@ export default function TreeWrap({ children }) {
         backgroundColor: theme.colors.offset,
         padding: bs(),
         marginBottom: bs(1.5),
-        marginTop: bs(1.5)
+        marginTop: bs(1.5),
       }}
     >
       {children}

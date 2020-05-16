@@ -6,7 +6,7 @@ import {
   connectSearchBox,
   connectStateResults,
   Highlight,
-  InstantSearch
+  InstantSearch,
 } from 'react-instantsearch-dom'
 import algoliasearch from 'algoliasearch/lite'
 import { useTheme } from 'emotion-theming'
@@ -31,7 +31,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
           display: 'block',
           fontFamily: theme.fonts.catamaran,
           fontWeight: 'bold',
-          marginBottom: bs(0.125)
+          marginBottom: bs(0.125),
         }}
         htmlFor="search"
       >
@@ -45,7 +45,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
           display: 'block',
           fontFamily: theme.fonts.catamaran,
           padding: `${bs(0.25)} ${bs(0.5)}`,
-          width: '100%'
+          width: '100%',
         }}
         id="search"
         name="search"
@@ -68,7 +68,7 @@ const Hits = connectHits(({ closeModal, hits }) => {
           fontSize: '.85rem',
           fontStyle: 'italic',
           marginBottom: bs(),
-          maxWidth: '30rem'
+          maxWidth: '30rem',
         }}
       >
         These are the results of your search. The title and excerpt are
@@ -196,7 +196,7 @@ export default function Search() {
         css={{
           backgroundColor: 'transparent',
           border: 'none',
-          fontFamily: theme.fonts.catamaran
+          fontFamily: theme.fonts.catamaran,
         }}
         onClick={() => {
           setIsModalOpen(true)

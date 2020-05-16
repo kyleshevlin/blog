@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import {
   FootnotesProvider,
   FootnoteDisplay as Display,
-  FootnoteMarker as Marker
+  FootnoteMarker as Marker,
 } from './Footnotes'
 import ThemeProvider from './ThemeProvider'
 

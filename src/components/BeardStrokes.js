@@ -59,7 +59,7 @@ class BeardStrokes extends Component {
   state = {
     count: 0,
     database: null,
-    lastUpdateCount: 0
+    lastUpdateCount: 0,
   }
 
   handleBeardClick = () => {
@@ -89,7 +89,7 @@ class BeardStrokes extends Component {
       this.setState({
         count: localCount,
         database,
-        lastUpdateCount: localCount
+        lastUpdateCount: localCount,
       })
     })
   }
@@ -111,7 +111,7 @@ class BeardStrokes extends Component {
           css={theme => ({
             display: 'flex',
             alignItems: 'center',
-            fontFamily: theme.fonts.catamaran
+            fontFamily: theme.fonts.catamaran,
           })}
         >
           <div css={{ textAlign: 'center' }}>
@@ -125,18 +125,18 @@ class BeardStrokes extends Component {
                   fill:
                     count === 0 ? theme.colors.offsetMore : theme.colors.accent,
                   transform: 'scale(.95)',
-                  transition: 'fill 0.3s ease, transform .15s ease'
+                  transition: 'fill 0.3s ease, transform .15s ease',
                 },
                 '&:active svg': {
-                  transform: 'scale(1)'
+                  transform: 'scale(1)',
                 },
                 '&:disabled svg': {
                   fill: darken(0.1, theme.colors.accent),
-                  transform: 'scale(1)'
+                  transform: 'scale(1)',
                 },
                 '&:hover svg': {
-                  fill: darken(0.1, theme.colors.accent)
-                }
+                  fill: darken(0.1, theme.colors.accent),
+                },
               })}
               onClick={this.handleBeardClick}
               disabled={count === 50}
