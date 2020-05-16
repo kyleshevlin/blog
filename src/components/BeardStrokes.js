@@ -145,10 +145,9 @@ class BeardStrokes extends Component {
           </div>
           <div>
             <p css={{ marginBottom: 0 }}>
-              Liked the post? Why not show it?! Stroke Kyle's ego by{' '}
-              <span css={{ textDecoration: 'line-through' }}>stroking</span>{' '}
-              clicking his beard. You can click up to 50 times if you{' '}
-              <em>really</em> liked it.
+              Liked the post? Why not show it?! Stroke Kyle's ego by clicking
+              his beard. You can click up to 50 times if you <em>really</em>{' '}
+              liked it.
             </p>
           </div>
         </div>
