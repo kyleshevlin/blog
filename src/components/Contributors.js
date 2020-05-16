@@ -51,11 +51,10 @@ export default function Contributors() {
       css={{
         fontFamily: theme.fonts.catamaran,
         fontStyle: 'italic',
-        padding: bs(),
         textAlign: 'center'
       }}
     >
-      <div>
+      <div css={{ marginBottom: bs(0.5) }}>
         I would like give thanks to those who have contributed fixes and updates
         to this blog. If you see something that needs some love, you can join
         them. This blog is open sourced at{' '}
@@ -71,10 +70,7 @@ export default function Contributors() {
             justifyContent: 'center',
             flexWrap: 'wrap',
             fontSize: '.75rem',
-            fontStyle: 'normal',
-            marginTop: bs(),
-            marginLeft: bs(),
-            marginRight: bs()
+            fontStyle: 'normal'
           }}
         >
           {contributors.map(contributor => {

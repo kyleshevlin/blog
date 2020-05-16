@@ -35,6 +35,10 @@ export default function Footer() {
       }}
     >
       <Container>
+        <div css={{ marginBottom: bs(2) }}>
+          <Contributors />
+        </div>
+
         <div css={{ marginBottom: bs(0.5) }}>
           {links.map(({ href, icon: Icon, title }) => (
             <OutboundLink
@@ -55,10 +59,6 @@ export default function Footer() {
               <Icon fill={theme.colors.accent} width={30} />
             </OutboundLink>
           ))}
-        </div>
-
-        <div css={{ marginBottom: bs() }}>
-          <Contributors />
         </div>
 
         <div>
