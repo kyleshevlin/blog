@@ -3,7 +3,7 @@ import { useTheme } from 'emotion-theming'
 import { graphql, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 
-export default function PostOpenSourceContribution() {
+export default function Contributors() {
   const theme = useTheme()
   const data = useStaticQuery(graphql`
     query ContributorsInTheLast100PullRequests {
@@ -49,17 +49,16 @@ export default function PostOpenSourceContribution() {
   return (
     <div
       css={{
-        backgroundColor: theme.colors.offset,
         fontFamily: theme.fonts.catamaran,
         fontStyle: 'italic',
         padding: bs(),
-        marginBottom: bs(2),
         textAlign: 'center'
       }}
     >
       <div>
-        Spot a typo? Join the contributors below and submit a PR with the fix!
-        This entire blog is open sourced at{' '}
+        I would like give thanks to those who have contributed fixes and updates
+        to this blog. If you see something that needs some love, you can join
+        them. This blog is open sourced at{' '}
         <a href="https://github.com/kyleshevlin/blog">
           https://github.com/kyleshevlin/blog
         </a>
@@ -83,12 +82,26 @@ export default function PostOpenSourceContribution() {
 
             return (
               <a
-                css={{ display: 'block', padding: bs(0.25) }}
+                css={{
+                  display: 'inline-block',
+                  padding: bs(0.25),
+                  width: 50,
+                  opacity: 0.75,
+                  transition: 'opacity .3s ease',
+
+                  '&:hover': {
+                    opacity: 1
+                  }
+                }}
                 key={login}
                 href={url}
                 title={`@${login}`}
               >
-                <img alt={login} src={avatarUrl} />
+                <img
+                  css={{ display: 'block', width: '100%' }}
+                  alt={login}
+                  src={avatarUrl}
+                />
               </a>
             )
           })}

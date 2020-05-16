@@ -8,6 +8,7 @@ import Github from './icons/Github'
 import LinkedIn from './icons/LinkedIn'
 import Twitch from './icons/Twitch'
 import Twitter from './icons/Twitter'
+import Contributors from './Contributors'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -55,6 +56,11 @@ export default function Footer() {
             </OutboundLink>
           ))}
         </div>
+
+        <div css={{ marginBottom: bs() }}>
+          <Contributors />
+        </div>
+
         <div>
           &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
           Built with <a href="https://www.gatsbyjs.org">Gatsby</a>.

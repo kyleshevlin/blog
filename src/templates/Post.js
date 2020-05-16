@@ -7,7 +7,6 @@ import PostAuthor from '../components/PostAuthor'
 import PostContent from '../components/PostContent'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
-import PostOpenSourceContribution from '../components/PostOpenSourceContribution'
 import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
@@ -111,7 +110,6 @@ const Post = ({
         </div>
 
         {relatedPosts && <RelatedPosts posts={relatedPosts} />}
-        <PostOpenSourceContribution />
 
         <div css={{ marginTop: bs(2) }}>
           {newerPost ? (
