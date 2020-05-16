@@ -109,27 +109,11 @@ const Post = ({
           )}
         </div>
 
-        {relatedPosts && <RelatedPosts posts={relatedPosts} />}
-
-        <div css={{ marginTop: bs(2) }}>
-          {newerPost ? (
-            <div css={newerOrOlderPostWrap}>
-              <span css={newerOrOlderHeading}>Newer Post: </span>
-              <Link to={newerPost.frontmatter.slug}>
-                {newerPost.frontmatter.title}
-              </Link>
-            </div>
-          ) : null}
-
-          {olderPost ? (
-            <div css={newerOrOlderPostWrap}>
-              <span css={newerOrOlderHeading}>Older Post: </span>
-              <Link to={olderPost.frontmatter.slug}>
-                {olderPost.frontmatter.title}
-              </Link>
-            </div>
-          ) : null}
-        </div>
+        <AdditionalPosts
+          newerPost={newerPost}
+          olderPost={olderPost}
+          relatedPosts={relatedPosts}
+        />
 
         <PostAuthor />
       </div>
@@ -235,5 +219,31 @@ function EditSVG({ fill = '#000', width }) {
     >
       <path d="M9.5 23H0L4 14L25 0L30.5 8.5L9.5 23Z" fill={fill} />
     </svg>
+  )
+}
+
+function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
+  return relatedPosts ? (
+    <RelatedPosts posts={relatedPosts} />
+  ) : (
+    <div css={{ marginTop: bs(2) }}>
+      {newerPost ? (
+        <div css={newerOrOlderPostWrap}>
+          <span css={newerOrOlderHeading}>Newer Post: </span>
+          <Link to={newerPost.frontmatter.slug}>
+            {newerPost.frontmatter.title}
+          </Link>
+        </div>
+      ) : null}
+
+      {olderPost ? (
+        <div css={newerOrOlderPostWrap}>
+          <span css={newerOrOlderHeading}>Older Post: </span>
+          <Link to={olderPost.frontmatter.slug}>
+            {olderPost.frontmatter.title}
+          </Link>
+        </div>
+      ) : null}
+    </div>
   )
 }
