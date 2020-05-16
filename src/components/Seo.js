@@ -38,9 +38,7 @@ function Seo({ description, lang, meta, keywords, title }) {
               },
               {
                 property: 'og:image',
-                content: `${data.site.siteMetadata.siteUrl}${
-                  ogImage.original.src
-                }`
+                content: `${data.site.siteMetadata.siteUrl}${ogImage.original.src}`
               },
               {
                 property: 'og:image:width',

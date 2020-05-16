@@ -4,7 +4,6 @@ import { graphql, StaticQuery } from 'gatsby'
 import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
-import Container from './Container'
 
 export default function ValueSell() {
   const theme = useTheme()
