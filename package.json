@@ -87,6 +87,8 @@
     "url": "https://github.com/kyleshevlin/blog/issues"
   },
   "husky": {
-    "pre-commit": "npm run format && npm run lint && npm run test"
+    "hooks": {
+      "pre-commit": "npm run format && npm run lint && npm run test"
+    }
   }
 }
