@@ -8,9 +8,7 @@ import { useCoursesContext } from './CoursesProvider'
 const randomIndex = length => Math.floor(Math.random() * length)
 
 const chooseCourse = (courses, nickname) => {
-  if (!courses.length) {
-    return null
-  }
+  if (!courses.length) return null
 
   const randomCourse = courses[randomIndex(courses.length)]
 
