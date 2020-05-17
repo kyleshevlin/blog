@@ -5,7 +5,6 @@ import { lighten } from 'polished'
 import { bs } from '../shevy'
 import Container from './Container'
 import Nav from './Nav'
-import Search from './Search'
 import { BREAKPOINTS } from '../constants'
 import { createMediaQuery } from '../utils'
 
@@ -84,7 +83,6 @@ export default function Header() {
                   }}
                 >
                   <ThemeToggle />
-                  <Search />
                 </div>
               </div>
               <Nav />
