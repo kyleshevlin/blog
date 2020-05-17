@@ -1,7 +1,7 @@
-const queries = require('./src/utils/algolia')
+// const queries = require('./src/utils/algolia')
 
 require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
+  path: `.env.${process.env.NODE_ENV}`,
 })
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
     description:
       'Kyle Shevlin is a front end web developer and software engineer who specializes in JavaScript and React.',
     author: 'Kyle Shevlin',
-    siteUrl: 'https://kyleshevlin.com'
+    siteUrl: 'https://kyleshevlin.com',
   },
   plugins: [
     {
@@ -22,17 +22,17 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 960
-            }
+              maxWidth: 960,
+            },
           },
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
-              noInlineHighlight: true
-            }
-          }
-        ]
-      }
+              noInlineHighlight: true,
+            },
+          },
+        ],
+      },
     },
     {
       resolve: 'gatsby-source-graphql',
@@ -41,20 +41,20 @@ module.exports = {
         fieldName: 'github',
         url: 'https://api.github.com/graphql',
         headers: {
-          Authorization: `Bearer ${process.env.GATSBY_GITHUB_TOKEN}`
-        }
-      }
+          Authorization: `Bearer ${process.env.GATSBY_GITHUB_TOKEN}`,
+        },
+      },
     },
-    {
-      resolve: 'gatsby-plugin-algolia',
-      options: {
-        appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_ADMIN_KEY,
-        indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME,
-        queries,
-        chunkSize: 10000
-      }
-    },
+    // {
+    //   resolve: 'gatsby-plugin-algolia',
+    //   options: {
+    //     appId: process.env.GATSBY_ALGOLIA_APP_ID,
+    //     apiKey: process.env.ALGOLIA_ADMIN_KEY,
+    //     indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME,
+    //     queries,
+    //     chunkSize: 10000
+    //   }
+    // },
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-portal',
     'gatsby-transformer-json',
@@ -62,22 +62,22 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images`
-      }
+        path: `${__dirname}/src/images`,
+      },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'posts',
-        path: `${__dirname}/src/posts/published`
-      }
+        path: `${__dirname}/src/posts/published`,
+      },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'courses',
-        path: `${__dirname}/src/courses`
-      }
+        path: `${__dirname}/src/courses`,
+      },
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
@@ -89,17 +89,17 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 960
-            }
+              maxWidth: 960,
+            },
           },
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
-              noInlineHighlight: true
-            }
-          }
-        ]
-      }
+              noInlineHighlight: true,
+            },
+          },
+        ],
+      },
     },
     'gatsby-plugin-catch-links',
     'gatsby-plugin-twitter',
@@ -108,8 +108,8 @@ module.exports = {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
         trackingId: 'UA-20937423-1',
-        head: true
-      }
+        head: true,
+      },
     },
     'gatsby-plugin-sitemap',
     {
@@ -134,7 +134,7 @@ module.exports = {
               return allMarkdownRemark.edges.map(edge => {
                 const {
                   html,
-                  frontmatter: { date, slug, subtitle, title }
+                  frontmatter: { date, slug, subtitle, title },
                 } = edge.node
 
                 return {
@@ -142,7 +142,7 @@ module.exports = {
                   date,
                   description: html,
                   url: `${siteUrl}/${slug}`,
-                  custom_elements: [{ subtitle }]
+                  custom_elements: [{ subtitle }],
                 }
               })
             },
@@ -168,10 +168,10 @@ module.exports = {
               }
             `,
             output: '/rss.xml',
-            title: "Kyle Shevlin's Blog RSS Feed"
-          }
-        ]
-      }
+            title: "Kyle Shevlin's Blog RSS Feed",
+          },
+        ],
+      },
     },
     {
       resolve: 'gatsby-plugin-manifest',
@@ -183,11 +183,11 @@ module.exports = {
         theme_color: '#fff',
         display: 'minimal-ui',
         // This path is relative to the root of the site.
-        icon: 'src/images/beard-favicon.png'
-      }
-    }
+        icon: 'src/images/beard-favicon.png',
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',
-  ]
+  ],
 }
