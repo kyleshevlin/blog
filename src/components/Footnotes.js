@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
-import { useTheme } from 'emotion-theming'
+import Button, { buttonStyles } from './Button'
 import Container from './Container'
 import { bs } from '../shevy'
-import { darken, lighten } from 'polished'
+import { darken } from 'polished'
 
 const initialState = {
   content: null,
@@ -92,6 +92,23 @@ export function FootnotesProvider({ children }) {
   )
 }
 
+const markerStyles = theme => ({
+  ...buttonStyles(theme),
+  width: 20,
+  height: 20,
+  fontSize: 12,
+  lineHeight: 0,
+  padding: 0,
+  borderRadius: '50%',
+  position: 'relative',
+  top: '-2px',
+
+  '&:focus': {
+    outline: 'none',
+    boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`,
+  },
+})
+
 export function FootnoteMarker({ content }) {
   const {
     addMarker,
@@ -101,12 +118,6 @@ export function FootnoteMarker({ content }) {
     removeMarker,
     updateFootnote,
   } = useContext(FootnotesContext)
-  const theme = useTheme()
-  const {
-    components: {
-      footnotes: { marker },
-    },
-  } = theme
   const index = markers[content]
 
   if (!content) {
@@ -123,31 +134,7 @@ export function FootnoteMarker({ content }) {
 
   return (
     <button
-      css={{
-        appearance: 'none',
-        display: 'inline-block',
-        width: 20,
-        height: 20,
-        backgroundColor: marker.background,
-        color: marker.text,
-        fontSize: '12px',
-        fontFamily: theme.fonts.catamaran,
-        lineHeight: 0,
-        border: 'none',
-        borderRadius: '50%',
-        position: 'relative',
-        top: '-2px',
-        transition: 'background-color .3s ease',
-
-        '&:hover': {
-          backgroundColor: lighten(0.1, marker.background),
-        },
-
-        '&:focus': {
-          outline: 'none',
-          boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`,
-        },
-      }}
+      css={markerStyles}
       onClick={() => {
         updateFootnote({
           content,
@@ -162,23 +149,23 @@ export function FootnoteMarker({ content }) {
   )
 }
 
+const displayMarkerStyles = theme => ({
+  ...markerStyles(theme),
+  lineHeight: 1,
+  textAlign: 'center',
+})
+
 export function FootnoteDisplay() {
   const displayElement = useRef(null)
   const { content, hideFootnote, index, isVisible } = useContext(
     FootnotesContext
   )
-  const theme = useTheme()
-  const {
-    components: {
-      footnotes: { display },
-    },
-  } = theme
   useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (
     <div
       ref={displayElement}
-      css={{
+      css={theme => ({
         width: '100%',
         backgroundColor: theme.colors.background,
         position: 'fixed',
@@ -187,7 +174,7 @@ export function FootnoteDisplay() {
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
         paddingTop: bs(),
         paddingBottom: bs(2),
-      }}
+      })}
     >
       <Container>
         <div
@@ -197,45 +184,10 @@ export function FootnoteDisplay() {
             marginBottom: bs(1),
           }}
         >
-          <div
-            css={{
-              display: 'inline-block',
-              width: 20,
-              height: 20,
-              backgroundColor: display.marker.background,
-              color: display.marker.text,
-              fontSize: '12px',
-              fontFamily: theme.fonts.catamaran,
-              lineHeight: 1,
-              border: 'none',
-              borderRadius: '50%',
-              textAlign: 'center',
-            }}
-          >
+          <div css={displayMarkerStyles}>
             <span css={{ position: 'relative', top: 2 }}>{index}</span>
           </div>
-          <button
-            css={{
-              display: 'inline-block',
-              backgroundColor: display.closeButton.background,
-              color: display.closeButton.text,
-              fontFamily: theme.fonts.catamaran,
-              fontSize: '.75em',
-              textTransform: 'uppercase',
-              lineHeight: 1,
-              padding: `${bs(0.25)} ${bs(0.5)}`,
-              border: 'none',
-              borderRadius: '4px',
-              transition: 'background-color .3s ease',
-
-              '&:hover': {
-                backgroundColor: lighten(0.1, display.closeButton.background),
-              },
-            }}
-            onClick={hideFootnote}
-          >
-            <span css={{ position: 'relative', top: '-1px' }}>Close</span>
-          </button>
+          <Button onClick={hideFootnote}>Close</Button>
         </div>
         <div dangerouslySetInnerHTML={{ __html: content }} />
       </Container>

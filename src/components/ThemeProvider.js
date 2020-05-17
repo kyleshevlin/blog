@@ -2,28 +2,6 @@ import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { COLORS, FONTS } from '../constants'
 
-const tags = {
-  background: COLORS.teal,
-  text: COLORS.white,
-}
-
-const footnotes = {
-  display: {
-    closeButton: {
-      background: COLORS.teal,
-      text: COLORS.white,
-    },
-    marker: {
-      background: COLORS.teal,
-      text: COLORS.white,
-    },
-  },
-  marker: {
-    background: COLORS.teal,
-    text: COLORS.white,
-  },
-}
-
 const newsletterCTA = {
   background: COLORS.teal,
   text: COLORS.white,
@@ -48,7 +26,7 @@ const searchError = {
   text: COLORS.white,
 }
 
-const themeToggle = {
+const button = {
   background: COLORS.teal,
   text: COLORS.white,
 }
@@ -62,12 +40,10 @@ const lightTheme = {
     offsetMore: COLORS.gray,
   },
   components: {
-    tags,
     footer: {
       background: COLORS.black,
       text: COLORS.white,
     },
-    footnotes,
     newsletterCTA,
     pagination: {
       normal: {
@@ -81,7 +57,7 @@ const lightTheme = {
     },
     searchBox,
     searchError,
-    themeToggle,
+    button,
   },
   fonts: FONTS,
 }
@@ -95,12 +71,10 @@ const darkTheme = {
     offsetMore: '#184D62',
   },
   components: {
-    tags,
     footer: {
       background: '#040D10',
       text: '#e8e8e8',
     },
-    footnotes,
     newsletterCTA,
     pagination: {
       normal: {
@@ -114,7 +88,7 @@ const darkTheme = {
     },
     searchBox,
     searchError,
-    themeToggle,
+    button,
   },
   fonts: FONTS,
 }
