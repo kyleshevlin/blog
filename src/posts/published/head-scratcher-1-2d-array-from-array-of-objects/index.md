@@ -4,9 +4,10 @@ date: '2017-02-16'
 slug: 'head-scratcher-1-2d-array-from-array-of-objects'
 subtitle: 'Making a 2D Array by Sorting an Array of Objects'
 title: 'Head Scratcher #1'
+relevantCourseNickname: 'dsa'
 ---
 
-I am starting a new series called "Head Scratchers." At least once a week (probably once a day), I run into a problem that makes me scratch my head for while. So I'm going to share the problem and my solution with you. If you think of a better way to solve the problem, I want to see it in the comments below.
+I am starting a randomly occuring series called "Head Scratchers." At least once a week (probably once a day), I run into a problem that makes me scratch my head for while. So I'm going to share the problem and my solution with you. If you think of a better way to solve the problem, I want to see it in the comments below.
 
 ### The Problem
 
@@ -19,7 +20,7 @@ Currently I am building an application for an interactive touch table that will 
   { id: 2, port_id: 1 },
   { id: 3, port_id: 2 },
   { id: 4, port_id: 1 },
-  { id: 5, port_id: 3 }
+  { id: 5, port_id: 3 },
 ]
 ```
 
@@ -37,7 +38,7 @@ const items = [
   { id: 2, port_id: 1 },
   { id: 3, port_id: 2 },
   { id: 4, port_id: 1 },
-  { id: 5, port_id: 3 }
+  { id: 5, port_id: 3 },
 ]
 
 const ports = items.reduce((acc, cur) => {

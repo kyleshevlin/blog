@@ -1,14 +1,15 @@
 ---
-date: "2015-09-10"
-slug: "my-favorite-git-aliases"
-title: "My Favorite Git Aliases"
+date: '2015-09-10'
+slug: 'my-favorite-git-aliases'
+title: 'My Favorite Git Aliases'
+tags: ['Bash']
 ---
 
 If you're like me, you like to find patterns in your work and turn them into aliases and shortcuts in the terminal. I thought I'd share with you my current Git aliases, explaining a few along the way.
 
 For starters, you'll want to add these aliases to your `.gitconfig` file.
 
-```
+```bash
 [alias]
   br = branch
   brm = branch --merged
@@ -30,7 +31,6 @@ For starters, you'll want to add these aliases to your `.gitconfig` file.
   phom = push origin master
   reaper-nokill = remote prune --dry-run origin
   reaper = remote prune origin
-
 ```
 
 Most of these aliases are self explanatory, but let's go through some of the less common ones.

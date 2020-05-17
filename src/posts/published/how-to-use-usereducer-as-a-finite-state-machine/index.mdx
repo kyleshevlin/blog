@@ -12,6 +12,7 @@ relatedPostsSlugs:
     'our-first-xstate-machine',
     'xstate-visualizer',
   ]
+relevantCourseNickname: 'xstate'
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -34,7 +35,7 @@ I'm going to use the example of a light bulb like I do in my [XState course](htt
 const NEXT_STATE_GRAPH = {
   lit: {},
   unlit: {},
-  broken: {}
+  broken: {},
 }
 ```
 
@@ -44,13 +45,13 @@ Next, let's define the `events` that will transition each `state` to their next 
 const NEXT_STATE_GRAPH = {
   lit: {
     TOGGLE: 'unlit',
-    BREAK: 'broken'
+    BREAK: 'broken',
   },
   unlit: {
     TOGGLE: 'lit',
-    BREAK: 'broken'
+    BREAK: 'broken',
   },
-  broken: {}
+  broken: {},
 }
 ```
 
@@ -96,7 +97,7 @@ One small issue I ran into while implementing this was that our type system, Flo
 // Let's make an object of all our events with an undefined next state
 const NON_RESPONSIVE_EVENTS = {
   BREAK: undefined,
-  TOGGLE: undefined
+  TOGGLE: undefined,
 }
 
 // Now let's spread that object into all our states
@@ -104,16 +105,16 @@ const NEXT_STATE_GRAPH = {
   lit: {
     ...NON_RESPONSIVE_EVENTS,
     BREAK: 'broken',
-    TOGGLE: 'unlit'
+    TOGGLE: 'unlit',
   },
   unlit: {
     ...NON_RESPONSIVE_EVENTS,
     BREAK: 'broken',
-    TOGGLE: 'lit'
+    TOGGLE: 'lit',
   },
   broken: {
-    ...NON_RESPONSIVE_EVENTS
-  }
+    ...NON_RESPONSIVE_EVENTS,
+  },
 }
 ```
 

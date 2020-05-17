@@ -1,9 +1,11 @@
 ---
-tags: ['life story', 'pastor', 'programmer']
-date: "2018-02-05"
-slug: "from-pastor-to-programmer"
-subtitle: "or Telling My Story Once and For All"
-title: "From Pastor to Programmer"
+tags: ['Life Story']
+date: '2018-02-05'
+slug: 'from-pastor-to-programmer'
+subtitle: 'or Telling My Story Once and For All'
+title: 'From Pastor to Programmer'
+keywords: ['pastor', 'programmer', 'software engineer', 'web developer']
+description: 'In this article, Kyle Shevlin explains how he made the career change from being a pastor to a programmer.'
 ---
 
 I am often asked to share the story of how I went from being a Christian pastor to a software engineer. Now that I've started [Second Career Devs](https://secondcareerdevs.com), I am being asked this question so often that I thought it wise to write it down and answer it once and for all.
@@ -102,7 +104,7 @@ One Sunday, my wife and I attended a church here in Portland and I met a guy nam
 
 These two devs were kind enough to look at the portfolio of little projects I had built up over my year of coding. To my surprise, both of them thought I knew enough to go get a junior developer job. This was really the first time I had ever considered it as a potential career.
 
-I had tried for almost a year to become a pastor, had sunk about $90K into my education and was getting no where. This is when I remembered Dave's wisdom to think outside of the box. To pursue alternative avenues to success. So I decided to go for it. I was going to find a job as a web developer.
+I had tried for almost a year to become a pastor, had sunk about \$90K into my education and was getting no where. This is when I remembered Dave's wisdom to think outside of the box. To pursue alternative avenues to success. So I decided to go for it. I was going to find a job as a web developer.
 
 I applied to basically anything I could find. Seriously. Every job website. Every Craigslist ad. Luckily, the market here was booming and it wasn't flooded with junior devs. Within two months, I had a few offers. I chose to start my career with [FINE](https://wearefine.com) and the rest is history.
 

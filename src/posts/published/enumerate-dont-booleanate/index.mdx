@@ -4,6 +4,7 @@ date: '2020-01-25'
 slug: 'enumerate-dont-booleanate'
 title: "Enumerate, Don't Booleanate"
 description: 'We learn how to use booleans early and often, but they are not the right tool for the job sometimes. A enum may solve our problems with greater precision.'
+relevantCourseNickname: 'xstate'
 ---
 
 I want to teach you something that's taken me a few years to learn and a lot of trial and error. I could teach it to you in a couple tweets, but I want to take you on a bit of a journey instead. I want to show a problem, and show you different ways I would attempt to solve it as I go from "naive Kyle" (who am I kidding, I'm probably still naive Kyle) to "knows better Kyle".
@@ -214,7 +215,7 @@ const DONUT_FORM_STATES = {
   idle: 'idle',
   submitting: 'submitting',
   success: 'success',
-  failure: 'failure'
+  failure: 'failure',
 }
 ```
 
@@ -233,18 +234,18 @@ The next thing slightly more experienced Kyle realizes is that we can only _tran
 ```javascript
 const DONUT_FORM_TRANSITIONS = {
   [DONUT_FORM_STATES.idle]: {
-    SUBMIT: DONUT_FORM_STATES.submitting
+    SUBMIT: DONUT_FORM_STATES.submitting,
   },
   [DONUT_FORM_STATES.submitting]: {
     SUCCEED: DONUT_FORM_STATES.success,
-    FAIL: DONUT_FORM_STATES.failure
+    FAIL: DONUT_FORM_STATES.failure,
   },
   [DONUT_FORM_STATES.success]: {
-    RESET: DONUT_FORM_STATES.idle
+    RESET: DONUT_FORM_STATES.idle,
   },
   [DONUT_FORM_STATES.failure]: {
-    SUBMIT: DONUT_FORM_STATES.submitting
-  }
+    SUBMIT: DONUT_FORM_STATES.submitting,
+  },
 }
 ```
 
@@ -347,7 +348,7 @@ With XState, knows-even-a-little-bit-better Kyle can create a state chart that c
 const chart = {
   id: 'donutForm',
   initial: '',
-  states: {}
+  states: {},
 }
 ```
 
@@ -357,7 +358,7 @@ const chart = {
 const chart = {
   id: 'donutForm',
   initial: 'idle',
-  states: {}
+  states: {},
 }
 ```
 
@@ -371,8 +372,8 @@ const chart = {
     idle: {},
     submitting: {},
     success: {},
-    failure: {}
-  }
+    failure: {},
+  },
 }
 ```
 
@@ -384,21 +385,21 @@ const chart = {
   initial: 'idle',
   states: {
     idle: {
-      on: { SUBMIT: 'submitting' }
+      on: { SUBMIT: 'submitting' },
     },
     submitting: {
       on: {
         SUCCEED: 'success',
-        FAIL: 'failure'
-      }
+        FAIL: 'failure',
+      },
     },
     success: {
-      on: { RESET: 'idle' }
+      on: { RESET: 'idle' },
     },
     failure: {
-      on: { SUBMIT: 'submitting' }
-    }
-  }
+      on: { SUBMIT: 'submitting' },
+    },
+  },
 }
 ```
 

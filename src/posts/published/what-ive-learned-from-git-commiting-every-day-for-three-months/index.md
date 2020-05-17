@@ -1,9 +1,11 @@
 ---
-date: "2017-08-02"
-slug: "what-ive-learned-from-git-commiting-every-day-for-three-months"
-subtitle: "or Code and the Shackles of Behavioral Psychology"
+date: '2017-08-02'
+slug: 'what-ive-learned-from-git-commiting-every-day-for-three-months'
+subtitle: 'or Code and the Shackles of Behavioral Psychology'
 title: "What I've Learned From Git Commiting Every Day for Three Months"
 ---
+
+Update: I eventually committed every day for a year. I don't think it was worth it.
 
 I want to say this up front, I did not _intend_ to do this. I never had a plan to get a streak of commits going. Frankly, I noticed that I had done it naturally for a few weeks and decided to keep it up. Now it's kind of at the point where I waver on a daily basis between keeping it going and letting it die. I thought I would share some of the things I've learned in that time period. Hopefully, with a little humor.
 

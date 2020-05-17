@@ -13,6 +13,7 @@ relatedPostsSlugs:
     'our-first-xstate-machine',
     'what-are-state-machines',
   ]
+relevantCourseNickname: 'xstate'
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -85,7 +86,7 @@ function statechart(string) {
   const id = string.trim()
 
   return {
-    id
+    id,
   }
 }
 ```
@@ -119,7 +120,7 @@ function statechart(string) {
 
   return {
     id,
-    initial
+    initial,
   }
 }
 ```
@@ -144,13 +145,13 @@ describe('statechart', () => {
     expect(chart.states).toEqual({
       lit: {
         TOGGLE: 'unlit',
-        BREAK: 'broken'
+        BREAK: 'broken',
       },
       unlit: {
         TOGGLE: 'lit',
-        BREAK: 'broken'
+        BREAK: 'broken',
       },
-      broken: {}
+      broken: {},
     })
   })
 })
@@ -170,7 +171,7 @@ const stateNodes = stateStrings
   .map(([start, end, event]) => ({
     start,
     end,
-    event
+    event,
   }))
 ```
 
@@ -201,7 +202,7 @@ function statechart(string) {
     // [event]: end key/value pairs
     acc[start].on = {
       ...acc[start].on,
-      [event]: end
+      [event]: end,
     }
 
     return acc
@@ -210,7 +211,7 @@ function statechart(string) {
   return {
     id,
     initial,
-    states
+    states,
   }
 }
 ```

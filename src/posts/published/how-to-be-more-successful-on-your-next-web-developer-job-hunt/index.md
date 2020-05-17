@@ -1,7 +1,9 @@
 ---
-date: "2018-09-28"
-slug: "how-to-be-more-successful-on-your-next-web-developer-job-hunt"
-title: "How to be More Successful on Your Next Web Developer Job Hunt"
+date: '2018-09-28'
+slug: 'how-to-be-more-successful-on-your-next-web-developer-job-hunt'
+title: 'How to be More Successful on Your Next Web Developer Job Hunt'
+tags: ['Career Changing']
+relevantCourseNickname: 'dsa'
 ---
 
 If you follow me on Twitter, you may have seen this [tweet](https://twitter.com/kyleshevlin/status/1041735370478542851) go out into the universe. I'm in the process of exploring the next part of my career and asking you all to help me do that by spreading the word. Don't think spreading the word can make a difference? It totally can.

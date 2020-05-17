@@ -12,6 +12,7 @@ relatedPostsSlugs:
     'xstate-visualizer',
     'enumerate-dont-booleanate',
   ]
+relevantCourseNickname: 'xstate'
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -50,7 +51,7 @@ const unlit = {}
 
 const states = {
   lit,
-  unlit
+  unlit,
 }
 ```
 
@@ -58,10 +59,10 @@ Next, let's define the possible transitions for each state to the other states. 
 
 ```javascript
 const lit = {
-  on: { TURN_OFF: 'unlit' }
+  on: { TURN_OFF: 'unlit' },
 }
 const unlit = {
-  on: { TURN_ON: 'lit' }
+  on: { TURN_ON: 'lit' },
 }
 ```
 
@@ -75,22 +76,22 @@ Let's combine what we've written so far into an actual XState machine. Machines 
 import { Machine } from 'xstate'
 
 const lit = {
-  on: { TURN_OFF: 'unlit' }
+  on: { TURN_OFF: 'unlit' },
 }
 
 const unlit = {
-  on: { TURN_ON: 'lit' }
+  on: { TURN_ON: 'lit' },
 }
 
 const states = {
   lit,
-  unlit
+  unlit,
 }
 
 const lightBulbMachine = Machine({
   id: 'lightBulb',
   initial: 'unlit',
-  states
+  states,
 })
 ```
 
@@ -104,12 +105,12 @@ const lightBulbMachine = Machine({
   initial: 'unlit',
   states: {
     lit: {
-      on: { TURN_OFF: 'unlit' }
+      on: { TURN_OFF: 'unlit' },
     },
     unlit: {
-      on: { TURN_ON: 'lit' }
-    }
-  }
+      on: { TURN_ON: 'lit' },
+    },
+  },
 })
 ```
 
@@ -154,19 +155,19 @@ const lightBulbMachine = Machine({
     lit: {
       on: {
         TURN_OFF: 'unlit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     unlit: {
       on: {
         TURN_ON: 'lit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     broken: {
-      type: 'final'
-    }
-  }
+      type: 'final',
+    },
+  },
 })
 ```
 
@@ -193,8 +194,8 @@ const breakEvent = {
   BREAK: {
     // BREAK: 'broken' is a shorthand for BREAK: { target: 'broken' }
     target: 'broken',
-    actions: ['informUserOfBrokeLightBulb']
-  }
+    actions: ['informUserOfBrokeLightBulb'],
+  },
 }
 
 const lightBulbMachine = Machine(
@@ -206,20 +207,20 @@ const lightBulbMachine = Machine(
         entry: 'enterLit', // If only a single action is taken, a string will suffice
         on: {
           TURN_OFF: 'unlit',
-          ...breakEvent
-        }
+          ...breakEvent,
+        },
       },
       unlit: {
         exit: ['leaveUnlit'],
         on: {
           TURN_ON: 'lit',
-          ...breakEvent
-        }
+          ...breakEvent,
+        },
       },
       broken: {
-        type: 'final'
-      }
-    }
+        type: 'final',
+      },
+    },
   },
   {
     actions: {
@@ -235,8 +236,8 @@ const lightBulbMachine = Machine(
         // we can put more information on an event object, such as
         // { type: 'BREAK', bulbId: 'someUUIDOrSomething' }
         contactUserAboutBrokenBulb(event.bulbId)
-      }
-    }
+      },
+    },
   }
 )
 ```
@@ -265,25 +266,25 @@ const lightBulbMachine = Machine({
   initial: 'unlit',
   // We'll add `context` here
   context: {
-    color: '#fff'
+    color: '#fff',
   },
   states: {
     lit: {
       on: {
         TURN_OFF: 'unlit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     unlit: {
       on: {
         TURN_ON: 'lit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     broken: {
-      type: 'final'
-    }
-  }
+      type: 'final',
+    },
+  },
 })
 ```
 
@@ -298,38 +299,38 @@ const lightBulbMachine = Machine(
     initial: 'unlit',
     // We'll add `context` here
     context: {
-      color: '#fff'
+      color: '#fff',
     },
     states: {
       lit: {
         on: {
           CHANGE_COLOR: {
-            actions: ['updateColor']
+            actions: ['updateColor'],
           },
           TURN_OFF: 'unlit',
-          BREAK: 'broken'
-        }
+          BREAK: 'broken',
+        },
       },
       unlit: {
         on: {
           CHANGE_COLOR: {
-            actions: ['updateColor']
+            actions: ['updateColor'],
           },
           TURN_ON: 'lit',
-          BREAK: 'broken'
-        }
+          BREAK: 'broken',
+        },
       },
       broken: {
-        type: 'final'
-      }
-    }
+        type: 'final',
+      },
+    },
   },
   {
     actions: {
       updateColor: assign((context, event) => ({
-        color: event.color
-      }))
-    }
+        color: event.color,
+      })),
+    },
   }
 )
 ```
@@ -342,7 +343,7 @@ We've added a `CHANGE_COLOR` event to the `lit` and `unlit` states. We can send 
 
 ```javascript
 assign({
-  color: '#f00'
+  color: '#f00',
 })
 ```
 
@@ -350,7 +351,7 @@ assign({
 
 ```javascript
 assign((context, event) => ({
-  color: event.color
+  color: event.color,
 }))
 ```
 
@@ -358,7 +359,7 @@ assign((context, event) => ({
 
 ```javascript
 assign({
-  color: (context, event) => event.color
+  color: (context, event) => event.color,
 })
 ```
 
@@ -369,7 +370,7 @@ Now that we understand `assign` actions, let's use it on our light bulb machine 
 ```javascript
 const nextState = lightBulbMachine.transition('lit', {
   type: 'CHANGE_COLOR',
-  color: '#f00'
+  color: '#f00',
 }) // { value: 'lit', context: { color: '#f00' } }
 ```
 
@@ -634,37 +635,37 @@ const lightBulbMachine = Machine({
       states: {
         low: {
           on: {
-            INCREASE_BRIGHTNESS: 'normal'
-          }
+            INCREASE_BRIGHTNESS: 'normal',
+          },
         },
         normal: {
           on: {
             DECREASE_BRIGHTNESS: 'low',
-            INCREASE_BRIGHTNESS: 'high'
-          }
+            INCREASE_BRIGHTNESS: 'high',
+          },
         },
         high: {
           on: {
-            DECREASE_BRIGHTNESS: 'normal'
-          }
-        }
+            DECREASE_BRIGHTNESS: 'normal',
+          },
+        },
       },
       // Child states end here
       on: {
         TURN_OFF: 'unlit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     unlit: {
       on: {
         TURN_ON: 'lit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     broken: {
-      type: 'final'
-    }
-  }
+      type: 'final',
+    },
+  },
 })
 ```
 
@@ -702,52 +703,52 @@ const lightBulbMachine = Machine({
             steady: {
               on: {
                 PULSE: 'pulsing',
-                FLASH: 'flashing'
-              }
+                FLASH: 'flashing',
+              },
             },
             pulsing: {
               on: {
                 STEADY: 'steady',
-                FLASH: 'flashing'
-              }
+                FLASH: 'flashing',
+              },
             },
             flashing: {
               on: {
                 STEADY: 'steady',
-                PULSE: 'pulsing'
-              }
-            }
-          }
+                PULSE: 'pulsing',
+              },
+            },
+          },
         },
         // 2nd parallel state
         movement: {
           initial: 'stationary',
           states: {
             stationary: {
-              on: { OSCILLATE: 'oscillating' }
+              on: { OSCILLATE: 'oscillating' },
             },
             oscillating: {
-              on: { STOP: 'stationary' }
-            }
-          }
-        }
+              on: { STOP: 'stationary' },
+            },
+          },
+        },
       },
       // parallel child states end here
       on: {
         TURN_OFF: 'unlit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     unlit: {
       on: {
         TURN_ON: 'lit',
-        BREAK: 'broken'
-      }
+        BREAK: 'broken',
+      },
     },
     broken: {
-      type: 'final'
-    }
-  }
+      type: 'final',
+    },
+  },
 })
 ```
 

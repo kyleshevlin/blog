@@ -3,6 +3,9 @@ date: '2018-09-15'
 slug: '3-tips-for-changing-your-career-to-coding'
 subtitle: 'and One Bonus Tip! (Why Keep You in Suspense, Right?!)'
 title: '3 Tips for Changing Your Career to Coding'
+description: 'In this post, Kyle Shevlin shares several tips on how to make a career change into web development and software engineering'
+relevantCourseNickname: 'dsa'
+tags: ['Career Changing']
 ---
 
 Friday night, after [React Rally 2018](https://www.reactrally.com/), I led a group of intrepid devs to Beer Bar in downtown Salt Lake City for what I like to call "the unofficial after after party". Our group was quite large, so we ended up divided amongst two large tables. Our particular table only had a handful of our group. It was [Chris Ball](https://twitter.com/cball_), [Gabe Ricard](https://twitter.com/GabeRicard), and myself. The other half of our table was eventually filled with total strangers.

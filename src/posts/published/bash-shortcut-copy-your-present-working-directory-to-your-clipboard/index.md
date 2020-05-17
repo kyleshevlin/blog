@@ -2,6 +2,7 @@
 date: '2015-07-25'
 slug: 'bash-shortcut-copy-your-present-working-directory-to-your-clipboard'
 title: 'Bash Shortcut: Copy your Present Working Directory to your Clipboard'
+tags: ['Bash', 'Tips & Tricks']
 ---
 
 Like most developers, I'm always looking for ways to increase my efficiency. One way I like to do this is through [Bash](<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>) functions.

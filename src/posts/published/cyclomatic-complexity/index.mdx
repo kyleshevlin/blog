@@ -6,6 +6,7 @@ subtitle: ''
 description: 'Understanding cyclomatic complexity and how to manage it can level you up as a programmer'
 tags: ['Data Structures & Algorithms', 'Computer Science']
 relatedPostsSlugs: ['when-elses-make-your-code-worse']
+relevantCourseNickname: 'dsa'
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -358,7 +359,7 @@ If we pay attention, we can see that each of these groups takes `dynData` and co
 const updateBindings = ({
   collectionId,
   collections,
-  hasBindableItem
+  hasBindableItem,
 }) => dynData => {
   const bindingData = dynData
     .get('bind', Map())
@@ -379,7 +380,7 @@ const updateConditions = ({
   collections,
   hasBindableItem,
   hasPageItem,
-  pageCollection
+  pageCollection,
 }) => dynData => {
   const conditionData = dynData
     .getIn(COND_VIS_DATA_PATH, Map())
@@ -401,7 +402,7 @@ const updateConditions = ({
 const updateFilters = ({
   bindableCollection,
   hasPageItem,
-  listCollection
+  listCollection,
 }) => dynData => {
   const filterPath = ['query', 'fields']
   let fields = dynData.getIn(filterPath, [])

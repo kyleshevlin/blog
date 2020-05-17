@@ -5,6 +5,7 @@ slug: 'when-elses-make-your-code-worse'
 title: 'When `else`s Make Your Code Worse'
 subtitle: 'or An Example on How Small Refactors Can Improve Your Code'
 description: 'In this article, Kyle Shevlin teaches us how we can simplify the conditional logic of our code by refactoring it without `else` blocks.'
+relevantCourseNickname: 'dsa'
 ---
 
 import EggheadEmbed from '../../../components/EggheadEmbed'
@@ -45,7 +46,7 @@ function unimportantName(options) {
         lte: [String(value), value2, 'from now', 'starting end of today'].join(
           ' '
         ),
-        gte: !value3 ? 'today' : 'tomorrow'
+        gte: !value3 ? 'today' : 'tomorrow',
       }
     } else {
       return { gte: 'today', lte: 'end of today' }
@@ -75,7 +76,7 @@ function unimportantName(options) {
       lte: [String(value), value2, 'from now', 'starting end of today'].join(
         ' '
       ),
-      gte: !value3 ? 'today' : 'tomorrow'
+      gte: !value3 ? 'today' : 'tomorrow',
     }
   } else {
     return { gte: 'today', lte: 'end of today' }
@@ -101,7 +102,7 @@ function unimportantName(options) {
 
   return {
     lte: [String(value), value2, 'from now', 'starting end of today'].join(' '),
-    gte: !value3 ? 'today' : 'tomorrow'
+    gte: !value3 ? 'today' : 'tomorrow',
   }
 }
 ```
@@ -124,7 +125,7 @@ function unimportantName(options) {
 
   return {
     lte: `${String(value)} ${value2} from now starting end of today`,
-    gte: !value3 ? 'today' : 'tomorrow'
+    gte: !value3 ? 'today' : 'tomorrow',
   }
 }
 ```

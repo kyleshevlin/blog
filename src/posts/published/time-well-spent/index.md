@@ -1,9 +1,9 @@
 ---
-tags: ['OSS', 'Programming', 'Time Management']
-date: "2017-10-31"
-slug: "time-well-spent"
-subtitle: "or You Want to Learn From the Best, You Gotta Go Where the Best Are"
-title: "Time Well Spent"
+tags: ['Open Source', 'Programming', 'Time Management']
+date: '2017-10-31'
+slug: 'time-well-spent'
+subtitle: 'or You Want to Learn From the Best, You Gotta Go Where the Best Are'
+title: 'Time Well Spent'
 ---
 
 **Warning**: This is not a technical post. This is an introspective post that you _may_ or _may not_ find useful. Thought you should know.

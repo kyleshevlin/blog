@@ -1,9 +1,9 @@
 ---
-tags: ['LiveCoding', 'React']
-date: "2017-10-12"
-slug: "the-twitch-stream"
-subtitle: "or How I Can Teach Others and Feel Less Lonely While Working on Side Projects"
-title: "The Twitch Stream!"
+tags: ['Live Coding', 'React']
+date: '2017-10-12'
+slug: 'the-twitch-stream'
+subtitle: 'or How I Can Teach Others and Feel Less Lonely While Working on Side Projects'
+title: 'The Twitch Stream!'
 ---
 
 I want to let everyone know that I am now streaming on Twitch! Not this very moment of course (or maybe, depends when you read this), but at this general period of time.

@@ -1,7 +1,8 @@
 ---
-date: "2018-08-21"
-slug: "let-me-tell-you-about-this-cat"
-title: "Let Me Tell You About This Cat"
+date: '2018-08-21'
+slug: 'let-me-tell-you-about-this-cat'
+title: 'Let Me Tell You About This Cat'
+tags: ['Life Story']
 ---
 
 The events of this story took place several months ago, but let me tell you, they are as vivid to me now as they were then. It's going to sound a bit ridiculous, but I had a chance encounter with a cat that I don't think I'll forget for the rest of my life. I'm hoping you'll find the story quite impactful as well.
