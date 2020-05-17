@@ -1,4 +1,5 @@
 import React from 'react'
+import debounce from 'lodash.debounce'
 import {
   Configure,
   connectHits,
@@ -18,8 +19,17 @@ import SearchIcon from './icons/Search'
 import CloseIcon from './icons/Close'
 import * as PaginationStyles from './Pagination'
 
-const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+const SearchBox = connectSearchBox(({ refine }) => {
   const theme = useTheme()
+
+  const debouncedRefine = debounce(event => {
+    refine(event.target.value)
+  }, 500)
+
+  const handleChange = event => {
+    event.persist()
+    debouncedRefine(event)
+  }
 
   return (
     <div css={{ marginBottom: bs(0.5) }}>
@@ -49,9 +59,8 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
         }}
         id="search"
         name="search"
-        onChange={event => refine(event.currentTarget.value)}
+        onChange={handleChange}
         type="search"
-        value={currentRefinement}
       />
     </div>
   )
