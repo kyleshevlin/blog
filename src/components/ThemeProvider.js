@@ -43,6 +43,11 @@ const searchBox = {
   text: COLORS.black,
 }
 
+const searchError = {
+  background: COLORS.red,
+  text: COLORS.white,
+}
+
 const themeToggle = {
   background: COLORS.teal,
   text: COLORS.white,
@@ -75,6 +80,7 @@ const lightTheme = {
       },
     },
     searchBox,
+    searchError,
     themeToggle,
   },
   fonts: FONTS,
@@ -107,6 +113,7 @@ const darkTheme = {
       },
     },
     searchBox,
+    searchError,
     themeToggle,
   },
   fonts: FONTS,

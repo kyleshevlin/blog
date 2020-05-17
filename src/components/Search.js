@@ -163,7 +163,22 @@ const Pagination = connectPagination(
   }
 )
 
-const Results = connectStateResults(({ closeModal, searchResults }) => {
+const Results = connectStateResults(({ closeModal, error, searchResults }) => {
+  if (error) {
+    return (
+      <div
+        css={theme => ({
+          backgroundColor: theme.components.searchError.background,
+          color: theme.components.searchError.text,
+          padding: `${bs(0.5)} ${bs()}`,
+        })}
+      >
+        Sorry, there was an error and search is unavailable at this time. Please
+        try again later.
+      </div>
+    )
+  }
+
   return searchResults &&
     searchResults.query &&
     searchResults.query.length > 0 ? (
