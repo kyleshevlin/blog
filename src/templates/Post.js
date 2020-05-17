@@ -41,12 +41,15 @@ const Post = ({
       date,
       description,
       keywords,
+      relevantCourseNickname,
       slug,
       subtitle,
       tags,
       title,
     },
   } = file
+
+  // console.log({ relevantCourseNickname })
 
   return (
     <Fragment>
@@ -116,7 +119,7 @@ const Post = ({
           relatedPosts={relatedPosts}
         />
 
-        <AddedValue />
+        <AddedValue courseNickname={relevantCourseNickname} />
 
         <PostAuthor />
       </div>
@@ -169,6 +172,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         description
         keywords
+        relevantCourseNickname
         slug
         subtitle
         tags

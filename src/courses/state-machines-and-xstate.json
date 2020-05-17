@@ -1,6 +1,7 @@
 {
   "date": "2019-12-18",
   "title": "Introduction to State Machines and XState",
+  "nickname": "xstate",
   "description": "This is an introduction course for state machines and the XState library, taught in JavaScript.",
   "logo": "../images/StateMachinesXState.png",
   "eggheadUrl": "https://egghead.io/courses/introduction-to-state-machines-using-xstate",

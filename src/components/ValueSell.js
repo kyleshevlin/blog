@@ -5,20 +5,39 @@ import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 
-export default function ValueSell() {
+const randomIndex = length => Math.floor(Math.random() * length)
+
+const chooseCourse = (courses, nickname) => {
+  if (!courses.length) {
+    return null
+  }
+
+  const randomCourse = courses[randomIndex(courses.length)]
+
+  if (!nickname) return randomCourse
+
+  const course = courses.find(course => course.nickname === nickname)
+
+  if (!course) return randomCourse
+
+  return course
+}
+
+export default function ValueSell({ courseNickname }) {
   const theme = useTheme()
 
   return (
     <StaticQuery
       query={graphql`
-        query LatestCourse {
-          allCoursesJson(sort: { fields: date, order: DESC }, limit: 1) {
+        query AllCourses {
+          allCoursesJson(sort: { fields: date, order: DESC }) {
             edges {
               node {
                 logo {
                   publicURL
                 }
                 title
+                nickname
                 eggheadUrl
               }
             }
@@ -26,11 +45,16 @@ export default function ValueSell() {
         }
       `}
       render={data => {
+        const courses = data.allCoursesJson.edges.map(edge => edge.node)
+        const course = chooseCourse(courses, courseNickname)
+
+        if (!course) return null
+
         const {
           logo: { publicURL },
           title,
           eggheadUrl,
-        } = data.allCoursesJson.edges[0].node
+        } = course
         const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
         return (
@@ -81,7 +105,16 @@ export default function ValueSell() {
                   },
                 }}
               >
-                <h2>Check out my latest course on egghead.io!</h2>
+                <h2>Watch my courses on egghead.io!</h2>
+                <div
+                  css={theme => ({
+                    fontFamily: theme.fonts.catamaran,
+                    marginBottom: bs(0.5),
+                  })}
+                >
+                  Liked the post? You might like my video lessons, too. Click
+                  the link below to get started.
+                </div>
                 <a href={eggheadUrlWithParams}>
                   <h3>{title}</h3>
                 </a>

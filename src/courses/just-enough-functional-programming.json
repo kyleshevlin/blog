@@ -1,6 +1,7 @@
 {
   "date": "2019-03-22",
   "title": "Just Enough Functional Programming",
+  "nickname": "fp",
   "description": "Learn the fundamentals of functional programming, taught in JavaScript.",
   "logo": "../images/Just-Enough.png",
   "eggheadUrl": "https://egghead.io/courses/just-enough-functional-programming-in-javascript",
