@@ -13,6 +13,7 @@ relatedPostsSlugs:
     'our-first-xstate-machine',
     'xstate-visualizer',
   ]
+relevantCourseNickname: 'xstate'
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
@@ -27,7 +28,7 @@ In XState, infinite state data is stored on the `context` object of the state ma
 ```jsx
 const initial = {
   current: 'unlit',
-  data: {}
+  data: {},
 }
 
 //...
@@ -77,7 +78,7 @@ const reducer = (state, event) => {
 
   return {
     current: nextState,
-    data: nextData
+    data: nextData,
   }
 }
 ```
@@ -107,7 +108,7 @@ const reducer = (state, event) => {
 
   return {
     current: nextState,
-    data: nextData
+    data: nextData,
   }
 }
 ```
@@ -127,16 +128,16 @@ const NEXT_STATE_GRAPH = {
     ...BREAK_EVENT,
     ...RESET_EVENT,
     CHANGE_COLOR: 'lit', // Notice we stay in the same state
-    TOGGLE: 'unlit'
+    TOGGLE: 'unlit',
   },
   unlit: {
     ...BREAK_EVENT,
     ...RESET_EVENT,
-    TOGGLE: 'lit'
+    TOGGLE: 'lit',
   },
   broken: {
-    ...RESET_EVENT
-  }
+    ...RESET_EVENT,
+  },
 }
 ```
 
@@ -145,7 +146,7 @@ We also need a way for `CHANGE_COLOR` to trigger an update to our `data`. The wa
 ```javascript
 const DATA_UPDATERS = {
   CHANGE_COLOR: (data, event) => ({ ...data, color: event.color }),
-  RESET: () => initial.data
+  RESET: () => initial.data,
 }
 ```
 
@@ -170,7 +171,7 @@ const reducer = (state, event) => {
 
   return {
     current: nextState,
-    data: nextData
+    data: nextData,
   }
 }
 ```
@@ -183,7 +184,7 @@ const COLORS = [
   { name: 'white', value: '#feffeb' },
   { name: 'red', value: '#ff674f' },
   { name: 'blue', value: '#5cb6ff' },
-  { name: 'green', value: '#8ff244' }
+  { name: 'green', value: '#8ff244' },
 ]
 
 function HueLightBulb() {
