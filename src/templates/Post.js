@@ -49,8 +49,6 @@ const Post = ({
     },
   } = file
 
-  // console.log({ relevantCourseNickname })
-
   return (
     <Fragment>
       <Seo title={title} description={description} keywords={keywords || []} />
