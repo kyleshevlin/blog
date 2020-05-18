@@ -12,34 +12,12 @@
 
 const fs = require('fs')
 const path = require('path')
+const { fromDir } = require('./utils')
 
 const POSTS_PATH = path.resolve('./src/posts/published')
 
 const SLUG_PATTERN = /(?<=slug: )'.*?'/g
 const RELATED_POSTS_PATTERN = /(?<=relatedPostsSlugs.*?)\[.*?\]/gms
-
-function fromDir(startingPath, regexPattern, callback) {
-  if (!fs.existsSync) {
-    console.error('No directory', startingPath)
-    return
-  }
-
-  const files = fs.readdirSync(startingPath)
-
-  files.forEach(file => {
-    const filename = path.join(startingPath, file)
-    const stat = fs.lstatSync(filename)
-
-    if (stat.isDirectory()) {
-      fromDir(filename, regexPattern, callback)
-      return
-    }
-
-    if (regexPattern.test(filename)) {
-      callback(filename)
-    }
-  })
-}
 
 function fixRelatedPosts() {
   // Get all the mardown and mdx files
@@ -84,7 +62,7 @@ function fixRelatedPosts() {
         const result = otherPostRelatedPosts.includes(slug)
 
         if (!result) {
-          console.log(`${rpSlug} IS MISSING ${slug}`)
+          console.log(`${rpSlug} IS MISSING POST ${slug}`)
         }
       })
     }
