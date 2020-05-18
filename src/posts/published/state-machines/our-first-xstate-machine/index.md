@@ -2,7 +2,15 @@
 date: '2019-01-22'
 description: 'How do we create a state machine using the XState library. In this article, we will create our first state machine using XState.'
 keywords: ['state machines', 'finite state automata', 'XState']
-relatedPostsSlugs: ['what-are-state-machines', 'xstate-visualizer']
+relatedPostsSlugs:
+  [
+    'what-are-state-machines',
+    'xstate-visualizer',
+    'how-to-use-usereducer-as-a-finite-state-machine',
+    'adding-infinite-states-to-a-use-reducer-finite-state-machine',
+    'can-a-state-machine-be-a-string',
+    'guidelines-for-state-machines-and-xstate',
+  ]
 slug: 'our-first-xstate-machine'
 tags: ['State Machines']
 title: 'State Machines: Our First XState Machine'
@@ -33,8 +41,8 @@ const elevatorMachine = Machine({
   states: {
     stop: {},
     up: {},
-    down: {}
-  }
+    down: {},
+  },
 })
 ```
 
@@ -49,8 +57,8 @@ const elevatorMachine = Machine({
   states: {
     stop: {},
     up: {},
-    down: {}
-  }
+    down: {},
+  },
 })
 ```
 
@@ -118,7 +126,7 @@ Absolutely nothing! Which is exactly what we want to happen. Only defined events
 
 ```javascript
 const elevatorMachine = Machine({
-  strict: true
+  strict: true,
   // ...the rest of the machine configuration from before
 })
 
@@ -131,7 +139,7 @@ Whoops! XState didn't like that. An error was thrown indicating an unaccounted e
 
 ```javascript
 const elevatorMachine = Machine({
-  id: 'elevator-1'
+  id: 'elevator-1',
   // ... the rest of the machine configuration from before
 })
 

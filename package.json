@@ -55,13 +55,14 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "start": "npm run develop",
+    "fixRelatedPosts": "node ./scripts/fixRelatedPosts.js",
     "format": "prettier --loglevel=error --write \"src/**/*.js\"",
     "lint": "eslint ./src",
-    "newpost": "node ./scripts/newPost.js",
     "newmdx": "node ./scripts/newMdx.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "newpost": "node ./scripts/newPost.js",
+    "start": "npm run develop",
+    "test:watch": "jest --watch",
+    "test": "jest"
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.27",

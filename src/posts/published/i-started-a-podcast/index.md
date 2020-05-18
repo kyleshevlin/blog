@@ -1,9 +1,9 @@
 ---
 tags: ['Podcast']
-date: "2017-11-27"
-slug: "i-started-a-podcast"
+date: '2017-11-27'
+slug: 'i-started-a-podcast'
 subtitle: "or the Awesome Stories Y'all Need to Hear"
-title: "I Started a Podcast"
+title: 'I Started a Podcast'
 relatedPostsSlugs: ['the-future-of-second-career-devs']
 ---
 

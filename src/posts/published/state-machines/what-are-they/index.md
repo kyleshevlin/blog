@@ -2,7 +2,15 @@
 date: '2019-01-21'
 description: 'What is a state machine? A state machine is a way to represent all the enumerated possible states and events of a given system. In this article, we will create a rudimentary state machine and interpreter in JavaScript.'
 keywords: ['state machines', 'finite state automata']
-relatedPostsSlugs: ['our-first-xstate-machine', 'xstate-visualizer']
+relatedPostsSlugs:
+  [
+    'our-first-xstate-machine',
+    'xstate-visualizer',
+    'how-to-use-usereducer-as-a-finite-state-machine',
+    'adding-infinite-states-to-a-use-reducer-finite-state-machine',
+    'can-a-state-machine-be-a-string',
+    'guidelines-for-state-machines-and-xstate',
+  ]
 slug: 'what-are-state-machines'
 tags: ['State Machines']
 title: 'State Machines: What Are They?'
@@ -20,7 +28,7 @@ Let's consider a very simple example, a light switch. A light switch has two fin
 
 ```javascript
 const lightSwitch = {
-  states: ['on', 'off']
+  states: ['on', 'off'],
 }
 ```
 
@@ -29,7 +37,7 @@ A state machine also requires an initial state, so let's add that as well. We'll
 ```javascript
 const lightSwitch = {
   initial: 'off',
-  states: ['on', 'off']
+  states: ['on', 'off'],
 }
 ```
 
@@ -43,15 +51,15 @@ const lightSwitch = {
   states: {
     on: {
       events: {
-        SWITCH: 'off'
-      }
+        SWITCH: 'off',
+      },
     },
     off: {
       events: {
-        SWITCH: 'on'
-      }
-    }
-  }
+        SWITCH: 'on',
+      },
+    },
+  },
 }
 ```
 
@@ -79,7 +87,7 @@ const interpreter = machine => {
         machine.states[currentState].events[event] || currentState
       currentState = nextState
       return nextState
-    }
+    },
   }
 }
 ```

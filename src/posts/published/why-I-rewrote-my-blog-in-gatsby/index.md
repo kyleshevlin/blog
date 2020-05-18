@@ -4,6 +4,11 @@ subtitle: 'Or How to Respond When Your WordPress Blog Gets Hacked'
 date: '2019-01-09'
 slug: 'why-i-rewrote-my-blog-with-gatsby'
 tags: ['Gatsby', 'React']
+relatedPostsSlugs:
+  [
+    'firebase-and-gatsby-together-at-last',
+    'how-to-add-algolia-search-to-a-gatsby-site',
+  ]
 ---
 
 A couple weeks back now, I was starting to write a blog post to recap my 2018. I thought it would be a good idea to reference my goals for 2018 and started to review that post when I discovered something interesting. As I was reading a paragraph, I noticed some words that didn't sound like my voice. As I read further, there was a link to an air compressor. I assure you, I don't own an air compressor (yet) and I certainly would never put it in my article about my 2018 goals.
