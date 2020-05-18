@@ -10,7 +10,7 @@ const linkStyles = css`
   margin-bottom: ${bs(0.5)};
 `
 const Tags = ({ data, ...props }) => {
-  const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
+  const posts = data.allMdx.edges.map(edge => edge.node)
   const { tag } = props.pageContext
 
   return (
@@ -39,7 +39,7 @@ export default Tags
 
 export const pageQuery = graphql`
   query($tag: String) {
-    allMarkdownRemark(
+    allMdx(
       filter: {
         fileAbsolutePath: { regex: "/posts/" }
         frontmatter: { tags: { in: [$tag] } }
