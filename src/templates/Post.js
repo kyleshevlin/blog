@@ -229,7 +229,7 @@ function EditSVG({ fill = '#000', width }) {
 }
 
 function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
-  return relatedPosts ? (
+  return relatedPosts && relatedPosts.length ? (
     <RelatedPosts posts={relatedPosts} />
   ) : (
     <div css={{ marginTop: bs(2) }}>
