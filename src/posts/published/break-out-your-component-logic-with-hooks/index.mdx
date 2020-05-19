@@ -1,0 +1,250 @@
+---
+date: '2020-05-19'
+slug: 'break-out-your-component-logic-with-hooks'
+title: 'Break Out Your Component Logic with Hooks'
+description: 'In this post, Kyle Shevlin demonstrates how to decouple the logic of a React component from its user interface through the use of a custom hook. This enables the encapsulation and reuse of a concern, contextualized for the particular use case.'
+tags: ['React', 'Hooks', 'Refactoring']
+relatedPostsSlugs: []
+---
+
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+import { WrappedTogglingItem } from './TogglingItem'
+import { WrappedExplicitItem } from './ExplicitItem'
+import ItemsUsingCustomHook from './ItemsUsingCustomHook'
+
+Lately, I have had the opportunity to work on some new features at Webflow. It's exciting to build new things for your customers. It's _also_ exciting because I've had the opportunity to finally dive head-first into React Hooks and learn and explore some new patterns. Some have been winners, some have been losers, but the education has been a lot of fun, regardless.
+
+One pattern I've come to appreciate is breaking out the logic of a component into a custom hook, and then, only destructuring the parts of the hook's API my component needs. This decoupling allows my hook to be useful in multiple situations, while ensuring my component has no extraneous functionality. I want to teach you how I approach this.
+
+### Our Example
+
+Let's start with an example where the logic and the UI that's rendered are coupled, that is, the logic that drives the UI is contained in the component itself. My recent work has involved a lot of "item selection", so we'll make an item that `isSelected` or isn't. <Marker content="I am avoiding using states and state machines on purpose. I want to explicitly use a binary, in this case a boolean, for my example." />
+
+```jsx
+function Item() {
+  const [isSelected, setSelected] = React.useState(false)
+
+  const toggleSelection = () => {
+    setSelected(x => !x)
+  }
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <button type="button" onClick={toggleSelection}>
+        Toggle
+      </button>
+    </div>
+  )
+}
+```
+
+<WrappedTogglingItem />
+
+Great, our component works as expected.
+
+Now, imagine you have been asked to make a similar component, but with _explicit_ `select` and `unselect` buttons. Let's write that component, too. <Marker content="I am being purposefully verbose for didactic purposes" />
+
+```jsx
+function SimilarItem() {
+  const [isSelected, setSelected] = React.useState(false)
+
+  const select = () => {
+    setSelected(true)
+  }
+
+  const unselect = () => {
+    setSelected(false)
+  }
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <div>
+        <button type="button" onClick={select}>
+          Select
+        </button>
+        <button type="button" onClick={unselect}>
+          Unselect
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+<WrappedExplicitItem />
+
+That component works as well, but we've repeated quite a bit of code. In both examples, we're using essentially the same logic, deriving a different API from that logic, and exposing it to our UI. This seems like a great opportunity to abstract the logic away from our component to reduce duplication.
+
+### Creating a Custom Hook
+
+We want to pull the logic out of our component and into a custom hook that our component can then consume. When I do a refactor like this, I attempt to do it step-by-step, keeping the code working the entire time. Let's try and do that here with our first `Item`. The first step in this refactor is to pull some of the logic into a custom hook.
+
+```jsx
+// I'll give this a better name soon, but for now, this works
+function useItemLogic() {
+  const [isSelected, setSelected] = React.useState(false)
+
+  const toggleSelection = () => {
+    setSelected(state => !state)
+  }
+
+  return {
+    isSelected,
+    toggleSelection,
+  }
+}
+
+function Item() {
+  const { isSelected, toggleSelection } = useItemLogic()
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <button type="button" onClick={toggleSelection}>
+        Toggle
+      </button>
+    </div>
+  )
+}
+```
+
+This is a good start, but it's not abstract enough yet and can't be used in our `SimilarItem` as it is. What's different between our two items?
+
+**The state setting functions.**
+
+Let's add these explicit functions to our `useItemLogic` hook.
+
+```jsx
+function useItemLogic() {
+  const [isSelected, setSelected] = React.useState(false)
+
+  const select = () => {
+    setSelected(true)
+  }
+
+  const unselect = () => {
+    setSelected(false)
+  }
+
+  const toggleSelection = () => {
+    setSelected(state => !state)
+  }
+
+  return {
+    isSelected,
+    select,
+    toggleSelection,
+    unselect,
+  }
+}
+
+function Item() {
+  const { isSelected, toggleSelection } = useItemLogic()
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <button type="button" onClick={toggleSelection}>
+        Toggle
+      </button>
+    </div>
+  )
+}
+
+function SimilarItem() {
+  const { isSelected, select, unselect } = useItemLogic()
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <div>
+        <button type="button" onClick={select}>
+          Select
+        </button>
+        <button type="button" onClick={unselect}>
+          Unselect
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+Great, now our logic is separated and working in both our components, but it really isn't named well at all. For starters, `useItemLogic` doesn't convey anything about the API, which is fine if this were not intended for reuse, but it is. Also, names like `isSelected` and `toggleSelection` imply more about the actual state maintained in our hook than is true. Our hook merely contains a _binary_, in this case, a boolean. So let's rename parts of our abstraction to reflect this information.
+
+```jsx
+// We parameterize the initialState and provide a default value of false
+function useBooleanAPI(initialState = false) {
+  // Using the Boolean constructor ensures that the hook cannot be
+  // given an initial state of the wrong type
+  const [state, setState] = React.useState(Boolean(initialState))
+
+  const setTrue = () => {
+    setState(true)
+  }
+
+  const setFalse = () => {
+    setState(false)
+  }
+
+  const toggle = () => {
+    setState(x => !x)
+  }
+
+  return {
+    setFalse,
+    setTrue,
+    state,
+    toggle,
+  }
+}
+```
+
+Now, that we have a generalized abstraction for our hook, we can use only the parts of the interface that are important to our component _and_ rename the APIs so they provide more context to our component's use case.
+
+```jsx
+function Item() {
+  const { state: isSelected, toggle: toggleSelection } = useBooleanAPI()
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <button type="button" onClick={toggleSelection}>
+        Toggle
+      </button>
+    </div>
+  )
+}
+
+function SimilarItem() {
+  const {
+    state: isSelected,
+    setFalse: unselect,
+    setTrue: select,
+  } = useBooleanAPI()
+
+  return (
+    <div>
+      <div>Is selected? {String(isSelected)}</div>
+      <div>
+        <button type="button" onClick={select}>
+          On
+        </button>
+        <button type="button" onClick={unselect}>
+          Off
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+<ItemsUsingCustomHook />
+
+Now, both or components consume the same interface, but have the freedom to use only the parts of that interface it requires and to rename parts of that functionality to reflect the context in which they are used. Not only that, but our individual components became smaller and a bit simpler to understand. We no longer have our logic tightly coupled to our component.
+
+### Conclusion
+
+React Hooks are an excellent way to practice decoupling our user interface from the logic driving it. We can create abstractions that can be consumed and contextualized by other components. This allows us to encapsulate concerns, enable reuse, and keep the surface area of our components small. I hope you can see the benefits of this pattern and how you might use it to refactor and decouple your own components.
