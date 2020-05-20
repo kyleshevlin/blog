@@ -9,3 +9,15 @@ export const formatStrForPath = str =>
 
 export const inflect = (singular, plural, number) =>
   number === 1 ? singular : plural
+
+// Copied from https://github.com/vigour-io/nice-is-email/blob/master/lib/index.js
+const EMAIL_PATTERN = /^([^.](?![a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~]+\.\.)([a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~.]+[^.])|([a-zA-Z0-9]{1,2}))@([A-Za-z0-9-]{1,64}\.){1,10}[a-zA-Z]{2,64}$/
+
+export const isEmail = value => {
+  return (
+    typeof value === 'string' &&
+    EMAIL_PATTERN.test(value) &&
+    value.indexOf('@') < 65 &&
+    value.length < 255
+  )
+}

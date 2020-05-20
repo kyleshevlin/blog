@@ -2,11 +2,16 @@ import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { COLORS, FONTS } from '../constants'
 
+const error = {
+  background: COLORS.red,
+  text: COLORS.white,
+}
+
 const newsletterCTA = {
   background: COLORS.teal,
   text: COLORS.white,
 
-  outboundLink: {
+  submitButton: {
     background: COLORS.lightGray,
     text: COLORS.teal,
 
@@ -21,10 +26,7 @@ const searchBox = {
   text: COLORS.black,
 }
 
-const searchError = {
-  background: COLORS.red,
-  text: COLORS.white,
-}
+const searchError = error
 
 const button = {
   background: COLORS.teal,
@@ -38,6 +40,7 @@ const lightTheme = {
     accent: COLORS.teal,
     offset: COLORS.lightGray,
     offsetMore: COLORS.gray,
+    error,
   },
   components: {
     footer: {
@@ -69,6 +72,7 @@ const darkTheme = {
     accent: COLORS.teal,
     offset: '#0E2D39',
     offsetMore: '#184D62',
+    error,
   },
   components: {
     footer: {
