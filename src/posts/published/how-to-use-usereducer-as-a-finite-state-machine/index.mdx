@@ -22,9 +22,9 @@ import LightBulb from './LightBulb'
 
 I recently attempted to get XState into the Webflow codebase to manage some challenging and complex UIs but was met with resistance. No big deal, this is a part of work, consensus driving, disagreeing and committing, etc. If it hasn't happened to you yet, it will.
 
-One of the things you need when that happens is a good imagination. How do we make the tools we already have to do the things we want in a reasonable way? I'm going to help you with that today by showing you a way to make `useReducer` behave like a simple finite state machine in React.
+One of the things you need when that happens is a good imagination. How do we make the tools we already have do the things we want in a reasonable way? I'm going to help you with that today by showing you a way to make `useReducer` behave like a simple finite state machine in React.
 
-I've started using the following pattern in some of my work and I think it will help you. <Marker content="A few caveats upfront. You won't have access to hierarchical state machines with this approach. You also will not have the ability to trigger side effects from state changes. I will discuss this briefly here, but plan to cover it in another blog post." /> If we look at the `reducer` of `useReducer` and a state machine, we can see that they are quite similar. They both take a current `state` and an `event` (Redux calls this an `action`, but I will use `event` throughout this post), and return the next state. The differences are:
+I've started using the following pattern in some of my work and I think it will help you. <Marker content="A few caveats up front. You won't have access to hierarchical state machines with this approach. You also will not have the ability to trigger side effects from state changes. I will discuss this briefly here, but plan to cover it in another blog post." /> If we look at the `reducer` of `useReducer` and a state machine, we can see that they are quite similar. They both take a current `state` and an `event` (Redux calls this an `action`, but I will use `event` throughout this post), and return the next state. The differences are:
 
 - A `reducer` does not restrict itself to a set of finite states
 - A `reducer` has no mechanism for calling side effects from state transitions
