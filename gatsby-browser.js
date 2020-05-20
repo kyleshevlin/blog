@@ -6,6 +6,6 @@
 
 // You can delete this file if you're not using it
 import CustomLayout from './src/wrapPageElement'
-import './src/styles/prism-theme-night-owl-forked.css'
+import 'prism-theme-night-owl/build/no-italics.css'
 
 export const wrapPageElement = CustomLayout
