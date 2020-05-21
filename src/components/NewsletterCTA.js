@@ -196,12 +196,14 @@ function SignupForm() {
             label="First Name"
             name="firstName"
             onChange={nameChange}
+            placeholder="You"
             value={name}
           />
           <ControlledInputBox
             label="Email Address"
             name="email"
             onChange={emailChange}
+            placeholder="you@example.com"
             value={email}
           />
         </div>
@@ -278,7 +280,14 @@ function ErrorWrap({ children }) {
   )
 }
 
-function ControlledInputBox({ label, name, onChange, type = 'text', value }) {
+function ControlledInputBox({
+  label,
+  name,
+  onChange,
+  placeholder,
+  type = 'text',
+  value,
+}) {
   const theme = useTheme()
   const { inputs } = theme.components.newsletterCTA
 
@@ -301,10 +310,15 @@ function ControlledInputBox({ label, name, onChange, type = 'text', value }) {
             color: inputs.text,
             padding: bs(0.5),
             width: '100%',
+
+            '&::placeholder': {
+              color: inputs.placeholderText,
+            },
           }}
           id={name}
           name={name}
           onChange={onChange}
+          placeholder={placeholder}
           type={type}
           value={value}
         />

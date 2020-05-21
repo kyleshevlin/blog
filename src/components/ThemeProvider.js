@@ -14,6 +14,7 @@ const newsletterCTA = {
   inputs: {
     background: COLORS.white,
     text: COLORS.black,
+    placeholderText: COLORS.gray,
   },
 
   submitButton: {
