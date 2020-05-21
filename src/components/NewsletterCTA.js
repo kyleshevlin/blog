@@ -75,36 +75,54 @@ const submitEvent = {
   ],
 }
 
-const signupMachine = Machine({
-  id: 'signup',
-  initial: 'idle',
-  states: {
-    idle: {
-      on: {
-        ...submitEvent,
+const signupMachine = Machine(
+  {
+    id: 'signup',
+    initial: 'idle',
+    states: {
+      idle: {
+        on: {
+          ...submitEvent,
+        },
       },
-    },
-    submitting: {
-      invoke: {
-        id: 'submitData',
-        src: 'submitData',
-        onDone: 'success',
-        onError: 'failure',
+      submitting: {
+        invoke: {
+          id: 'submitData',
+          src: 'submitData',
+          onDone: 'success',
+          onError: 'failure',
+        },
       },
-    },
-    error: {
-      on: {
-        ...submitEvent,
+      error: {
+        on: {
+          ...submitEvent,
+        },
       },
-    },
-    success: {},
-    failure: {
-      on: {
-        RETRY: 'submitting',
+      success: {},
+      failure: {
+        on: {
+          RETRY: 'submitting',
+        },
       },
     },
   },
-})
+  {
+    guards: {
+      isValidData: (_, event) => {
+        const { email, name } = event
+
+        if (email === '' || name === '') return false
+        return isEmail(email)
+      },
+    },
+    services: {
+      submitData: (_, event) => {
+        const { email, name } = event
+        return postNewSubscriber({ email, name })
+      },
+    },
+  }
+)
 
 function SignupForm() {
   const theme = useTheme()
@@ -115,18 +133,7 @@ function SignupForm() {
   } = theme
   const { onChange: nameChange, value: name } = useInput()
   const { onChange: emailChange, value: email } = useInput()
-  const [state, send] = useMachine(signupMachine, {
-    guards: {
-      isValidData: (_, event) => {
-        if (event.name === '' || event.email === '') return false
-        return isEmail(event.email)
-      },
-    },
-    services: {
-      submitData: (_, event) =>
-        postNewSubscriber({ email: event.email, name: event.name }),
-    },
-  })
+  const [state, send] = useMachine(signupMachine)
 
   const handleSubmit = e => {
     e.preventDefault()
