@@ -11,6 +11,11 @@ const newsletterCTA = {
   background: COLORS.teal,
   text: COLORS.white,
 
+  inputs: {
+    background: COLORS.white,
+    text: COLORS.black,
+  },
+
   submitButton: {
     background: COLORS.lightGray,
     text: COLORS.teal,
@@ -19,6 +24,11 @@ const newsletterCTA = {
       background: COLORS.white,
       text: COLORS.teal,
     },
+  },
+
+  successBox: {
+    background: COLORS.lightGray,
+    text: COLORS.black,
   },
 }
 

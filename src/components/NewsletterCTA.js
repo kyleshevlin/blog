@@ -28,7 +28,7 @@ export default function NewsletterCTA() {
         </h3>
         <p>
           I write a newsletter to share my thoughts and the projects I'm working
-          on. I would love for you to join the discussion. You can unsubscribe
+          on. I would love for you to join the conversation. You can unsubscribe
           at any time.
         </p>
 
@@ -110,7 +110,7 @@ function SignupForm() {
   const theme = useTheme()
   const {
     components: {
-      newsletterCTA: { submitButton },
+      newsletterCTA: { submitButton, successBox },
     },
   } = theme
   const { onChange: nameChange, value: name } = useInput()
@@ -133,13 +133,30 @@ function SignupForm() {
     send({ type: 'SUBMIT', name, email })
   }
 
+  const getSubmitButtonText = () => {
+    switch (true) {
+      case state.matches('submitting'):
+        return (
+          <>
+            <Dots /> Submitting
+          </>
+        )
+
+      case state.matches('failure'):
+        return 'Retry'
+
+      default:
+        return 'Submit'
+    }
+  }
+
   if (state.matches('success')) {
     return (
       <div
         css={{
-          backgroundColor: theme.colors.offset,
+          backgroundColor: successBox.background,
           borderRadius: 4,
-          color: theme.colors.text,
+          color: successBox.text,
           fontFamily: theme.fonts.catamaran,
           padding: bs(),
         }}
@@ -158,7 +175,7 @@ function SignupForm() {
 
       {state.matches('failure') && (
         <ErrorWrap>
-          Something went wrong while submitting. Please try again.
+          Something went wrong while submitting the form. Please try again.
         </ErrorWrap>
       )}
 
@@ -204,10 +221,41 @@ function SignupForm() {
           }}
           type="submit"
         >
-          {state.matches('failure') ? 'Retry' : 'Submit'}
+          {getSubmitButtonText()}
         </button>
       </form>
     </>
+  )
+}
+
+const NEXT_DOTS = {
+  '': '.',
+  '.': '. .',
+  '. .': '. . .',
+  '. . .': '',
+}
+
+function Dots() {
+  const [dots, setDots] = React.useState('')
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDots(d => NEXT_DOTS[d])
+    }, 350)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
+  return (
+    <div
+      css={{
+        display: 'inline-block',
+        textAlign: 'center',
+        width: 30,
+      }}
+    >
+      {dots}
+    </div>
   )
 }
 
@@ -232,6 +280,7 @@ function ErrorWrap({ children }) {
 
 function ControlledInputBox({ label, name, onChange, type = 'text', value }) {
   const theme = useTheme()
+  const { inputs } = theme.components.newsletterCTA
 
   return (
     <div css={{ fontFamily: theme.fonts.catamaran }}>
@@ -246,9 +295,10 @@ function ControlledInputBox({ label, name, onChange, type = 'text', value }) {
         </div>
         <input
           css={{
+            backgroundColor: inputs.background,
             border: 'none',
             borderRadius: 4,
-            color: theme.colors.text,
+            color: inputs.text,
             padding: bs(0.5),
             width: '100%',
           }}
