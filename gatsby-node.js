@@ -17,7 +17,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const excerptListTemplate = path.resolve('src/templates/ExcerptList.js')
+    const homeTemplate = path.resolve('src/templates/Home.js')
     const postTemplate = path.resolve('src/templates/Post.js')
     const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
@@ -55,14 +55,14 @@ exports.createPages = ({ graphql, actions }) => {
         Array.from({ length: totalPages }).forEach((_, index) => {
           createPage({
             path: index === 0 ? '/' : `/page-${index + 1}`,
-            component: excerptListTemplate,
+            component: homeTemplate,
             context: {
               allPostsLength: allPosts.length,
               totalPages,
               index,
               limit: postsPerPage,
-              skip: index * postsPerPage
-            }
+              skip: index * postsPerPage,
+            },
           })
         })
 
@@ -91,8 +91,8 @@ exports.createPages = ({ graphql, actions }) => {
               olderPost: older ? older.node : null,
               newerPost: newer ? newer.node : null,
               relatedPosts,
-              slug
-            }
+              slug,
+            },
           })
         })
 
@@ -116,8 +116,8 @@ exports.createPages = ({ graphql, actions }) => {
           path: 'tags',
           component: allTags,
           context: {
-            tags: Array.from(tags)
-          }
+            tags: Array.from(tags),
+          },
         })
 
         // Create individual Tag pages
@@ -126,8 +126,8 @@ exports.createPages = ({ graphql, actions }) => {
             path: `/tags/${formatStrForPath(tag)}`,
             component: tagsTemplate,
             context: {
-              tag
-            }
+              tag,
+            },
           })
         })
       })

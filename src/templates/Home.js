@@ -5,7 +5,7 @@ import AddedValue from '../components/AddedValue'
 import ExcerptedPost from '../components/ExcerptedPost'
 import Pagination from '../components/Pagination'
 
-const ExcerptList = ({ data, ...props }) => {
+export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
   const posts = data.allMdx.edges
     .map(edge => edge.node)
@@ -28,8 +28,6 @@ const ExcerptList = ({ data, ...props }) => {
     </Fragment>
   )
 }
-
-export default ExcerptList
 
 export const query = graphql`
   query ExcerptListQuery($skip: Int!, $limit: Int!) {
