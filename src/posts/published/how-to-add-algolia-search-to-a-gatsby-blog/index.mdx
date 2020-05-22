@@ -8,6 +8,8 @@ relatedPostsSlugs:
   ['why-i-rewrote-my-blog-with-gatsby', 'firebase-and-gatsby-together-at-last']
 ---
 
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+
 This weekend I shipped a new feature for my blog--search! Just have a look up and to the right. You should see it up there.
 
 Adding search was easier than I expected. I had almost no understanding of the work involved in making this happen, but between the Algolia service, their `react-instantsearch` library, and a little help from Twitter, this was pretty simple to do. This post will walk you through all the steps it took to make that happen.
@@ -69,7 +71,7 @@ Now, we're going to require `dotenv` in our `gatsby-config.js` file to have acce
 // gatsby-config.js
 
 require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
+  path: `.env.${process.env.NODE_ENV}`
 })
 ```
 
@@ -90,10 +92,10 @@ module.exports = {
         apiKey: process.env.GATSBY_ALGOLIA_ADMIN_KEY,
         indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME,
         queries,
-        chunkSize: 10000,
-      },
-    },
-  ],
+        chunkSize: 10000
+      }
+    }
+  ]
 }
 ```
 
@@ -158,7 +160,7 @@ const unnestFrontmatter = node => {
 
   return {
     ...frontmatter,
-    ...rest,
+    ...rest
   }
 }
 
@@ -166,8 +168,8 @@ const queries = [
   {
     query: mdxQuery,
     transformer: ({ data }) =>
-      data.allMdx.edges.map(edge => edge.node).map(unnestFrontmatter),
-  },
+      data.allMdx.edges.map(edge => edge.node).map(unnestFrontmatter)
+  }
 ]
 
 module.exports = queries
@@ -268,7 +270,7 @@ const Hits = connectHits(({ hits }) => (
             fontSize: '.85rem',
             fontStyle: 'italic',
             marginBottom: bs(),
-            maxWidth: '30rem',
+            maxWidth: '30rem'
           }}
         >
           These are the results of your search. The title and excerpt are
@@ -366,7 +368,7 @@ const handleRawBody = node => {
   // correct post.
   const records = sections.map(section => ({
     ...rest,
-    content: section,
+    content: section
   }))
 
   return records
@@ -383,8 +385,8 @@ const queries = [
         .map(handleRawBody)
         // And we flatten those records into a single array
         // alternatively, flatMap is available wherever ES2019 is implemented
-        .reduce((acc, cur) => [...acc, ...cur], []),
-  },
+        .reduce((acc, cur) => [...acc, ...cur], [])
+  }
 ]
 
 module.exports = queries
@@ -407,15 +409,15 @@ const queries = [
     // Here's the change
     settings: {
       attributeForDistinct: 'slug',
-      distinct: true,
+      distinct: true
     },
     transformer: ({ data }) =>
       data.allMdx.edges
         .map(edge => edge.node)
         .map(unnestFrontmatter)
         .map(handleRawBody)
-        .reduce((acc, cur) => [...acc, ...cur], []),
-  },
+        .reduce((acc, cur) => [...acc, ...cur], [])
+  }
 ]
 
 module.exports = queries
@@ -434,7 +436,7 @@ import {
   Configure,
   InstantSearch,
   SearchBox,
-  Hits,
+  Hits
 } from 'react-instantsearch-dom'
 
 const searchClient = algoliasearch(

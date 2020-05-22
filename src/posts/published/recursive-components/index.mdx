@@ -6,6 +6,7 @@ description: "React components are _just_ functions. We can use the same pattern
 tags: ['React', 'Computer Science', 'Data Structures and Algorithms']
 ---
 
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
 import BetterStyledTree from './BetterStyledTree'
 import StyledTree from './StyledTree'
 import UnstyledTree from './UnstyledTree'
@@ -126,12 +127,12 @@ If we were to pass the folder data we created earlier to the component, that wil
           name: 'js',
           children: [
             { name: 'utils', children: [] },
-            { name: 'components', children: [] },
-          ],
-        },
-      ],
+            { name: 'components', children: [] }
+          ]
+        }
+      ]
     },
-    { name: 'public', children: [{ name: 'images', children: [] }] },
+    { name: 'public', children: [{ name: 'images', children: [] }] }
   ]}
 />
 
@@ -169,12 +170,12 @@ Notice how simple it is to increment the `depth` prop with recursion. Each layer
           name: 'js',
           children: [
             { name: 'utils', children: [] },
-            { name: 'components', children: [] },
-          ],
-        },
-      ],
+            { name: 'components', children: [] }
+          ]
+        }
+      ]
     },
-    { name: 'public', children: [{ name: 'images', children: [] }] },
+    { name: 'public', children: [{ name: 'images', children: [] }] }
   ]}
 />
 
@@ -190,12 +191,12 @@ That looks a bit more like the folder structure we all know and love. Let's add 
           name: 'js',
           children: [
             { name: 'utils', children: [] },
-            { name: 'components', children: [] },
-          ],
-        },
-      ],
+            { name: 'components', children: [] }
+          ]
+        }
+      ]
     },
-    { name: 'public', children: [{ name: 'images', children: [] }] },
+    { name: 'public', children: [{ name: 'images', children: [] }] }
   ]}
 />
 
