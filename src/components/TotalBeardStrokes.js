@@ -34,7 +34,7 @@ class TotalBeardStrokes extends Component {
   render() {
     const { count, hasFetchedOnce } = this.state
 
-    return hasFetchedOnce ? (
+    return (
       <div
         css={theme => ({
           display: 'flex',
@@ -44,6 +44,8 @@ class TotalBeardStrokes extends Component {
           marginLeft: bs(-0.25),
           marginTop: bs(-0.25),
           marginBottom: bs(),
+          opacity: hasFetchedOnce ? 1 : 0,
+          transition: 'opacity .3s ease',
 
           '& svg': {
             display: 'block',
@@ -58,7 +60,7 @@ class TotalBeardStrokes extends Component {
           {count} {inflect('stroke', 'strokes', count)} bestowed
         </div>
       </div>
-    ) : null
+    )
   }
 }
 
