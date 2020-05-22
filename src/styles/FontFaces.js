@@ -17,6 +17,7 @@ const GlobalStyles = () => (
         font-style: normal;
         font-weight: normal;
         src: url('${DroidSerifWoff}') format('woff');
+        font-display: swap;
       }
 
       @font-face {
@@ -24,6 +25,7 @@ const GlobalStyles = () => (
         font-style: normal;
         font-weight: bold;
         src: url('${DroidSerifBoldWoff}') format('woff');
+        font-display: swap;
       }
 
       @font-face {
@@ -32,6 +34,7 @@ const GlobalStyles = () => (
         font-weight: normal;
         src: url('${catamaranRegularWoff2}') format('woff2'),
              url('${catamaranRegularWoff}') format('woff');
+        font-display: swap;
       }
 
       @font-face {
@@ -40,6 +43,7 @@ const GlobalStyles = () => (
         font-weight: 100;
         src: url('${catamaranThinWoff2}') format('woff2'),
              url('${catamaranThinWoff}') format('woff');
+        font-display: swap;
       }
 
       @font-face {
@@ -48,6 +52,7 @@ const GlobalStyles = () => (
         font-weight: 700;
         src: url('${catamaranBoldWoff2}') format('woff2'),
              url('${catamaranBoldWoff}') format('woff');
+        font-display: swap;
       }
     `}
   />
