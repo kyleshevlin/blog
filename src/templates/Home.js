@@ -29,8 +29,8 @@ export default function Home({ data, ...props }) {
           Welcome!
         </p>
         <p>
-          My name is Kyle Shevlin. I'm a software engineer and online instructor
-          among other things.
+          My name is Kyle Shevlin. I'm a software engineer, online instructor,
+          and information curator among other things.
         </p>
         <p>
           This is my personal site where I share the content I create. I write
