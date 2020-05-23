@@ -1,0 +1,9 @@
+{
+  "name": "Functional Programming",
+  "order": 2,
+  "postSlugs": [
+    "just-enough-fp-currying",
+    "just-enough-fp-partial-application",
+    "just-enough-fp-composition"
+  ]
+}

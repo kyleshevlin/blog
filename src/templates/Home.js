@@ -1,25 +1,27 @@
 import React, { Fragment } from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import ExcerptedPost from '../components/ExcerptedPost'
 import Pagination from '../components/Pagination'
 import shevy, { bs } from '../shevy'
 
+const getNodes = obj => obj.edges.map(edge => edge.node)
+
 export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
-  const posts = data.allMdx.edges
-    .map(edge => edge.node)
-    .map(node => ({
-      ...node,
-      excerpt: `<p>${node.excerpt}</p>`,
-    }))
+  const collections = getNodes(data.allCollectionsJson)
+  const allPosts = getNodes(data.all)
+  const recentPosts = getNodes(data.recent).map(node => ({
+    ...node,
+    excerpt: `<p>${node.excerpt}</p>`,
+  }))
 
   return (
     <Fragment>
       <Seo title="Home" keywords={['Kyle Shevlin']} />
 
-      <section css={{ marginBottom: bs() }}>
+      <section css={{ marginBottom: bs(2) }}>
         <p
           css={theme => ({
             fontSize: shevy.h2.fontSize,
@@ -50,10 +52,12 @@ export default function Home({ data, ...props }) {
         <p>I hope you enjoy your time here and thank you.</p>
       </section>
 
+      <Collections collections={collections} posts={allPosts} />
+
       <hr />
 
       <div>
-        {posts.map(post => (
+        {recentPosts.map(post => (
           <ExcerptedPost key={post.frontmatter.slug} post={post} />
         ))}
       </div>
@@ -64,8 +68,18 @@ export default function Home({ data, ...props }) {
 }
 
 export const query = graphql`
-  query ExcerptListQuery($skip: Int!, $limit: Int!) {
-    allMdx(
+  query HomeQuery($skip: Int!, $limit: Int!) {
+    allCollectionsJson(sort: { fields: [order], order: ASC }) {
+      edges {
+        node {
+          name
+          order
+          postSlugs
+        }
+      }
+    }
+
+    recent: allMdx(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
@@ -84,5 +98,68 @@ export const query = graphql`
         }
       }
     }
+
+    all: allMdx(filter: { fileAbsolutePath: { regex: "/posts/" } }) {
+      edges {
+        node {
+          frontmatter {
+            slug
+            title
+          }
+        }
+      }
+    }
   }
 `
+
+function Collections({ collections, posts }) {
+  const normalizedPostsBySlug = posts.reduce((acc, cur) => {
+    acc[cur.frontmatter.slug] = cur
+    return acc
+  }, {})
+
+  return (
+    <section>
+      <h3>Unsure Where to Start?</h3>
+      <p>Try a post in one of these curated collections.</p>
+      {collections.map(collection => (
+        <CollectionItem
+          key={collection.name}
+          collection={collection}
+          posts={normalizedPostsBySlug}
+        />
+      ))}
+    </section>
+  )
+}
+
+function CollectionItem({ collection, posts }) {
+  const { name, postSlugs } = collection
+  const getPostTitle = slug => {
+    const post = posts[slug]
+    return post ? post.frontmatter.title : null
+  }
+
+  return (
+    <div css={{ marginBottom: bs() }}>
+      <div
+        css={theme => ({
+          fontFamily: theme.fonts.catamaran,
+          fontSize: shevy.h4.fontSize,
+          marginBottom: bs(0.5),
+        })}
+      >
+        {name}
+      </div>
+      <ul>
+        {postSlugs.map(slug => (
+          <li css={{ display: 'block' }} key={slug}>
+            <Link css={{ display: 'inline-block' }} to={slug}>
+              {getPostTitle(slug)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}

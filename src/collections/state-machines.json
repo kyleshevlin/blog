@@ -1,0 +1,9 @@
+{
+  "name": "State Machines",
+  "order": 1,
+  "postSlugs": [
+    "guidelines-for-state-machines-and-xstate",
+    "how-to-use-usereducer-as-a-finite-state-machine",
+    "adding-infinite-states-to-a-use-reducer-finite-state-machine"
+  ]
+}

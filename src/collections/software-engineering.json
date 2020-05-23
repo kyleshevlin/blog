@@ -1,0 +1,5 @@
+{
+  "order": 3,
+  "name": "Software Engineering",
+  "postSlugs": ["enumerate-dont-booleanate", "managing-cyclomatic-complexity"]
+}
