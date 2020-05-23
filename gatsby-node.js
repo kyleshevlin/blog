@@ -18,6 +18,9 @@ exports.createPages = ({ graphql, actions }) => {
 
   return new Promise((resolve, reject) => {
     const homeTemplate = path.resolve('src/templates/Home.js')
+    const additionalPagesTemplate = path.resolve(
+      'src/templates/AdditionalPages.js'
+    )
     const postTemplate = path.resolve('src/templates/Post.js')
     const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
@@ -55,7 +58,7 @@ exports.createPages = ({ graphql, actions }) => {
         Array.from({ length: totalPages }).forEach((_, index) => {
           createPage({
             path: index === 0 ? '/' : `/page-${index + 1}`,
-            component: homeTemplate,
+            component: index === 0 ? homeTemplate : additionalPagesTemplate,
             context: {
               allPostsLength: allPosts.length,
               totalPages,

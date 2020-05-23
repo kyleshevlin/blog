@@ -21,3 +21,5 @@ export const isEmail = value => {
     value.length < 255
   )
 }
+
+export const getNodes = obj => obj.edges.map(edge => edge.node)

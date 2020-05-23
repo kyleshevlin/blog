@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
-import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
-import ExcerptedPost from '../components/ExcerptedPost'
+import ExcerptList from '../components/ExcerptList'
 import Pagination from '../components/Pagination'
+import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-
-const getNodes = obj => obj.edges.map(edge => edge.node)
+import { getNodes } from '../utils'
 
 export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
@@ -20,47 +19,10 @@ export default function Home({ data, ...props }) {
   return (
     <Fragment>
       <Seo title="Home" keywords={['Kyle Shevlin']} />
-
-      <section css={{ marginBottom: bs(2) }}>
-        <p
-          css={theme => ({
-            fontSize: shevy.h2.fontSize,
-            fontFamily: theme.fonts.catamaran,
-          })}
-        >
-          Welcome!
-        </p>
-        <p>
-          My name is Kyle Shevlin. I'm a software engineer, online instructor,
-          and information curator among other things.
-        </p>
-        <p>
-          This is my personal site where I share the content I create. I write
-          articles and create courses that break concepts down to their
-          fundamentals so anyone can understand them.
-        </p>
-        <p>
-          I encourage you to peruse my blog posts, check out one of my courses
-          (or all of them), and sign up for my newsletter if you like what you
-          read or see.
-        </p>
-        <p>
-          If you need to reach out to me,{' '}
-          <a href="https://twitter.com/kyleshevlin">Twitter</a> is by far the
-          best way to do so.
-        </p>
-        <p>I hope you enjoy your time here and thank you.</p>
-      </section>
-
+      <Welcome />
       <Collections collections={collections} posts={allPosts} />
-
       <hr />
-
-      <div>
-        {recentPosts.map(post => (
-          <ExcerptedPost key={post.frontmatter.slug} post={post} />
-        ))}
-      </div>
+      <ExcerptList posts={recentPosts} />
       <Pagination {...{ index, totalPages }} />
       <AddedValue />
     </Fragment>
@@ -111,6 +73,41 @@ export const query = graphql`
     }
   }
 `
+
+function Welcome() {
+  return (
+    <section css={{ marginBottom: bs(2) }}>
+      <p
+        css={theme => ({
+          fontSize: shevy.h2.fontSize,
+          fontFamily: theme.fonts.catamaran,
+        })}
+      >
+        Welcome!
+      </p>
+      <p>
+        My name is Kyle Shevlin. I'm a software engineer, online instructor, and
+        information curator among other things.
+      </p>
+      <p>
+        This is my personal site where I share the content I create. I write
+        articles and create courses that break concepts down to their
+        fundamentals so anyone can understand them.
+      </p>
+      <p>
+        I encourage you to peruse my blog posts, check out one of my courses (or
+        all of them), and sign up for my newsletter if you like what you read or
+        see.
+      </p>
+      <p>
+        If you need to reach out to me,{' '}
+        <a href="https://twitter.com/kyleshevlin">Twitter</a> is by far the best
+        way to do so.
+      </p>
+      <p>I hope you enjoy your time here and thank you.</p>
+    </section>
+  )
+}
 
 function Collections({ collections, posts }) {
   const normalizedPostsBySlug = posts.reduce((acc, cur) => {
