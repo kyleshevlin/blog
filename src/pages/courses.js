@@ -24,20 +24,14 @@ const query = graphql`
             }
           }
           eggheadUrl
-          justEnoughDevUrl
+          podiaUrl
         }
       }
     }
   }
 `
 
-function CourseItem({
-  description,
-  eggheadUrl,
-  justEnoughDevUrl,
-  logo,
-  title,
-}) {
+function CourseItem({ description, eggheadUrl, podiaUrl, logo, title }) {
   const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
   return (
@@ -78,11 +72,7 @@ function CourseItem({
         <h3>{title}</h3>
         <p>{description}</p>
         <div css={{ 'a + a': { marginLeft: bs(0.5) } }}>
-          {justEnoughDevUrl && (
-            <LinkButton href={justEnoughDevUrl}>
-              View on JustEnoughDev
-            </LinkButton>
-          )}
+          {podiaUrl && <LinkButton href={podiaUrl}>View on Podia</LinkButton>}
           {eggheadUrl && (
             <LinkButton href={eggheadUrlWithParams}>
               View on egghead.io

@@ -4,6 +4,7 @@ import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
+import LinkButton from './LinkButton'
 
 const randomIndex = length => Math.floor(Math.random() * length)
 
@@ -32,6 +33,7 @@ export default function ValueSell({ courseNickname }) {
     logo: { publicURL },
     title,
     eggheadUrl,
+    podiaUrl,
   } = course
   const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
 
@@ -46,8 +48,8 @@ export default function ValueSell({ courseNickname }) {
         css={{
           [createMediaQuery(BREAKPOINTS.alpha)]: {
             display: 'grid',
-            gridGap: bs(),
-            gridTemplateColumns: '1fr 3fr',
+            gridGap: bs(2),
+            gridTemplateColumns: '1fr 2fr',
             alignItems: 'center',
           },
         }}
@@ -60,20 +62,20 @@ export default function ValueSell({ courseNickname }) {
             },
           }}
         >
-          <a css={{ display: 'block' }} href={eggheadUrlWithParams}>
+          <div css={{ textAlign: 'center' }}>
             <img
               css={{
                 display: 'block',
                 width: '100%',
-                transition: 'opacity 0.3s ease',
-                '&:hover': {
-                  opacity: 0.85,
-                },
+                marginBottom: bs(0.5),
               }}
               src={publicURL}
               alt={`${title} Logo`}
             />
-          </a>
+            <div css={theme => ({ fontFamily: theme.fonts.catamaran })}>
+              {title}
+            </div>
+          </div>
         </div>
         <div
           css={{
@@ -83,19 +85,22 @@ export default function ValueSell({ courseNickname }) {
             },
           }}
         >
-          <h2>Watch my courses on egghead.io!</h2>
+          <h2>Check out my courses!</h2>
           <div
             css={theme => ({
               fontFamily: theme.fonts.catamaran,
-              marginBottom: bs(0.5),
+              marginBottom: bs(1),
             })}
           >
-            Liked the post? You might like my video lessons, too. Click the link
-            below to get started.
+            Liked the post? You might like my video courses, too. Watch them on
+            Podia or egghead.io.
           </div>
-          <a href={eggheadUrlWithParams}>
-            <h3>{title}</h3>
-          </a>
+          <div css={{ a: { marginTop: bs(0.5), marginRight: bs(0.5) } }}>
+            <LinkButton href={podiaUrl}>View on Podia</LinkButton>
+            <LinkButton href={eggheadUrlWithParams}>
+              View on egghead.io
+            </LinkButton>
+          </div>
         </div>
       </div>
     </div>
