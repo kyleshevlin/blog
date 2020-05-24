@@ -15,7 +15,7 @@ const formatItemPath = item => {
 }
 
 export default function PostTags({ items }) {
-  return (
+  return items && items.length ? (
     <div>
       <div
         css={theme => ({
@@ -33,5 +33,5 @@ export default function PostTags({ items }) {
         </Link>
       ))}
     </div>
-  )
+  ) : null
 }
