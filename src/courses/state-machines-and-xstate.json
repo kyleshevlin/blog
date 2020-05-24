@@ -5,5 +5,5 @@
   "description": "This is an introduction course for state machines and the XState library, taught in JavaScript.",
   "logo": "../images/StateMachinesXState.png",
   "eggheadUrl": "https://egghead.io/courses/introduction-to-state-machines-using-xstate",
-  "justEnoughDevUrl": ""
+  "podiaUrl": "https://kyleshevlin.podia.com/state-machines-xstate"
 }

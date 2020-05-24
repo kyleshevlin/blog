@@ -15,6 +15,7 @@ export default function CoursesProvider({ children }) {
             title
             nickname
             eggheadUrl
+            podiaUrl
           }
         }
       }
