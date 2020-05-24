@@ -28,7 +28,7 @@ I earned athletic and academic scholarships to attend Lenoir-Rhyne University in
 
 One night, late my junior year, I had an epiphany of sorts where I felt overwhelmingly compelled to devote myself to Jesus and his teachings. I became highly involved in a local church and various campus ministries. This was really the beginning of my ministry career.
 
-Studying philosophy trained me to be excellent at critical thinking. I was also a pretty naturally gifted public speaking (I like talking a lot). Thus, I enjoyed the challenge of reading and deducing interesting insights from the Bible and sharing them with others. With these gifts and talents, I was both drawn to and encouraged to pursue a career in ministry.
+Studying philosophy trained me to be excellent at critical thinking. I was also a pretty naturally gifted public speaker (I like talking a lot). Thus, I enjoyed the challenge of reading and deducing interesting insights from the Bible and sharing them with others. With these gifts and talents, I was both drawn to and encouraged to pursue a career in ministry.
 
 I can't emphasize the "encouragement" enough. Looking back at that time from my current vantage point enables me to recognize just how much peer pressure shaped the next eight years of my life. There was an incredible amount of pressure put on me by others, and my own sense of guilt, to use these skills "for the Lord." As in, if I didn't use these skills in the church, that I would be squandering them, or even worse, committing sin. I, of course, didn't want to be a sinner and so it seemed like I was destined to be a pastor.
 
