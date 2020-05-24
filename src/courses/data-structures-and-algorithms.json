@@ -3,7 +3,7 @@
   "title": "Data Structures and Algorithms",
   "nickname": "dsa",
   "description": "This is an introduction course for data structures and algorithms, taught in JavaScript.",
-  "logo": "../images/DSA.png",
+  "logo": "../images/ks-DSA.png",
   "eggheadUrl": "https://egghead.io/courses/data-structures-and-algorithms-in-javascript",
   "podiaUrl": "https://kyleshevlin.podia.com/data-structures-algorithms"
 }
