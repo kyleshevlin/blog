@@ -83,7 +83,10 @@ function CourseItem({ description, eggheadUrl, podiaUrl, logo, title }) {
       </div>
       <div>
         <h3>{title}</h3>
-        <p>{description}</p>
+        <div
+          css={{ marginBottom: bs() }}
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
         <div css={{ 'a + a': { marginLeft: bs(0.5) } }}>
           {podiaUrl && <LinkButton href={podiaUrl}>View on Podia</LinkButton>}
           {eggheadUrl && (
