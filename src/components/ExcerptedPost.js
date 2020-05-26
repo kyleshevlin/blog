@@ -9,9 +9,17 @@ import TotalBeardStrokes from './TotalBeardStrokes'
 
 const ExcerptedPost = ({ post }) => {
   const {
-    excerpt,
-    frontmatter: { date, slug, subtitle, tags, title },
+    excerpt: mdxExcerpt,
+    frontmatter: {
+      date,
+      excerpt: frontmatterExcerpt,
+      slug,
+      subtitle,
+      tags,
+      title,
+    },
   } = post
+  const excerpt = frontmatterExcerpt || mdxExcerpt
 
   return (
     <div css={{ marginBottom: bs(2) }}>

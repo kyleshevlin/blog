@@ -32,6 +32,7 @@ export const query = graphql`
         node {
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
+            excerpt
             slug
             subtitle
             tags
