@@ -1,0 +1,24 @@
+---
+date: '2020-05-27'
+slug: 'adding-guards-to-a-use-reducer-finite-state-machine'
+title: 'Adding Guards to a `useReducer` Finite State Machine'
+description: ''
+tags: ['React', 'State Machines']
+relatedPostsSlugs:
+  [
+    'how-to-use-usereducer-as-a-finite-state-machine',
+    'adding-infinite-states-to-a-use-reducer-finite-state-machine',
+  ]
+---
+
+import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+import LightBulbWithFuse from './LightBulbWithFuse.js'
+
+The next part in our `useReducer` finite state machine journey is adding "guards". If you haven't read the previous posts in this collection, I encourage you to do so before reading ahead. Those posts are:
+
+- [How to Use `useReducer` as a Finite State Machine](/how-to-use-usereducer-as-a-finite-state-machine)
+- [Adding Infinite States to a `useReducer` Finite State Machine](/adding-infinite-states-to-a-use-reducer-finite-state-machine)
+
+A "guard" is a predicate function <Marker content="A function that returns a boolean." /> used to conditionally determine if a state transition should happen. In simpler terms, if the guard function returns `true`, take the transition, otherwise do not.
+
+<LightBulbWithFuse />
