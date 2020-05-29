@@ -45,7 +45,9 @@ module.exports = function makePost(
 date: '${year}-${month}-${day}'
 slug: '${dirName}'
 title: '${title}'
+subtitle: null
 description: ''
+excerpt: null
 tags: ['React']
 relatedPostsSlugs: []
 ---
