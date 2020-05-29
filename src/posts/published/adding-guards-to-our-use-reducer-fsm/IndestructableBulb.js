@@ -4,24 +4,34 @@ import { bs } from '../../../shevy'
 import { createMediaQuery } from '../../../utils'
 import { BREAKPOINTS } from '../../../constants'
 
-const toArray = value => (Array.isArray(value) ? value : [value])
+const toEventObject = event => {
+  if (typeof event === 'string') {
+    return { type: event }
+  }
 
-const toEventObject = event =>
-  typeof event === 'string' ? { type: event } : event
+  return event
+}
 
-const toTransitionObject = transition =>
-  typeof transition === 'string' ? { target: transition } : transition
+const toTransitionObject = transition => {
+  if (typeof transition === 'string') {
+    return { target: transition }
+  }
+
+  return transition
+}
 
 const initialState = {
   current: 'unlit',
   data: {
     color: 'white',
-    hasFuse: true,
   },
 }
 
 const BREAK_EVENT = {
-  BREAK: [{ target: 'brokenFuse', cond: 'hasFuse' }, 'brokenBulb'],
+  BREAK: {
+    target: 'broken',
+    cond: () => false,
+  },
 }
 const RESET_EVENT = { RESET: initialState.current }
 
@@ -31,40 +41,29 @@ const NEXT_STATE_GRAPH = {
     ...RESET_EVENT,
     CHANGE_COLOR: 'lit',
     TOGGLE: 'unlit',
-    TOGGLE_FUSE: 'lit',
   },
   unlit: {
     ...BREAK_EVENT,
     ...RESET_EVENT,
     TOGGLE: 'lit',
-    TOGGLE_FUSE: 'unlit',
   },
-  brokenBulb: {
-    ...RESET_EVENT,
-  },
-  brokenFuse: {
+  broken: {
     ...RESET_EVENT,
   },
 }
 
-const GUARDS = {
-  hasFuse: data => data.hasFuse,
-}
+const stateReducer = (state, event) => {
+  const nextState = NEXT_STATE_GRAPH[state.current][event.type]
 
-const stateReducer = (state, event, data) => {
-  const transitionValue = NEXT_STATE_GRAPH[state.current][event.type]
+  if (!nextState) return
 
-  if (!transitionValue) return
+  const possibleTransition = toTransitionObject(nextState)
+  // Use default assignment to guarantee that `cond`
+  // is a function and returns true if it's undefined
+  const { target, cond = () => true } = possibleTransition
 
-  const possibleTransitions = toArray(transitionValue).map(toTransitionObject)
-
-  for (const transition of possibleTransitions) {
-    const { target, cond = () => true } = transition
-    const condFn = typeof cond === 'string' ? GUARDS[cond] : cond
-
-    if (condFn(data, event)) {
-      return target
-    }
+  if (cond()) {
+    return target
   }
 
   return
@@ -73,7 +72,6 @@ const stateReducer = (state, event, data) => {
 const DATA_UPDATERS = {
   CHANGE_COLOR: (data, eventObj) => ({ ...data, color: eventObj.color }),
   RESET: () => initialState.data,
-  TOGGLE_FUSE: data => ({ ...data, hasFuse: !data.hasFuse }),
 }
 
 const dataReducer = (data, eventObj) => {
@@ -83,10 +81,11 @@ const dataReducer = (data, eventObj) => {
 
 const reducer = (state, event) => {
   const eventObj = toEventObject(event)
-  const nextData = dataReducer(state.data, eventObj)
-  const nextState = stateReducer(state, eventObj, nextData)
+  const nextState = stateReducer(state, eventObj)
 
   if (!nextState) return state
+
+  const nextData = dataReducer(state.data, eventObj)
 
   return {
     current: nextState,
@@ -94,7 +93,7 @@ const reducer = (state, event) => {
   }
 }
 
-const normalEvents = ['TOGGLE', 'BREAK', 'RESET', 'TOGGLE_FUSE']
+const normalEvents = ['TOGGLE', 'BREAK', 'RESET']
 const colors = ['white', 'red', 'blue', 'green']
 
 const COLOR_MAP = {
@@ -104,7 +103,7 @@ const COLOR_MAP = {
   green: '#8ff244',
 }
 
-export default function HueLightBulb() {
+export default function IndestructableBulb() {
   const [state, send] = React.useReducer(reducer, initialState)
   const { current, data } = state
 
@@ -141,7 +140,7 @@ export default function HueLightBulb() {
       })}
     >
       <div css={{ gridArea: 'heading' }}>
-        <h4 css={{ marginBottom: 0 }}>Light Bulb with a Fuse</h4>
+        <h4 css={{ marginBottom: 0 }}>Indestructable Bulb</h4>
       </div>
       <div
         css={{
@@ -167,18 +166,9 @@ export default function HueLightBulb() {
             },
           }}
         >
-          <div>
-            {(current === 'unlit' || current === 'brokenFuse') && (
-              <BulbSVG color="none" />
-            )}
-            {current === 'lit' && <BulbSVG color={COLOR_MAP[data.color]} />}
-            {current === 'brokenBulb' && <BrokenBulbSVG />}
-          </div>
-          {data.hasFuse && (
-            <div css={{ padding: bs() }}>
-              {current === 'brokenFuse' ? <BrokenFuseSVG /> : <FuseSVG />}
-            </div>
-          )}
+          {current === 'unlit' && <BulbSVG color="none" />}
+          {current === 'lit' && <BulbSVG color={COLOR_MAP[data.color]} />}
+          {current === 'broken' && <BrokenBulbSVG />}
         </div>
       </div>
       <pre
@@ -303,42 +293,6 @@ function BrokenBulbSVG() {
         d="M77 195.607C77 195.607 105.767 180.932 111.233 172.247C116.699 163.562 120.151 151.283 118.425 137.807C116.699 124.33 116.699 118.64 107.781 118.041C98.863 117.442 91.9589 138.106 92.5342 152.481C93.1096 166.856 94.5479 172.846 103.753 185.125C112.959 197.404 117.274 199.5 126.767 199.5M133.5 167.046C136.952 176.929 144.856 195.607 155.5 195.607C166.144 195.607 173.658 191.414 179.411 181.531C185.164 171.648 186.027 164.161 187.753 152.481C189.479 140.801 187.753 115.046 179.411 115.046C171.068 115.046 165.315 138.405 166.466 152.481C167.616 166.557 172.219 177.338 172.219 177.338C172.219 177.338 179.411 189.018 187.753 195.607C196.096 202.195 203 199.5 203 199.5"
         stroke="black"
         strokeWidth="4"
-      />
-    </svg>
-  )
-}
-
-function FuseSVG() {
-  return (
-    <svg
-      width="100%"
-      viewBox="0 0 254 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M131 40C131 20.1178 147.118 4 167 4C186.882 4 203 20.1178 203 40H253.5V36H206.803C204.796 15.7867 187.741 0 167 0C144.909 0 127 17.9086 127 40C127 59.8822 110.882 76 91 76C71.1178 76 55 59.8822 55 40H0V44H51.1975C53.2044 64.2133 70.2586 80 91 80C113.091 80 131 62.0914 131 40Z"
-        fill="black"
-      />
-    </svg>
-  )
-}
-
-function BrokenFuseSVG() {
-  return (
-    <svg
-      width="100%"
-      viewBox="0 0 254 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M130.2 48H126.108C122.47 64.0319 108.133 76 91 76C71.1178 76 55 59.8822 55 40H0V44H51.1975C53.2044 64.2133 70.2586 80 91 80C110.352 80 126.494 66.2579 130.2 48Z"
-        fill="black"
-      />
-      <path
-        d="M167 4C150.225 4 136.131 15.473 132.134 31H128.017C132.1 13.2426 148.003 0 167 0C187.741 0 204.796 15.7867 206.803 36H253.5V40H203C203 20.1178 186.882 4 167 4Z"
-        fill="black"
       />
     </svg>
   )
