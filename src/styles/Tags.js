@@ -15,10 +15,10 @@ export default function Tags() {
         }
 
         html {
+          box-sizing: border-box;
           font-family: 'Droid Serif', serif;
           font-size: 85%;
           line-height: 1.6;
-          box-sizing: border-box;
 
           ${createMediaQuery(BREAKPOINTS.alpha)} {
             font-size: 100%;
