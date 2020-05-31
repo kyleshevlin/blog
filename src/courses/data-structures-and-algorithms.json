@@ -3,7 +3,6 @@
   "title": "Data Structures and Algorithms",
   "nickname": "dsa",
   "description": "Learn about fundamental data structures and algorithms in JavaScript. Perfect for prepping for your next tech interview.",
-  "logo": "../images/ks-DSA.png",
-  "eggheadUrl": "https://egghead.io/courses/data-structures-and-algorithms-in-javascript",
-  "podiaUrl": "https://kyleshevlin.podia.com/data-structures-algorithms"
+  "logo": "../images/DSA.png",
+  "url": "https://egghead.io/courses/data-structures-and-algorithms-in-javascript"
 }

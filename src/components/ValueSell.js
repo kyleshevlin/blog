@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTheme } from 'emotion-theming'
+import { Link } from 'gatsby'
 import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { createMediaQuery } from '../utils'
@@ -22,6 +23,33 @@ const chooseCourse = (courses, nickname) => {
   return course
 }
 
+const BUTTON_TEXT_BY_URL_TYPE = {
+  default: 'View the course',
+  egghead: 'View on egghead.io',
+  podia: 'View on Podia',
+}
+
+function getUrlType(url) {
+  switch (true) {
+    case /egghead/g.test(url):
+      return 'egghead'
+
+    case /podia/g.test(url):
+      return 'podia'
+
+    default:
+      return 'default'
+  }
+}
+
+function formatUrl(url, urlType) {
+  if (urlType === 'egghead') {
+    return url + EGGHEAD_AFFILIATE_QUERY_PARAM
+  }
+
+  return url
+}
+
 export default function ValueSell({ courseNickname }) {
   const theme = useTheme()
   const courses = useCoursesContext()
@@ -32,10 +60,10 @@ export default function ValueSell({ courseNickname }) {
   const {
     logo: { publicURL },
     title,
-    eggheadUrl,
-    podiaUrl,
+    url,
   } = course
-  const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
+  const urlType = getUrlType(url)
+  const formattedUrl = formatUrl(url, urlType)
 
   return (
     <div
@@ -92,13 +120,13 @@ export default function ValueSell({ courseNickname }) {
               marginBottom: bs(1),
             })}
           >
-            Liked the post? You might like my video courses, too. Watch them on
-            Podia or egghead.io.
+            Liked the post? You might like my video courses, too. Click the
+            button to view this course or go to{' '}
+            <Link to="/courses">Courses</Link> for more information.
           </div>
           <div css={{ a: { marginTop: bs(0.5), marginRight: bs(0.5) } }}>
-            <LinkButton href={podiaUrl}>View on Podia</LinkButton>
-            <LinkButton href={eggheadUrlWithParams}>
-              View on egghead.io
+            <LinkButton href={formattedUrl}>
+              {BUTTON_TEXT_BY_URL_TYPE[urlType]}
             </LinkButton>
           </div>
         </div>

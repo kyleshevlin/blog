@@ -2,8 +2,7 @@
   "date": "2019-12-18",
   "title": "Introduction to State Machines and XState",
   "nickname": "xstate",
-  "description": "Learn all about finite state machines, the XState library and all the problems they solve. <strong>DISCLAIMER: Available for free on egghead.io<strong>.",
-  "logo": "../images/ks-SM.png",
-  "eggheadUrl": "https://egghead.io/courses/introduction-to-state-machines-using-xstate",
-  "podiaUrl": "https://kyleshevlin.podia.com/state-machines-xstate"
+  "description": "Learn all about finite state machines, the XState library and all the problems they solve.",
+  "logo": "../images/StateMachinesXState.png",
+  "url": "https://egghead.io/courses/introduction-to-state-machines-using-xstate"
 }

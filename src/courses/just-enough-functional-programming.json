@@ -3,7 +3,6 @@
   "title": "Just Enough Functional Programming",
   "nickname": "fp",
   "description": "Learn just enough functional programming in JavaScript to start using it today. Unlock your functional potential.",
-  "logo": "../images/ks-FP.png",
-  "eggheadUrl": "https://egghead.io/courses/just-enough-functional-programming-in-javascript",
-  "podiaUrl": "https://kyleshevlin.podia.com/functional-programming"
+  "logo": "../images/Just-Enough.png",
+  "url": "https://egghead.io/courses/just-enough-functional-programming-in-javascript"
 }

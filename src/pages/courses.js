@@ -23,8 +23,7 @@ const query = graphql`
               }
             }
           }
-          eggheadUrl
-          podiaUrl
+          url
         }
       }
     }
@@ -50,8 +49,36 @@ export default function Courses() {
   )
 }
 
-function CourseItem({ description, eggheadUrl, podiaUrl, logo, title }) {
-  const eggheadUrlWithParams = eggheadUrl + EGGHEAD_AFFILIATE_QUERY_PARAM
+const BUTTON_TEXT_BY_URL_TYPE = {
+  default: 'View the course',
+  egghead: 'View on egghead.io',
+  podia: 'View on Podia',
+}
+
+function getUrlType(url) {
+  switch (true) {
+    case /egghead/g.test(url):
+      return 'egghead'
+
+    case /podia/g.test(url):
+      return 'podia'
+
+    default:
+      return 'default'
+  }
+}
+
+function formatUrl(url, urlType) {
+  if (urlType === 'egghead') {
+    return url + EGGHEAD_AFFILIATE_QUERY_PARAM
+  }
+
+  return url
+}
+
+function CourseItem({ description, logo, title, url }) {
+  const urlType = getUrlType(url)
+  const formattedUrl = formatUrl(url, urlType)
 
   return (
     <div
@@ -88,10 +115,9 @@ function CourseItem({ description, eggheadUrl, podiaUrl, logo, title }) {
           dangerouslySetInnerHTML={{ __html: description }}
         />
         <div css={{ 'a + a': { marginLeft: bs(0.5) } }}>
-          {podiaUrl && <LinkButton href={podiaUrl}>View on Podia</LinkButton>}
-          {eggheadUrl && (
-            <LinkButton href={eggheadUrlWithParams}>
-              View on egghead.io
+          {url && (
+            <LinkButton href={formattedUrl}>
+              {BUTTON_TEXT_BY_URL_TYPE[urlType]}
             </LinkButton>
           )}
         </div>
