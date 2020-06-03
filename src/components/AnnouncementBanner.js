@@ -3,7 +3,7 @@ import { useTheme } from 'emotion-theming'
 import Container from './Container'
 import { bs } from '../shevy'
 
-export default function AnnouncementBanner({ content = '' }) {
+export default function AnnouncementBanner({ children = null }) {
   const theme = useTheme()
 
   return (
@@ -23,7 +23,7 @@ export default function AnnouncementBanner({ content = '' }) {
             display: 'flex',
           }}
         >
-          {content}
+          {children}
         </div>
       </Container>
     </div>
