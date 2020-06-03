@@ -8,17 +8,14 @@ import AllGlobalStyles from '../styles/AllGlobalStyles'
 import AnnouncementBanner from './AnnouncementBanner'
 import { buttonStyles } from './Button'
 
-export default function Layout({ children }) {
+function BLM() {
   return (
-    <>
-      <AllGlobalStyles />
-      <AnnouncementBanner>
+    <div css={{ display: 'flex', alignItems: 'center' }}>
+      <div>
         I unashamedly support{' '}
         <a
           css={theme => ({
             color: theme.colors.background,
-            display: 'inline-block',
-            marginLeft: 4,
 
             '&:hover': {
               color: theme.colors.offsetMore,
@@ -29,6 +26,8 @@ export default function Layout({ children }) {
           <strong>#BlackLivesMatter</strong>
         </a>
         . Consider making a donation to them today.
+      </div>
+      <div>
         <a
           css={theme => ({
             ...buttonStyles(theme),
@@ -45,6 +44,17 @@ export default function Layout({ children }) {
         >
           Donate Now
         </a>
+      </div>
+    </div>
+  )
+}
+
+export default function Layout({ children }) {
+  return (
+    <>
+      <AllGlobalStyles />
+      <AnnouncementBanner>
+        <BLM />
       </AnnouncementBanner>
       <Header />
       <main

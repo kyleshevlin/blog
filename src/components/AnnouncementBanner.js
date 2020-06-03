@@ -16,16 +16,7 @@ export default function AnnouncementBanner({ children = null }) {
         paddingBottom: bs(0.5),
       }}
     >
-      <Container>
-        <div
-          css={{
-            alignItems: 'center',
-            display: 'flex',
-          }}
-        >
-          {children}
-        </div>
-      </Container>
+      <Container>{children}</Container>
     </div>
   )
 }

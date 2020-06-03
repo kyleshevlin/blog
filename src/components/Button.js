@@ -17,6 +17,7 @@ export const buttonStyles = theme => {
     padding: `${bs(0.25)} ${bs(0.5)} ${bs(0.35)}`,
     border: 'none',
     borderRadius: '2px',
+    textAlign: 'center',
     transition: 'background-color 0.3s ease',
 
     '&:hover': {
