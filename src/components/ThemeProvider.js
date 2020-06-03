@@ -108,17 +108,87 @@ const darkTheme = {
   fonts: FONTS,
 }
 
+const BLACKOUT = {
+  black: '#000',
+  white: '#fff',
+  accent: '#fce21b',
+  offset: '#181818',
+  offsetMore: '#282828',
+  error,
+}
+
+const blackoutTheme = {
+  colors: {
+    background: BLACKOUT.black,
+    text: BLACKOUT.white,
+    accent: BLACKOUT.accent,
+    offset: BLACKOUT.offset,
+    offsetMore: BLACKOUT.offsetMore,
+    error,
+  },
+  components: {
+    footer: {
+      background: BLACKOUT.offset,
+      text: BLACKOUT.white,
+    },
+    newsletterCTA: {
+      background: BLACKOUT.accent,
+      text: BLACKOUT.black,
+
+      inputs: {
+        background: BLACKOUT.white,
+        text: BLACKOUT.black,
+        placeholderText: BLACKOUT.offsetMore,
+      },
+
+      submitButton: {
+        background: BLACKOUT.offset,
+        text: BLACKOUT.accent,
+
+        '&:hover': {
+          background: BLACKOUT.offsetMore,
+          text: BLACKOUT.accent,
+        },
+      },
+
+      successBox: {
+        background: BLACKOUT.offset,
+        text: BLACKOUT.black,
+      },
+    },
+    pagination: {
+      normal: {
+        background: BLACKOUT.accent,
+        text: BLACKOUT.black,
+      },
+      active: {
+        background: BLACKOUT.white,
+        text: BLACKOUT.black,
+      },
+    },
+    searchBox,
+    searchError,
+    button: {
+      background: BLACKOUT.accent,
+      text: BLACKOUT.black,
+    },
+  },
+  fonts: FONTS,
+}
+
 const THEMES = {
+  blackout: blackoutTheme,
   dark: darkTheme,
   light: lightTheme,
 }
 
 const NEXT_THEME = {
-  dark: 'light',
+  blackout: 'light',
+  dark: 'blackout',
   light: 'dark',
 }
 
-const getInitialTheme = () => 'light'
+const getInitialTheme = () => 'blackout'
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = React.useState(getInitialTheme)
