@@ -1,5 +1,5 @@
 import React from 'react'
-import { lighten } from 'polished'
+import { darken } from 'polished'
 import { bs } from '../shevy'
 
 export const buttonStyles = theme => {
@@ -9,7 +9,7 @@ export const buttonStyles = theme => {
 
   return {
     display: 'inline-block',
-    backgroundColor: button.background,
+    backgroundColor: darken(0.07, button.background),
     color: button.text,
     fontFamily: theme.fonts.catamaran,
     fontSize: '0.85rem',
@@ -21,7 +21,7 @@ export const buttonStyles = theme => {
     transition: 'background-color 0.3s ease',
 
     '&:hover': {
-      backgroundColor: lighten(0.1, button.background),
+      backgroundColor: button.background,
       color: button.text,
     },
   }

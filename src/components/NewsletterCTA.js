@@ -274,9 +274,9 @@ function ErrorWrap({ children }) {
   return (
     <div
       css={{
-        backgroundColor: theme.colors.error.background,
+        backgroundColor: theme.components.newsletterCTA.errorBox.background,
         borderRadius: 4,
-        color: theme.colors.error.text,
+        color: theme.components.newsletterCTA.errorBox.text,
         fontFamily: theme.fonts.catamaran,
         padding: bs(0.5),
         marginBottom: bs(0.5),
