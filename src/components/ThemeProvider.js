@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming'
 import { darken } from 'polished'
-import { COLORS, FONTS } from '../constants'
+import { FONTS } from '../constants'
 
 const defaultComponents = colors => ({
   announcementBanner: {
@@ -83,21 +83,21 @@ const generateTheme = (colors, fonts, componentOverrider = getEmptyTheme) => {
 }
 
 const LIGHT_COLORS = {
-  background: COLORS.white,
-  text: COLORS.black,
-  accent: COLORS.teal,
-  offset: COLORS.lightGray,
-  offsetMore: COLORS.gray,
-  error: COLORS.red,
+  background: '#fff',
+  text: '#333',
+  accent: '#33a1cc',
+  offset: '#eff4f5',
+  offsetMore: '#9baab0',
+  error: '#dd385c',
 }
 
 const DARK_COLORS = {
   background: '#040D10',
-  text: '#e8e8e8',
-  accent: COLORS.teal,
+  text: '#fff',
+  accent: '#33a1cc',
   offset: '#0E2D39',
   offsetMore: '#184D62',
-  error: COLORS.red,
+  error: '#dd385c',
 }
 
 const BLACKOUT_COLORS = {
@@ -106,7 +106,7 @@ const BLACKOUT_COLORS = {
   accent: '#fce21b',
   offset: '#242424',
   offsetMore: '#323232',
-  error: COLORS.red,
+  error: '#dd385c',
 }
 
 const lightTheme = generateTheme(LIGHT_COLORS, FONTS, (colors, defaults) => ({

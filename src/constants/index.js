@@ -5,15 +5,6 @@ export const BREAKPOINTS = {
   delta: '1350px',
 }
 
-export const COLORS = {
-  black: '#333',
-  gray: '#9baab0',
-  lightGray: '#eff4f5',
-  teal: '#33a1cc',
-  white: '#fff',
-  red: '#dd385c',
-}
-
 export const FONTS = {
   catamaran: 'Catamaran, sans-serif',
 }
