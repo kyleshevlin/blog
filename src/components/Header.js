@@ -2,6 +2,7 @@ import React from 'react'
 import { useTheme } from 'emotion-theming'
 import { graphql, Link, StaticQuery } from 'gatsby'
 import { bs } from '../shevy'
+import Button from './Button'
 import Container from './Container'
 import Nav from './Nav'
 import { BREAKPOINTS } from '../constants'
@@ -70,6 +71,19 @@ export default function Header() {
                     {subTitle}
                   </div>
                 </Link>
+                <div
+                  css={{
+                    marginTop: bs(0.5),
+                    marginBottom: bs(0.5),
+
+                    [createMediaQuery(BREAKPOINTS.alpha)]: {
+                      marginTop: 0,
+                      marginLeft: 'auto',
+                    },
+                  }}
+                >
+                  <ThemeRotator />
+                </div>
               </div>
               <Nav />
             </Container>
@@ -78,4 +92,9 @@ export default function Header() {
       }}
     />
   )
+}
+
+function ThemeRotator() {
+  const theme = useTheme()
+  return <Button onClick={theme.rotateTheme}>Rotate Theme</Button>
 }
