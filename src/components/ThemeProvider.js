@@ -305,6 +305,7 @@ export default function ThemeProvider({ children }) {
 
   React.useEffect(() => {
     document.documentElement.setAttribute('style', getCSSVars(theme))
+    localStorage.setItem('kyleshevlin:theme', theme)
   }, [theme])
 
   return (
