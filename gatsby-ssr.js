@@ -139,7 +139,7 @@ void function() {
   }
 
   const getCSSVars = (theme = 'light') =>
-    makeCSSVarsString(THEME_TO_CSS_VARS[theme]).replace(/\s/g, '')
+    makeCSSVarsString(THEME_TO_CSS_VARS[theme]).replace(' ', '')
 
   const theme = localStorage.getItem('kyleshevlin:theme') || 'blackout'
   localStorage.setItem('kyleshevlin:theme', theme)
