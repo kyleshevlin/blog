@@ -151,6 +151,6 @@ void function() {
   },
 })
 
-export const onRenderBody = ({ setPreBodyComponents }) => {
-  setPreBodyComponents([CSSVarSetter])
+export const onRenderBody = ({ setHeadComponents }) => {
+  setHeadComponents([CSSVarSetter])
 }
