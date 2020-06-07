@@ -5,18 +5,15 @@ import {
   FootnoteDisplay as Display,
   FootnoteMarker as Marker,
 } from './Footnotes'
-import ThemeProvider from './ThemeProvider'
 
 describe('Markers', () => {
   it('should generate their own indexes', () => {
     const { getByText } = render(
-      <ThemeProvider>
-        <FootnotesProvider>
-          <Marker content="foo" />
-          <Marker content="bar" />
-          <Marker content="baz" />
-        </FootnotesProvider>
-      </ThemeProvider>
+      <FootnotesProvider>
+        <Marker content="foo" />
+        <Marker content="bar" />
+        <Marker content="baz" />
+      </FootnotesProvider>
     )
 
     expect(getByText('1')).toBeTruthy()
@@ -28,15 +25,13 @@ describe('Markers', () => {
 describe('Display', () => {
   it('should show the right content', () => {
     const { getByText } = render(
-      <ThemeProvider>
-        <FootnotesProvider>
-          <Marker content="foo" />
-          <Marker content="bar" />
-          <Marker content="baz" />
+      <FootnotesProvider>
+        <Marker content="foo" />
+        <Marker content="bar" />
+        <Marker content="baz" />
 
-          <Display />
-        </FootnotesProvider>
-      </ThemeProvider>
+        <Display />
+      </FootnotesProvider>
     )
 
     fireEvent.click(getByText('1'))
