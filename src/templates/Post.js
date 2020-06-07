@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { useTheme } from 'emotion-theming'
 import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import AddedValue from '../components/AddedValue'
@@ -16,17 +15,17 @@ import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { createMediaQuery, v } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
   paddingBottom: bs(0.25),
 }
 
-const newerOrOlderHeading = theme => ({
-  fontFamily: theme.fonts.catamaran,
+const newerOrOlderHeading = {
+  fontFamily: v('fonts-catamaran'),
   fontWeight: 700,
-})
+}
 
 const Post = ({
   data,
@@ -195,21 +194,19 @@ const generateEditLink = fileAbsolutePath => {
 }
 
 function EditLink({ fileAbsolutePath }) {
-  const theme = useTheme()
-
   return (
     <div css={{ textAlign: 'right' }}>
       <a
         css={{
           display: 'inline-block',
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
           fontStyle: 'italic',
           paddingLeft: bs(0.5),
           paddingRight: bs(0.5),
         }}
         href={generateEditLink(fileAbsolutePath)}
       >
-        edit <EditSVG fill={theme.colors.accent} width={18} />
+        edit <EditSVG fill={v('colors-accent')} width={18} />
       </a>
     </div>
   )

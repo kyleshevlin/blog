@@ -1,16 +1,14 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { graphql, Link, StaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 import Button from './Button'
 import Container from './Container'
 import Nav from './Nav'
+import { useTheme } from './ThemeProvider'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { createMediaQuery, v } from '../utils'
 
 export default function Header() {
-  const theme = useTheme()
-
   return (
     <StaticQuery
       query={graphql`
@@ -48,7 +46,7 @@ export default function Header() {
               >
                 <Link
                   css={{
-                    color: theme.colors.text,
+                    color: v('colors-text'),
                     display: 'block',
                   }}
                   to="/"
@@ -63,7 +61,7 @@ export default function Header() {
                   </h1>
                   <div
                     css={{
-                      fontFamily: theme.fonts.catamaran,
+                      fontFamily: v('fonts-catamaran'),
                       fontSize: '1rem',
                       marginBottom: 0,
                     }}
@@ -95,6 +93,6 @@ export default function Header() {
 }
 
 function ThemeRotator() {
-  const theme = useTheme()
-  return <Button onClick={theme.rotateTheme}>Rotate Theme</Button>
+  const { rotateTheme } = useTheme()
+  return <Button onClick={rotateTheme}>Rotate Theme</Button>
 }

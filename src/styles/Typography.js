@@ -1,11 +1,9 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import { useTheme } from 'emotion-theming'
 import shevy from '../shevy'
+import { v } from '../utils'
 
 export default function Typography() {
-  const theme = useTheme()
-
   return (
     <Global
       styles={css`
@@ -15,7 +13,7 @@ export default function Typography() {
         h4,
         h5,
         h6 {
-          font-family: ${theme.fonts.catamaran};
+          font-family: ${v('fonts-catamaran')};
           font-weight: 400;
           text-rendering: optimizeLegibility;
         }

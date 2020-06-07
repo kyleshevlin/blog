@@ -1,22 +1,20 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import Container from './Container'
 import { bs } from '../shevy'
 import { buttonStyles } from './Button'
+import { v } from '../utils'
 
 function BLM() {
-  const theme = useTheme()
-
   return (
     <div css={{ display: 'flex', alignItems: 'center' }}>
       <div>
         I unashamedly support{' '}
         <a
           css={{
-            color: theme.components.announcementBanner.links.text,
+            color: v('components-announcementBanner-links-text'),
 
             '&:hover': {
-              color: theme.components.announcementBanner.links['&:hover'].text,
+              color: v('components-announcementBanner-links-hover-text'),
             },
           }}
           href="https://blacklivesmatter.com/"
@@ -28,15 +26,16 @@ function BLM() {
       <div>
         <a
           css={{
-            ...buttonStyles(theme),
+            ...buttonStyles,
             marginLeft: bs(0.5),
-            backgroundColor: theme.components.announcementBanner.links.text,
-            color: theme.colors.accent,
+            backgroundColor: v('components-announcementBanner-links-text'),
+            color: v('colors-accent'),
 
             '&:hover': {
-              backgroundColor:
-                theme.components.announcementBanner.links['&:hover'].text,
-              color: theme.colors.accent,
+              backgroundColor: v(
+                'compoents-announcementBanner-links-hover-text'
+              ),
+              color: v('colors-accent'),
             },
           }}
           href="https://secure.actblue.com/donate/ms_blm_homepage_2019"
@@ -49,14 +48,12 @@ function BLM() {
 }
 
 export default function AnnouncementBanner() {
-  const theme = useTheme()
-
   return (
     <div
       css={{
-        backgroundColor: theme.components.announcementBanner.background,
-        color: theme.components.announcementBanner.text,
-        fontFamily: theme.fonts.catamaran,
+        backgroundColor: v('components-announcementBanner-background'),
+        color: v('components-announcementBanner-text'),
+        fontFamily: v('fonts-catamaran'),
         paddingTop: bs(0.5),
         paddingBottom: bs(0.5),
       }}

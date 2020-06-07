@@ -2,6 +2,7 @@ import React from 'react'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
+import { v } from '../utils'
 
 function SCDLink({ children }) {
   return <a href="https://secondcareerdevs.com">{children}</a>
@@ -17,13 +18,13 @@ export default function Podcast() {
       <h1>Podcast</h1>
 
       <div
-        css={theme => ({
-          backgroundColor: theme.colors.offset,
-          fontFamily: theme.fonts.catamaran,
+        css={{
+          backgroundColor: v('colors-offset'),
+          fontFamily: v('fonts-catamaran'),
           padding: bs(),
           marginTop: bs(2),
           marginBottom: bs(2),
-        })}
+        }}
       >
         <strong>Update:</strong> <SCDLink>Second Career Devs</SCDLink> is on
         hiatus and is unlikely to return. The episodes will remain available for

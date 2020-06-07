@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react'
 import { Link } from 'gatsby'
+import { v } from '../utils'
 
-const postLinkStyles = theme => ({
+const postLinkStyles = {
   display: 'block',
-  color: theme.colors.text,
+  color: v('colors-text'),
   '&:hover': {
-    color: theme.colors.accent,
+    color: v('colors-accent'),
   },
-})
+}
 
 export default function PostHeader({ slug, subtitle, title }) {
   const Wrap = slug ? Link : Fragment

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import Button, { buttonStyles } from './Button'
 import Container from './Container'
 import { bs } from '../shevy'
-import { darken } from 'polished'
+import { v } from '../utils'
 
 const initialState = {
   content: null,
@@ -92,8 +92,8 @@ export function FootnotesProvider({ children }) {
   )
 }
 
-const markerStyles = theme => ({
-  ...buttonStyles(theme),
+const markerStyles = {
+  ...buttonStyles,
   width: 20,
   height: 20,
   fontSize: 12,
@@ -105,9 +105,9 @@ const markerStyles = theme => ({
 
   '&:focus': {
     outline: 'none',
-    boxShadow: `0 0 3px 1px ${darken(0.15, theme.colors.accent)}`,
+    boxShadow: `0 0 3px 1px ${v('colors-accentDark')}`,
   },
-})
+}
 
 export function FootnoteMarker({ content }) {
   const {
@@ -149,11 +149,12 @@ export function FootnoteMarker({ content }) {
   )
 }
 
-const displayMarkerStyles = theme => ({
-  ...markerStyles(theme),
+const displayMarkerStyles = {
+  ...markerStyles,
   lineHeight: 1,
   textAlign: 'center',
-})
+  '&:hover': null,
+}
 
 export function FootnoteDisplay() {
   const displayElement = useRef(null)
@@ -165,17 +166,17 @@ export function FootnoteDisplay() {
   return isVisible ? (
     <div
       ref={displayElement}
-      css={theme => ({
+      css={{
         width: '100%',
-        backgroundColor: theme.colors.background,
+        backgroundColor: v('colors-background'),
         position: 'fixed',
         bottom: 0,
-        borderTop: `4px solid ${theme.colors.accent}`,
+        borderTop: `4px solid ${v('colors-accent')}`,
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
         paddingTop: bs(),
         paddingBottom: bs(2),
         zIndex: 1,
-      })}
+      }}
     >
       <Container>
         <div

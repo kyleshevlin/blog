@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'lodash.debounce'
-import { darken } from 'polished'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
+import { v } from '../utils'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
 
@@ -108,22 +108,22 @@ class BeardStrokes extends Component {
     return (
       <Fragment>
         <div
-          css={theme => ({
+          css={{
             display: 'flex',
             alignItems: 'center',
-            fontFamily: theme.fonts.catamaran,
-          })}
+            fontFamily: v('fonts-catamaran'),
+          }}
         >
           <div css={{ textAlign: 'center' }}>
             <button
-              css={theme => ({
+              css={{
                 appearance: 'none',
                 backgroundColor: 'transparent',
                 border: 'none',
                 padding: `${bs(0.25)} ${bs(0.5)}`,
                 '& svg': {
                   fill:
-                    count === 0 ? theme.colors.offsetMore : theme.colors.accent,
+                    count === 0 ? v('colors-offsetMore') : v('colors-accent'),
                   transform: 'scale(.95)',
                   transition: 'fill 0.3s ease, transform .15s ease',
                 },
@@ -131,22 +131,20 @@ class BeardStrokes extends Component {
                   transform: 'scale(1)',
                 },
                 '&:disabled svg': {
-                  fill: darken(0.1, theme.colors.accent),
+                  fill: v('colors-accentDark'),
                   transform: 'scale(1)',
                 },
                 '&:hover svg': {
-                  fill: darken(0.1, theme.colors.accent),
+                  fill: v('colors-accentDark'),
                 },
-              })}
+              }}
               onClick={this.handleBeardClick}
               disabled={count === 50}
               type="button"
             >
               <Beard width={40} />
             </button>
-            <div
-              css={theme => ({ fontFamily: theme.fonts.catamaran })}
-            >{`+${count}`}</div>
+            <div css={{ fontFamily: v('fonts-catamaran') }}>{`+${count}`}</div>
           </div>
           <div css={{ fontStyle: 'italic' }}>
             Liked the post? Click the beard a few times.

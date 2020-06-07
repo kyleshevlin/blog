@@ -1,9 +1,8 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
-import { lighten } from 'polished'
 import Container from './Container'
 import { bs } from '../shevy'
+import { v } from '../utils'
 import Github from './icons/Github'
 import LinkedIn from './icons/LinkedIn'
 import Twitch from './icons/Twitch'
@@ -22,13 +21,11 @@ const links = [
 ]
 
 export default function Footer() {
-  const theme = useTheme()
-
   return (
     <div
       css={{
-        backgroundColor: theme.components.footer.background,
-        color: theme.components.footer.text,
+        backgroundColor: v('components-footer-background'),
+        color: v('components-footer-text'),
         paddingTop: bs(2),
         paddingBottom: bs(2),
         textAlign: 'center',
@@ -46,7 +43,7 @@ export default function Footer() {
                 display: 'inline-block',
                 padding: bs(0.5),
                 '&:hover svg': {
-                  fill: lighten(0.1, theme.colors.accent),
+                  fill: v('components-button-hover-background'),
                 },
                 svg: {
                   transition: 'fill 0.3s ease',
@@ -56,7 +53,7 @@ export default function Footer() {
               href={href}
               title={title}
             >
-              <Icon fill={theme.colors.accent} width={30} />
+              <Icon fill={v('components-button-background')} width={30} />
             </OutboundLink>
           ))}
         </div>

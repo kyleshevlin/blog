@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
+import { v } from '../utils'
 
 const LINKS = [
   { to: '/', title: 'Home' },
@@ -11,16 +11,14 @@ const LINKS = [
   { to: '/contact', title: 'Contact' },
 ]
 
-const linkStyles = theme => ({
+const linkStyles = () => ({
   display: 'inline-block',
-  fontFamily: theme.fonts.catamaran,
-  color: theme.colors.text,
+  fontFamily: v('fonts-catamaran'),
+  color: v('colors-text'),
   padding: bs(0.5),
 })
 
 export default function Nav() {
-  const theme = useTheme()
-
   return (
     <nav css={{ marginLeft: bs(-0.5) }}>
       {LINKS.map(link => {
@@ -29,8 +27,8 @@ export default function Nav() {
         return (
           <Link
             key={title}
-            css={linkStyles(theme)}
-            activeStyle={{ color: theme.colors.accent }}
+            css={linkStyles()}
+            activeStyle={{ color: v('colors-accent') }}
             title={title}
             to={to}
           >

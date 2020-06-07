@@ -1,23 +1,17 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
 import { buttonStyles } from './Button'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, isEmail } from '../utils'
+import { createMediaQuery, isEmail, v } from '../utils'
 
 export default function NewsletterCTA() {
-  const theme = useTheme()
-  const {
-    components: { newsletterCTA: newsletterCTATheme },
-  } = theme
-
   return (
     <div
       css={{
-        backgroundColor: newsletterCTATheme.background,
-        color: newsletterCTATheme.text,
+        backgroundColor: v('components-newsletterCTA-background'),
+        color: v('components-newsletterCTA-text'),
         padding: bs(2),
       }}
     >
@@ -125,12 +119,6 @@ const signupMachine = Machine(
 )
 
 function SignupForm() {
-  const theme = useTheme()
-  const {
-    components: {
-      newsletterCTA: { submitButton, successBox },
-    },
-  } = theme
   const { onChange: nameChange, value: name } = useInput()
   const { onChange: emailChange, value: email } = useInput()
   const [state, send] = useMachine(signupMachine)
@@ -161,10 +149,10 @@ function SignupForm() {
     return (
       <div
         css={{
-          backgroundColor: successBox.background,
+          backgroundColor: v('components-newsletterCTA-successBox-background'),
           borderRadius: 4,
-          color: successBox.text,
-          fontFamily: theme.fonts.catamaran,
+          color: v('components-newsletterCTA-successBox-text'),
+          fontFamily: v('fonts-catamaran'),
           padding: bs(),
         }}
       >
@@ -217,15 +205,19 @@ function SignupForm() {
 
         <button
           css={{
-            ...buttonStyles(theme),
-            backgroundColor: submitButton.background,
-            color: submitButton.text,
+            ...buttonStyles,
+            backgroundColor: v(
+              'components-newsletterCTA-submitButton-background'
+            ),
+            color: v('components-newsletterCTA-submitButton-text'),
             fontSize: '1.25rem',
             padding: `${bs(0.5)} ${bs(0.75)}`,
 
             '&:hover': {
-              backgroundColor: submitButton['&:hover'].background,
-              color: submitButton['&:hover'].text,
+              backgroundColor: v(
+                'components-newsletterCTA-submitButton-hover-background'
+              ),
+              color: v('components-newsletterCTA-submitButton-hover-text'),
             },
           }}
           type="submit"
@@ -269,15 +261,13 @@ function Dots() {
 }
 
 function ErrorWrap({ children }) {
-  const theme = useTheme()
-
   return (
     <div
       css={{
-        backgroundColor: theme.components.newsletterCTA.errorBox.background,
+        backgroundColor: v('components-newsletterCTA-errorBox-background'),
         borderRadius: 4,
-        color: theme.components.newsletterCTA.errorBox.text,
-        fontFamily: theme.fonts.catamaran,
+        color: v('components-newsletterCTA-errorBox-text'),
+        fontFamily: v('fonts-catamaran'),
         padding: bs(0.5),
         marginBottom: bs(0.5),
       }}
@@ -295,11 +285,8 @@ function ControlledInputBox({
   type = 'text',
   value,
 }) {
-  const theme = useTheme()
-  const { inputs } = theme.components.newsletterCTA
-
   return (
-    <div css={{ fontFamily: theme.fonts.catamaran }}>
+    <div css={{ fontFamily: v('fonts-catamaran') }}>
       <label htmlFor={name}>
         <div
           css={{
@@ -311,15 +298,15 @@ function ControlledInputBox({
         </div>
         <input
           css={{
-            backgroundColor: inputs.background,
+            backgroundColor: v('components-newsletterCTA-inputs-background'),
             border: 'none',
             borderRadius: 4,
-            color: inputs.text,
+            color: v('components-newsletterCTA-inputs-text'),
             padding: bs(0.5),
             width: '100%',
 
             '&::placeholder': {
-              color: inputs.placeholderText,
+              color: v('components-newsletterCTA-inputs-placeholderText'),
             },
           }}
           id={name}

@@ -1,14 +1,12 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { bs } from '../../../shevy'
+import { v } from '../../../utils'
 
 export default function TreeWrap({ children }) {
-  const theme = useTheme()
-
   return (
     <div
       style={{
-        backgroundColor: theme.colors.offset,
+        backgroundColor: v('colors-offset'),
         padding: bs(),
         marginBottom: bs(1.5),
         marginTop: bs(1.5),

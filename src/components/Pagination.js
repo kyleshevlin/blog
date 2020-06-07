@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { useTheme } from 'emotion-theming'
-import { lighten } from 'polished'
 import { bs } from '../shevy'
+import { curV, v } from '../utils'
 
 export const baseItemStyles = {
   display: 'inline-block',
@@ -13,38 +12,26 @@ export const baseItemStyles = {
   marginBottom: 3,
 }
 
-export const itemStyles = theme => {
-  const {
-    components: { pagination },
-  } = theme
+const pv = curV('components-pagination-')
 
-  return {
-    ...baseItemStyles,
-    backgroundColor: pagination.normal.background,
-    color: pagination.normal.text,
+export const itemStyles = {
+  ...baseItemStyles,
+  backgroundColor: pv('normal-background'),
+  color: pv('normal-text'),
 
-    '&:hover': {
-      backgroundColor: lighten(0.1, pagination.normal.background),
-      color: pagination.normal.text,
-    },
-  }
+  '&:hover': {
+    backgroundColor: pv('normal-background'),
+    color: pv('normal-text'),
+  },
 }
 
-export const nonLinkItemStyles = theme => {
-  const {
-    components: { pagination },
-  } = theme
-
-  return {
-    ...baseItemStyles,
-    backgroundColor: pagination.active.background,
-    color: pagination.active.text,
-  }
+export const nonLinkItemStyles = {
+  ...baseItemStyles,
+  backgroundColor: pv('active-background'),
+  color: pv('active-text'),
 }
 
 export default function Pagination({ index: currentPageIndex, totalPages }) {
-  const theme = useTheme()
-
   const currentPageNumber = currentPageIndex + 1
   const prevPageNumber = currentPageNumber - 1
   const nextPageNumber = currentPageNumber + 1
@@ -52,7 +39,7 @@ export default function Pagination({ index: currentPageIndex, totalPages }) {
   return (
     <div
       css={{
-        fontFamily: theme.fonts.catamaran,
+        fontFamily: v('fonts-catamaran'),
         marginBottom: bs(2),
       }}
     >
