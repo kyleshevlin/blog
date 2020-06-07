@@ -42,7 +42,6 @@ html.blackout code[class*='language-']::mozselection {
   }
 }
 html.blackout pre[class*='language-'] {
-  padding: 1em;
   overflow: auto;
   background: #0c0b13;
 }
