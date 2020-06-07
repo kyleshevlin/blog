@@ -154,7 +154,9 @@ export function ThemeProvider({ children }) {
   }
 
   React.useEffect(() => {
-    document.documentElement.setAttribute('style', getCSSVars(theme))
+    const html = document.documentElement
+    html.setAttribute('style', getCSSVars(theme))
+    html.setAttribute('class', theme)
     localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
