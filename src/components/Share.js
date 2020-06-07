@@ -1,12 +1,12 @@
 import React from 'react'
-import { darken } from 'polished'
 import { bs } from '../shevy'
+import { v } from '../utils'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
-const spanStyles = theme => ({ color: theme.colors.accent, fontWeight: 'bold' })
+const spanStyles = { color: v('colors-accent'), fontWeight: 'bold' }
 
 export default function Share(props) {
   const { slug, title } = props
@@ -32,10 +32,10 @@ export default function Share(props) {
       }}
     >
       <button
-        css={theme => ({
-          backgroundColor: theme.colors.offset,
+        css={{
+          backgroundColor: v('colors-offset'),
           border: 'none',
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
           fontSize: '1.5em',
           marginBottom: bs(0.5),
           padding: bs(),
@@ -43,10 +43,10 @@ export default function Share(props) {
           width: '100%',
 
           '&:hover': {
-            backgroundColor: darken(0.05, theme.colors.offset),
-            color: theme.colors.accent,
+            backgroundColor: v('colors-offsetMore'),
+            color: v('colors-accent'),
           },
-        })}
+        }}
         onClick={handleClick}
       >
         <span css={spanStyles}>Click here</span> to share this article with your

@@ -1,9 +1,8 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
 import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery } from '../utils'
+import { createMediaQuery, v } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
 
@@ -51,7 +50,6 @@ function formatUrl(url, urlType) {
 }
 
 export default function ValueSell({ courseNickname }) {
-  const theme = useTheme()
   const courses = useCoursesContext()
   const course = chooseCourse(courses, courseNickname)
 
@@ -68,7 +66,7 @@ export default function ValueSell({ courseNickname }) {
   return (
     <div
       css={{
-        backgroundColor: theme.colors.offset,
+        backgroundColor: v('colors-offset'),
         padding: bs(2),
       }}
     >
@@ -100,9 +98,7 @@ export default function ValueSell({ courseNickname }) {
               src={publicURL}
               alt={`${title} Logo`}
             />
-            <div css={theme => ({ fontFamily: theme.fonts.catamaran })}>
-              {title}
-            </div>
+            <div css={{ fontFamily: v('fonts-catamaran') }}>{title}</div>
           </div>
         </div>
         <div
@@ -115,10 +111,10 @@ export default function ValueSell({ courseNickname }) {
         >
           <h2>Check out my courses!</h2>
           <div
-            css={theme => ({
-              fontFamily: theme.fonts.catamaran,
+            css={{
+              fontFamily: v('fonts-catamaran'),
               marginBottom: bs(1),
-            })}
+            }}
           >
             Liked the post? You might like my video courses, too. Click the
             button to view this course or go to{' '}

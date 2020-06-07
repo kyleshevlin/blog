@@ -4,6 +4,7 @@ import { useMachine } from '@xstate/react'
 import statechart from './statechart'
 import Button from '../../../components/Button'
 import { bs } from '../../../shevy'
+import { v } from '../../../utils'
 
 const chart = statechart(`
 lightBulb
@@ -22,10 +23,10 @@ export default function LightBulb() {
 
   return (
     <div
-      css={theme => ({
-        backgroundColor: theme.colors.offset,
+      css={{
+        backgroundColor: v('colors-offset'),
         padding: bs(),
-      })}
+      }}
     >
       State: {state}
       <div>

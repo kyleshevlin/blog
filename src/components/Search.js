@@ -10,7 +10,6 @@ import {
   InstantSearch,
 } from 'react-instantsearch-dom'
 import algoliasearch from 'algoliasearch/lite'
-import { useTheme } from 'emotion-theming'
 import { Link } from 'gatsby'
 import shevy, { bs } from '../shevy'
 import Container from './Container'
@@ -18,10 +17,9 @@ import Modal from './Modal'
 import SearchIcon from './icons/Search'
 import CloseIcon from './icons/Close'
 import * as PaginationStyles from './Pagination'
+import { v } from '../utils'
 
 const SearchBox = connectSearchBox(({ refine }) => {
-  const theme = useTheme()
-
   const debouncedRefine = debounce(event => {
     refine(event.target.value)
   }, 500)
@@ -39,7 +37,7 @@ const SearchBox = connectSearchBox(({ refine }) => {
         css={{
           ...shevy.h5,
           display: 'block',
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
           fontWeight: 'bold',
           marginBottom: bs(0.125),
         }}
@@ -49,11 +47,11 @@ const SearchBox = connectSearchBox(({ refine }) => {
       </label>
       <input
         css={{
-          color: theme.components.searchBox.text,
-          border: `1px solid ${theme.colors.offsetMore}`,
+          color: v('components-searchBox-text'),
+          border: `1px solid ${v('colors-offsetMore')}`,
           borderRadius: 4,
           display: 'block',
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
           padding: `${bs(0.25)} ${bs(0.5)}`,
           width: '100%',
         }}
@@ -67,13 +65,11 @@ const SearchBox = connectSearchBox(({ refine }) => {
 })
 
 const Hits = connectHits(({ closeModal, hits }) => {
-  const theme = useTheme()
-
   return (
     <div css={{ display: 'flex', flexWrap: 'wrap' }}>
       <div
         css={{
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
           fontSize: '.85rem',
           fontStyle: 'italic',
           marginBottom: bs(),
@@ -114,10 +110,8 @@ const Hits = connectHits(({ closeModal, hits }) => {
 
 const Pagination = connectPagination(
   ({ createURL, currentRefinement, nbPages, refine }) => {
-    const theme = useTheme()
-
     return (
-      <div css={{ fontFamily: theme.fonts.catamaran }}>
+      <div css={{ fontFamily: v('fonts-catamaran') }}>
         {currentRefinement > 1 ? (
           <a
             css={PaginationStyles.itemStyles}
@@ -176,11 +170,11 @@ const Results = connectStateResults(({ closeModal, error, searchResults }) => {
   if (error) {
     return (
       <div
-        css={theme => ({
-          backgroundColor: theme.components.searchError.background,
-          color: theme.components.searchError.text,
+        css={{
+          backgroundColor: v('components-searchError-background'),
+          color: v('components-searchError-text'),
           padding: `${bs(0.5)} ${bs()}`,
-        })}
+        }}
       >
         Sorry, there was an error and search is unavailable at this time. Please
         try again later.
@@ -206,7 +200,6 @@ export default function Search() {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const openButtonRef = React.useRef(null)
   const closeButtonRef = React.useRef(null)
-  const theme = useTheme()
 
   useCloseOnEsc(() => {
     setIsModalOpen(false)
@@ -220,7 +213,7 @@ export default function Search() {
         css={{
           backgroundColor: 'transparent',
           border: 'none',
-          fontFamily: theme.fonts.catamaran,
+          fontFamily: v('fonts-catamaran'),
         }}
         onClick={() => {
           setIsModalOpen(true)
@@ -233,7 +226,7 @@ export default function Search() {
           role="img"
           aria-label="magnifying glass"
         >
-          <SearchIcon stroke={theme.colors.text} width={20} />
+          <SearchIcon stroke={v('colors-text')} width={20} />
         </span>
       </button>
 
@@ -245,7 +238,7 @@ export default function Search() {
             <>
               Close Search{' '}
               <span role="img" aria-label="a black X">
-                <CloseIcon stroke={theme.colors.text} width={16} />
+                <CloseIcon stroke={v('colors-text')} width={16} />
               </span>
             </>
           }

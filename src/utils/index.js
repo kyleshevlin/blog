@@ -23,3 +23,7 @@ export const isEmail = value => {
 }
 
 export const getNodes = obj => obj.edges.map(edge => edge.node)
+
+const cssVar = prefix => str => `var(--${prefix}${str})`
+export const curV = cssVar
+export const v = cssVar('')

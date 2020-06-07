@@ -1,6 +1,6 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { bs } from '../../../shevy'
+import { v } from '../../../utils'
 
 // The absurd width is partnered with negative margins to create an svg that almost
 // is guaranteed to take up the full width on any gargantuan sized screen. It also
@@ -33,7 +33,6 @@ export default function DirectedGraph({
   const isReady = useScript(
     'https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js'
   )
-  const theme = useTheme()
 
   React.useEffect(() => {
     if (!isReady) {
@@ -65,7 +64,7 @@ export default function DirectedGraph({
       .attr('overflow', 'visible')
       .append('svg:path')
       .attr('d', 'M 0,-5 10,0 0,5Z')
-      .attr('fill', theme.colors.text)
+      .attr('fill', v('colors-text'))
       .attr('stroke', 'none')
 
     const simulation = d3.forceSimulation(data.nodes)
@@ -88,7 +87,7 @@ export default function DirectedGraph({
       .enter()
       .append('line')
       .attr('stroke-width', 2)
-      .attr('stroke', theme.colors.text)
+      .attr('stroke', v('colors-text'))
       .attr('marker-end', 'url(#arrowhead)')
 
     const node = svg
@@ -109,9 +108,9 @@ export default function DirectedGraph({
     node
       .append('circle')
       .attr('r', NODE_RADIUS)
-      .attr('fill', theme.colors.background)
+      .attr('fill', v('colors-background'))
       .attr('stroke-width', 1)
-      .attr('stroke', theme.colors.text)
+      .attr('stroke', v('colors-text'))
 
     if (showNodeIDs) {
       node
@@ -152,32 +151,11 @@ export default function DirectedGraph({
     simulation.on('tick', tickActions)
   }, [data, isReady])
 
-  React.useEffect(() => {
-    if (!isReady) {
-      return
-    }
-
-    const { d3 } = window
-    const svg = d3.select(svgRef.current)
-
-    const arrowHeadPath = svg.select('#arrowhead').select('path')
-    arrowHeadPath.attr('fill', theme.colors.text)
-
-    const links = svg.select('.links')
-    links.selectAll('line').attr('stroke', theme.colors.text)
-
-    const node = svg.selectAll('.node')
-    node
-      .select('circle')
-      .attr('fill', theme.colors.background)
-      .attr('stroke', theme.colors.text)
-  }, [theme])
-
   return (
     <div css={{ marginBottom: bs(2) }}>
       <div
         css={{
-          border: `2px dashed ${theme.colors.accent}`,
+          border: `2px dashed ${v('colors-accent')}`,
           ...(caption ? { borderBottom: 'none' } : {}),
           display: 'flex',
           justifyContent: 'center',
@@ -189,8 +167,8 @@ export default function DirectedGraph({
       {caption ? (
         <div
           css={{
-            backgroundColor: theme.colors.offset,
-            fontFamily: theme.fonts.catamaran,
+            backgroundColor: v('colors-offset'),
+            fontFamily: v('fonts-catamaran'),
             fontStyle: 'italic',
             padding: `${bs(0.5)} ${bs()}`,
             textAlign: 'center',

@@ -1,10 +1,9 @@
 import React from 'react'
-import { useTheme } from 'emotion-theming'
 import { graphql, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
+import { v } from '../utils'
 
 export default function Contributors() {
-  const theme = useTheme()
   const data = useStaticQuery(graphql`
     query ContributorsInTheLast100PullRequests {
       github {
@@ -49,7 +48,7 @@ export default function Contributors() {
   return (
     <div
       css={{
-        fontFamily: theme.fonts.catamaran,
+        fontFamily: v('fonts-catamaran'),
         fontStyle: 'italic',
         textAlign: 'center',
       }}

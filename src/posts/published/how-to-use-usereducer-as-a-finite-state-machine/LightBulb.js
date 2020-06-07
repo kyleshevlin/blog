@@ -1,6 +1,7 @@
 import React from 'react'
 import { bs } from '../../../shevy'
 import Button from '../../../components/Button'
+import { v } from '../../../utils'
 
 const NEXT_STATE_GRAPH = {
   lit: {
@@ -30,11 +31,11 @@ export default function LightBulb() {
 
   return (
     <div
-      css={theme => ({
-        backgroundColor: theme.colors.offset,
+      css={{
+        backgroundColor: v('colors-offset'),
         marginBottom: bs(),
         padding: bs(),
-      })}
+      }}
     >
       State: {state}
       <div css={{ marginTop: bs(0.5) }}>

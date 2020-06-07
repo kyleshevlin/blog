@@ -5,7 +5,7 @@ import ExcerptList from '../components/ExcerptList'
 import Pagination from '../components/Pagination'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { getNodes } from '../utils'
+import { getNodes, v } from '../utils'
 
 export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
@@ -79,10 +79,10 @@ function Welcome() {
   return (
     <section css={{ marginBottom: bs(2) }}>
       <p
-        css={theme => ({
+        css={{
           fontSize: shevy.h2.fontSize,
-          fontFamily: theme.fonts.catamaran,
-        })}
+          fontFamily: v('fonts-catamaran'),
+        }}
       >
         Welcome!
       </p>
@@ -141,11 +141,11 @@ function CollectionItem({ collection, posts }) {
   return (
     <div css={{ marginBottom: bs() }}>
       <div
-        css={theme => ({
-          fontFamily: theme.fonts.catamaran,
+        css={{
+          fontFamily: v('fonts-catamaran'),
           fontSize: shevy.h4.fontSize,
           marginBottom: bs(0.5),
-        })}
+        }}
       >
         {name}
       </div>
