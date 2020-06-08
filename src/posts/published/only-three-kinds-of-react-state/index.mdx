@@ -10,7 +10,7 @@ relatedPostsSlugs: []
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
-import Wrap from './Wrap'
+import OffsetWrap from '../../../components/OffsetWrap'
 import LocalCounter from './LocalCounter'
 import ParentalCounter from './ParentalCounter'
 import { CounterProvider, RemoteCounter } from './RemoteCounter'
@@ -49,9 +49,9 @@ function Counter({ initialValue = 0 }) {
 }
 ```
 
-<Wrap>
+<OffsetWrap>
   <LocalCounter />
-</Wrap>
+</OffsetWrap>
 
 ### Parentally
 
@@ -95,9 +95,9 @@ function Counter({ count, increment, decrement, reset }) {
 }
 ```
 
-<Wrap>
+<OffsetWrap>
   <ParentalCounter />
-</Wrap>
+</OffsetWrap>
 
 This component behaves exactly the same as the other one, but there might be a good reason to store the data in a parent component. Perhaps it needs to be accessed by other children, or it's easier to test the child component by being able to pass props into it rather than assert on its internal behavior. The reason for the separation of the data and its management from its presentation isn't terribly important at this moment. Understanding the concepts of this pattern is what matters.
 
@@ -163,22 +163,22 @@ function App() {
 }
 ```
 
-<Wrap>
+<OffsetWrap>
   <CounterProvider>
     <RemoteCounter />
   </CounterProvider>
-</Wrap>
+</OffsetWrap>
 
 What is interesting about our `RemoteCounter` example is that because it consumes data managed remotely, instances of `RemoteCounter` within the same `CounterProvider` read and update the same data. Here are two `RemoteCounter`s within a single `CounterProvider`:
 
-<Wrap>
+<OffsetWrap>
   <CounterProvider>
     <div style={{ marginBottom: bs(0.5) }}>
       <RemoteCounter />
     </div>
     <RemoteCounter />
   </CounterProvider>
-</Wrap>
+</OffsetWrap>
 
 We could accomplish something similar having components read and write to a global store in our application. Again, how data is managed remotely is not what's important here, understanding the pattern is what matters.
 

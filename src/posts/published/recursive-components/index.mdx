@@ -7,6 +7,7 @@ tags: ['React', 'Computer Science', 'Data Structures and Algorithms']
 ---
 
 import { FootnoteMarker as Marker } from '../../../components/Footnotes'
+import OffsetWrap from '../../../components/OffsetWrap'
 import BetterStyledTree from './BetterStyledTree'
 import StyledTree from './StyledTree'
 import UnstyledTree from './UnstyledTree'
@@ -117,24 +118,26 @@ function Tree({ items }) {
 
 If we were to pass the folder data we created earlier to the component, that will look like this:
 
-<UnstyledTree
-  items={[
-    {
-      name: 'src',
-      children: [
-        { name: 'css', children: [] },
-        {
-          name: 'js',
-          children: [
-            { name: 'utils', children: [] },
-            { name: 'components', children: [] }
-          ]
-        }
-      ]
-    },
-    { name: 'public', children: [{ name: 'images', children: [] }] }
-  ]}
-/>
+<OffsetWrap>
+  <UnstyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
 
 **Wait!** That's not what we want to represent. That's just a flat list. What happened?
 
@@ -160,45 +163,49 @@ function Tree({ items, depth = 0 }) {
 
 Notice how simple it is to increment the `depth` prop with recursion. Each layer deeper we go in the tree, the value is increased by 1. Let's take a look at our recursive component now:
 
-<StyledTree
-  items={[
-    {
-      name: 'src',
-      children: [
-        { name: 'css', children: [] },
-        {
-          name: 'js',
-          children: [
-            { name: 'utils', children: [] },
-            { name: 'components', children: [] }
-          ]
-        }
-      ]
-    },
-    { name: 'public', children: [{ name: 'images', children: [] }] }
-  ]}
-/>
+<OffsetWrap>
+  <StyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
 
 That looks a bit more like the folder structure we all know and love. Let's add a few more touches to make it a bit nicer.
 
-<BetterStyledTree
-  items={[
-    {
-      name: 'src',
-      children: [
-        { name: 'css', children: [] },
-        {
-          name: 'js',
-          children: [
-            { name: 'utils', children: [] },
-            { name: 'components', children: [] }
-          ]
-        }
-      ]
-    },
-    { name: 'public', children: [{ name: 'images', children: [] }] }
-  ]}
-/>
+<OffsetWrap>
+  <BetterStyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
 
 That's starting to look like something you could use in a real UI. A little interactivity, displaying of files, and we'd really have something.
 
