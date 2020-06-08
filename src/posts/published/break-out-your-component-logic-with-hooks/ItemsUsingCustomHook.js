@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Wrapper from './Wrapper'
 import { bs } from '../../../shevy'
 
 function useBooleanAPI(initialState = false) {
@@ -61,11 +60,11 @@ function ExplicitItem() {
 
 export default function ItemsUsingCustomHook() {
   return (
-    <Wrapper>
+    <>
       <div css={{ marginBottom: bs() }}>
         <TogglingItem />
       </div>
       <ExplicitItem />
-    </Wrapper>
+    </>
   )
 }

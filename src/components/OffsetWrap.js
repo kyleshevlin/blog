@@ -1,14 +1,15 @@
 import React from 'react'
-import { bs } from '../../../shevy'
-import { v } from '../../../utils'
+import { bs } from '../shevy'
+import { v } from '../utils'
 
-export default function Wrapper({ children }) {
+export default function OffsetWrap({ children }) {
   return (
     <div
       css={{
         backgroundColor: v('colors-offset'),
         padding: bs(),
-        marginBottom: bs(),
+        marginTop: bs(1.5),
+        marginBottom: bs(1.5),
       }}
     >
       {children}

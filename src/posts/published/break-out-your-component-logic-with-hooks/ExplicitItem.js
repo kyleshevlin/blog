@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Wrapper from './Wrapper'
 import { bs } from '../../../shevy'
 
 export default function ExplicitItem() {
@@ -24,13 +23,5 @@ export default function ExplicitItem() {
         <Button onClick={unselect}>Unselect</Button>
       </div>
     </>
-  )
-}
-
-export function WrappedExplicitItem() {
-  return (
-    <Wrapper>
-      <ExplicitItem />
-    </Wrapper>
   )
 }

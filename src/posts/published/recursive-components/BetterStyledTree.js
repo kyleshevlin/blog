@@ -1,5 +1,4 @@
 import React from 'react'
-import TreeWrap from './TreeWrap'
 import { bs } from '../../../shevy'
 import { v } from '../../../utils'
 
@@ -31,7 +30,7 @@ function OpenFolder() {
   )
 }
 
-function Tree({ items, depth = 0 }) {
+export default function BetterStyledTree({ items, depth = 0 }) {
   if (!items || !items.length) {
     return null
   }
@@ -57,16 +56,8 @@ function Tree({ items, depth = 0 }) {
             {name}
           </span>
         </div>
-        <Tree items={children} depth={depth + 1} />
+        <BetterStyledTree items={children} depth={depth + 1} />
       </React.Fragment>
     )
   })
-}
-
-export default function WrappedTree({ items }) {
-  return (
-    <TreeWrap>
-      <Tree items={items} />
-    </TreeWrap>
-  )
 }
