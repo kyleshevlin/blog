@@ -56,7 +56,18 @@ const reducer = (state, action) => {
   }
 }
 
-const FootnotesContext = React.createContext()
+const noop = () => {}
+
+const FootnotesContext = React.createContext({
+  content: null,
+  index: null,
+  isVisible: false,
+  markers: {},
+  addMarker: noop,
+  removeMarker: noop,
+  updateFootnote: noop,
+  hideFootnote: noop,
+})
 
 export function FootnotesProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
