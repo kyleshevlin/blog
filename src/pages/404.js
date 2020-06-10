@@ -19,7 +19,7 @@ const NotFoundPage = ({ data }) => (
       different URL or perhaps choose one of the blog posts listed below.
     </p>
 
-    {data.allMarkdownRemark.edges
+    {data.allMdx.edges
       .map(edge => edge.node)
       .map(post => {
         const { slug, title } = post.frontmatter
