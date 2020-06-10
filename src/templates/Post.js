@@ -5,7 +5,6 @@ import AddedValue from '../components/AddedValue'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
 import PostAuthor from '../components/PostAuthor'
-import PostContent from '../components/PostContent'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostTags from '../components/PostTags'
@@ -31,8 +30,7 @@ const Post = ({
   data,
   pageContext: { olderPost, newerPost, relatedPosts },
 }) => {
-  const { md, mdx } = data
-  const file = md ? md : mdx
+  const file = data.mdx
   const {
     fileAbsolutePath,
     frontmatter: {
@@ -78,7 +76,7 @@ const Post = ({
           <PostHeader {...{ subtitle, title }} />
           <EditLink fileAbsolutePath={fileAbsolutePath} />
         </div>
-        {renderContent(file)}
+        <MDXRenderer>{file.body}</MDXRenderer>
 
         <Share slug={slug} title={title} />
 
@@ -128,32 +126,7 @@ export default Post
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    md: markdownRemark(
-      fileAbsolutePath: { regex: "/posts/" }
-      frontmatter: { slug: { eq: $slug } }
-    ) {
-      html
-      fileAbsolutePath
-      frontmatter {
-        coverImage {
-          childImageSharp {
-            original {
-              src
-            }
-          }
-        }
-        date(formatString: "MMMM DD, YYYY")
-        description
-        keywords
-        relevantCourseNickname
-        slug
-        subtitle
-        tags
-        title
-      }
-    }
-
-    mdx: mdx(
+    mdx(
       fileAbsolutePath: { regex: "/posts/" }
       frontmatter: { slug: { eq: $slug } }
     ) {
@@ -179,14 +152,6 @@ export const pageQuery = graphql`
     }
   }
 `
-
-const renderContent = file => {
-  if (file.html) {
-    return <PostContent content={file.html} />
-  }
-
-  return <MDXRenderer>{file.body}</MDXRenderer>
-}
 
 const generateEditLink = fileAbsolutePath => {
   const [, filePath] = fileAbsolutePath.split('src')

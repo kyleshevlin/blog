@@ -59,7 +59,6 @@
     "format": "prettier --loglevel=error --write \"src/**/*.js\"",
     "lint": "eslint ./src",
     "newmdx": "node ./scripts/newMdx.js",
-    "newpost": "node ./scripts/newPost.js",
     "start": "npm run develop",
     "test:watch": "jest --watch",
     "test": "jest"

@@ -39,7 +39,7 @@ export default NotFoundPage
 
 export const pageQuery = graphql`
   {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       limit: 5
       sort: { fields: [frontmatter___date], order: DESC }
