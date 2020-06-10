@@ -19,7 +19,7 @@ const NotFoundPage = ({ data }) => (
       different URL or perhaps choose one of the blog posts listed below.
     </p>
 
-    {data.allMarkdownRemark.edges
+    {data.allMdx.edges
       .map(edge => edge.node)
       .map(post => {
         const { slug, title } = post.frontmatter
@@ -39,7 +39,7 @@ export default NotFoundPage
 
 export const pageQuery = graphql`
   {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       limit: 5
       sort: { fields: [frontmatter___date], order: DESC }

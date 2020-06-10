@@ -17,7 +17,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
-        extensions: ['.mdx', '.md'],
+        extensions: ['.mdx'],
         gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',
@@ -88,26 +88,6 @@ module.exports = {
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: [
-          'gatsby-remark-copy-linked-files',
-          {
-            resolve: 'gatsby-remark-images',
-            options: {
-              maxWidth: 960,
-            },
-          },
-          {
-            resolve: 'gatsby-remark-prismjs',
-            options: {
-              noInlineHighlight: true,
-            },
-          },
-        ],
-      },
-    },
     'gatsby-plugin-catch-links',
     'gatsby-plugin-twitter',
     {
@@ -134,10 +114,10 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { allMarkdownRemark, site } }) => {
+            serialize: ({ query: { allMdx, site } }) => {
               const { siteUrl } = site.siteMetadata
 
-              return allMarkdownRemark.edges.map(edge => {
+              return allMdx.edges.map(edge => {
                 const {
                   html,
                   frontmatter: { date, slug, subtitle, title },
@@ -154,7 +134,7 @@ module.exports = {
             },
             query: `
               query {
-                allMarkdownRemark(
+                allMdx(
                   filter: {fileAbsolutePath: {regex: "/posts/"}}
                   limit: 1000
                   sort: {fields: [frontmatter___date], order: DESC}

@@ -1,7 +1,8 @@
 import React from 'react'
 import Layout from './components/Layout'
 import CoursesProvider from './components/CoursesProvider'
-import { FootnotesProvider } from './components/Footnotes'
+import OffsetWrap from './components/OffsetWrap'
+import { FootnotesProvider, FootnoteMarker } from './components/Footnotes'
 import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
@@ -23,19 +24,21 @@ const wrapPageElement = ({ element, props }) => {
   return (
     <ThemeProvider>
       <CoursesProvider>
-        <MDXProvider
-          components={{
-            h2: H2,
-            h3: H3,
-            h4: H4,
-            h5: H5,
-            h6: H6,
-          }}
-        >
-          <FootnotesProvider>
+        <FootnotesProvider>
+          <MDXProvider
+            components={{
+              h2: H2,
+              h3: H3,
+              h4: H4,
+              h5: H5,
+              h6: H6,
+              Marker: FootnoteMarker,
+              OffsetWrap,
+            }}
+          >
             <Layout {...props}>{element}</Layout>
-          </FootnotesProvider>
-        </MDXProvider>
+          </MDXProvider>
+        </FootnotesProvider>
       </CoursesProvider>
     </ThemeProvider>
   )

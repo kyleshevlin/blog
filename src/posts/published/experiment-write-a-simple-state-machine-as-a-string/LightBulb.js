@@ -3,7 +3,7 @@ import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import statechart from './statechart'
 import Button from '../../../components/Button'
-import OffsetWrap from '../../../components/OffsetWrap'
+import { bs } from '../../../shevy'
 
 const chart = statechart(`
 lightBulb
@@ -21,13 +21,20 @@ export default function LightBulb() {
   const [state, send] = useMachine(lightBulbMachine)
 
   return (
-    <OffsetWrap>
-      State: {state}
-      <div>
+    <>
+      State: {state.value}
+      <div
+        css={{
+          marginTop: bs(0.5),
+          'button + button': {
+            marginLeft: bs(0.5),
+          },
+        }}
+      >
         <Button onClick={() => send('TOGGLE')}>Toggle</Button>
         <Button onClick={() => send('BREAK')}>Break</Button>
         <Button onClick={() => send('RESET')}>Reset</Button>
       </div>
-    </OffsetWrap>
+    </>
   )
 }

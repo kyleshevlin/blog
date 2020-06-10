@@ -16,7 +16,6 @@ relatedPostsSlugs:
 relevantCourseNickname: 'xstate'
 ---
 
-import { FootnoteMarker as Marker } from '../../../components/Footnotes'
 import LightBulb from './LightBulb'
 
 Near the end of last year, I was doing prep work for my first workshop on state machines. In my research, I came across this simple, but effective graph editor: [https://csacademy.com/app/graph_editor/](https://csacademy.com/app/graph_editor/).
@@ -257,7 +256,9 @@ function LightBulb() {
 
 And let's check it out here:
 
-<LightBulb />
+<OffsetWrap>
+  <LightBulb />
+</OffsetWrap>
 
 If you want to see this code and play around with it, you can check out this Codesandbox: [https://codesandbox.io/s/fsm-as-a-string-g3rcp](https://codesandbox.io/s/fsm-as-a-string-g3rcp)
 
