@@ -6,7 +6,10 @@ const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
-const spanStyles = { color: v('colors-accent'), fontWeight: 'bold' }
+const spanStyles = {
+  color: v('components-share-highlight'),
+  fontWeight: 'bold',
+}
 
 export default function Share(props) {
   const { slug, title } = props
@@ -33,7 +36,7 @@ export default function Share(props) {
     >
       <button
         css={{
-          backgroundColor: v('colors-offset'),
+          backgroundColor: v('components-share-background'),
           border: 'none',
           fontFamily: v('fonts-catamaran'),
           fontSize: '1.5em',
@@ -43,8 +46,8 @@ export default function Share(props) {
           width: '100%',
 
           '&:hover': {
-            backgroundColor: v('colors-offsetMore'),
-            color: v('colors-accent'),
+            backgroundColor: v('components-share-hover-background'),
+            color: v('components-share-highlight'),
           },
         }}
         onClick={handleClick}
