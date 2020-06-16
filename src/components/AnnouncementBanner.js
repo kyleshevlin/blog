@@ -31,9 +31,13 @@ function BLM() {
             backgroundColor: v('components-announcementBanner-links-text'),
             color: v('colors-accent'),
 
+            '&:active': {
+              color: v('colors-accent'),
+            },
+
             '&:hover': {
               backgroundColor: v(
-                'compoents-announcementBanner-links-hover-text'
+                'components-announcementBanner-links-hover-text'
               ),
               color: v('colors-accent'),
             },

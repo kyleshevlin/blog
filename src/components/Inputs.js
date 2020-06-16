@@ -1,0 +1,38 @@
+import React from 'react'
+import { bs } from '../shevy'
+import { v } from '../utils'
+
+export function Input({ label, value, onChange, type = 'text' }) {
+  return (
+    <div>
+      <label htmlFor={label}>
+        <span css={{ marginRight: bs(0.5) }}>{label}</span>
+        <input
+          css={{
+            backgroundColor: v('components-inputs-background'),
+            border: 'none',
+            color: v('components-inputs-text'),
+            padding: `${bs(0.25)} ${bs(0.5)}`,
+          }}
+          id={label}
+          type={type}
+          value={value}
+          onChange={onChange}
+        />
+      </label>
+    </div>
+  )
+}
+
+const useInputFactory = (formatter = x => x) => initialValue => {
+  const [value, setValue] = React.useState(formatter(initialValue))
+
+  const onChange = e => {
+    setValue(formatter(e.target.value))
+  }
+
+  return [value, onChange]
+}
+
+export const useInput = useInputFactory()
+export const useNumberInput = useInputFactory(Number)

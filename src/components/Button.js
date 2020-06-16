@@ -19,11 +19,16 @@ export const buttonStyles = {
     backgroundColor: v('components-button-hover-background'),
     color: v('components-button-hover-text'),
   },
+
+  '&:active': {
+    backgroundColor: v('components-button-active-background'),
+    color: v('components-button-active-text'),
+  },
 }
 
-export default function Button({ children, onClick }) {
+export default function Button({ children, onClick, type = 'button' }) {
   return (
-    <button css={buttonStyles} type="button" onClick={onClick}>
+    <button css={buttonStyles} type={type} onClick={onClick}>
       {children}
     </button>
   )
