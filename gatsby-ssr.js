@@ -52,9 +52,12 @@ void function() {
     '--colors-background': colors.background,
     '--colors-text': colors.text,
     '--colors-accent': colors.accent,
+    '--colors-accentDark': colors.accentDark,
+    '--colors-accentLight': colors.accentLight,
     '--colors-offset': colors.offset,
     '--colors-offsetMore': colors.offsetMore,
     '--colors-error': colors.error,
+    '--colors-text-on-accent': 'var(--colors-background)',
     '--fonts-catamaran': 'Catamaran, sans-serif',
     '--components-announcementBanner-background': 'var(--colors-accent)',
     '--components-announcementBanner-text': 'var(--colors-background)',
@@ -65,8 +68,12 @@ void function() {
     '--components-button-text': 'var(--colors-background)',
     '--components-button-hover-background': 'var(--colors-accentLight)',
     '--components-button-hover-text': 'var(--colors-background)',
+    '--components-button-active-background': 'var(--colors-background)',
+    '--components-button-active-text': 'var(--colors-text)',
     '--components-footer-background': 'var(--colors-text)',
     '--components-footer-text': 'var(--colors-background)',
+    '--components-inputs-background': 'var(--colors-background)',
+    '--components-inputs-text': 'var(--colors-text)',
     '--components-lightBulb-fill': 'var(--colors-text)',
     '--components-newsletterCTA-background': 'var(--colors-accent)',
     '--components-newsletterCTA-text': 'var(--colors-background)',
@@ -90,12 +97,19 @@ void function() {
     '--components-searchBox-text': 'var(--colors-text)',
     '--components-searchError-background': 'var(--colors-error)',
     '--components-searchError-text': 'var(--colors-background)',
+    '--components-share-background': 'var(--colors-offset)',
+    '--components-share-highlight': 'var(--colors-accent)',
+    '--components-share-hover-background': 'var(--colors-offsetMore)',
   })
 
-  const LIGHT_VARS = makeDefaultCSSVars(LIGHT_COLORS)
+  const LIGHT_VARS = {
+    ...makeDefaultCSSVars(LIGHT_COLORS),
+    '--components-share-hover-background': 'hsl(197, 12%, 87%)',
+  }
 
   const DARK_VARS = {
     ...makeDefaultCSSVars(DARK_COLORS),
+    '--colors-text-on-accent': 'var(--colors-text)',
     '--components-announcementBanner-text': 'var(--colors-text)',
     '--components-announcementBanner-links-hover-text': 'var(--colors-text)',
     '--components-button-text': 'var(--colors-text)',
