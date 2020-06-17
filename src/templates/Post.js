@@ -155,7 +155,7 @@ export const pageQuery = graphql`
 
 const generateEditLink = fileAbsolutePath => {
   const [, filePath] = fileAbsolutePath.split('src')
-  return `https://github.com/kyleshevlin/blog/edit/master/src${filePath}`
+  return `https://github.com/kyleshevlin/blog/edit/main/src${filePath}`
 }
 
 function EditLink({ fileAbsolutePath }) {
