@@ -1,12 +1,247 @@
 ---
 date: '2020-06-16'
 slug: 'using-react-memo-to-avoid-unnecessary-rerenders'
-title: 'Using React Memo To Avoid Unnecessary Rerenders'
+title: 'Using `React.memo` to Avoid Unnecessary Rerenders'
 subtitle: null
-description: ''
-excerpt: null
-tags: ['React']
-relatedPostsSlugs: []
+description: 'We can use the top level `React.memo` API to avoid unnecessary rerenders of our function components in a React app. In this post, Kyle Shevlin will teach you how it works.'
+excerpt: "If your component is a pure function, i.e. given the same inputs you get the same output, you can wrap the component in `React.memo` to prevent the component from rerendering if `props` haven't changed."
+tags: ['React', 'JavaScript']
+relatedPostsSlugs: ['memoization']
 ---
 
-In my last post, I talked about the concept of [memoization](/memoization) and how it's used to avoid calculating a previously calculated result. I also made mention of the two memoization functions in React. This post is going to focus on `React.memo` and how to use it to avoid unnecessary rerenders of React components.
+import {
+  Profile,
+  MemoizedProfile,
+  Parent,
+  ObjectParent,
+  RefParent,
+  OtherObjectParent
+} from './Profile'
+import { bs } from '../../../shevy'
+
+In my last post, I talked about the concept of [memoization](/memoization) and how the technique is used to avoid calculating a previously calculated result of a function. I also made mention of the two memoization functions in React. This post is going to focus on `React.memo` and how to use it to avoid unnecessary rerenders of React components.
+
+When Hooks were introduced to React in late 2018, we were also given some new top-level functions in the React API. One of those new functions is `React.memo`. It is the function component equivalent of using `PureComponent` for a class component.
+
+If your component is a pure function, i.e. given the same inputs you get the same output, you can wrap the component in `React.memo` to prevent the component from rerendering if `props` haven't changed. <Marker content="It will still rerender if `state` or `context` changes." /> Let's create a simple `Profile` component that we can memoize to demonstrate.
+
+```jsx
+function Profile({ name, location }) {
+  return (
+    <div>
+      <div>{name}</div>
+      <div>{location}</div>
+    </div>
+  )
+}
+
+const MemoizedProfile = React.memo(Profile)
+```
+
+If I add a few styles, give each component the same props, and render both of these components side by side, they will look perfectly identical.
+
+<OffsetWrap>
+  <div style={{
+    display: 'grid',
+    gridGap: bs(),
+    gridTemplateColumns: '1fr 1fr'
+  }}>
+    <Profile name="Kyle Shevlin" location="Portland, OR" />
+    <MemoizedProfile name="Kyle Shevlin" location="Portland, OR" />
+  </div>
+</OffsetWrap>
+
+Great. That's what we expect. There's nothing fancy about the initial render of a component with props. We give it a set of values, we expect the output to be the correct result.
+
+Where `React.memo` becomes useful is when we introduce a parent component. In React, if a component updates, then it rerenders _everything_ in that component. This is necessary. The new state of the component may affect anything rendered below it. _This rerendering happens regardless of whether the child component has experienced a change or not_. That's where `React.memo` comes into play.
+
+A memoized component will skip rendering if its `props` have not changed. We can easily demonstrate this, and I get to share one of my simple little hacks for detecting unnecessary rerenders in the process.
+
+We're going to change `Profile` slightly. We're going to give it a random background color every time it renders. <Marker content="Think of this as the equivalent of using `outline: 1px solid red` when debugging CSS." /> This is simple to write and do. Just make sure to remove it when you're ready to ship your code.
+
+```jsx
+const random255 = () => Math.floor(Math.random() * 255)
+const randomRGBA = () => {
+  const r = random255()
+  const g = random255()
+  const b = random255()
+
+  return `rgba(${r}, ${g}, ${b}, 0.3)`
+}
+
+function Profile({ name, location }) {
+  return (
+    <div style={{ backgroundColor: randomRGBA() }}>
+      <div>{name}</div>
+      <div>{location}</div>
+    </div>
+  )
+}
+
+const MemoizedProfile = React.memo(Profile)
+```
+
+Now, every time the component renders, a new background color will be applied. Let's create a `Parent` component that has a frivolous state change that should cause the `Profile` components to rerender.
+
+```jsx
+function Parent({ children }) {
+  const [, setState] = React.useState(false)
+  const forceUpdate = () => setState(x => !x)
+
+  return (
+    <>
+      <button onClick={forceUpdate}>Force Update</button>
+      <div
+        style={{
+          display: 'grid',
+          gridGap: bs(),
+          gridTemplateColumns: '1fr 1fr',
+          marginTop: bs(0.5),
+        }}
+      >
+        <Profile name="Kyle Shevlin" location="Portland, OR" />
+        <MemoizedProfile name="Kyle Shevlin" location="Portland, OR" />
+      </div>
+    </>
+  )
+}
+```
+
+<OffsetWrap>
+  <Parent />
+</OffsetWrap>
+
+Notice that when you click "Force Update", only the regular `Profile` component updates. The memoized version does not. In the right scenarios, this can become a real performance boost.
+
+### What Does "Same Props" Mean?
+
+We're going to make a small change to our `Profile` component again to demonstrate an important concept.
+
+```jsx
+// Pay attention to how we've changed props
+function Profile({ person }) {
+  const { name, location } = person
+
+  return (
+    <div style={{ backgroundColor: randomRGBA() }}>
+      <div>{name}</div>
+      <div>{location}</div>
+    </div>
+  )
+}
+```
+
+We've moved `name` and `location` into a `person` object. You can imagine this scenario happening often in any React app. You have an array of objects and you pass the whole object as a prop to a child component. How does this change how our memoized component works? Let's update our `Parent` component to now pass these objects into the component instead.
+
+```jsx
+function Parent({ children }) {
+  const [, setState] = React.useState(false)
+  const forceUpdate = () => setState(x => !x)
+
+  return (
+    <>
+      <button onClick={forceUpdate}>Force Update</button>
+      <div
+        style={{
+          display: 'grid',
+          gridGap: bs(),
+          gridTemplateColumns: '1fr 1fr',
+          marginTop: bs(0.5),
+        }}
+      >
+        <Profile
+          person={{
+            name: "Kyle Shevlin",
+            location: "Portland, OR"
+          }}
+        />
+        <MemoizedProfile
+          person={{
+            name: "Kyle Shevlin",
+            location: "Portland, OR"
+          }}
+        />
+      </div>
+    </>
+  )
+}
+```
+
+Now let's give this set of components a try. Click the "Force Update" button below and pay attention to what updates.
+
+<OffsetWrap>
+  <ObjectParent />
+</OffsetWrap>
+
+Both components update! Why does this happen?
+
+Even though the `props` are the same values with every update, the object passed into each component on every render is a new object. Objects are strictly compared by reference, not by their shape of keys and values. The simplest way to demonstrate this is to put this into your browser console and see the result
+
+```javascript
+{} === {}
+```
+
+This is the same check that `React.memo` and `PureComponent` make and is called a "shallow comparison" of objects. Because we're creating new objects with each render to pass into our `Profile` components, this comparison always results in React needing to update. Hence why they both rerender every time that the `Parent` component updates.
+
+To drive this point home, let's store these objects as `refs` inside of the component. A `ref` in React is an object that will not lose its reference across renders. By storing an object as a `ref`, we guarantee that we get the same object (referentially) with each render.
+
+```jsx
+function Parent({ children }) {
+  const [, setState] = React.useState(false)
+  const forceUpdate = () => setState(x => !x)
+  const personRef = React.useRef({
+    name: 'Kyle Shevlin',
+    location: 'Portland, OR'
+  })
+
+  return (
+    <>
+      <button onClick={forceUpdate}>Force Update</button>
+      <div
+        style={{
+          display: 'grid',
+          gridGap: bs(),
+          gridTemplateColumns: '1fr 1fr',
+          marginTop: bs(0.5),
+        }}
+      >
+        <Profile person={personRef.current} />
+        <MemoizedProfile person={personRef.current} />
+      </div>
+    </>
+  )
+}
+```
+
+<OffsetWrap>
+  <RefParent />
+</OffsetWrap>
+
+Now our memoized component is back to working as we expect. Because the object's reference is the same with each render, it skips rerendering. It's important to understand this fact, as it might have an impact on how you design your components.
+
+### `React.memo`'s Second Argument
+
+Using a `ref` like we just did is not how I would recommend handling this situation. It was simply to demonstrate a point. This section is also primarily to demonstrate a point. Use what I'm about to show you _sparingly_. Following general best practices will keep you from needing this feature often.
+
+Suppose we _must_ pass an object into a component, and we know that often these objects will be "deeply equal" even if they aren't the same reference. We can use the second argument to `React.memo` to supply an `areEqual` function that determines if a component should rerender or not. This function is similar to implementing `shouldComponentUpdate` on a class component, in that we compare the `previousProps` to the `nextProps`, but **opposite** in what we want to return from the function. We want the `areEqual` function to return `true` when the component _should **not**_ update. Let's update how we memoize `Profile` accordingly:
+
+```javascript
+const personsAreEqual = (prevProps, nextProps) => {
+  return (
+    prevProps.name === nextProps.name &&
+    prevProps.location === nextProps.location
+  )
+}
+
+const MemoizedProfile = React.memo(Profile, personsAreEqual)
+```
+
+Now, if we use that in our example, we'll see that even without `refs`, our components behave as we expect.
+
+<OffsetWrap>
+  <OtherObjectParent />
+</OffsetWrap>
+
+### Summary
+
+We can improve the performance of our React apps by avoiding unnecessary rerenders with `React.memo`. We have to understand what it means to pass the "same props" to our components, though, in order to achieve this performance boost.
