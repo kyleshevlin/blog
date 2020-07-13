@@ -140,7 +140,7 @@ const THEME_TO_CSS_VARS = {
 const getCSSVars = (theme = 'light') =>
   makeCSSVarsString(THEME_TO_CSS_VARS[theme]).replace(/\s/g, '')
 
-const DEFAULT_THEME = 'blackout'
+const DEFAULT_THEME = 'light'
 const THEME_STORAGE_KEY = 'kyleshevlin:theme'
 const NEXT_THEME = {
   blackout: 'light',
