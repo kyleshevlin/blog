@@ -77,7 +77,7 @@ export default function Tags() {
 
         pre,
         pre[class*='language-'] {
-          margin-top: 0;
+          margin: 0;
           margin-top: ${bs(1.5)};
           margin-bottom: ${bs(1.5)};
           padding: ${bs(0.5)};
@@ -95,6 +95,11 @@ export default function Tags() {
           padding-left: ${bs(0.25)};
           padding-right: ${bs(0.25)};
           border-radius: 3px;
+        }
+
+        code[class*='language-'],
+        pre[class*='language-'] {
+          display: block;
         }
 
         blockquote {
