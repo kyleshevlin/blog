@@ -1,0 +1,549 @@
+---
+date: '2020-08-02'
+slug: 'tic-tac-toe'
+title: 'Tic-Tac-Toe in React'
+subtitle: null
+description: 'In this blog post, Kyle Shevlin teaches you how to build tic-tac-toe in React using CSS grid and the `useReducer` hook.'
+excerpt: "Tic-tac-toe is a very simple game, and because it's so simple, it makes for a good introduction to some of the principles of grid and turn-based games. Let's learn how to build tic-tac-toe with React."
+tags: ['React', 'JavaScript']
+relatedPostsSlugs: []
+---
+
+import EggheadEmbed from '../../../components/EggheadEmbed'
+import BlankGrid from './BlankGrid'
+import FirstGame from './FirstGame'
+import SecondGame from './SecondGame'
+import ThirdGame from './ThirdGame'
+import FourthGame from './FourthGame'
+
+If video content is more your thing than reading a technical article, you can watch my collection of egghead lessons teaching the material found in this blog post. No matter which you prefer, I hope you enjoy the content.
+
+<EggheadEmbed
+  src="https://egghead.io/lessons/javascript-create-a-2-dimensional-grid-for-our-tic-tac-toe-game/embed?pl=tic-tac-toe-in-react-387f"
+  title="Tic Tac Toe in React egghead Collection"
+/>
+
+A few weeks ago, I took some time off from work. I was feeling a little burnt out and needed to rest and have some fun. Sometimes that means not coding at all. Other times, it means coding some silly stuff of no real importance. Turns out, coding is still fun after all! I decided to do the latter on my staycation and code up a bunch of silly games. I'm going to share the simplest one with you here: tic-tac-toe.
+
+Before we get started, I want to say that even though I don't build games for a living (or even really as a hobby), coding up a game from time to time is a great way to learn some new skills and patterns. It's also excellent exercise for your brain and trains you to think algorithmically. In fact, I once was asked to code tic-tac-toe in a job interview, so don't scoff at this post. It might help you land a job some day.
+
+Tic-tac-toe is a very simple game, and because it's so simple, it makes for a good introduction to some of the principles of grid and turn-based games.
+
+Let's start with a top-level `Game` component that will store the state of our tic-tac-toe game. For now, it's just an empty function that returns `null`, but it won't be this way for long.
+
+```jsx
+function Game() {
+  return null
+}
+```
+
+Tic-tac-toe consists of a 3x3 grid on which the players put `X`s and `O`s. We need a way to generate this grid and display the state of the data with a `Grid` component. We could do this a number of ways, but I'm going to create a 2-dimensional array of values. We will keep it very simple. Those values can only be `null`, `X`, or `O`.
+
+For the sake of those new to 2-dimensional grids, I'm going to break this down piece by piece, or rather index by index. When we create games with a 2-dimensional array, the outermost array is the `grid`. The `grid` consists of `rows` which are also arrays. This is why it's called a 2-dimensional array. You might also come across the term "matrix" for this data structure.
+
+A `row` consists of values. Each value in the `row` is a `column` in our `grid`. I typically think of each `column` value as a `cell` and refer to it as such in my game's program.
+
+When we start a game of tic-tac-toe, our board consists of 3 `rows` and 3 `columns`, where every `cell` is the value of `null`. So our grid looks like this:
+
+```javascript
+const grid = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+]
+```
+
+For a game like tic-tac-toe, it is simple enough to manually create a starting grid like this. But, as you build more games, you will find that making a function to generate a grid for you will be quite helpful. My `generateGrid` function looks like this: <Marker content="You can make all sorts of varieties of this function. Do what suits your needs best" />
+
+```javascript
+function generateGrid(rows, columns, mapper) {
+  return Array(rows)
+    .fill()
+    .map(() =>
+      Array(columns)
+        .fill()
+        .map(mapper)
+    )
+}
+```
+
+We can make a function specific for a tic-tac-toe game by baking in a few values:
+
+```javascript
+const newTicTacToeGrid = () => generateGrid(3, 3, () => null)
+```
+
+Let's add a `newTicTacToeGrid` to our `Game` component so that we'll be able to pass it down eventually into other components.
+
+```jsx
+function Game() {
+  // This will eventually be a stateful grid
+  const grid = newTicTacToeGrid()
+
+  return null
+}
+```
+
+Now that we can easily generate our tic-tac-toe grid, we need to render it. Coincidentally enough, using CSS Grid to display our `grid` works very well. Here's one of the ways I might approach this with React:
+
+```jsx
+function Grid({ grid }) {
+  return (
+    // Wrapping the grid with a div of inline-block means that the grid
+    // takes up only the space defined by the size of the cells, while
+    // still allowing us to use fractional values for the grid-template-*
+    // properties
+    <div style={{ display: 'inline-block' }}>
+      <div
+        style={{
+          // We set a background color to be revealed as the lines
+          // of the board with the `grid-gap` property
+          backgroundColor: '#000',
+          display: 'grid',
+          // Our rows are equal to the length of our grid
+          gridTemplateRows: `repeat(${grid.length}, 1fr)`,
+          // Our columns are equal to the length of a row
+          gridTemplateColumns: `repeat(${grid[0].length}, 1fr)`,
+          gridGap: 2,
+        }}
+      >
+        {grid.map((row, rowIdx) =>
+          row.map((cell, colIdx) => (
+            // We put the colIdx first because that is our X-axis value
+            // and the rowIdx second because that is our Y-axis value
+            // Getting in the habit makes using 2d grids much easier
+            <Cell key={`${colIdx}-${rowIdx}`} cell={cell} />
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
+const cellStyle = {
+  backgroundColor: '#fff',
+  height: 75,
+  width: 75,
+}
+
+function Cell({ cell }) {
+  return <div style={cellStyle}>{cell}</div>
+}
+```
+
+The comments in the code block above explain most of my decisions, but just to recap quickly, we use CSS Grid to layout our `rows` and `columns`. We can do that by setting the `grid-template-rows` property equal to the length of our `grid` array, and making `grid-template-columns` equal to the length of the first `row` in our grid.
+
+Since this is tic-tac-toe, we style it by giving the grid a background color and using the `grid-gap` property to "reveal" the grid lines by making each of our cells an offsetting background color. This is a clever and simple way to avoid having to write various `border`s for each cell.
+
+Let's also be sure to pass `grid` from our `Game` component down into our `Grid` component.
+
+```jsx
+function Game() {
+  const game = newTicTacToeGrid()
+  return <Grid grid={grid} />
+}
+```
+
+Now when we render `Game`, it should look like something like this:
+
+<OffsetWrap>
+  <BlankGrid />
+</OffsetWrap>
+
+Now that we have our grid, we should make our `Cell`s interactive. I'm going to add a button to each cell to make it clickable and accessible. I'm also going to pass a `handleClick` event handler function into the component to be used with the button's `onClick` property.
+
+`handleClick` will be passed down as a prop from our top level `Game` component through the `Grid` to get to the `Cell`. We could also accomplish this with hooks or context, but I don't mind prop-drilling when our UI hierarchy is this small.
+
+```jsx
+function Game() {
+  const grid = newTicTacToeGrid()
+  const handleClick = () => {}
+
+  return (
+    <div style={{ display: 'inline-block' }}>
+      <Grid grid={grid} handleClick={handleClick} />
+    </div>
+  )
+}
+
+function Cell({ cell, handleClick }) {
+  return (
+    <div style={cellStyle}>
+      <button type="button" onClick={handleClick}>
+        {cell}
+      </button>
+    </div>
+  )
+}
+```
+
+Now, what should `handleClick` do? `handleClick` should take the coordinates of the cell clicked, and dispatch this action whatever is handling our state to determine the next state. This sounds like a good use case for `useReducer`. <Marker content="I will refactor this to use a state machine in the future. Don't worry." /> Let's update `handleClick` to accept `x` and `y` arguments and pass them on to some state management. This will add quite a bit of code, but I'll explain it in a bit.
+
+```jsx
+// Simple way to deeply clone an array or object
+const clone = x => JSON.parse(JSON.stringify(x))
+
+// An enum for the next turn in our game
+const NEXT_TURN = {
+  O: 'X',
+  X: 'O',
+}
+
+const initialState = {
+  grid: newTicTacToeGrid(),
+  turn: 'X',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'CLICK': {
+      const { x, y } = action.payload
+      // Since we need immutable updates, I often find the simplest thing to do
+      // is to clone the current state, and then use mutations on the clone to
+      // make updates for the next state
+      const nextState = clone(state)
+      const { grid, turn } = nextState
+
+      // If the cell already has a value, clicking on it should do nothing
+      // Also, pay attention, because our rows are first, the `y` value is the
+      // first index, the `x` value second. This takes some getting used to.
+      if (grid[y][x]) {
+        return state
+      }
+
+      // If we're here in our program, we can assign this cell to the current
+      // `turn` value
+      grid[y][x] = turn
+
+      // Now that we've used this turn, we need to set the next turn. It might
+      // be overkill, but I've used an object enum to do this.
+      nextState.turn = NEXT_TURN[turn]
+
+      // We'll add checks for winning or drawing soon
+
+      return nextState
+    }
+
+    default:
+      return state
+  }
+}
+
+function Game() {
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const { grid } = state
+
+  const handleClick = (x, y) => {
+    dispatch({ type: 'CLICK', payload: { x, y } })
+  }
+
+  return <Grid grid={grid} />
+}
+```
+
+Let's break this code down. We start with `clone` which is a helper function I will use to deeply clone the state so I can make mutations on the clone and return that. Remember, we need to make immutable updates with a reducer, so that it renders the new state.
+
+Next, I create a simple enum to be able to easily get the next turn. You could probably do this with a simple ternary, but there are other places this information will be useful in the future.
+
+After that, we create our `initialState` and a `reducer`. Our `initialState` has our `grid` and the current `turn`, and our reducer handles only one action at the time being, `CLICK`.
+
+On a `CLICK` action, we use the `x` and `y` values of the payload to determine the next state. If the `grid` cell at those coordinates has a value, we return the current state so we don't trigger an update. Otherwise, we can set the value of that `cell` to the current `turn`, update the `nextState.turn` property and return the `nextState`. Putting this all together, we should have a `Game` that works like this:
+
+<OffsetWrap>
+  <FirstGame />
+</OffsetWrap>
+
+Awesome. Our game is working... kind of. We can fill up the squares, but we don't have any means of resetting the game if we want to (or a draw occurs), and we don't have a way of determining if someone has won the game. Heck, we don't even know who's turn it is! Let's add these features next.
+
+Let's start with the simplest of those tasks, whose turn it is:
+
+```jsx
+function Game() {
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+  // highlight-next-line
+  const { grid, turn } = state
+
+  const handleClick = (x, y) => {
+    dispatch({ type: 'CLICK', payload: { x, y } })
+  }
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      {/* highlight-next-line */}
+      <div>Next up: {turn}</div>
+      <Grid Cell={ButtonCell} grid={grid} handleClick={handleClick} />
+    </div>
+  )
+}
+```
+
+And let's add a `reset` button, too:
+
+```jsx
+// Changing this into a function ensures that we get a new state object
+// and run any of the functions inside of it. This is useful in other games
+// where the starting grid may have randomized bits of state
+// highlight-range{1-4}
+const getInitialState = () => ({
+  grid: newTicTacToeGrid(),
+  turn: 'X'
+})
+
+const reducer (state, action) => {
+  switch (action.type) {
+    // highlight-range{1-2}
+    case 'RESET':
+      return getInitialState()
+
+    //... remains the same
+  }
+}
+
+function Game() {
+  const [state, dispatch] = React.useReducer(reducer, getInitialState())
+  const { grid, turn } = state
+
+  const handleClick = (x, y) => {
+    dispatch({ type: 'CLICK', payload: { x, y } })
+  }
+
+  const reset = () => {
+    dispatch({ type: 'RESET' })
+  }
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div>Next up: {turn}</div>
+        {/* highlight-next-line */}
+        <button onClick={reset} type="button">Reset</button>
+      </div>
+      <Grid Cell={ButtonCell} grid={grid} handleClick={handleClick} />
+    </div>
+  )
+}
+```
+
+Now, our tic-tac-toe game looks like this:
+
+<OffsetWrap>
+  <SecondGame />
+</OffsetWrap>
+
+This is great. You, the reader and user can play, but it'd be really nice if they game told you if you won or not. Checking for win conditions is probably the most important part of creating a game like this (and is likely what the interviewer is looking for if you're asked to make a game like this).
+
+We need to create an efficient algorithm that checks for the game at each step for a win. What are the win conditions of tic-tac-toe?
+
+- The game is won when 3 cells in a line contain the same value
+- A line is defined as a row, column, or diagonal
+
+Let's break this down. At any given time, we need to check if three values are equal. There also happens to be only 8 lines in our game: 3 rows, 3 columns, and 2 diagonals. With these two observations, we can create a simple algorithm to determine if the game has been won at any point.
+
+We'll start by making a helper function to evaluate our three values. We know if a sqaure is `null`, we can return `false` immediately. Then we just need to know if all three values are the same. Since we're using the strings `X` and `O`, this is very simple to do: <Marker content="If you're a fan of fancy terms, I am using the <em>transitive property</em> to deduce that <code>a</code> is equal to <code>c</code>." />
+
+```javascript
+const checkThree = (a, b, c) => {
+  // If any of the values are null, return false
+  if (!a || !b || !c) return false
+  return a === b && b === c
+}
+```
+
+Now, we need to create our 8 lines, get the values at those indices, and run `checkThree` on each line. I'm going to add a helper function that will `flatten` our 2-dimensional array into a 1-dimensional array. This will make this our checks a little bit easier to do. Flattening an array like this might be too inefficient in certain situations, so be careful and pay attention to the performance of your program, but in general, this a good trick to know. <Marker content="As of ES2019, JavaScript added <code>Array.prototype.flat()</code> to the language. If you're environment can handle this standard, you can easily use it instead." />
+
+```javascript
+// Depending on your JavaScript environment, you can potentially
+// use Array.prototype.flat to do this
+const flatten = array => array.reduce((acc, cur) => [...acc, ...cur], [])
+
+function checkForWin(flatGrid) {
+  // Because our grid is flat, we can use array destructuring to
+  // define variables for each square, I will use the points on a
+  // compass as my variable names
+  const [nw, n, ne, w, c, e, sw, s, se] = flatGrid
+
+  // Then we simply run `checkThree` on each row, column and diagonal
+  // If it's true for any of them, the game has been won!
+  return (
+    checkThree(nw, n, ne) ||
+    checkThree(w, c, e) ||
+    checkThree(sw, s, se) ||
+    checkThree(nw, w, sw) ||
+    checkThree(n, c, s) ||
+    checkThree(ne, e, se) ||
+    checkThree(nw, c, se) ||
+    checkThree(ne, c, sw)
+  )
+}
+```
+
+We want to add our `checkForWin` function inside the `CLICK` case of our reducer. This will enable us to transition the game state into a winning state as soon as a win is detected. However, we have not setup any state that tracks whether the game has been won or not yet. We'll also want to add a `status` property to our state that we can update when a win is found.
+
+```javascript
+const getInitialState = () => ({
+  grid: newTicTacToeGrid(),
+  // highlight-next-line
+  status: 'inProgress',
+  turn: 'X',
+})
+
+const reducer (state, action) => {
+  switch (action.type) {
+    //... still the same
+
+    case 'CLICK': {
+      const { x, y } = action.payload
+      const nextState = clone(state)
+      const { grid, turn } = nextState
+
+      if (grid[y][x]) {
+        return state
+      }
+
+      grid[y][x] = turn
+
+      // highlight-next-line
+      const flatGrid = flatten(grid)
+
+      // highlight-range{1-4}
+      if (checkForWin(flatGrid)) {
+        nextState.status = 'success'
+        return nextState
+      }
+
+      nextState.turn = NEXT_TURN[turn]
+
+      return nextState
+    }
+
+    //... still the same
+  }
+}
+```
+
+Now that we have a `status`, we can use it in our `Game` component to display when we have a winner. I prefer to use [enums over booleans](/enumerate-dont-booleanate) for tracking states, and generally this results in making enumerated objects to respond to those states. In order to render some text when the game is won, I'll create a `GAME_STATUS_TEXT` enum. This enum is a method for each game `status` we have. This method can can receive the current `turn` as an argument, and render whatever is necessary. Almost always, this will return `null`, but when someone wins, we can tell them.
+
+```jsx
+// highlight-range{1-4}
+const GAME_STATUS_TEXT = {
+  inProgress: () => null,
+  success: turn => `${turn} won!`,
+}
+
+function Game() {
+  const [state, dispatch] = React.useReducer(reducer, getInitialState())
+  // highlight-next-line
+  const { grid, status, turn } = state
+
+  const handleClick = (x, y) => {
+    dispatch({ type: 'CLICK', payload: { x, y } })
+  }
+
+  const reset = () => {
+    dispatch({ type: 'RESET' })
+  }
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div>Next up: {turn}</div>
+        {/* highlight-next-line */}
+        <div>{GAME_STATUS_TEXT[status](turn)}</div>
+        <button onClick={reset} type="button">
+          Reset
+        </button>
+      </div>
+      <Grid Cell={ButtonCell} grid={grid} handleClick={handleClick} />
+    </div>
+  )
+}
+```
+
+Before we check out this iteration of the game, I want to add something to our reducer to prevent a user from clicking anything but the reset button after a game has been won. By preventing this, I prevent some awkward state where after the first player has won the game, the second player can't "steal" by clicking a square that gives them three in a row. I also want to show this to demonstrate that a reducer does _not_ have to be just a `switch` statement.
+
+```javascript
+const reducer = (state, action) => {
+  if (state.status === 'success' && action.type !== 'RESET') {
+    return state
+  }
+
+  //... still the same
+}
+```
+
+Now the only action a user can take when the game has been won is to reset the game. This seems fair to me. Check it out:
+
+<OffsetWrap>
+  <ThirdGame />
+</OffsetWrap>
+
+There is just one more thing I want to add to this game. I would like the game to reset immediately when the board is filled with a draw. Doing this just seems like a nice touch to add.
+
+We could do the work of trying to figure out when a game cannot be won and indicate that the game is drawn to the users, but I will leave that to you to try and figure out and implement. For now, let's add a `checkForDraw` function to our game to bring this to completion.
+
+Adding `checkForDraw` is simpler than it might seem. First, we need to know that the game has not been won. The game can't be a draw if it's been won. We can reuse `checkForWin` for that. <Marker content="It would be slightly more effecient to use the result of <code>checkForWin</code> so that we're not running the function twice in every loop. I leave that to you to implement." />
+
+Once we know that the game has not been won, we need to determine if the grid has been completely filled in. Given that our values are `null`, `X`, or `O`, we can determine this by filtering our `flatGrid` with the `Boolean` constructor. If the filtered grid has a length that is less than the length of the `flatGrid`, then we know we have `null` squares and the game is not drawn yet.
+
+```javascript
+function checkForDraw(flatGrid) {
+  return (
+    !checkForWin(flatGrid) &&
+    flatGrid.filter(Boolean).length === flatGrid.length
+  )
+}
+```
+
+We add this into our `CLICK` case in our `reducer`, like so:
+
+```javascript
+const reducer (state, action) => {
+  switch (action.type) {
+    //... still the same
+
+    case 'CLICK': {
+      const { x, y } = action.payload
+      const nextState = clone(state)
+      const { grid, turn } = nextState
+
+      if (grid[y][x]) {
+        return state
+      }
+
+      grid[y][x] = turn
+
+      const flatGrid = flatten(grid)
+
+      if (checkForWin(flatGrid)) {
+        nextState.status = 'success'
+        return nextState
+      }
+
+      // highlight-range{1-3}
+      if (checkForDraw(flatGrid)) {
+        return getInitialState()
+      }
+
+      nextState.turn = NEXT_TURN[turn]
+
+      return nextState
+    }
+
+    //... still the same
+  }
+}
+```
+
+<OffsetWrap>
+  <FourthGame />
+</OffsetWrap>
+
+### Conclusion
+
+There you have it! A working game of tic-tac-toe in React in about 130ish lines of code. I'm pretty generous with the whitespace usage.
+
+Now, what was the point of all this? It certainly wasn't to try and make something you can do in a matter of seconds on a piece of paper with a pencil. It was to get our brains to think about solving problems, and more importantly, figuring out what those fundamental problems are. _This_ is programming. Breaking requirements and ideas down until they can be turned into code.
+
+Learning to code tic-tac-toe can be a gateway to all sorts of other learning. You can now practice building other games, or learn other algorithms. You can even take what you know here and apply it to other languages. Learning to code the same app in different ways is also good practice for your brain.
+
+I encourage you to try and take this a step further some how. Make it better. Make it faster. I would love to see what you come up with.
