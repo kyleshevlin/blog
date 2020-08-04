@@ -44,7 +44,7 @@ const getInitialState = () => ({
 })
 
 const reducer = (state, action) => {
-  if (state.game === 'success' && action.type !== 'RESET') {
+  if (state.status === 'success' && action.type !== 'RESET') {
     return state
   }
 
