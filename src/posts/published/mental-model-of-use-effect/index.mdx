@@ -13,7 +13,7 @@ One thing I have found challenging about `React.useEffect` is the mental model r
 
 It's very easy to get it in your head to use the dependency array as a means to constrain the calling of the effect, essentially treating it as a guard or conditional.
 
-> "If this value changes, do that"
+> "If this value changes, do that effect."
 
 The problem is that you'll often run into issues where you only want to run an effect when a single value changes, and thus you'll be tempted to leave out the other dependencies from the dependency array. Next thing you know, you'll be facing an ESLint warning about it. <Marker content="Assuming you're using ESLint with the React Hooks plugin." /> Like with the following code:
 
@@ -46,6 +46,6 @@ React.useEffect(() => {
 }, [prevQuantity, quantity, someHandlerFunction])
 ```
 
-Now we can call the effect when ever a dependency changes, while still not calling our handler function when we don't intend to.
+Now we can call the effect whenever a dependency changes, while still not calling our handler function when we don't intend to.
 
-Fixing this small mental model issue (at least for me, maybe you don't have problem) helps you avoid the ESLint warnings and write better code. Hope this helps you.
+Fixing this small mental model issue <Marker content="An issue for me. Maybe not for you." /> helps you avoid the ESLint warnings and write better code. Hope this helps you.
