@@ -1,0 +1,51 @@
+---
+date: '2020-08-26'
+slug: 'mental-model-of-use-effect'
+title: 'Mental Model Of Use Effect'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+One thing I have found challenging about `React.useEffect` is the mental model regarding the dependencies array.
+
+It's very easy to get it in your head to use the dependency array as a means to constrain the calling of the effect, essentially treating it as a guard or conditional.
+
+> "If this value changes, do that"
+
+The problem is that you'll often run into issues where you only want to run an effect when a single value changes, and thus you'll be tempted to leave out the other dependencies from the dependency array. Next thing you know, you'll be facing an ESLint warning about it. <Marker content="Assuming you're using ESLint with the React Hooks plugin." /> Like with the following code:
+
+```javascript
+React.useEffect(() => {
+  // Pretend these values are in the parent scope
+  const diff = prevQuantity - quantity
+  someHandlerFunction(diff)
+}, [quantity])
+```
+
+This, more or less, works like we want it to. When `quantity` changes, we call the effect and call the handling function. However, this will also warn you that you haven't added all the dependencies. You might think, "I don't _want_ this effect to run when the handler function changes! That'll break the code!"
+
+Trust me, I get stuck in this loop a lot, too.
+
+Here's what you need to understand. Simply put, not calling the effect whenever a dependency changes means you'll have stale values and functions. It _will_ lead to bugs.
+
+Instead, you must make the mental shift to:
+
+> Call this effect whenever the dependencies change, _but_ add a conditional in the effect function that only triggers the changes you need, when you need them to happen.
+
+The more correct code looks like this:
+
+```javascript
+React.useEffect(() => {
+  if (prevQuantity !== quantity) {
+    const diff = prevQuantity - quantity
+    someHandlerFunction(diff)
+  }
+}, [prevQuantity, quantity, someHandlerFunction])
+```
+
+Now we can call the effect when ever a dependency changes, while still not calling our handler function when we don't intend to.
+
+Fixing this small mental model issue (at least for me, maybe you don't have problem) helps you avoid the ESLint warnings and write better code. Hope this helps you.
