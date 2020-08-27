@@ -49,3 +49,33 @@ React.useEffect(() => {
 Now we can call the effect whenever a dependency changes, while still not calling our handler function when we don't intend to.
 
 Fixing this small mental model issue <Marker content="An issue for me. Maybe not for you." /> helps you avoid the ESLint warnings and write better code. Hope this helps you.
+
+---
+
+### Update - August 27, 2020
+
+I had an additional thought regarding this topic and wanted to add it to the post. Another way to think about the `useEffect` hook is to write the code as if the hook and the dependency array wasn't there first, and then wrap it in the hook and add the dependencies later.
+
+If I think about this outside of the hook, my mental model for the functionality is, "If there's a difference between these two values, send the difference to this handling function." When we write that code, it looks like the body of our effect, but it makes sense in isolation.
+
+```javascript
+if (prevQuantity !== quantity) {
+  const diff = prevQuantity - quantity
+  someHandlerFunction(diff)
+}
+```
+
+Now that we've written the functionality we desire, the next step is to put React in charge of tracking all of these values for us.
+
+```javascript
+// highlight-next-line
+React.useEffect(() => {
+  if (prevQuantity !== quantity) {
+    const diff = prevQuantity - quantity
+    someHandlerFunction(diff)
+  }
+  // highlight-next-line
+}, [prevQuantity, quantity, someHandlerFunction])
+```
+
+Hope this little update also helps you in your mental understanding of the `useEffect` hook.
