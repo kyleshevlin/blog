@@ -100,7 +100,7 @@ const BUTTON_BGS = {
 
 function BetterButton({
   children,
-  onClick,
+  onClick = () => {},
   type = 'button',
   variant = 'default',
 }) {
@@ -147,6 +147,6 @@ Even better, when you try and give it some garbage as a `variant`, it doesn't le
   <BetterButton variant="garbage">Click Me!</BetterButton>
 </OffsetWrap>
 
-This also applies to situations where you have multiple booleans around different concerns coming in. It's likely that what you really have are a number of finite "states" your component can be in, and it would be better to derive that state and pass it in as a prop, rather than muddy your code with a conditional checks for your many booleans.
+This also applies to situations where you have multiple booleans around different concerns coming in. It's likely that what you really have are a number of finite "states" your component can be in, and it would be better to derive that state and pass it in as a prop, rather than muddy your code with conditional checks for your many booleans.
 
 Again, this is just my opinion. I don't have any way of definitively proving that this approach is better, but I've found it to be useful for me in my career. Hope you also find this information useful.
