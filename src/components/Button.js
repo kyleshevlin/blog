@@ -26,9 +26,14 @@ export const buttonStyles = {
   },
 }
 
-export default function Button({ children, onClick, type = 'button' }) {
+export default function Button({
+  children,
+  onClick,
+  style = {},
+  type = 'button',
+}) {
   return (
-    <button css={buttonStyles} type={type} onClick={onClick}>
+    <button css={{ ...buttonStyles, ...style }} type={type} onClick={onClick}>
       {children}
     </button>
   )

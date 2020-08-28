@@ -1,0 +1,152 @@
+---
+date: '2020-08-28'
+slug: 'multiple-boolean-props-are-a-code-smell'
+title: 'Multiple Boolean Props are a Code Smell'
+subtitle: null
+description: "Having a component that receives multiple props that are booleans can be a sign of a code smell. It's likely your component now contains impossible states that should be avoided. Moving those props to a single prop that receives an enumerated set of strings is a better approach."
+excerpt: null
+tags: ['JavaScript', 'React']
+relatedPostsSlugs: []
+---
+
+import CommonButton from './CommonButton'
+import BetterButton from './BetterButton'
+
+You learn a lot working on a large, complicated codebase for an extended period of time. It's the kind of environment that exposes you to particular patterns often enough to develop thoughts and opinions around them. I want to share a quick opinion I have regarding a particular pattern here: **multiple boolean `props` or `state` in a component is probably a code smell**.
+
+Imagine a `CommonButton` component for an application. This `CommonButton` has a `default` way of rendering:
+
+```jsx
+<CommonButton>Click Me!</CommonButton>
+```
+
+<OffsetWrap>
+  <CommonButton>Click Me!</CommonButton>
+</OffsetWrap>
+
+Now, imagine our app needs to change the background of the Button depending on the information that button needs to convey. Let's have a few different variations: a `primary`, `warning`, and `danger` styles. We could do this by passing our `CommonButton` a prop of that name.
+
+```jsx
+<CommonButton primary>Click Me!</CommonButton>
+<CommonButton warning>Click Me!</CommonButton>
+<CommonButton danger>Click Me!</CommonButton>
+```
+
+What should this code look like? Maybe something like this:
+
+```jsx
+function CommonButton({
+  children,
+  onClick = () => {},
+  primary,
+  warning,
+  danger,
+  type = 'button',
+}) {
+  let backgroundColor = '#33a1cc'
+  if (primary) backgroundColor = '#17b890'
+  if (warning) backgroundColor = '#ffd166'
+  if (danger) backgroundColor = '#f0544f'
+
+  return (
+    <button onClick={onClick} type={type} style={{ backgroundColor }}>
+      {children}
+    </button>
+  )
+}
+```
+
+And then when we render our buttons from before, we would get:
+
+<OffsetWrap>
+  <CommonButton primary>Click Me!</CommonButton>
+  <CommonButton warning>Click Me!</CommonButton>
+  <CommonButton danger>Click Me!</CommonButton>
+</OffsetWrap>
+
+That looks great, but there are some serious problems with this approach that make it rather smelly. The problem that bothers my coding olfactory senses the most is the existence of _impossible states_.
+
+What should happen if the consumer does the following?
+
+```jsx
+<CommonButton danger primary warning>
+  Click Me!
+</CommonButton>
+```
+
+Should it render as green, yellow, or red? Let's find out.
+
+<OffsetWrap>
+  <CommonButton danger primary warning>
+    Click Me!
+  </CommonButton>
+</OffsetWrap>
+
+If you put more than one of these boolean props in place, what happens? You see a leaking of the implementation details! Whatever way the component creator has decided to reconcile these impossible states is exposed. In this case, I wrote it so that `danger` was the last state checked that updates the background color. Therefore, the `danger` prop takes priority over all the other props, regardless of the order they are passed in.
+
+Now, admittedly, this is not how we intend our component to be used. "The consumer should use the component correctly!" you might yell. True. They probably should, but we shouldn't write code that depends on others to _just not make mistakes_. Especially when we can programmatically defend against the problem in a simple way.
+
+We could possibly stop the abuse of our `CommonButton` through an error/warning or even an ESLint rule, but there's a much easier thing that we can do. **Get rid of the multiple boolean props**.
+
+Whenever we have multiple boolean props, especially ones related to the same concern, these should really be expressed as a single prop with an enumerated set of strings as the possible values. Let's make a `BetterButton` that follows this pattern.
+
+```jsx
+const BUTTON_BGS = {
+  default: '#33a1cc',
+  primary: '#17b890',
+  warning: '#ffd166',
+  danger: '#f0544f',
+}
+
+function BetterButton({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'default',
+}) {
+  const backgroundColor = BUTTON_BGS[variant] || BUTTON_BGS.default
+
+  return (
+    <button onClick={onClick} style={{ backgroundColor }} type={type}>
+      {children}
+    </button>
+  )
+}
+```
+
+This button not only moves our props into a single concern, but allows us to:
+
+- Move our styles into an enum
+- Handle incorrect variants gracefully
+- Make impossible states impossible
+- Makes later extension as simple as adding a variant
+
+Now, our buttons look like this:
+
+```jsx
+<BetterButton variant="primary">Click Me!</BetterButton>
+<BetterButton variant="warning">Click Me!</BetterButton>
+<BetterButton variant="danger">Click Me!</BetterButton>
+```
+
+<OffsetWrap>
+  <BetterButton variant="primary">Click Me!</BetterButton>
+  <BetterButton variant="warning">Click Me!</BetterButton>
+  <BetterButton variant="danger">Click Me!</BetterButton>
+</OffsetWrap>
+
+Even better, when you try and give it some garbage as a `variant`, it doesn't leak our implementation details, it just uses the default styling.
+
+```jsx
+<BetterButton variant="primary warning danger">Click Me!</BetterButton>
+<BetterButton variant="garbage">Click Me!</BetterButton>
+```
+
+<OffsetWrap>
+  <BetterButton variant="primary warning danger">Click Me!</BetterButton>
+  <BetterButton variant="garbage">Click Me!</BetterButton>
+</OffsetWrap>
+
+This also applies to situations where you have multiple booleans around different concerns coming in. It's likely that what you really have are a number of finite "states" your component can be in, and it would be better to derive that state and pass it in as a prop, rather than muddy your code with a conditional checks for your many booleans.
+
+Again, this is just my opinion. I don't have any way of definitively proving that this approach is better, but I've found it to be useful for me in my career. Hope you also find this information useful.
