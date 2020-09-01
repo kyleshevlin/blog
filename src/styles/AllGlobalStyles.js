@@ -1,5 +1,4 @@
 import React from 'react'
-import FontFaces from '../styles/FontFaces'
 import Miscellaneous from '../styles/Miscellaneous'
 import Reset from '../styles/Reset'
 import Tags from '../styles/Tags'
@@ -10,7 +9,6 @@ export default function AllGlobalStyles() {
   return (
     <>
       <Reset />
-      <FontFaces />
       <Tags />
       <Typography />
       <Tweets />
