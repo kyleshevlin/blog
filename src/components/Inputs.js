@@ -2,7 +2,7 @@ import React from 'react'
 import { bs } from '../shevy'
 import { v } from '../utils'
 
-export function Input({ label, value, onChange, type = 'text' }) {
+export function Input({ label, value, onChange, type = 'text', ...rest }) {
   return (
     <div>
       <label htmlFor={label}>
@@ -18,6 +18,7 @@ export function Input({ label, value, onChange, type = 'text' }) {
           type={type}
           value={value}
           onChange={onChange}
+          {...rest}
         />
       </label>
     </div>
@@ -31,7 +32,7 @@ const useInputFactory = (formatter = x => x) => initialValue => {
     setValue(formatter(e.target.value))
   }
 
-  return [value, onChange]
+  return [value, onChange, setValue]
 }
 
 export const useInput = useInputFactory()
