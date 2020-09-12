@@ -15,6 +15,14 @@ export const buttonStyles = {
   textAlign: 'center',
   transition: 'background-color 0.3s ease',
 
+  '&:disabled': {
+    backgroundColor: v('colors-offsetMore'),
+
+    '&:hover': {
+      backgroundColor: v('colors-offsetMore'),
+    },
+  },
+
   '&:hover': {
     backgroundColor: v('components-button-hover-background'),
     color: v('components-button-hover-text'),
@@ -28,12 +36,18 @@ export const buttonStyles = {
 
 export default function Button({
   children,
+  disabled = false,
   onClick,
   style = {},
   type = 'button',
 }) {
   return (
-    <button css={{ ...buttonStyles, ...style }} type={type} onClick={onClick}>
+    <button
+      css={{ ...buttonStyles, ...style }}
+      disabled={disabled}
+      type={type}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
