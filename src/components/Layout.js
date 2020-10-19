@@ -11,7 +11,9 @@ export default function Layout({ children }) {
   return (
     <>
       <AllGlobalStyles />
-      <AnnouncementBanner />
+      {Date.now() < Date.parse('04 November 2020 00:00:00 PST') && (
+        <AnnouncementBanner />
+      )}
       <Header />
       <main
         css={{

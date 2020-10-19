@@ -22,17 +22,6 @@ const DARK_COLORS = {
   error: 'hsl(347, 71%, 54%)',
 }
 
-const BLACKOUT_COLORS = {
-  background: 'hsl(0, 0%, 0%)',
-  text: 'hsl(0, 0%, 100%)',
-  accent: 'hsl(53, 97%, 55%)',
-  accentDark: 'hsl(53, 97%, 45%)',
-  accentLight: 'hsl(53, 97%, 65%)',
-  offset: 'hsl(0, 0%, 14%)',
-  offsetMore: 'hsl(0, 0%, 20%)',
-  error: 'hsl(347, 71%, 54%)',
-}
-
 const makeDefaultCSSVars = colors => ({
   '--colors-background': colors.background,
   '--colors-text': colors.text,
@@ -112,27 +101,12 @@ const DARK_VARS = {
   '--components-pagination-active-text': 'var(--colors-text)',
 }
 
-const BLACKOUT_VARS = {
-  ...makeDefaultCSSVars(BLACKOUT_COLORS),
-  '--components-announcementBanner-links-text': 'var(--colors-offsetMore)',
-  '--components-button-background': 'var(--colors-accentDark)',
-  '--components-button-text': 'var(--colors-background)',
-  '--components-button-hover-background': 'var(--colors-accent)',
-  '--components-button-hover-text': 'var(--colors-background)',
-  '--components-footer-background': 'var(--colors-offset)',
-  '--components-footer-text': 'var(--colors-text)',
-  '--components-newsletterCTA-errorBox-text': 'var(--colors-text)',
-  '--components-newsletterCTA-inputs-background': 'var(--colors-text)',
-  '--components-newsletterCTA-inputs-text': 'var(--colors-background)',
-}
-
 const makeCSSVarsString = obj =>
   Object.entries(obj).reduce((acc, [key, value]) => {
     return acc + `${key}:${value};`
   }, '')
 
 const THEME_TO_CSS_VARS = {
-  blackout: BLACKOUT_VARS,
   dark: DARK_VARS,
   light: LIGHT_VARS,
 }
@@ -143,14 +117,21 @@ const getCSSVars = (theme = 'light') =>
 const DEFAULT_THEME = 'light'
 const THEME_STORAGE_KEY = 'kyleshevlin:theme'
 const NEXT_THEME = {
-  blackout: 'light',
-  dark: 'blackout',
+  dark: 'light',
   light: 'dark',
 }
 
 const getInitialTheme = () => {
   try {
-    return localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME
+    const themeName = localStorage.getItem(THEME_STORAGE_KEY)
+
+    if (!themeName) return DEFAULT_THEME
+
+    if (Object.keys(NEXT_THEME).includes(themeName)) {
+      return themeName
+    }
+
+    return DEFAULT_THEME
   } catch (err) {
     return DEFAULT_THEME
   }
