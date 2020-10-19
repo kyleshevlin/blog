@@ -70,7 +70,7 @@ With each `case` as an expression, we can do things we couldn't before, such as:
 - Do multiple comparisons on the same value
 - Use predicate functions to match cases <Marker content="A predicate is a function that returns a boolean." />
 - Use multiple values in those predicate functions
-- Use `Regex.prototype.test` to match patterns
+- Use `RegExp.prototype.test` to match patterns
 - and whatever else you can dream up
 
 The key to using `switch (true)` in this way is to think of each `case` expression as a pattern. Sure, we can't match on variants in the wonderful way that ReasonML can, but we can use the tools we have to get the matches we want. Let's look at some examples.
