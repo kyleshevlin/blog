@@ -30,6 +30,7 @@ export default function Factorializer() {
 function Container() {
   const { setCache } = useFactorializerContext()
   const updateCache = cache => setCache(cache)
+  const resetCache = () => setCache(null)
 
   const factorial = memoize(
     n => {
@@ -42,17 +43,22 @@ function Container() {
 
   const factorialRef = React.useRef(factorial)
 
-  return <Child fn={factorialRef.current} />
+  return <Child resetCache={resetCache} updateCache={factorialRef.current} />
 }
 
-function Child({ fn }) {
+function Child({ resetCache, updateCache }) {
   const { cache } = useFactorializerContext()
   const [result, setResult] = React.useState(0)
   const [value, onChange] = useNumberInput(0)
 
   const handleSubmit = e => {
     e.preventDefault()
-    setResult(fn(value))
+    setResult(updateCache(value))
+  }
+
+  const handleReset = () => {
+    resetCache()
+    setResult(0)
   }
 
   return (
@@ -65,12 +71,22 @@ function Child({ fn }) {
         }}
         onSubmit={handleSubmit}
       >
-        <Input label="Factor" onChange={onChange} value={value} type="number" />
+        <Input
+          label="Factor"
+          onChange={onChange}
+          value={value}
+          pattern="[0-9]*"
+        />
         <div>
           <Button type="submit">Factorialize</Button>
         </div>
       </form>
-      <div css={{ marginTop: bs(0.5) }}>Result: {result}</div>
+      {Boolean(result) && (
+        <div css={{ marginTop: bs(0.5) }}>
+          <span css={{ marginRight: bs(0.5) }}>Result: {result}</span>
+          <Button onClick={handleReset}>Reset Cache</Button>
+        </div>
+      )}
       {cache && (
         <div
           css={{

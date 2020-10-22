@@ -67,8 +67,18 @@ function AdderForm({ add }) {
             'div + div': { marginTop: bs(0.5) },
           }}
         >
-          <Input label="X:" value={xValue} onChange={xOnChange} type="number" />
-          <Input label="Y:" value={yValue} onChange={yOnChange} type="number" />
+          <Input
+            label="X:"
+            value={xValue}
+            onChange={xOnChange}
+            pattern="[0-9]*"
+          />
+          <Input
+            label="Y:"
+            value={yValue}
+            onChange={yOnChange}
+            pattern="[0-9]*"
+          />
           <div>
             <Button type="submit">Add</Button>
           </div>
@@ -87,7 +97,9 @@ function AdderForm({ add }) {
           Cache was hit!
         </div>
       )}
-      <div css={{ marginTop: bs(0.5) }}>Result: {result}</div>
+      {Boolean(result) && (
+        <div css={{ marginTop: bs(0.5) }}>Result: {result}</div>
+      )}
     </>
   )
 }
