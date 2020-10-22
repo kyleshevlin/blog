@@ -81,6 +81,7 @@ exports.createPages = ({ graphql, actions }) => {
               .map(slug =>
                 allPosts.find(post => post.node.frontmatter.slug === slug)
               )
+              .filter(Boolean)
               .map(post => {
                 const { slug, title } = post.node.frontmatter
                 return { slug, title }
