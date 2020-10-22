@@ -679,7 +679,7 @@ lightBulbMachine({ lit: 'normal' }, 'INCREASE_BRIGHTNESS').value // { lit: 'high
 lightBulbMachine({ lit: 'high' }, 'DECREASE_BRIGHTNESS').value // { lit: 'normal' }
 ```
 
-Hiearchical states are an excellent way to model states that should only exist as a child state of another state. This allows us to avoid a lot of conditional logic since our machine won't respond to events unless it is in the correct state.
+Hierarchical states are an excellent way to model states that should only exist as a child state of another state. This allows us to avoid a lot of conditional logic since our machine won't respond to events unless it is in the correct state.
 
 #### Parallel Machines
 
@@ -698,7 +698,7 @@ const lightBulbMachine = Machine({
       states: {
         // 1st parallel state
         pattern: {
-          // We can easily have hiearchical child states inside our parent parallel state
+          // We can easily have hierarchical child states inside our parent parallel state
           initial: 'steady',
           states: {
             steady: {
@@ -785,7 +785,7 @@ Here is a general heuristic of how to approach creating a state machine.
 
 1. Enumerate the states of your program
 2. Enumerate the transitions between those states
-3. Examine if any of the states can only exist as a substate of another state. If so, know you can use a hierachical state machine.
+3. Examine if any of the states can only exist as a substate of another state. If so, know you can use a hierarchical state machine.
 4. Examine if any of the states can exist simultaneously and independently. If so, know you can use a parallel state machine.
 5. Create objects for all of your states
 6. Add the transitions to the `on` property of those states

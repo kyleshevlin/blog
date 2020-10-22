@@ -107,7 +107,7 @@ An Algolia index is made up of _records_. In Gatsby, we create query objects tha
 
 I want to create a record for each one of my posts. To do this, I need to write a GraphQL query that returns an object of data for each post. I'm going to do this in a separate file I've named `algolia.js`.
 
-This file will export the `queries` array to be used by our configuartion in `gatsby-config.js`, so I like to start my file with that, and then go back and fill in the rest of the logic.
+This file will export the `queries` array to be used by our configuration in `gatsby-config.js`, so I like to start my file with that, and then go back and fill in the rest of the logic.
 
 ```javascript
 // algolia.js
@@ -126,7 +126,7 @@ And in `gatsby-config.js`:
 const queries = require('./src/utils/algolia')
 ```
 
-Now that our files are wired up, we need to provide at least one query object to our `queries` array. This object will likely take at minimum two properties (though, you should read the documenation for your own specific needs). Those properties are the `query` and `transformer`. The value provided for the `query` property is a GraphQL query string. The `transformer` is a function that takes the data retrieved by the query and transforms it into the array of objects that will become your Algolia index records.
+Now that our files are wired up, we need to provide at least one query object to our `queries` array. This object will likely take at minimum two properties (though, you should read the documentation for your own specific needs). Those properties are the `query` and `transformer`. The value provided for the `query` property is a GraphQL query string. The `transformer` is a function that takes the data retrieved by the query and transforms it into the array of objects that will become your Algolia index records.
 
 My particular needs here are likely a bit different than yours. My blog explicitly uses Markdown and MDX files, but I can get all of the necessary files with one query to the `allMdx` property in my GraphQL schema. Let me show you the pieces I wrote for my initial query:
 

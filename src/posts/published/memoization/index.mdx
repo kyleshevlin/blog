@@ -60,7 +60,7 @@ function memoize(fn) {
 
 Let's break that down. `memoize` receives a function as an argument. It then creates a cache in closure. This will store the results of our function in memory to be retrieved later.
 
-Next, we return a function that can receive whatever `args` the original function receives. Inside of the function we are returning, we create a `key` for our cache. In this case, I chose to stringify and join the arguments with a delimiter. This delimiter prevents similar arguments from accidentally being the same key. Withouth a delimiter, calling `add(2, 34)` and `add(23, 4)` would result in the `key` `234`. We would end up with a mistaken cache hit for the second call, and even worse, our result would be incorrect.
+Next, we return a function that can receive whatever `args` the original function receives. Inside of the function we are returning, we create a `key` for our cache. In this case, I chose to stringify and join the arguments with a delimiter. This delimiter prevents similar arguments from accidentally being the same key. Without a delimiter, calling `add(2, 34)` and `add(23, 4)` would result in the `key` `234`. We would end up with a mistaken cache hit for the second call, and even worse, our result would be incorrect.
 
 Next, if there is a defined value at the `cache[key]`, we return it and skip calculating the result. Otherwise, we calculate the `result`, store it in the `cache`, and then return it.
 
@@ -80,7 +80,7 @@ Let's try it out. I've made a component below that allows you to give it two num
 
 ### Why Use Memoization?
 
-Memoization is a tradeoff exchanging space (memory) for time. The purpose of this tradeoff is to gain a performance benefit by skipping the calcuation of the function's result, i.e. save time. Thus, it only make sense to use memoization in a situation where memory space is not a concern and the original calculation is expensive and called often with the same arguments. Our `add` function was a bad example. It's not an expensive calculation at all. Let's create a slightly better example.
+Memoization is a tradeoff exchanging space (memory) for time. The purpose of this tradeoff is to gain a performance benefit by skipping the calculation of the function's result, i.e. save time. Thus, it only make sense to use memoization in a situation where memory space is not a concern and the original calculation is expensive and called often with the same arguments. Our `add` function was a bad example. It's not an expensive calculation at all. Let's create a slightly better example.
 
 I've used this example before in my writing, but a `factorial` function might be a good candidate for memoization. It's recursive, which means that `factorial` will be called with the same argument frequently. In fact, if it's ever been called with a number _greater than_ the current argument, it will simply return the value from the cache, since it's already been calculated before. Let's write the factorial function.
 

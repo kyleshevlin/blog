@@ -339,7 +339,7 @@ We need to create an efficient algorithm that checks for the game at each step f
 
 Let's break this down. At any given time, we need to check if three values are equal. There also happens to be only 8 lines in our game: 3 rows, 3 columns, and 2 diagonals. With these two observations, we can create a simple algorithm to determine if the game has been won at any point.
 
-We'll start by making a helper function to evaluate our three values. We know if a sqaure is `null`, we can return `false` immediately. Then we just need to know if all three values are the same. Since we're using the strings `X` and `O`, this is very simple to do: <Marker content="If you're a fan of fancy terms, I am using the <em>transitive property</em> to deduce that <code>a</code> is equal to <code>c</code>." />
+We'll start by making a helper function to evaluate our three values. We know if a square is `null`, we can return `false` immediately. Then we just need to know if all three values are the same. Since we're using the strings `X` and `O`, this is very simple to do: <Marker content="If you're a fan of fancy terms, I am using the <em>transitive property</em> to deduce that <code>a</code> is equal to <code>c</code>." />
 
 ```javascript
 const checkThree = (a, b, c) => {
@@ -481,7 +481,7 @@ There is just one more thing I want to add to this game. I would like the game t
 
 We could do the work of trying to figure out when a game cannot be won and indicate that the game is drawn to the users, but I will leave that to you to try and figure out and implement. For now, let's add a `checkForDraw` function to our game to bring this to completion.
 
-Adding `checkForDraw` is simpler than it might seem. First, we need to know that the game has not been won. The game can't be a draw if it's been won. We can reuse `checkForWin` for that. <Marker content="It would be slightly more effecient to use the result of <code>checkForWin</code> so that we're not running the function twice in every loop. I leave that to you to implement." />
+Adding `checkForDraw` is simpler than it might seem. First, we need to know that the game has not been won. The game can't be a draw if it's been won. We can reuse `checkForWin` for that. <Marker content="It would be slightly more efficient to use the result of <code>checkForWin</code> so that we're not running the function twice in every loop. I leave that to you to implement." />
 
 Once we know that the game has not been won, we need to determine if the grid has been completely filled in. Given that our values are `null`, `X`, or `O`, we can determine this by filtering our `flatGrid` with the `Boolean` constructor. If the filtered grid has a length that is less than the length of the `flatGrid`, then we know we have `null` squares and the game is not drawn yet.
 
