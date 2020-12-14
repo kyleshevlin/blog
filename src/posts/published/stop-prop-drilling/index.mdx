@@ -1,0 +1,77 @@
+---
+date: '2020-12-10'
+slug: 'stop-prop-drilling'
+title: 'Stop Prop Drilling'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+I work on a _huge_ React codebase. There's well over 2.5 _million_ lines of code in the Webflow codebase at the time I write this.
+
+React was adopted early on at Webflow and so it's not uncommon to find React code that's over 5 years old **and still just works**. We can thank a fairly stable API for that.
+
+One part of that stable API is `props`. We have always had the ability to pass `props` into a component, or as I sometimes like to think of it, arguments to our functions. This meant that if we needed to get some state from a parent component to a distant child component, we could simply pass those `props` through, over and over and over.
+
+Let's show an old school example. Bet it's been a while since you've seen one of these:
+
+```jsx
+class Container extends React.Component {
+  state = {
+    data: null
+    error: null,
+    isLoading: false,
+  }
+
+  componentDidMount() {
+    this.setState({ isLoading: true }, () => {
+      fetch('url/for/api')
+        .then(res => res.json())
+        .then(data => { this.setState({ data, isLoading: false }) })
+        .catch(error => { this.setState({ error, isLoading: false }) })
+    })
+  }
+
+  render() {
+    const { data, error, isLoading } = this.state
+
+    return (
+      <Wrap
+        data={data}
+        error={error}
+        isLoading={isLoading}
+      />
+    )
+  }
+}
+
+function Wrap({ data, error, isLoading }) {
+  return (
+    <div>
+      <Spinner isLoading={isLoading} />
+      <ErrorDisplay error={error} />
+      <DataDisplay data={data} />
+    </div>
+  )
+}
+
+function Spinner({ isLoading }) {
+  return isLoading ? <div>Loading...</div> : null
+}
+
+function ErrorDisplay({ error }) {
+  return error ? <div>Something went wrong!</div> : null
+}
+
+function DataDisplay({ data }) {
+  return data != null ? <div>{JSON.stringify(data)}</div> : null
+}
+```
+
+Now, like most of the examples on my blog, this is pretty contrived, _but_ it does show some prop drilling. We create some state in a parent component and drill each prop down until we get it where it needs to be.
+
+It kind of sucks.
+
+The `Wrap` component doesn't do anything with the `props` it gets but pass them on to various children.
