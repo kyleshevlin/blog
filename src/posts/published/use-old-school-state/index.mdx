@@ -1,0 +1,111 @@
+---
+date: '2020-12-13'
+slug: 'use-old-school-state'
+title: 'Use Old School State'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import Example from './Example'
+
+**Disclaimer**: I have no idea if this is a good idea. Just something you can do if you want.
+
+If you're like me, you've been writing React for quite some time. While I don't spend much time writing class components these days, <Marker content="I still work with plenty of class components regularly." /> you might recall that you can pass a second argument to `this.setState`, a callback function that is called after the state update.
+
+This callback function was a simple way to sequence some functionality. Set some state, do something once it has happened. What if we could recreate some of that simple magic with hooks? <Marker content="It's not magic. Sadly, with code as with life, it never is." />
+
+Generally, with hooks we would have this as two parts. An instance of `React.useState` to manage the state changes, and an instance of `React.useEffect` to respond when the state changes. It might even be better to write this way!
+
+```javascript
+const [state, setState] = React.useState(0)
+
+React.useEffect(
+  () => {
+    // do something with `state` here
+  },
+  [state]
+)
+```
+
+```jsx
+function makeQueue() {
+  const queue = []
+
+  return {
+    get length() {
+      return queue.length
+    },
+    add(item) {
+      queue.push(item)
+    },
+    remove() {
+      return queue.shift.item()
+    },
+  }
+}
+
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const queue = React.useRef(makeQueue())
+
+  const wrappedSetState = (update, callback) => {
+    if (callback) {
+      queue.current.add(callback)
+    }
+
+    setState(update)
+  }
+
+  React.useEffect(
+    () => {
+      if (queue.current.length) {
+        queue.current.remove()(state)
+      }
+    },
+    [state, queue.current.length]
+  )
+
+  return [state, wrappedSetState]
+}
+```
+
+```jsx
+function Counter() {
+  const [state, setState] = useOldSchoolState(0)
+
+  const inc = () => {
+    setState(
+      s => s + 1,
+      nextState => {
+        console.log(`Count went up to ${nextState}`)
+      }
+    )
+  }
+
+  const dec = () => {
+    setState(
+      s => s - 1,
+      nextState => {
+        console.log(`Count went down to ${nextState}`)
+      }
+    )
+  }
+
+  return (
+    <div>
+      <div>Count: {state}</div>
+      <div>
+        <Button onClick={inc}>+</Button>
+        <Button onClick={dec}>-</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+<OffsetWrap>
+  <Example />
+</OffsetWrap>
