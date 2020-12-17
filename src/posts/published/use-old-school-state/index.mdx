@@ -1,15 +1,19 @@
 ---
-date: '2020-12-13'
+date: '2020-12-17'
 slug: 'use-old-school-state'
 title: 'Use Old School State'
-subtitle: null
-description: ''
-excerpt: null
-tags: ['React']
+subtitle: 'or Bringing Back the Callback'
+description: "Let's kick it old school and create a custom React hook that takes a callback second argument for `setState`."
+excerpt: "<p><strong>Disclaimer</strong>: This might be a bad idea.</p><p>Let's kick it old school and create a custom React hook that takes a callback second argument for <code>setState</code>.</p>"
+tags: ['React', 'JavaScript']
 relatedPostsSlugs: []
 ---
 
-import Example from './Example'
+import FirstCounter from './FirstCounter'
+import SecondCounter from './SecondCounter'
+import FirstDoubleStepper from './FirstDoubleStepper'
+import SecondDoubleStepper from './SecondDoubleStepper'
+import ThirdDoubleStepper from './ThirdDoubleStepper'
 
 **Disclaimer**: I have no idea if this is a good idea. Just something you can do if you want.
 
@@ -22,12 +26,9 @@ Generally, with hooks we would have this as two parts. An instance of `React.use
 ```javascript
 const [state, setState] = React.useState(/* initialState */)
 
-React.useEffect(
-  () => {
-    // do something with `state` here
-  },
-  [state]
-)
+React.useEffect(() => {
+  // do something with `state` here
+}, [state])
 ```
 
 We can create a custom hook that encapuslates these two parts. I'll warn you ahead of time. We're going to make a first attempt, run into a problem and fix it later. Let's do this step by step. First our hook function as a wrapper for `useState`:
@@ -75,7 +76,7 @@ function useOldSchoolState(initialState) {
 
   React.useEffect(() => {
     if (callbackRef.current) {
-      callback()
+      callbackRef.current()
       callbackRef.current = null
     }
   })
@@ -120,7 +121,11 @@ function Counter() {
 }
 ```
 
-However, one might notice there's a small problem, one that would be avoided in the class component version. Can you spot it?
+However, one might notice there's a small problem, one that would be avoided in the class component version. Can you spot it? <Marker content="Hint: check the console." />
+
+<OffsetWrap>
+  <FirstCounter />
+</OffsetWrap>
 
 In class components, `this` refers to the instance of the component, so if we were to try and get values derived from `this`, such as `this.state` and this occurs in a function called _after_ the state was updated, then we would get the _updated values for `this.state`_. But if we try and access `state` in our callback, it will be incorrect. It will be the whatever `state` was at the time `setState` was called due to the closure created. In other words, we cannot access the updated state by using `state` in the callback function. What if the action we'd like to depends on that updated state?
 
@@ -139,15 +144,12 @@ function useOldSchoolState(initialState) {
     }
   }, [])
 
-  React.useEffect(
-    () => {
-      if (callbackRef.current) {
-        callback(state)
-        callbackRef.current = null
-      }
-    },
-    [state]
-  )
+  React.useEffect(() => {
+    if (callbackRef.current) {
+      callbackRef.current(state)
+      callbackRef.current = null
+    }
+  }, [state])
 
   return [state, wrappedSetState]
 }
@@ -189,6 +191,10 @@ function Counter() {
 }
 ```
 
+<OffsetWrap>
+  <SecondCounter />
+</OffsetWrap>
+
 Excellent. Now our `Counter` will log out the correct value in the callback. However, there is yet one more problem with this approach. What happens if we call `setState` inside of our callback, and furthermore, what happens if we provide this second `setState` a callback as well?
 
 Let's make a new component and try it out. We'll make a contrived `DoubleStepper`, but it'll make my point:
@@ -212,7 +218,12 @@ function DoubleStepper() {
     )
   }
 
-  return <button onClick={step}>{state}</button>
+  return (
+    <div>
+      <div>Steps: {state}</div>
+      <Button onClick={step}>Step</Button>
+    </div>
+  )
 }
 ```
 
@@ -222,7 +233,9 @@ But does it?
 
 Try it out and find out. Make sure you check the console.
 
-<OffsetWrap />
+<OffsetWrap>
+  <FirstDoubleStepper />
+</OffsetWrap>
 
 Well, what do you know? It doesn't work right, does it? What's going on? Adding a few `console.log`s to our `useOldSchoolState` code will make this clear:
 
@@ -241,21 +254,24 @@ function useOldSchoolState(initialState) {
     }
   }, [])
 
-  React.useEffect(
-    () => {
-      console.log('starting effect')
-      if (callbackRef.current) {
-        callback(state)
-        console.log('nullifying callbackRef')
-        callbackRef.current = null
-      }
-    },
-    [state]
-  )
+  React.useEffect(() => {
+    console.log('starting effect')
+    if (callbackRef.current) {
+      callbackRef.current(state)
+      console.log('nullifying callbackRef')
+      callbackRef.current = null
+    }
+  }, [state])
 
   return [state, wrappedSetState]
 }
 ```
+
+Now try it.
+
+<OffsetWrap>
+  <SecondDoubleStepper />
+</OffsetWrap>
 
 When we click the button of our `DoubleStepper` component, we see the following logs:
 
@@ -270,7 +286,7 @@ When we click the button of our `DoubleStepper` component, we see the following 
 // starting effect
 ```
 
-Notice that `nullifying callbackRef` only occurs once, when we might expect it to occur twice. What's worse is that it nullifies it _after_ having set the ref for the next callback, but _before_ that callback has a chance to be called in the next effect. What we need is a way to sequence callbacks in an orderly fashion. What can we do to manage that?
+Notice that `nullifying callbackRef` only occurs once, when we might expect it to occur twice. What's worse is that our ref is nullified _after_ having set the ref for the next callback, but _before_ that callback has a chance to be called in the next effect. What we need is a way to sequence callbacks in an orderly fashion. What can we do to manage that?
 
 We can add a simple `queue` data structure, and only process one callback at a time in the queue.
 
@@ -307,19 +323,20 @@ function useOldSchoolState(initialState) {
     }
   }, [])
 
-  React.useEffect(
-    () => {
-      if (queue.current.length) {
-        queue.current.remove()(state)
-      }
-    },
-    [queue.current.length, state]
-  )
+  React.useEffect(() => {
+    if (queue.current.length) {
+      queue.current.remove()(state)
+    }
+  }, [queue.current.length, state])
 
   return [state, wrappedSetState]
 }
 ```
 
-Now, we manage to only run one callback per effect, which in the case of the `DoubleStepper`, gets it working as expected. I haven't tested this on even more challenging scenarios, so I can't make guarantees regarding how bulletproof this implementation is, but I am satisfied with the exploration.
+<OffsetWrap>
+  <ThirdDoubleStepper />
+</OffsetWrap>
+
+Now, we manage to only run one callback per effect, which in the case of the `DoubleStepper` gets it working as expected. I haven't tested this on even more challenging scenarios, so I can't make guarantees regarding how bulletproof this implementation is, but I am satisfied with the exploration for now.
 
 Admittedly, that was quite a bit of work for a seemingly simple hook, but I think the work was worthwhile. It forced me (and hopefully you) to think about breaking the problem down, and fixing pieces of it step by step.
