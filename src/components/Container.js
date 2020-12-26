@@ -8,12 +8,16 @@ const Container = ({ children }) => (
       marginLeft: 'auto',
       marginRight: 'auto',
       width: '80%',
+      maxWidth: '90ch',
+
       [createMediaQuery(BREAKPOINTS.bravo)]: {
         width: '70%',
       },
+
       [createMediaQuery(BREAKPOINTS.charlie)]: {
         width: '60%',
       },
+
       [createMediaQuery(BREAKPOINTS.delta)]: {
         width: '50%',
       },
