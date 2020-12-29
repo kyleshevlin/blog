@@ -4,8 +4,8 @@ date: '2017-02-23'
 slug: 'renderless-components'
 subtitle: "or How Logic Doesn't Always Need a UI"
 title: 'Renderless Components'
-description: 'Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI'
-excerpt: 'Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI'
+description: "Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI"
+excerpt: "Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI"
 ---
 
 If you're using Redux with React, you are probably familiar with the concept of container and presentational components. If you are, you can skip ahead to the section [**Renderless Components**](#renderless-components). If you're not, let me give you a very brief description of each.
@@ -48,7 +48,7 @@ import { connect } from 'react-redux'
 import FooPresentational from './FooPresentational'
 
 const mapStateToProps = state => ({
-  someProp: state.someProp
+  someProp: state.someProp,
 })
 
 export default connect(mapStateToProps)(FooPresentational)
@@ -69,7 +69,7 @@ class FooContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  someProp: state.someProp
+  someProp: state.someProp,
 })
 
 export default connect(mapStateToProps)(FooContainer)
@@ -134,17 +134,14 @@ class UpdateTimeContainer extends Component {
 }
 
 UpdateTimeContainer.propTypes = {
-  updateTime: PropTypes.func
+  updateTime: PropTypes.func,
 }
 
 const mapDispatchToProps = {
-  updateTime
+  updateTime,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(UpdateTimeContainer)
+export default connect(null, mapDispatchToProps)(UpdateTimeContainer)
 ```
 
 As you can see, this component uses lifecycle methods like any normal component, but doesn't render any markup. That's right! A component will _mount_ even if it doesn't _render_ markup.
