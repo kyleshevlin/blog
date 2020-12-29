@@ -4,9 +4,11 @@ date: '2017-02-23'
 slug: 'renderless-components'
 subtitle: "or How Logic Doesn't Always Need a UI"
 title: 'Renderless Components'
+description: 'Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI'
+excerpt: 'Renderless components are a way to use React's component model for side effects and logic that isn't mapped directly to your UI'
 ---
 
-If you're using Redux with React, you are probably familiar with the concept of container and presentational components. If you are, you can skip ahead to the section **Renderless Components**. If you're not, let me give you a very brief description of each.
+If you're using Redux with React, you are probably familiar with the concept of container and presentational components. If you are, you can skip ahead to the section [**Renderless Components**](#renderless-components). If you're not, let me give you a very brief description of each.
 
 ### Container Components
 
@@ -18,9 +20,9 @@ The purpose of a "presentational component" is to render UI based solely on the 
 
 ### Redux and Container Components
 
-Those familiar with Redux know that a single store governs your application's state in a Redux app. The typical way to pass this state to your app is through a `Provider` and using the `connect()` function to connect to this `Provider`. These can be found in the `react-redux` package.
+Those familiar with Redux know that a single store governs your application's state in a Redux app. The typical way to pass this state to your app is through a `Provider` and using the `connect()` function to connect components to this `Provider`. These can be found in the `react-redux` package.
 
-Typically, a container component is actually a higher order component (HOC) because it is connected to the store. Like so:
+The `connect()` function creates a Higher Order Component, that maps state and actions to props and connects the component to the Redux store. Like so:
 
 ```javascript
 import React, { Component } from 'react'
@@ -39,7 +41,7 @@ I won't go into the `connect()` API. The docs are very well written and there ar
 
 Using the example from above, generally speaking, we would use this container component to connect to our store to gather props and pass those props into a presentational component. There are two ways to do this.
 
-We can pass the props implicitly if we don't need to use any lifecycle hooks in our container component like so:
+We can pass the props directly to our presentational component if we don't need to use any lifecycle hooks in a container component, like so:
 
 ```javascript
 import { connect } from 'react-redux'
@@ -52,9 +54,9 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(FooPresentational)
 ```
 
-Thus, we implicitly pass to `FooPresentational` the `someProp` prop.
+In this situation, `someProp` is passed directly into `FooPresentational`.
 
-We can also pass props explicitly by using the presentational component in the `render()` method of our container component like so:
+We can also map the props to the container component, and then pass them to the presentational component in the `render()` method of our container component, like so:
 
 ```javascript
 import React, { Component } from 'react'
