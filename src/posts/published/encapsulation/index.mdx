@@ -1,5 +1,5 @@
 ---
-date: '2020-11-12'
+date: '2020-12-28'
 slug: 'encapsulation'
 title: 'Encapsulation'
 subtitle: 'or the Primary Purpose of Functions'
@@ -9,4 +9,61 @@ tags: ['JavaScript', 'React']
 relatedPostsSlugs: []
 ---
 
-If there was only one thing I could impart on the programming world, one solitary nugget of wisdom I could share, it would be the lesson I'm about to teach you. _That's how important it is to me, and how important it should be to you_.
+This post will be short and sweet, yet it is my sincere hope that after reading this blog post, you will think about functions a little differently than you did before.
+
+Functions are one of the first abstractions a programmer learns. Second only to variables. We learn functions as a means of repeating a set of instructions, and later how to parameterize that set of instructions with function arguments. Perhaps you were even taught something like this:
+
+```javascript
+function sayHello(name) {
+  return 'Hello, ' + name
+}
+
+sayHello('Kyle') // Hello, Kyle
+sayHello('friend') // Hello, friend
+```
+
+Now, you have a function you can _reuse_. Reusability was and is touted as the great benefit of functions. The primacy of this benefit is touted everywhere with lesson upon lesson on DRY code. <Marker content={`DRY stands for "don't repeat yourself".`} /> However, I will contend that reusability is **not** the primary purpose of a function. No, reusability is rather a wonderful property of functions that comes as the result of their true primary purpose: **enacapsulation**.
+
+### What is &ldquo;encapsulation&rdquo;?
+
+"Encapsulation" is the act of taking all the elements of a concern and containing them within a structure. The most common structure of encapsulation is a function, as I will discuss here, but you can also think of modules, objects and classes (and more) as structures for encapsulation (if used well).
+
+But what do I mean by all the elements of a concern? Let's come up with an example of some code suffering from a lack of encapsulation.
+
+```javascript
+function createBudgetSummary(transactions) {
+  const { length } = transactions
+  let income = 0
+  let spent = 0
+
+  transactions.forEach(transaction => {
+    const { inflow, outflow } = transaction
+    if (inflow) {
+      income += inflow.amount
+    }
+    if (outflow) {
+      spent += outflow.amount
+    }
+  })
+
+  const format = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format
+
+  let difference = income - spent
+
+  income = format(income)
+  spent = format(spent)
+  difference = format(difference)
+
+  const inflection = length === 1 ? 'transaction' : 'transactions'
+
+  let summary = `After ${length} ${inflection}, your total is ${difference}\n`
+  summary += `Your income totaled ${income}.\n`
+  summary += `Your spending totaled ${spent}.\n`
+
+  return summary
+}
+```
