@@ -87,7 +87,7 @@ function createBudgetSummary(
 }
 ```
 
-Is it easier or harder to understand this function than the previous one? Easier, right? Each line declares what's happening explicitly. Get the income. Get the expenses. Format the summary. You don't have to decipher what a bunch of lines of code, possibly scattered around the body of the function, intend to do. You just read it from the function name.
+Is it easier or harder to understand this function than the previous one? Easier, right? Each line declares what's happening explicitly. Get the income. Get the expenses. Format the summary. You don't have to decipher what a bunch of lines of code, possibly scattered around the body of the function, intend to do. You just read it top to bottom, from the function name to function name.
 
 But I can hear you say, "But Kyle! All you did was _hide_ a bunch of details in functions!"
 
@@ -135,7 +135,7 @@ const defaultSummaryFormatter = ({ quantity, income, spent }) => {
 
 "What's so great about this?!" you exclaim. "It's more lines of code!"
 
-True, but every function is simpler, focused and tells you what concern it encapsulates. By writing our code this way, we gain a number of benefits:
+True, but every function is simpler, focused, and tells you what concern it encapsulates. By writing our code this way, we gain a number of benefits:
 
 - Easier to digest
 
@@ -143,11 +143,13 @@ By focusing on encapsulation, we make our functions focused, small and containin
 
 - Mental offloading of information
 
-This one you might disagree with, but I find if I have good functions, I don't always have to understand there details to know what's important to me in a given moment. If I'm looking at `createBudgetSummary`, and I'm trying to change the format of the summary, I don't need to know how the program gets the `income`, I just know there's a function that _does_ `getIncome`. I can offload that information, or never take it on to begin with. Those details aren't important to me _until_ I either need to change `income`, or have found a bug in its implementation (which I can easily write a test for). I can make changes to `getIncome`, without changing the API of `summaryFormatter`.
+This one you might disagree with, but I find if I have good functions, I don't always have to understand their details to know what's important to me at that given moment.
+
+If I'm looking at `createBudgetSummary` and I'm trying to change the format of the summary, I don't need to know how the program gets the `income`, I just know there's a function that _does_ `getIncome`. I can offload that information, or never take it on to begin with. Those details aren't important to me _until_ I either need to change `income` or have found a bug in its implementation (which I can easily write a test for). I can make changes to `getIncome`, without changing the API of `summaryFormatter`.
 
 - Easier to refactor
 
-Let's say you hate `Array.prototype.reduce`. <Marker content="There's a whole cult of <code>reduce</code> haters on Twitter. I don't blame them, but I do like to poke and prod them a bit. 😁" /> Nothing stops you from writing:
+Let's say you just hate `Array.prototype.reduce`. <Marker content="There's a whole cult of <code>reduce</code> haters on Twitter. I don't blame them, but I do like to poke and prod them a bit. 😁" /> Nothing stops you from writing:
 
 ```javascript
 const getIncome = transactions => {
@@ -189,4 +191,4 @@ Now, you can easily make other currency formatters for other locales and currenc
 
 ### Summary
 
-Encapsulation is the act of gathering all the elements of a single concern and containing them to a structure. In this post, we focused on functions. By encapsulating concerns, and giving them good names, we made our code more declarative, easier to read, and easier to refactor. Furthermore, by properly encapsulating concerns, we found opportunities to make the code more flexible and gained even more reusability.
+Encapsulation is the act of gathering all the elements of a single concern and containing them within a structure. In this post, we focused on functions. By encapsulating concerns and giving them good names, we made our code more declarative, easier to read, and easier to refactor. Furthermore, by properly encapsulating concerns, we found opportunities to make the code more flexible and gained even more reusability.
