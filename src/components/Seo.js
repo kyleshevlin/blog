@@ -25,12 +25,12 @@ function Seo({ description, lang, meta, keywords, title }) {
                 content: metaDescription,
               },
               {
-                property: `og:title`,
-                content: title,
+                property: 'author',
+                content: data.site.siteMetadata.author,
               },
               {
-                propert: 'og:author',
-                content: data.site.siteMetadata.author,
+                property: `og:title`,
+                content: title,
               },
               {
                 property: `og:description`,
