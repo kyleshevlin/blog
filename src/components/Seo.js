@@ -25,7 +25,7 @@ function Seo({ description, lang, meta, keywords, title }) {
                 content: metaDescription,
               },
               {
-                property: 'author',
+                name: 'author',
                 content: data.site.siteMetadata.author,
               },
               {
