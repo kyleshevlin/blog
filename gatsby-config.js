@@ -7,9 +7,9 @@ require('dotenv').config({
 module.exports = {
   siteMetadata: {
     title: 'Kyle Shevlin',
-    subTitle: 'Front End Web Developer',
+    subTitle: 'Software Engineer',
     description:
-      'Kyle Shevlin is a front end web developer and software engineer who specializes in JavaScript and React.',
+      'Kyle Shevlin is a software engineer who specializes in JavaScript, React and front end web development.',
     author: 'Kyle Shevlin',
     siteUrl: 'https://kyleshevlin.com',
   },
