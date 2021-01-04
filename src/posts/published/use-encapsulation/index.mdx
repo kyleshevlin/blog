@@ -1,12 +1,12 @@
 ---
-date: '2020-12-24'
+date: '2020-12-30'
 slug: 'use-encapsulation'
 title: 'useEncapsulation'
-subtitle: 'How Encapsulation and React Hooks Go Together'
+subtitle: 'or Why Your React Components Should Only Use Custom Hooks'
 description: ''
 excerpt: null
-tags: ['React']
-relatedPostsSlugs: []
+tags: ['JavaScript', 'React', 'Computer Science']
+relatedPostsSlugs: ['encapsulation']
 ---
 
 import RelatedTweet from './RelatedTweet'
@@ -15,10 +15,22 @@ Recently, I shared this tweet:
 
 <RelatedTweet />
 
-This tweet was my response to some refactoring of our codebase, but having a month now practice this a few more times, I'm convinced this pattern is the right way to go. I'll go further and say **most uses of React hooks should be encapsulated in a custom hook**. I'll save some of those examples for other posts I want to write soon, but for today, let's explore this pattern in regards to `useEffect`. Let's dive in.
+This tweet was my response to some refactoring of our codebase, but having more than a month now to practice this a few more times, I'm convinced this pattern is the right way to go. I'll go further and say **most uses of React hooks should be encapsulated in a custom hook**, and I'm going to try and convince you of that on this post.
 
-### What is &ldquo;encapsulation&rdquo;?
+Before we get started, it will benefit you greatly if you read my post on [encapsulation](/encapsulation) first. In that post, I argue that the primary purpose of a function is to encapuslate all the elements of a concern together into a single structure. We're going to apply this pattern to how we work with React Hooks.
 
-To me, "encapsulation" is the act of taking all the details related to a _concern_ and wrapping them up into one structure. The most common structure I use is a function, but you can also think of modules, classes, and objects as being structures for encapsulation given the right context.
+### The Problem
 
-It's _really_ easy to leave the details of a concern strewn about your code. So easy you won't even realize that's what you're doing.
+Your code is strewn about.
+
+### Why Custom Hooks are the Solution
+
+A custom hook encapsulates the elements of your concern in one place and exposes an API.
+
+### How to Enforce this Pattern
+
+I wrote this eslint plugin: `eslint-plugin-prefer-custom-hooks`
+
+### Summary
+
+By opting to write all the hooks consumed by your components as custom ones, you will be providing future devs (including yourself) useful context by encapsulating all the pieces of a concern into a single function. By doing this, you gain all the benefits of proper encapsulation and make your components more declarative.
