@@ -21,11 +21,185 @@ Before we get started, it will benefit you greatly if you read my post on [encap
 
 ### The Problem
 
-Your code is strewn about.
+Given the nature of our work, that needs change frequently and therefore code changes frequently, too, it is not surprising that our codebases become messy. Our logic gets strewn about like tools left on a workbench. The problem is that hidden in the mess is important information that is getting lost. Important historical decisions left without explanation or context and more. I'll try to come up with a contrived example quickly.
+
+Imagine we have a `Component` that can be toggled into two states: `off` and `on`. We'll use React Hooks to set this up.
+
+```jsx
+function Component() {
+  const [state, setState] = React.useState('off')
+
+  const on = React.useCallback(() => {
+    setState('on')
+  }, [])
+
+  const off = React.useCallback(() => {
+    setState('off')
+  }, [])
+
+  const toggle = React.useCallback(() => {
+    setState(s => (s === 'on' ? 'off' : 'on'))
+  }, [])
+
+  return (
+    <div>
+      <div>State: {state}</div>
+      <div>
+        <button type="button" onClick={on}>
+          Turn On
+        </button>
+        <button type="button" onClick={off}>
+          Turn Off
+        </button>
+        <button type="button" onClick={toggle}>
+          Toggle
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+Alright, so far so good. Our `Component` is pretty simple so far and it feels like all of its concerns are handled in an orderly way. But requirements change and now perhaps our component also needs an input field (don't ask me why, I told you this is contrived).
+
+```jsx
+function Component() {
+  const [toggleState, setToggleState] = React.useState('off')
+  const [inputState, setInputState] = React.useState('')
+
+  const on = React.useCallback(() => {
+    setToggleState('on')
+  }, [])
+
+  const off = React.useCallback(() => {
+    setToggleState('off')
+  }, [])
+
+  const toggle = React.useCallback(() => {
+    setToggleState(s => (s === 'on' ? 'off' : 'on'))
+  }, [])
+
+  const handleInputChange = React.useCallback(e => {
+    setInputState(e.target.value)
+  }, [])
+
+  const resetInput = React.useCallback(() => {
+    setInputState('')
+  }, [])
+
+  return (
+    <div>
+      <div>State: {toggleState}</div>
+      <div>
+        <button type="button" onClick={on}>
+          Turn On
+        </button>
+        <button type="button" onClick={off}>
+          Turn Off
+        </button>
+        <button type="button" onClick={toggle}>
+          Toggle
+        </button>
+      </div>
+      <div>
+        <label htmlFor="randomWord">Random Word</label>
+        <input
+          type="text"
+          id="randomWord"
+          onChange={handleInputChange}
+          value={inputState}
+        />
+        <button type="button" onClick={resetInput}>
+          Reset Input
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+Are you starting to see the problem I'm seeing? Even writing, what is in my opinion, very clean and clear code, we've started to create a **gap** between related implementation details.
+
+We _need_ to call our hooks in the same order every render of `Component`. Those are the rules. To accomplish this, we've followed a common organizational pattern with our declarations of state near the top of our component and our various event handlers further down. But in following this pattern, we've separated the toggle state and its event handlers with the interruption of declaring another state. Even worse, our input state is separated from its related handlers by three unrelated function declarations. **Just imagine this in your codebase and I'm sure you've seen far worse!** This can quickly become a nightmare.
+
+There is, fortunately, a very simple solution: custom hooks.
 
 ### Why Custom Hooks are the Solution
 
-A custom hook encapsulates the elements of your concern in one place and exposes an API.
+A custom hook is a function and functions are structures we can use to encapsulate the related elements of a concern and expose an API to our function's consumer. In the case of our `Component`, these custom hooks are fairly simple to create.
+
+```jsx
+function useOnOff() {
+  const [state, setState] = React.useState('off')
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => {
+        setState('on')
+      },
+      off: () => {
+        setState('off')
+      },
+      toggle: () => {
+        setState(s => (s === 'on' ? 'off' : 'on'))
+      },
+    }),
+    []
+  )
+
+  return [state, handlers]
+}
+
+function useInput() {
+  const [state, setState] = React.useState('')
+
+  const handlers = React.useMemo(
+    () => ({
+      handleInputChange: e => {
+        setState(e.target.value)
+      },
+      resetInput: () => {
+        setState('')
+      },
+    }),
+    []
+  )
+}
+
+function Component() {
+  const [toggleState, { on, off, toggle }] = useOnOff()
+  const [inputState, { handleInputChange, resetInput }] = useInput()
+
+  return (
+    <div>
+      <div>State: {toggleState}</div>
+      <div>
+        <button type="button" onClick={on}>
+          Turn On
+        </button>
+        <button type="button" onClick={off}>
+          Turn Off
+        </button>
+        <button type="button" onClick={toggle}>
+          Toggle
+        </button>
+      </div>
+      <div>
+        <label htmlFor="randomWord">Random Word</label>
+        <input
+          type="text"
+          id="randomWord"
+          onChange={handleInputChange}
+          value={inputState}
+        />
+        <button type="button" onClick={resetInput}>
+          Reset Input
+        </button>
+      </div>
+    </div>
+  )
+}
+```
 
 ### How to Enforce this Pattern
 
