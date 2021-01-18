@@ -208,76 +208,65 @@ The most common example I can think of in modern web development would be a stat
 
 A few months ago, I came across a bit of code that had a high level of complexity for a single group. I'm going to share the change I made, and hopefully you'll agree that it was the right way to manage the complexity.
 
-The code that follows is taken from the Webflow codebase, but it's not big enough portion to really give anything substantial away. Webflow's architecture involves a lot of "nodes" and these nodes need to be validated and transformed. At one particular point during those transformations, I found this code: <Marker content="We use Flow and ImmutableJS at Webflow. This is why some of the APIs you will see might not be familiar to you." />
+The code that follows is adapted from the Webflow codebase. Webflow's architecture involves a lot of "nodes" and these nodes contain various types of information that need to be validated, cleaned up, and transformed. At one particular point during those transformations, I found code that looks somewhat like this: <Marker content="This is not the exact code. It is similar to what it was. It no longer exists in the Webflow codebase so there's no need to snoop around the clientside bundle for it." />
 
 ```javascript
-.update('dyn', Map(), dynData => {
-  const bindingData = dynData
-    .get('bind', Map())
-    .update(
-      _cleanUpBindings(hasBindableItem, collectionId, collections)
-    )
-  if (bindingData.size > 0) {
-    dynData = dynData.set('bind', bindingData)
+// This code uses ImmutableJS Maps, not standard JS Maps
+// hence the method `update()` and more.
+nodes.update('dynamicData', Immutable.Map(), dynamicData => {
+  const bindableData = dynamicData
+    .get('bindable', Immutable.Map())
+    .update(cleanUpBindings(bindingDep1, bindingDep2))
+
+  if (bindableData.size > 0) {
+    dynamicData = dynamicData.set('bindable', bindableData)
   } else {
-    const originalBindings = dynData.get('bind')
-    dynData =
+    const originalBindings = dynamicData.get('bindable')
+
+    dynamicData =
       originalBindings && originalBindings.size === 0
-        ? dynData
-        : dynData.delete('bind')
+        ? dynamicData
+        : dynamicData.delete('bindable')
   }
 
-  const conditionData = dynData
-    .getIn(COND_VIS_DATA_PATH, Map())
-    .update(
-      _cleanUpConditions(
-        bindableCollection,
-        hasBindableItem,
-        hasPageItem,
-        pageCollection,
-        collections
-      )
-    )
-  dynData =
-    conditionData.size > 0
-      ? dynData.setIn(COND_VIS_DATA_PATH, conditionData)
-      : dynData.delete('condition')
+  const conditionalData = dynamicData
+    .get('conditions', Immutable.Map())
+    .update(cleanUpConditions(conditionalDep1, conditionalDep2))
 
-  const filterPath = ['query', 'fields']
-  const filterData = dynData
-    .getIn(filterPath, Map())
-    .update(
-      _cleanUpFilters(
-        listCollection,
-        bindableCollection,
-        hasPageItem
-      )
-    );
-  if (filterData.size > 0) {
-    dynData = dynData.setIn(filterPath, filterData)
+  dynamicData =
+    conditionalData.size > 0
+      ? dynamicData.set('conditions', conditionalData)
+      : dynamicData.delete('conditions')
+
+  const filterableData = dynamicData
+    .get('filterable', Immutable.Map())
+    .update(cleanUpFilters(filterDep1, filterDep2))
+
+  if (filterableData.size > 0) {
+    dynamicData = dynamicData.set('filterable', filterableData)
   } else {
-    const originalFilter = dynData.getIn(filterPath)
-    dynData =
+    const originalFilter = dynamicData.get('filterable')
+    dynamicData =
       originalFilter && originalFilter.size === 0
-        ? dynData
-        : dynData.deleteIn(filterPath)
+        ? dynamicData
+        : dynamicData.delete('filterable')
   }
 
-  const sortPath = ['query', 'sort']
-  const sortData = List()
-    .concat(dynData.getIn(sortPath, List()))
-    .update(_cleanUpSort(listCollection))
-  if (sortData.size > 0) {
-    dynData = dynData.setIn(sortPath, sortData)
+  const sortableData = List()
+    .concat(dynamicData.get('sortable', List()))
+    .update(cleanUpSort(sortableDep1, sortableDep2))
+
+  if (sortableData.size > 0) {
+    dynamicData = dynamicData.set('sortable', sortableData)
   } else {
-    dynData = dynData.deleteIn(sortPath)
+    dynamicData = dynamicData.delete('sortable')
   }
 
-  return dynData;
+  return dynamicData
 })
 ```
 
-There's a lot going on in this function, and I don't expect it to make a ton of sense right away. Let me try and break it down a little bit. This function receives a piece of data, `dynData`, and mutates it as necessary based on which conditionals are met along the way. That's pretty standard for programming.
+There's a lot going on in this function, and I don't expect it to make a ton of sense right away. Let me try and break it down a little bit. This function receives a piece of data, `dynamicData`, and mutates it as necessary based on which conditionals are met along the way. That's pretty standard for programming.
 
 The complexity score isn't terribly high, it's only a `7`, but the code is still more difficult to reason about than necessary and has too many responsibilities. We can make this better. With some changes, this bit of code will be easier to understand and update in the future, while also reducing the average complexity per group.
 
@@ -285,187 +274,151 @@ First, we need to identify what the groups are in this code. It turns out there 
 
 ```javascript
 // Bindings
-const bindingData = dynData
-  .get('bind', Map())
-  .update(_cleanUpBindings(hasBindableItem, collectionId, collections))
+const bindableData = dynamicData
+  .get('bindable', Immutable.Map())
+  .update(cleanUpBindings(bindingDep1, bindingDep2))
 
-if (bindingData.size > 0) {
-  dynData = dynData.set('bind', bindingData)
+if (bindableData.size > 0) {
+  dynamicData = dynamicData.set('bindable', bindableData)
 } else {
-  const originalBindings = dynData.get('bind')
-  dynData =
+  const originalBindings = dynamicData.get('bindable')
+
+  dynamicData =
     originalBindings && originalBindings.size === 0
-      ? dynData
-      : dynData.delete('bind')
+      ? dynamicData
+      : dynamicData.delete('bindable')
 }
 ```
 
 ```javascript
 // Conditions
-const conditionData = dynData
-  .getIn(COND_VIS_DATA_PATH, Map())
-  .update(
-    _cleanUpConditions(
-      bindableCollection,
-      hasBindableItem,
-      hasPageItem,
-      pageCollection,
-      collections
-    )
-  )
+const conditionalData = dynamicData
+  .get('conditions', Immutable.Map())
+  .update(cleanUpConditions(conditionalDep1, conditionalDep2))
 
-dynData =
-  conditionData.size > 0
-    ? dynData.setIn(COND_VIS_DATA_PATH, conditionData)
-    : dynData.delete('condition')
+dynamicData =
+  conditionalData.size > 0
+    ? dynamicData.set('conditions', conditionalData)
+    : dynamicData.delete('conditions')
 ```
 
 ```javascript
 // Filters
-const filterPath = ['query', 'fields']
-const filterData = dynData
-  .getIn(filterPath, Map())
-  .update(_cleanUpFilters(listCollection, bindableCollection, hasPageItem))
+const filterableData = dynamicData
+  .get('filterable', Immutable.Map())
+  .update(cleanUpFilters(filterableDep1, filterableDep2))
 
-if (filterData.size > 0) {
-  dynData = dynData.setIn(filterPath, filterData)
+if (filterableData.size > 0) {
+  dynamicData = dynamicData.set('filterable', filterableData)
 } else {
-  const originalFilter = dynData.getIn(filterPath)
-  dynData =
+  const originalFilter = dynamicData.get('filterable')
+
+  dynamicData =
     originalFilter && originalFilter.size === 0
-      ? dynData
-      : dynData.deleteIn(filterPath)
+      ? dynamicData
+      : dynamicData.delete('filterable')
 }
 ```
 
 ```javascript
 // Sorts
-const sortData = List()
-  .concat(dynData.getIn(sortPath, List()))
-  .update(_cleanUpSort(listCollection))
+const sortableData = List()
+  .concat(dynamicData.get('sortable', Immutable.List()))
+  .update(cleanUpSort(sortableDep1, sortableDep2))
 
-if (sortData.size > 0) {
-  dynData = dynData.setIn(sortPath, sortData)
+if (sortableData.size > 0) {
+  dynamicData = dynamicData.set('sortable', sortableData)
 } else {
-  dynData = dynData.deleteIn(sortPath)
+  dynamicData = dynamicData.delete('sortable')
 }
 ```
 
-If we pay attention, we can see that each of these groups takes `dynData` and conditionally updates it. We can turn each of these groups into their own function that receives `dynData` as an argument, and returns the transformed data. We need to gather all the other data necessary for each function, but that isn't too hard. Those functions look like this:
+If we pay attention, we can see that each of these groups takes `dynamicData` and conditionally updates it. We can turn each of these groups into their own function that receives `dynamicData` as an argument, and returns the transformed data. We need to gather all the other data necessary for each function, but that isn't too hard. Those functions look like this:
 
 ```javascript
-const updateBindings = ({
-  collectionId,
-  collections,
-  hasBindableItem,
-}) => dynData => {
-  const bindingData = dynData
-    .get('bind', Map())
-    .update(_cleanUpBindings(hasBindableItem, collectionId, collections))
+const updateBindings = ({ bindingDep1, bindingDep2 }) => dynamicData => {
+  const bindableData = dynamicData
+    .get('bindable', Immutable.Map())
+    .update(cleanUpBindings(bindingDep1, bindingDep2))
 
-  if (bindingData.size > 0) {
-    return dynData.set('bind', bindingData)
+  if (bindableData.size > 0) {
+    return dynamicData.set('bindable', bindableData)
   } else {
-    const originalBindings = dynData.get('bind')
-    return originalBindings && originalBindings.size === 0
-      ? dynData
-      : dynData.delete('bind')
+    const originalData = dynamicData.get('bindable')
+
+    return originalData && originalData.size === 0
+      ? dynamicData
+      : dynamicData.delete('bindable')
   }
 }
 
 const updateConditions = ({
-  bindableCollection,
-  collections,
-  hasBindableItem,
-  hasPageItem,
-  pageCollection,
-}) => dynData => {
-  const conditionData = dynData
-    .getIn(COND_VIS_DATA_PATH, Map())
-    .update(
-      _cleanUpConditions(
-        bindableCollection,
-        hasBindableItem,
-        hasPageItem,
-        pageCollection,
-        collections
-      )
-    )
+  conditionalDep1,
+  conditionalDep2,
+}) => dynamicData => {
+  const conditionalData = dynamicData
+    .get('conditions', Immutable.Map())
+    .update(cleanUpConditions(conditionalDep1, conditionalDep2))
 
-  return conditionData.size > 0
-    ? dynData.setIn(COND_VIS_DATA_PATH, conditionData)
-    : dynData.delete('condition')
+  return conditionalData.size > 0
+    ? dynamicData.set('conditions', conditionalData)
+    : dynamicData.delete('conditions')
 }
 
-const updateFilters = ({
-  bindableCollection,
-  hasPageItem,
-  listCollection,
-}) => dynData => {
-  const filterPath = ['query', 'fields']
-  let fields = dynData.getIn(filterPath, [])
+const updateFilters = ({ filterableDep1, filterableDep2 }) => dynamicData => {
+  const filterableData = dynamicData
+    .get('filterable', Immutable.Map())
+    .update(cleanUpFilters(filterableDep1, filterableDep2))
 
-  if (Map.isMap(fields)) {
-    fields = convertFieldsFromMapToArray(fields)
-  }
-
-  const cleanFields = _cleanUpFilters(
-    listCollection,
-    bindableCollection,
-    hasPageItem
-  )(fields)
-
-  if (cleanFields.length) {
-    return dynData.setIn(filterPath, cleanFields)
+  if (filterableData.length) {
+    return dynamicData.set('filterable', filterableData)
   } else {
-    const originalFields = dynData.getIn(filterPath)
-    return originalFields && originalFields.size === 0
-      ? dynData
-      : dynData.deleteIn(filterPath)
+    const originalData = dynamicData.get('filterable')
+
+    return originalData && originalData.size === 0
+      ? dynamicData
+      : dynamicData.delete('filterable')
   }
 }
 
-const updateSorts = listCollection => dynData => {
-  const sortPath = ['query', 'sort']
-  // Concatenating to a List as sort value can be a List of a String
-  const sortData = List()
-    .concat(dynData.getIn(sortPath, List()))
-    .update(_cleanUpSort(listCollection))
+const updateSorts = ({ sortableDep1, sortableDep2 }) => dynamicData => {
+  const sortableData = dynamicData
+    .get('sortable')
+    .update(cleanUpSort(sortableDep1, sortableDep2))
 
-  return sortData.size > 0
-    ? dynData.setIn(sortPath, sortData)
-    : dynData.deleteIn(sortPath)
+  return sortableData.size > 0
+    ? dynamicData.set('sortable', sortableData)
+    : dynamicData.delete('sortable')
 }
 ```
 
 Now each function is an isolated bit of complexity. You might be wondering why each of these functions is a curried function (You can learn more about [curried functions here](/just-enough-fp-currying)). Currying these functions allows me to do two things.
 
-First, it allows me to supply all the extra arguments necessary to do the computation ahead of time. These are held in closure for the next function accepting `dynData` as an argument.
+First, it allows me to supply all the extra arguments necessary to do the computation ahead of time. These are held in closure for the next function accepting `dynamicData` as an argument.
 
 Second, it allows me to create a composition of these functions. Because the returned function from each updater here has the same signature (and returns the same signature), I can compose them together. I've written about [composition here](/just-enough-fp-composition) and I encourage you to read that post. I will actually use the `pipe` function for this example, so that we maintain left-to-right, top-to-bottom data flow through our composition. Our new update looks like this:
 
 ```javascript
-.update('dyn', Map(), dynData => {
+nodes.update('dynamicData', Immutable.Map(), dynamicData => {
+  // These aren't the real arguments, just useful for the examples
   return pipe(
     updateBindings({
-      collectionId,
-      collections,
-      hasBindableItem,
+      bindingDep1,
+      bindingDep2,
     }),
     updateConditions({
-      bindableCollection,
-      hasBindableItem,
-      hasPageItem,
-      pageCollection,
-      collections,
+      conditionalDep1,
+      conditionalDep2,
     }),
     updateFilters({
-      bindableCollection,
-      hasPageItem,
-      listCollection,
+      filterableDep1,
+      filterableDep2,
     }),
-    updateSorts(listCollection),
-  )(dynData)
+    updateSorts({
+      sortableDep1,
+      sortableDep2,
+    })
+  )(dynamicData)
 })
 ```
 
@@ -477,4 +430,4 @@ We have not changed the overall complexity. It remained constant as it must, but
 
 Paying attention to cyclomatic complexity can be a game changer in your programming career. It can take you from being the kind of person that writes code that works (which is awesome), to writing code that is easier for you and others to make changes to (which is awesomer). Recognizing complexity and developing strategies for managing it are important for creating maintainable and reasonable programs.
 
-Remember, we can't change the overall complexity of a program without changing what the program is. <Marker content="Sometimes removing code <em>is</em> the answer to complexity; just know it won't be the same program" /> Try to keep average complexity per group low. Many functions, classes, modules with low complexity is _often_ (but not always) easier to manage. Encapsulate high levels of complexity where necessary as an exception.
+Remember, we can't change the overall complexity of a program without changing what the program is. <Marker content="Sometimes removing code <em>is</em> the answer to complexity; just know it won't be the same program." /> Try to keep average complexity per group low. Many functions, classes, modules with low complexity is _often_ (but not always) easier to manage. Encapsulate high levels of complexity where necessary as an exception.
