@@ -1,0 +1,112 @@
+---
+date: '2021-02-04'
+slug: 'facade-pattern'
+title: 'Facade Pattern'
+subtitle: 'When and Why the Facade Pattern is Your Friend'
+description: ''
+excerpt: null
+tags: ['JavaScript', 'Computer Science', 'Software Engineering']
+relatedPostsSlugs: []
+---
+
+We live in exciting times. There's almost a library for everything you can imagine on [npm]() and you can add packages to your projects so quickly. It's really quite a bit of fun when you take a second to think about it.
+
+But this ability to quickly grab and use packages hides some technical debt you _might_ be creating when you do so. There's a reason these packages are called "dependencies", and if you're not careful, you can wind up dependent upon something that is terribly difficult to manage later.
+
+I want to introduce you to a pattern of programming called the "facade pattern". I get the term from the "Gang of Four" (aka GoF) book [Design Patterns]() if you'd like to do additional reading.
+
+Essentially, the facade pattern is when we add a layer of abstraction between the consumer of some code and the implementation of that code. In regards to packages like I'm describing above, it's creating a wrapping function or class with which to consume the package. There are at least 2 reasons to do this:
+
+- Greater control of the exposed API
+
+Often a facade pattern is used to simplify a more complex class, object, or function's implementation from the consumer of the facade.
+
+- To give yourself the flexibility to later swap packages and other implementation details without disrupting the code that consumes the facade
+
+That point basically explains itself, and is the one I would like to focus on in this post.
+
+### When to Use a Facade Pattern
+
+There are some libraries so essential to your work that wrapping them in a facade would provide no benefit. If you're project is built in React, it doesn't make sense to wrap the `React` library in a facade because it's a part of your project that _if you change it, you want to have to change everything else, too_. It's such a core part of your project, that consuming it directly is a good thing.
+
+On the other hand, libraries for fetching data, date formatting, or CSS-in-JS can make good candidates for the facade pattern. Let's look at fetching data as an example.
+
+For a long time, and perhaps in many of your apps still, the `axios` library was a popular way to fetch data. You might have directly in some code somewhere:
+
+```javascript
+import React from 'react'
+import axios from 'axios'
+
+function DetailPage({ id }) {
+  const [data, setData] = React.useState(null)
+
+  React.useEffect(() => {
+    axios
+      .get(`your/api/url/pages/${id}`)
+      .then(res => res.json())
+      .then(json => {
+        setData(json)
+      })
+  }, [id])
+
+  return data !== null && <div>{JSON.stringify(data, null, 2)}</div>
+}
+```
+
+Now, imagine you have dozens, maybe hundreds or more components that are similar. They're fetching and posting data around your app, all consuming `axios` itself.
+
+One day, your team decides that you want to drop the `axios` dependency and switch to using `fetch` instead. What's your immediate thought? I bet it's something like, "Oh shit! Now I have to change \_every single place I have used `axios`!"
+
+Not a fun thought to have.
+
+But what if we had used a facade around `axios` in the first place. Something like:
+
+```javascript
+// API.js
+import axios from 'axios'
+
+export default class API {
+  get(url) {
+    return axios.get(url)
+  }
+
+  post(url, options) {
+    return axios.post(url, options)
+  }
+
+  // other methods, you get the idea...
+}
+
+// DetailPage.js
+import React from 'react'
+import API from './API'
+
+function DetailPage({ id }) {
+  const [data, setData] = React.useState(null)
+
+  React.useEffect(() => {
+    API.get(`your/api/url/pages/${id}`)
+      .then(res => res.json())
+      .then(json => {
+        setData(json)
+      })
+  }, [id])
+
+  return data !== null && <div>{JSON.stringify(data, null, 2)}</div>
+}
+```
+
+Now if we want to replace `axios`, we simply update the implementation details of our `API` facade without having any affect on our components.
+
+```javascript
+// API.js
+export default class API {
+  get(url) {
+    return fetch(url)
+  }
+
+  post(url, options) {
+    return fetch(url, options)
+  }
+}
+```
