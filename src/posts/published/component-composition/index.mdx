@@ -1,0 +1,18 @@
+---
+date: '2021-02-05'
+slug: 'component-composition'
+title: 'Component Composition'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+What's easier to read?
+
+```javascript
+function Page({ userState }) {
+  return userState === 'loggedIn' ? <LoggedInPage /> : <LoggedOutPage />
+}
+```
