@@ -37,6 +37,7 @@ const Post = ({
       coverImage,
       date,
       description,
+      images,
       keywords,
       relevantCourseNickname,
       slug,
@@ -45,6 +46,8 @@ const Post = ({
       title,
     },
   } = file
+
+  const preppedImages = prepareImagesForMDXRenderer(images)
 
   return (
     <Fragment>
@@ -76,7 +79,7 @@ const Post = ({
           <PostHeader {...{ subtitle, title }} />
           <EditLink fileAbsolutePath={fileAbsolutePath} />
         </div>
-        <MDXRenderer>{file.body}</MDXRenderer>
+        <MDXRenderer images={preppedImages}>{file.body}</MDXRenderer>
 
         <Share slug={slug} title={title} />
 
@@ -142,6 +145,14 @@ export const pageQuery = graphql`
         }
         date(formatString: "MMMM DD, YYYY")
         description
+        images {
+          name
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
         keywords
         relevantCourseNickname
         slug
@@ -214,4 +225,13 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
       ) : null}
     </div>
   )
+}
+
+function prepareImagesForMDXRenderer(images) {
+  if (images == null) return images
+
+  return images.reduce((acc, image) => {
+    acc[image.name] = image.childImageSharp.original.src
+    return acc
+  }, {})
 }
