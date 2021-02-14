@@ -6,7 +6,8 @@ import ExcerptList from '../components/ExcerptList'
 import Pagination from '../components/Pagination'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { getNodes, v } from '../utils'
+import { createMediaQuery, getNodes, v } from '../utils'
+import { BREAKPOINTS } from '../constants'
 
 export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
@@ -105,8 +106,11 @@ function Collections({ collections }) {
       <div
         css={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: bs(),
+
+          [createMediaQuery(BREAKPOINTS.alpha)]: {
+            gridTemplateColumns: 'repeat(2, 1fr)',
+          },
         }}
       >
         {collections.map(collection => (
