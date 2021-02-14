@@ -3,14 +3,12 @@ import { graphql, Link } from 'gatsby'
 import AddedValue from '../components/AddedValue'
 import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
-import Pagination from '../components/Pagination'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
 import { createMediaQuery, getNodes, v } from '../utils'
 import { BREAKPOINTS } from '../constants'
 
-export default function Home({ data, ...props }) {
-  const { index, totalPages } = props.pageContext
+export default function Home({ data }) {
   const collections = getNodes(data.allCollectionsJson)
   const recentPosts = getNodes(data.recent)
 
@@ -22,7 +20,6 @@ export default function Home({ data, ...props }) {
       <hr />
       <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
-      <Pagination {...{ index, totalPages }} />
       <AddedValue />
     </Fragment>
   )
