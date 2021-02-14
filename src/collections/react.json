@@ -1,0 +1,16 @@
+{
+  "name": "React",
+  "order": 1,
+  "slugs": [
+    "mental-model-of-use-effect",
+    "break-out-your-component-logic-with-hooks",
+    "use-encapsulation",
+    "multiple-boolean-props-are-a-code-smell",
+    "using-react-memo-to-avoid-unnecessary-rerenders",
+    "three-kinds-of-react-state",
+    "tic-tac-toe",
+    "recursive-react-components",
+    "renderless-components",
+    "how-to-dynamically-render-react-components"
+  ]
+}
