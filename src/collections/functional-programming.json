@@ -1,9 +1,14 @@
 {
   "name": "Functional Programming",
-  "order": 2,
-  "postSlugs": [
+  "order": 3,
+  "slugs": [
+    "just-enough-fp-higher-order-functions",
+    "just-enough-fp-pure-functions",
+    "just-enough-fp-immutability",
     "just-enough-fp-currying",
     "just-enough-fp-partial-application",
+    "just-enough-fp-argument-order",
+    "just-enough-fp-pointfree",
     "just-enough-fp-composition"
   ]
 }

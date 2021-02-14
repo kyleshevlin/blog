@@ -1,9 +1,13 @@
 {
   "name": "State Machines",
-  "order": 1,
-  "postSlugs": [
+  "order": 2,
+  "slugs": [
+    "what-are-state-machines",
+    "our-first-xstate-machine",
+    "xstate-visualizer",
     "guidelines-for-state-machines-and-xstate",
     "how-to-use-usereducer-as-a-finite-state-machine",
-    "adding-infinite-states-to-a-use-reducer-finite-state-machine"
+    "adding-infinite-states-to-a-use-reducer-finite-state-machine",
+    "adding-guards-to-a-use-reducer-finite-state-machine"
   ]
 }
