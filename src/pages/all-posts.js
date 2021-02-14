@@ -47,9 +47,14 @@ const AllPosts = ({ data }) => {
                 <div
                   css={{
                     display: 'flex',
-                    gap: bs(0.5),
                     alignItems: 'center',
                     marginTop: bs(0.25),
+                    marginBottom: bs(-0.25),
+
+                    '> div': {
+                      marginRight: bs(0.5),
+                      marginBottom: bs(0.25),
+                    },
                   }}
                 >
                   <div

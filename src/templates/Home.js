@@ -90,7 +90,7 @@ function Collections({ collections }) {
       <div
         css={{
           display: 'grid',
-          gap: bs(),
+          gridGap: bs(),
 
           [createMediaQuery(BREAKPOINTS.alpha)]: {
             gridTemplateColumns: 'repeat(2, 1fr)',

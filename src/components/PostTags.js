@@ -34,10 +34,19 @@ export default function PostTags({ items }) {
           Tags
         </span>
       </div>
-      <div css={{ display: 'flex', flexWrap: 'wrap', gap: bs(0.5) }}>
+      <div
+        css={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          '> a': {
+            marginRight: bs(0.5),
+            marginBottom: bs(0.25),
+          },
+        }}
+      >
         {items.map(item => (
           <Link
-            css={{ fontFamily: v('fonts-catamaran'), fontSize: '.85rem' }}
+            css={{ fontFamily: v('fonts-catamaran') }}
             key={item}
             to={formatItemPath(item)}
           >
