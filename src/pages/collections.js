@@ -13,8 +13,8 @@ const Collections = ({ data }) => {
       <h1>Collections</h1>
 
       <p>
-        Check out some collections! Each one is a topic and set of posts I hand
-        pick and maintain.
+        Check out some collections! Each one is a topic and a related set of
+        posts I hand pick and maintain.
       </p>
 
       <div>
