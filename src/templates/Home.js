@@ -76,34 +76,23 @@ export const query = graphql`
 function Welcome() {
   return (
     <section css={{ marginBottom: bs(2) }}>
-      <p
-        css={{
-          fontSize: shevy.h2.fontSize,
-          fontFamily: v('fonts-catamaran'),
-        }}
-      >
-        Welcome!
+      <h2>Welcome!</h2>
+      <p>
+        Hi, I'm Kyle Shevlin, a software engineer and online instructor. This is
+        where I share all the content I create. I mostly write articles and
+        create courses, focusing on breaking concepts down to their
+        fundamentals.
       </p>
       <p>
-        My name is Kyle Shevlin. I'm a software engineer, online instructor, and
-        information curator among other things.
-      </p>
-      <p>
-        This is my personal site where I share the content I create. I write
-        articles and create courses that break concepts down to their
-        fundamentals so anyone can understand them.
-      </p>
-      <p>
-        I encourage you to peruse my blog posts, check out one of my courses (or
-        all of them), and sign up for my newsletter if you like what you read or
-        see.
+        Peruse my blog posts, check out one of my courses (or all of them), and
+        sign up for my newsletter if you like what you read.
       </p>
       <p>
         If you need to reach out to me,{' '}
         <a href="https://twitter.com/kyleshevlin">Twitter</a> is by far the best
         way to do so.
       </p>
-      <p>I hope you enjoy your time here and thank you.</p>
+      <p>Enjoy your time here and thank you.</p>
     </section>
   )
 }
@@ -112,7 +101,7 @@ function Collections({ collections }) {
   return (
     <section>
       <h3>Unsure Where to Start?</h3>
-      <p>Try a post in one of these curated collections.</p>
+      <p>Try one of these curated collections.</p>
       <div
         css={{
           display: 'grid',
