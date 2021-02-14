@@ -12,10 +12,7 @@ import { BREAKPOINTS } from '../constants'
 export default function Home({ data, ...props }) {
   const { index, totalPages } = props.pageContext
   const collections = getNodes(data.allCollectionsJson)
-  const recentPosts = getNodes(data.recent).map(node => ({
-    ...node,
-    excerpt: `<p>${node.excerpt}</p>`,
-  }))
+  const recentPosts = getNodes(data.recent)
 
   return (
     <Fragment>
@@ -23,6 +20,7 @@ export default function Home({ data, ...props }) {
       <Welcome />
       <Collections collections={collections} />
       <hr />
+      <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
       <Pagination {...{ index, totalPages }} />
       <AddedValue />
@@ -57,17 +55,6 @@ export const query = graphql`
             title
           }
           excerpt(pruneLength: 300)
-        }
-      }
-    }
-
-    all: allMdx(filter: { fileAbsolutePath: { regex: "/posts/" } }) {
-      edges {
-        node {
-          frontmatter {
-            slug
-            title
-          }
         }
       }
     }
