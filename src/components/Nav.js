@@ -5,10 +5,10 @@ import { v } from '../utils'
 
 const LINKS = [
   { to: '/', title: 'Home' },
-  { to: '/about', title: 'About' },
+  { to: '/all-posts', title: 'All Posts' },
+  { to: '/collections', title: 'Collections' },
   { to: '/courses', title: 'Courses' },
-  { to: '/podcast', title: 'Podcast' },
-  { to: '/contact', title: 'Contact' },
+  { to: '/about', title: 'About' },
 ]
 
 const linkStyles = () => ({

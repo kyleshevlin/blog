@@ -1,5 +1,10 @@
 {
-  "order": 3,
   "name": "Software Engineering",
-  "postSlugs": ["enumerate-dont-booleanate", "managing-cyclomatic-complexity"]
+  "order": 4,
+  "slugs": [
+    "enumerate-dont-booleanate",
+    "encapsulation",
+    "managing-cyclomatic-complexity",
+    "memoization"
+  ]
 }

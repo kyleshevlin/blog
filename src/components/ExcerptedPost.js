@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
-import PostDate from './PostDate'
 import PostHeader from './PostHeader'
 import PostContent from './PostContent'
 import PostTags from './PostTags'
@@ -10,25 +9,18 @@ import TotalBeardStrokes from './TotalBeardStrokes'
 const ExcerptedPost = ({ post }) => {
   const {
     excerpt: mdxExcerpt,
-    frontmatter: {
-      date,
-      excerpt: frontmatterExcerpt,
-      slug,
-      subtitle,
-      tags,
-      title,
-    },
+    frontmatter: { excerpt: frontmatterExcerpt, slug, subtitle, tags, title },
   } = post
   const excerpt = frontmatterExcerpt || mdxExcerpt
+  const formattedExcerpt = formatExcerpt(excerpt)
 
   return (
     <div css={{ marginBottom: bs(2) }}>
-      <PostDate date={date} />
-      <TotalBeardStrokes slug={slug} />
       <div css={{ marginBottom: bs() }}>
         <PostHeader {...{ slug, subtitle, title }} />
       </div>
-      <PostContent content={excerpt} />
+      <TotalBeardStrokes slug={slug} />
+      <PostContent content={formattedExcerpt} />
       <div css={{ marginBottom: bs() }}>
         <Link to={slug}>Read More</Link>
       </div>
@@ -43,3 +35,9 @@ const ExcerptedPost = ({ post }) => {
 }
 
 export default ExcerptedPost
+
+function formatExcerpt(excerpt) {
+  if (/^<p>/.test(excerpt)) return excerpt
+
+  return `<p>${excerpt}</p>`
+}

@@ -94,5 +94,5 @@ export default function Header() {
 
 function ThemeRotator() {
   const { rotateTheme } = useTheme()
-  return <Button onClick={rotateTheme}>Change Theme</Button>
+  return <Button onClick={rotateTheme}>Toggle Theme</Button>
 }

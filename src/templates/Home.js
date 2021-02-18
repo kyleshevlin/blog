@@ -1,29 +1,25 @@
 import React, { Fragment } from 'react'
 import { graphql, Link } from 'gatsby'
 import AddedValue from '../components/AddedValue'
+import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
-import Pagination from '../components/Pagination'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { getNodes, v } from '../utils'
+import { createMediaQuery, getNodes, v } from '../utils'
+import { BREAKPOINTS } from '../constants'
 
-export default function Home({ data, ...props }) {
-  const { index, totalPages } = props.pageContext
+export default function Home({ data }) {
   const collections = getNodes(data.allCollectionsJson)
-  const allPosts = getNodes(data.all)
-  const recentPosts = getNodes(data.recent).map(node => ({
-    ...node,
-    excerpt: `<p>${node.excerpt}</p>`,
-  }))
+  const recentPosts = getNodes(data.recent)
 
   return (
     <Fragment>
       <Seo title="Home" keywords={['Kyle Shevlin']} />
       <Welcome />
-      <Collections collections={collections} posts={allPosts} />
+      <Collections collections={collections} />
       <hr />
+      <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
-      <Pagination {...{ index, totalPages }} />
       <AddedValue />
     </Fragment>
   )
@@ -35,8 +31,6 @@ export const query = graphql`
       edges {
         node {
           name
-          order
-          postSlugs
         }
       }
     }
@@ -61,103 +55,73 @@ export const query = graphql`
         }
       }
     }
-
-    all: allMdx(filter: { fileAbsolutePath: { regex: "/posts/" } }) {
-      edges {
-        node {
-          frontmatter {
-            slug
-            title
-          }
-        }
-      }
-    }
   }
 `
 
 function Welcome() {
   return (
     <section css={{ marginBottom: bs(2) }}>
-      <p
-        css={{
-          fontSize: shevy.h2.fontSize,
-          fontFamily: v('fonts-catamaran'),
-        }}
-      >
-        Welcome!
+      <h2>Welcome!</h2>
+      <p>
+        Hi, I'm Kyle Shevlin, a software engineer and online instructor. This is
+        where I share all the content I create. I mostly write articles and
+        create courses, focusing on breaking concepts down to their
+        fundamentals.
       </p>
       <p>
-        My name is Kyle Shevlin. I'm a software engineer, online instructor, and
-        information curator among other things.
-      </p>
-      <p>
-        This is my personal site where I share the content I create. I write
-        articles and create courses that break concepts down to their
-        fundamentals so anyone can understand them.
-      </p>
-      <p>
-        I encourage you to peruse my blog posts, check out one of my courses (or
-        all of them), and sign up for my newsletter if you like what you read or
-        see.
+        Peruse my blog posts, check out one of my courses (or all of them), and
+        sign up for my newsletter if you like what you read.
       </p>
       <p>
         If you need to reach out to me,{' '}
         <a href="https://twitter.com/kyleshevlin">Twitter</a> is by far the best
         way to do so.
       </p>
-      <p>I hope you enjoy your time here and thank you.</p>
+      <p>Enjoy your time here and thank you.</p>
     </section>
   )
 }
 
-function Collections({ collections, posts }) {
-  const normalizedPostsBySlug = posts.reduce((acc, cur) => {
-    acc[cur.frontmatter.slug] = cur
-    return acc
-  }, {})
-
+function Collections({ collections }) {
   return (
     <section>
       <h3>Unsure Where to Start?</h3>
-      <p>Try a post in one of these curated collections.</p>
-      {collections.map(collection => (
-        <CollectionItem
-          key={collection.name}
-          collection={collection}
-          posts={normalizedPostsBySlug}
-        />
-      ))}
+      <p>Try one of these curated collections.</p>
+      <div
+        css={{
+          display: 'grid',
+          gridGap: bs(),
+
+          [createMediaQuery(BREAKPOINTS.alpha)]: {
+            gridTemplateColumns: 'repeat(2, 1fr)',
+          },
+        }}
+      >
+        {collections.map(collection => (
+          <CollectionItem key={collection.name} collection={collection} />
+        ))}
+      </div>
     </section>
   )
 }
 
-function CollectionItem({ collection, posts }) {
-  const { name, postSlugs } = collection
-  const getPostTitle = slug => {
-    const post = posts[slug]
-    return post ? post.frontmatter.title : null
-  }
+function CollectionItem({ collection }) {
+  const { name } = collection
 
   return (
-    <div css={{ marginBottom: bs() }}>
-      <div
-        css={{
-          fontFamily: v('fonts-catamaran'),
-          fontSize: shevy.h4.fontSize,
-          marginBottom: bs(0.5),
-        }}
-      >
-        {name}
-      </div>
-      <ul>
-        {postSlugs.map(slug => (
-          <li css={{ display: 'block' }} key={slug}>
-            <Link css={{ display: 'inline-block' }} to={slug}>
-              {getPostTitle(slug)}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Link
+      css={{
+        ...buttonStyles,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: v('fonts-catamaran'),
+        fontSize: shevy.h4.fontSize,
+        padding: bs(),
+      }}
+      to={`/collections#${name.replace(' ', '-').toLowerCase()}`}
+    >
+      <span>{name}</span>
+    </Link>
   )
 }

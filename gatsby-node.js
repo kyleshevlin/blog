@@ -138,3 +138,28 @@ exports.createPages = ({ graphql, actions }) => {
     )
   })
 }
+
+exports.createResolvers = ({ createResolvers }) => {
+  const resolvers = {
+    CollectionsJson: {
+      posts: {
+        type: ['Mdx'],
+        resolve(source, args, context) {
+          return context.nodeModel.runQuery({
+            query: {
+              filter: {
+                frontmatter: {
+                  slug: { in: source.slugs },
+                },
+              },
+            },
+            type: 'Mdx',
+            firstOnly: false,
+          })
+        },
+      },
+    },
+  }
+
+  createResolvers(resolvers)
+}

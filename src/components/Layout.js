@@ -5,15 +5,11 @@ import { FootnoteDisplay } from './Footnotes'
 import Header from './Header'
 import { bs } from '../shevy'
 import AllGlobalStyles from '../styles/AllGlobalStyles'
-import AnnouncementBanner from './AnnouncementBanner'
 
 export default function Layout({ children }) {
   return (
     <>
       <AllGlobalStyles />
-      {Date.now() < Date.parse('04 November 2020 00:00:00 PST') && (
-        <AnnouncementBanner />
-      )}
       <Header />
       <main
         css={{
