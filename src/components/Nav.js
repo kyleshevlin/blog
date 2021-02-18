@@ -8,15 +8,16 @@ const LINKS = [
   { to: '/all-posts', title: 'All Posts' },
   { to: '/collections', title: 'Collections' },
   { to: '/courses', title: 'Courses' },
+  { to: '/snippets', title: 'Snippets' },
   { to: '/about', title: 'About' },
 ]
 
-const linkStyles = () => ({
+const linkStyles = {
   display: 'inline-block',
   fontFamily: v('fonts-catamaran'),
   color: v('colors-text'),
   padding: bs(0.5),
-})
+}
 
 export default function Nav() {
   return (
@@ -27,7 +28,7 @@ export default function Nav() {
         return (
           <Link
             key={title}
-            css={linkStyles()}
+            css={linkStyles}
             activeStyle={{ color: v('colors-accent') }}
             title={title}
             to={to}
