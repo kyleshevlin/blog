@@ -27,7 +27,7 @@ With the facade pattern, we're able to hide details "under the hood", changing t
 
 ### When to Use a Facade Pattern
 
-There are some libraries so essential to your work that wrapping them in a facade would provide no benefit. If your project is built in React, it doesn't make sense to wrap the `React` library in a facade because you'll probably want access to its entire API and you won't be swapping out any implementation details under the hood of yuor facade. React would be such an essential part of your project that if you change it, you _want_ to have to change everything else, too.
+There are some libraries so essential to your work that wrapping them in a facade would provide no benefit. If your project is built in React, it doesn't make sense to wrap the `React` library in a facade because you'll probably want access to its entire API and you won't be swapping out any implementation details under the hood of your facade. React would be such an essential part of your project that if you change it, you _want_ to have to change everything else, too.
 
 On the other hand, libraries for fetching data, date formatting, and more can make good candidates for the facade pattern. Let's look at fetching data as an example.
 
