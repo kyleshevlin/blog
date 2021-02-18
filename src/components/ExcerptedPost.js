@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
+import { buttonStyles } from './Button'
 import PostHeader from './PostHeader'
 import PostContent from './PostContent'
 import PostTags from './PostTags'
 import TotalBeardStrokes from './TotalBeardStrokes'
+import { BREAKPOINTS } from '../constants'
+import { createMediaQuery } from '../utils'
 
 const ExcerptedPost = ({ post }) => {
   const {
@@ -21,15 +24,28 @@ const ExcerptedPost = ({ post }) => {
       </div>
       <TotalBeardStrokes slug={slug} />
       <PostContent content={formattedExcerpt} />
-      <div css={{ marginBottom: bs() }}>
-        <Link to={slug}>Read More</Link>
-      </div>
-
-      {tags && (
-        <div css={{ marginBottom: bs() }}>
-          <PostTags items={tags} />
+      <div
+        css={{
+          display: 'grid',
+          gridGap: bs(),
+          [createMediaQuery(BREAKPOINTS.bravo)]: {
+            alignItems: 'center',
+            gridTemplateColumns: 'max-content 1fr',
+          },
+        }}
+      >
+        <div>
+          <Link css={buttonStyles} to={slug}>
+            Read More
+          </Link>
         </div>
-      )}
+
+        {tags && (
+          <div>
+            <PostTags items={tags} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
