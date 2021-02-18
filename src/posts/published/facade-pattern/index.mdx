@@ -120,7 +120,7 @@ Now, because of our facade, if another great library for fetching data comes alo
 
 ### Additional Thoughts
 
-Admittedly, I haven't had a chance to really try this pattern out on a massive work codebase. I want to be upfront with you about that. I've been thinking about it a lot though, because of some of the challenges I _have_ seen at work, where your stuck for years using some outdated library because it's become to essential to the application. I think using this pattern on key parts of your project could save you from a massive overhaul in a few years.
+Admittedly, I haven't had a chance to really try this pattern out on a massive codebase. I want to be upfront with you about that. I have been thinking about it a lot, though, because of some of the challenges I _have_ seen at work. It's really easy to stuck for years using some outdated library because it has become too essential to the application. I think using this pattern on key parts of your project could save you from a massive overhaul in a few years.
 
 For example, right now your project might use the `moment` library, but you'd like to try `date-fns` instead. A facade would make that possible. You probably only use about 25% of the library anyways, so only expose what you need from it. With a facade already in place, it will certainly make it easy to switch to `Temporal` when it lands. <Marker content={`<code>Temporal</code> is a new datetime object coming to JavaScript. You can read more here: <a href="https://github.com/tc39/proposal-temporal">https://github.com/tc39/proposal-temporal</a>`} />
 
