@@ -22,6 +22,7 @@ exports.createPages = ({ graphql, actions }) => {
       'src/templates/AdditionalPages.js'
     )
     const postTemplate = path.resolve('src/templates/Post.js')
+    const snippetTemplate = path.resolve('src/templates/Snippet.js')
     const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
@@ -37,6 +38,22 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
                 tags
                 title
+              }
+            }
+          }
+        }
+
+        snippets: allMdx(
+          filter: { fileAbsolutePath: { regex: "/snippets/" } }
+        ) {
+          edges {
+            node {
+              id
+              frontmatter {
+                name
+                category
+                description
+                slug
               }
             }
           }
@@ -95,6 +112,20 @@ exports.createPages = ({ graphql, actions }) => {
               olderPost: older ? older.node : null,
               newerPost: newer ? newer.node : null,
               relatedPosts,
+              slug,
+            },
+          })
+        })
+
+        // Create Snippet pages
+        const snippets = result.data.snippets.edges.map(edge => edge.node)
+        snippets.forEach(snippet => {
+          const { slug } = snippet.frontmatter
+
+          createPage({
+            path: `snippets/${slug}`,
+            component: snippetTemplate,
+            context: {
               slug,
             },
           })
