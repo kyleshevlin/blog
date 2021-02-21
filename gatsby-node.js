@@ -101,25 +101,35 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         // Reduce tags
-        const tags = allPosts.reduce((acc, post) => {
-          const { tags } = post.node.frontmatter
+        const { tags, counts } = allPosts.reduce(
+          (acc, post) => {
+            const { tags } = post.node.frontmatter
 
-          if (!tags) {
+            if (!tags) {
+              return acc
+            }
+
+            tags.forEach(tag => {
+              acc.tags.add(tag)
+
+              if (!acc.counts[tag]) {
+                acc.counts[tag] = 0
+              }
+
+              acc.counts[tag]++
+            })
+
             return acc
-          }
-
-          tags.forEach(tag => {
-            acc.add(tag)
-          })
-
-          return acc
-        }, new Set())
+          },
+          { tags: new Set(), counts: {} }
+        )
 
         // Create All Tags page
         createPage({
           path: 'tags',
           component: allTags,
           context: {
+            counts,
             tags: Array.from(tags),
           },
         })

@@ -26,10 +26,10 @@ $shevy: (
     2,
     1.5,
     1.25,
-    1
+    1,
   ),
   paragraph-scale: false,
-  margin-bottom: true
+  margin-bottom: true,
 );
 ```
 
