@@ -64,7 +64,7 @@ function Collection({ collection }) {
         <ul css={{ listStyle: 'none' }}>
           {zippedPosts.map(post => (
             <li key={post.slug}>
-              <a href={post.slug}>{post.title}</a>
+              <a href={`/${post.slug}`}>{post.title}</a>
             </li>
           ))}
         </ul>
