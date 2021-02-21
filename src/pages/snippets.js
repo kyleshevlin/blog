@@ -23,50 +23,58 @@ export default function Snippets({ data }) {
       </p>
 
       {snippets.length ? (
-        <div
+        <table
           css={{
+            border: 'none',
+            display: 'block',
             marginTop: bs(2),
             marginBottom: bs(2),
 
             [createMediaQuery(BREAKPOINTS.bravo)]: {
-              borderCollapse: 'collapse',
               display: 'table',
+              borderCollapse: 'collapse',
               width: '100%',
             },
           }}
         >
-          <Row>
-            <Cell>
-              <Heading>Name</Heading>
-            </Cell>
-            <Cell>
-              <Heading>Description</Heading>
-            </Cell>
-            <Cell>
-              <Heading>Category</Heading>
-            </Cell>
-          </Row>
-          {snippets.map(snippet => {
-            const { id, frontmatter } = snippet
-            const { category, description, name, slug } = frontmatter
+          <thead
+            css={{
+              display: 'none',
 
-            return (
-              <Row key={id}>
-                <Cell>
-                  <Link to={`/snippets/${slug}`}>{name}</Link>
-                </Cell>
-                <Cell>
-                  <Label>Description: </Label>
-                  {description}
-                </Cell>
-                <Cell>
-                  <Label>Category: </Label>
-                  {category}
-                </Cell>
-              </Row>
-            )
-          })}
-        </div>
+              [createMediaQuery(BREAKPOINTS.bravo)]: {
+                display: 'table-header-group',
+              },
+            }}
+          >
+            <Row>
+              <HeadingCell>Name</HeadingCell>
+              <HeadingCell>Description</HeadingCell>
+              <HeadingCell>Category</HeadingCell>
+            </Row>
+          </thead>
+          <tbody css={{ display: 'table-row-group' }}>
+            {snippets.map(snippet => {
+              const { id, frontmatter } = snippet
+              const { category, description, name, slug } = frontmatter
+
+              return (
+                <Row key={id}>
+                  <Cell>
+                    <Link to={`/snippets/${slug}`}>{name}</Link>
+                  </Cell>
+                  <Cell>
+                    <Label>Description: </Label>
+                    {description}
+                  </Cell>
+                  <Cell>
+                    <Label>Category: </Label>
+                    {category}
+                  </Cell>
+                </Row>
+              )
+            })}
+          </tbody>
+        </table>
       ) : (
         <div>No snippets yet! Working on collecting them!</div>
       )}
@@ -78,9 +86,11 @@ export default function Snippets({ data }) {
 
 function Row({ children }) {
   return (
-    <div
+    <tr
       css={{
+        display: 'block',
         marginBottom: bs(1.5),
+
         [createMediaQuery(BREAKPOINTS.bravo)]: {
           display: 'table-row',
           marginBottom: 0,
@@ -88,15 +98,19 @@ function Row({ children }) {
       }}
     >
       {children}
-    </div>
+    </tr>
   )
 }
 
 function Cell({ children }) {
   return (
-    <div
+    <td
       css={{
+        border: 'none',
+        display: 'block',
+        padding: 0,
         marginBottom: bs(0.25),
+
         [createMediaQuery(BREAKPOINTS.bravo)]: {
           border: '4px solid var(--colors-offset)',
           display: 'table-cell',
@@ -106,24 +120,26 @@ function Cell({ children }) {
       }}
     >
       {children}
-    </div>
+    </td>
   )
 }
 
-function Heading({ children }) {
+function HeadingCell({ children }) {
   return (
-    <span
+    <th
       css={{
-        display: 'none',
         fontFamily: v('fonts-catamaran'),
         fontWeight: 'bold',
+
         [createMediaQuery(BREAKPOINTS.bravo)]: {
-          display: 'inline-block',
+          display: 'table-cell',
+          padding: `${bs(0.5)} ${bs(0.75)}`,
+          textAlign: 'left',
         },
       }}
     >
       {children}
-    </span>
+    </th>
   )
 }
 

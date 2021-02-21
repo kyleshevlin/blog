@@ -1,0 +1,15 @@
+---
+slug: 'map-by-key'
+name: 'mapByKey()'
+description: ''
+category: ''
+---
+
+```javascript
+const mapByKey = key => arr =>
+  arr.reduce((acc, cur) => {
+    if (!acc[cur[key]]) {
+      acc[cur[key]] = cur
+    }
+  }, {})
+```

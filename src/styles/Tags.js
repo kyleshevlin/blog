@@ -143,22 +143,22 @@ export default function Tags() {
         }
 
         table {
-          border: 2px solid ${v('colors-offset')};
+          border: 4px solid ${v('colors-offset')};
           border-collapse: collapse;
           margin-bottom: ${bs()};
           width: 100%;
         }
 
         th {
-          background-color: ${v('colors-accent')};
-          border: 2px solid ${v('colors-offset')};
-          color: ${v('colors-background')};
+          background-color: var(--colors-offset);
+          border: 4px solid ${v('colors-offset')};
           font-family: ${v('fonts-catamaran')};
+          font-weight: bold;
           padding: ${bs(0.25)} ${bs(0.5)};
         }
 
         td {
-          border: 2px solid ${v('colors-offset')};
+          border: 4px solid ${v('colors-offset')};
           padding: ${bs(0.25)} ${bs(0.5)};
         }
       `}
