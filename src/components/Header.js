@@ -5,7 +5,6 @@ import Button from './Button'
 import Container from './Container'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
-import { BREAKPOINTS } from '../constants'
 import { mq } from '../utils'
 
 export default function Header() {
@@ -38,7 +37,7 @@ export default function Header() {
                   display: 'flex',
                   flexDirection: 'column',
 
-                  [mq(BREAKPOINTS.alpha)]: {
+                  [mq.alpha]: {
                     flexDirection: 'row',
                     alignItems: 'center',
                   },
@@ -74,7 +73,7 @@ export default function Header() {
                     marginTop: bs(0.5),
                     marginBottom: bs(0.5),
 
-                    [mq(BREAKPOINTS.alpha)]: {
+                    [mq.alpha]: {
                       marginTop: 0,
                       marginLeft: 'auto',
                     },

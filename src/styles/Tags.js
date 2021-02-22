@@ -1,6 +1,5 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
 import { mq } from '../utils'
 
@@ -20,11 +19,11 @@ export default function Tags() {
           font-size: 85%;
           line-height: 1.6;
 
-          ${mq(BREAKPOINTS.alpha)} {
+          ${mq.alpha} {
             font-size: 100%;
           }
 
-          ${mq(BREAKPOINTS.delta)} {
+          ${mq.delta} {
             font-size: 115%;
           }
         }
@@ -114,7 +113,7 @@ export default function Tags() {
           margin-bottom: ${bs()};
           border-left: 4px solid var(--colors-accent);
 
-          ${mq(BREAKPOINTS.alpha)} {
+          ${mq.alpha} {
             padding: ${bs(2)};
           }
 

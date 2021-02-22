@@ -1,4 +1,11 @@
-export const mq = breakpoint => `@media (min-width: ${breakpoint})`
+import { BREAKPOINTS } from '../constants'
+
+const createMediaQuery = breakpoint => `@media (min-width: ${breakpoint})`
+
+export const mq = Object.entries(BREAKPOINTS).reduce((acc, [key, value]) => {
+  acc[key] = createMediaQuery(value)
+  return acc
+}, {})
 
 export const formatStrForPath = str =>
   str

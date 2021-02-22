@@ -3,7 +3,6 @@ import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
 import { buttonStyles } from './Button'
-import { BREAKPOINTS } from '../constants'
 import { mq, isEmail } from '../utils'
 
 export default function NewsletterCTA() {
@@ -182,7 +181,7 @@ function SignupForm() {
             gridGap: bs(0.5),
             marginBottom: bs(),
 
-            [mq(BREAKPOINTS.charlie)]: {
+            [mq.charlie]: {
               gridTemplateColumns: '1fr 1fr',
               gridGap: bs(),
             },

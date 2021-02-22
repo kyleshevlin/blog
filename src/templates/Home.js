@@ -6,7 +6,6 @@ import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
-import { BREAKPOINTS } from '../constants'
 
 export default function Home({ data }) {
   const collections = getNodes(data.allCollectionsJson)
@@ -92,7 +91,7 @@ function Collections({ collections }) {
           display: 'grid',
           gridGap: bs(),
 
-          [mq(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             gridTemplateColumns: 'repeat(2, 1fr)',
           },
         }}

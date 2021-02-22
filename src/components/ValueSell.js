@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
+import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
@@ -72,7 +72,7 @@ export default function ValueSell({ courseNickname }) {
     >
       <div
         css={{
-          [mq(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             display: 'grid',
             gridGap: bs(2),
             gridTemplateColumns: '1fr 2fr',
@@ -83,7 +83,7 @@ export default function ValueSell({ courseNickname }) {
         <div
           css={{
             marginBottom: bs(),
-            [mq(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               marginBottom: 0,
             },
           }}
@@ -104,7 +104,7 @@ export default function ValueSell({ courseNickname }) {
         <div
           css={{
             textAlign: 'center',
-            [mq(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               textAlign: 'left',
             },
           }}

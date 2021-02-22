@@ -3,7 +3,6 @@ import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
-import { BREAKPOINTS } from '../constants'
 import { mq, getNodes } from '../utils'
 
 export default function Snippets({ data }) {
@@ -30,7 +29,7 @@ export default function Snippets({ data }) {
             marginTop: bs(2),
             marginBottom: bs(2),
 
-            [mq(BREAKPOINTS.bravo)]: {
+            [mq.bravo]: {
               display: 'table',
               borderCollapse: 'collapse',
               width: '100%',
@@ -41,7 +40,7 @@ export default function Snippets({ data }) {
             css={{
               display: 'none',
 
-              [mq(BREAKPOINTS.bravo)]: {
+              [mq.bravo]: {
                 display: 'table-header-group',
               },
             }}
@@ -91,7 +90,7 @@ function Row({ children }) {
         display: 'block',
         marginBottom: bs(1.5),
 
-        [mq(BREAKPOINTS.bravo)]: {
+        [mq.bravo]: {
           display: 'table-row',
           marginBottom: 0,
         },
@@ -111,7 +110,7 @@ function Cell({ children }) {
         padding: 0,
         marginBottom: bs(0.25),
 
-        [mq(BREAKPOINTS.bravo)]: {
+        [mq.bravo]: {
           border: '4px solid var(--colors-offset)',
           display: 'table-cell',
           padding: bs(0.75),
@@ -131,7 +130,7 @@ function HeadingCell({ children }) {
         fontFamily: 'var(--fonts-catamaran)',
         fontWeight: 'bold',
 
-        [mq(BREAKPOINTS.bravo)]: {
+        [mq.bravo]: {
           display: 'table-cell',
           padding: `${bs(0.5)} ${bs(0.75)}`,
           textAlign: 'left',
@@ -149,7 +148,7 @@ function Label({ children }) {
       css={{
         fontFamily: 'var(--fonts-catamaran)',
         fontWeight: 'bold',
-        [mq(BREAKPOINTS.bravo)]: {
+        [mq.bravo]: {
           display: 'none',
         },
       }}

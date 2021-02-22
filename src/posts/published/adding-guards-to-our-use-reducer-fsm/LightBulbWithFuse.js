@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '../../../components/Button'
 import { bs } from '../../../shevy'
 import { mq } from '../../../utils'
-import { BREAKPOINTS } from '../../../constants'
 
 const toArray = value => (Array.isArray(value) ? value : [value])
 
@@ -121,7 +120,7 @@ export default function HueLightBulb() {
         padding: bs(),
         textAlign: 'center',
 
-        [mq(BREAKPOINTS.bravo)]: {
+        [mq.bravo]: {
           display: 'grid',
           gridGap: bs(),
           gridTemplateColumns: 'auto 150px',
@@ -134,7 +133,7 @@ export default function HueLightBulb() {
           textAlign: 'left',
         },
 
-        [mq(BREAKPOINTS.delta)]: {
+        [mq.delta]: {
           gridColumnGap: bs(2),
           gridTemplateColumns: 'auto 300px',
         },
@@ -148,7 +147,7 @@ export default function HueLightBulb() {
           gridArea: 'bulb',
           marginTop: bs(),
           marginBottom: bs(0.5),
-          [mq(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             marginTop: 0,
             marginBottom: 0,
           },
@@ -158,11 +157,11 @@ export default function HueLightBulb() {
           css={{
             width: 75,
 
-            [mq(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               width: 150,
             },
 
-            [mq(BREAKPOINTS.delta)]: {
+            [mq.delta]: {
               width: 300,
             },
           }}
@@ -190,7 +189,7 @@ export default function HueLightBulb() {
           textAlign: 'left',
           gridArea: 'code',
 
-          [mq(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             marginBottom: 0,
           },
         }}
@@ -201,7 +200,7 @@ export default function HueLightBulb() {
         css={{
           marginBottom: bs(),
           gridArea: 'events',
-          [mq(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             marginBottom: 0,
           },
         }}
@@ -220,7 +219,7 @@ export default function HueLightBulb() {
         css={{
           marginBottom: bs(),
           gridArea: 'colors',
-          [mq(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             marginBottom: 0,
           },
         }}

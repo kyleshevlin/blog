@@ -1,5 +1,4 @@
 import React from 'react'
-import { BREAKPOINTS } from '../constants'
 import { mq } from '../utils'
 
 const Container = ({ children }) => (
@@ -10,15 +9,15 @@ const Container = ({ children }) => (
       width: '80%',
       maxWidth: '90ch',
 
-      [mq(BREAKPOINTS.bravo)]: {
+      [mq.bravo]: {
         width: '70%',
       },
 
-      [mq(BREAKPOINTS.charlie)]: {
+      [mq.charlie]: {
         width: '60%',
       },
 
-      [mq(BREAKPOINTS.delta)]: {
+      [mq.delta]: {
         width: '50%',
       },
     }}

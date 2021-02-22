@@ -6,7 +6,6 @@ import PostHeader from './PostHeader'
 import PostContent from './PostContent'
 import PostTags from './PostTags'
 import TotalBeardStrokes from './TotalBeardStrokes'
-import { BREAKPOINTS } from '../constants'
 import { mq } from '../utils'
 
 const ExcerptedPost = ({ post }) => {
@@ -28,7 +27,7 @@ const ExcerptedPost = ({ post }) => {
         css={{
           display: 'grid',
           gridGap: bs(),
-          [mq(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             alignItems: 'center',
             gridTemplateColumns: 'max-content 1fr',
           },

@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql, StaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 import { mq } from '../utils'
-import { BREAKPOINTS } from '../constants'
 
 const query = graphql`
   query {
@@ -34,7 +33,7 @@ const PostAuthor = () => (
           marginTop: bs(4),
           marginBottom: bs(2),
 
-          [mq(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             display: 'grid',
             gridTemplateColumns: '1fr 3fr',
             gridGap: bs(),
@@ -53,7 +52,7 @@ const PostAuthor = () => (
             marginRight: 'auto',
             marginBottom: bs(),
 
-            [mq(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               marginBottom: 0,
             },
           }}
