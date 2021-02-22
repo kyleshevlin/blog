@@ -150,9 +150,9 @@ export default function Tags() {
         }
 
         th {
-          background-color: var(--colors-accent);
+          background-color: var(--colors-offset);
           border: 4px solid var(--colors-offset);
-          color: var(--colors-background);
+          color: var(--colors-text);
           font-family: var(--fonts-catamaran);
           font-weight: bold;
           padding: ${bs(0.25)} ${bs(0.5)};
