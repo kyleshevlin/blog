@@ -13,8 +13,7 @@ import Seo from '../components/Seo'
 import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
-import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, v } from '../utils'
+import { mq } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -22,7 +21,7 @@ const newerOrOlderPostWrap = {
 }
 
 const newerOrOlderHeading = {
-  fontFamily: v('fonts-catamaran'),
+  fontFamily: 'var(--fonts-catamaran)',
   fontWeight: 700,
 }
 
@@ -82,18 +81,18 @@ const Post = ({
 
         <div
           css={{
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               alignItems: 'center',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               marginBottom: bs(2),
             },
 
-            [createMediaQuery(BREAKPOINTS.bravo)]: {
+            [mq.bravo]: {
               gridTemplateColumns: '2fr 3fr',
             },
 
-            [createMediaQuery(BREAKPOINTS.charlie)]: {
+            [mq.charlie]: {
               gridTemplateColumns: '1fr 2fr',
             },
           }}
@@ -164,14 +163,14 @@ function EditLink({ fileAbsolutePath }) {
       <a
         css={{
           display: 'inline-block',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontStyle: 'italic',
           paddingLeft: bs(0.5),
           paddingRight: bs(0.5),
         }}
         href={generateEditLink(fileAbsolutePath)}
       >
-        edit <EditSVG fill={v('colors-accent')} width={18} />
+        edit <EditSVG fill="var(--colors-accent)" width={18} />
       </a>
     </div>
   )

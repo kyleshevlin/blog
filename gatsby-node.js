@@ -22,6 +22,7 @@ exports.createPages = ({ graphql, actions }) => {
       'src/templates/AdditionalPages.js'
     )
     const postTemplate = path.resolve('src/templates/Post.js')
+    const snippetTemplate = path.resolve('src/templates/Snippet.js')
     const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
@@ -37,6 +38,22 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
                 tags
                 title
+              }
+            }
+          }
+        }
+
+        snippets: allMdx(
+          filter: { fileAbsolutePath: { regex: "/snippets/" } }
+        ) {
+          edges {
+            node {
+              id
+              frontmatter {
+                name
+                category
+                description
+                slug
               }
             }
           }
@@ -100,26 +117,50 @@ exports.createPages = ({ graphql, actions }) => {
           })
         })
 
-        // Reduce tags
-        const tags = allPosts.reduce((acc, post) => {
-          const { tags } = post.node.frontmatter
+        // Create Snippet pages
+        const snippets = result.data.snippets.edges.map(edge => edge.node)
+        snippets.forEach(snippet => {
+          const { slug } = snippet.frontmatter
 
-          if (!tags) {
-            return acc
-          }
-
-          tags.forEach(tag => {
-            acc.add(tag)
+          createPage({
+            path: `snippets/${slug}`,
+            component: snippetTemplate,
+            context: {
+              slug,
+            },
           })
+        })
 
-          return acc
-        }, new Set())
+        // Reduce tags
+        const { tags, counts } = allPosts.reduce(
+          (acc, post) => {
+            const { tags } = post.node.frontmatter
+
+            if (!tags) {
+              return acc
+            }
+
+            tags.forEach(tag => {
+              acc.tags.add(tag)
+
+              if (!acc.counts[tag]) {
+                acc.counts[tag] = 0
+              }
+
+              acc.counts[tag]++
+            })
+
+            return acc
+          },
+          { tags: new Set(), counts: {} }
+        )
 
         // Create All Tags page
         createPage({
           path: 'tags',
           component: allTags,
           context: {
+            counts,
             tags: Array.from(tags),
           },
         })

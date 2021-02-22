@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { getFirebase } from '../firebase'
 import Beard from './icons/Beard'
-import { inflect, v } from '../utils'
+import { inflect } from '../utils'
 import { bs } from '../shevy'
 
 class TotalBeardStrokes extends Component {
@@ -39,7 +39,7 @@ class TotalBeardStrokes extends Component {
         css={{
           display: 'flex',
           alignItems: 'center',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontSize: '0.75em',
           marginLeft: bs(-0.25),
           marginTop: bs(-0.25),
@@ -49,7 +49,7 @@ class TotalBeardStrokes extends Component {
 
           '& svg': {
             display: 'block',
-            fill: v('colors-accent'),
+            fill: 'var(--colors-accent)',
             marginLeft: bs(0.25),
             marginRight: bs(0.25),
           },
@@ -57,7 +57,7 @@ class TotalBeardStrokes extends Component {
       >
         <Beard width={20} />
         <div>
-          {count} {inflect('stroke', 'strokes', count)} bestowed
+          {count} {inflect('stroke')(count)} bestowed
         </div>
       </div>
     )

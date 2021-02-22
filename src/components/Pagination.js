@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
-import { curV, v } from '../utils'
 
 export const baseItemStyles = {
   display: 'inline-block',
@@ -12,23 +11,21 @@ export const baseItemStyles = {
   marginBottom: 3,
 }
 
-const pv = curV('components-pagination-')
-
 export const itemStyles = {
   ...baseItemStyles,
-  backgroundColor: pv('normal-background'),
-  color: pv('normal-text'),
+  backgroundColor: 'var(--components-pagination-normal-background)',
+  color: 'var(--components-pagination-normal-text)',
 
   '&:hover': {
-    backgroundColor: pv('normal-background'),
-    color: pv('normal-text'),
+    backgroundColor: 'var(--components-pagination-normal-background)',
+    color: 'var(--components-pagination-normal-text)',
   },
 }
 
 export const nonLinkItemStyles = {
   ...baseItemStyles,
-  backgroundColor: pv('active-background'),
-  color: pv('active-text'),
+  backgroundColor: 'var(--components-pagination-active-background)',
+  color: 'var(--components-pagination-active-text)',
 }
 
 export default function Pagination({ index: currentPageIndex, totalPages }) {
@@ -39,7 +36,7 @@ export default function Pagination({ index: currentPageIndex, totalPages }) {
   return (
     <div
       css={{
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         marginBottom: bs(2),
       }}
     >

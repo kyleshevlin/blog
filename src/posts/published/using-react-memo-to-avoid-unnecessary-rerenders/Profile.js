@@ -1,19 +1,18 @@
 import React from 'react'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 import Button from '../../../components/Button'
 
 export function Profile({ name, location }) {
   return (
     <div
       css={{
-        backgroundColor: v('colors-background'),
+        backgroundColor: 'var(--colors-background)',
         borderRadius: 8,
         padding: bs(),
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: v('fonts-catamaran') }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
     </div>
   )
 }
@@ -39,7 +38,7 @@ function RandomProfile({ name, location }) {
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: v('fonts-catamaran') }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
     </div>
   )
 }
@@ -80,7 +79,7 @@ function ObjectProfile({ person }) {
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: v('fonts-catamaran') }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
     </div>
   )
 }

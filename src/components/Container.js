@@ -1,6 +1,5 @@
 import React from 'react'
-import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 
 const Container = ({ children }) => (
   <div
@@ -10,15 +9,15 @@ const Container = ({ children }) => (
       width: '80%',
       maxWidth: '90ch',
 
-      [createMediaQuery(BREAKPOINTS.bravo)]: {
+      [mq.bravo]: {
         width: '70%',
       },
 
-      [createMediaQuery(BREAKPOINTS.charlie)]: {
+      [mq.charlie]: {
         width: '60%',
       },
 
-      [createMediaQuery(BREAKPOINTS.delta)]: {
+      [mq.delta]: {
         width: '50%',
       },
     }}

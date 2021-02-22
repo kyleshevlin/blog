@@ -1,9 +1,9 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import Seo from '../components/Seo'
-import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
+import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery, getNodes } from '../utils'
+import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
 import NewsletterCTA from '../components/NewsletterCTA'
 
@@ -83,7 +83,7 @@ function CourseItem({ description, logo, title, url }) {
   return (
     <div
       css={{
-        [createMediaQuery(BREAKPOINTS.alpha)]: {
+        [mq.alpha]: {
           display: 'grid',
           gridTemplateColumns: '1fr 3fr',
           gridGap: bs(),
@@ -97,7 +97,7 @@ function CourseItem({ description, logo, title, url }) {
           display: 'block',
           padding: bs(0.5),
           marginBottom: bs(),
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             marginBottom: 0,
           },
         }}

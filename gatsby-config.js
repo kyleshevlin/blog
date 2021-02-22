@@ -86,6 +86,13 @@ module.exports = {
         path: `${__dirname}/src/courses`,
       },
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'snippets',
+        path: `${__dirname}/src/snippets`,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-catch-links',

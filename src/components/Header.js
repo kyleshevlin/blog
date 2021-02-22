@@ -5,8 +5,7 @@ import Button from './Button'
 import Container from './Container'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
-import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, v } from '../utils'
+import { mq } from '../utils'
 
 export default function Header() {
   return (
@@ -38,7 +37,7 @@ export default function Header() {
                   display: 'flex',
                   flexDirection: 'column',
 
-                  [createMediaQuery(BREAKPOINTS.alpha)]: {
+                  [mq.alpha]: {
                     flexDirection: 'row',
                     alignItems: 'center',
                   },
@@ -46,7 +45,7 @@ export default function Header() {
               >
                 <Link
                   css={{
-                    color: v('colors-text'),
+                    color: 'var(--colors-text)',
                     display: 'block',
                   }}
                   to="/"
@@ -61,7 +60,7 @@ export default function Header() {
                   </h1>
                   <div
                     css={{
-                      fontFamily: v('fonts-catamaran'),
+                      fontFamily: 'var(--fonts-catamaran)',
                       fontSize: '1rem',
                       marginBottom: 0,
                     }}
@@ -74,7 +73,7 @@ export default function Header() {
                     marginTop: bs(0.5),
                     marginBottom: bs(0.5),
 
-                    [createMediaQuery(BREAKPOINTS.alpha)]: {
+                    [mq.alpha]: {
                       marginTop: 0,
                       marginLeft: 'auto',
                     },

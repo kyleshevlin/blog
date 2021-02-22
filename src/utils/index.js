@@ -1,5 +1,11 @@
-export const createMediaQuery = breakpoint =>
-  `@media (min-width: ${breakpoint})`
+import { BREAKPOINTS } from '../constants'
+
+const createMediaQuery = breakpoint => `@media (min-width: ${breakpoint})`
+
+export const mq = Object.entries(BREAKPOINTS).reduce((acc, [key, value]) => {
+  acc[key] = createMediaQuery(value)
+  return acc
+}, {})
 
 export const formatStrForPath = str =>
   str
@@ -7,8 +13,8 @@ export const formatStrForPath = str =>
     .split(' ')
     .join('-')
 
-export const inflect = (singular, plural, number) =>
-  number === 1 ? singular : plural
+export const inflect = (singular, plural = `${singular}s`) => quantity =>
+  Math.abs(quantity) === 1 ? singular : plural
 
 // Copied from https://github.com/vigour-io/nice-is-email/blob/master/lib/index.js
 const EMAIL_PATTERN = /^([^.](?![a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~]+\.\.)([a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~.]+[^.])|([a-zA-Z0-9]{1,2}))@([A-Za-z0-9-]{1,64}\.){1,10}[a-zA-Z]{2,64}$/
@@ -23,10 +29,6 @@ export const isEmail = value => {
 }
 
 export const getNodes = obj => obj.edges.map(edge => edge.node)
-
-const cssVar = prefix => str => `var(--${prefix}${str})`
-export const curV = cssVar
-export const v = cssVar('')
 
 export const makeHeadingId = heading => {
   // TODO: handle situation where `children` is an array of elements and

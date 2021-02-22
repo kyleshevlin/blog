@@ -3,15 +3,14 @@ import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
 import { buttonStyles } from './Button'
-import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, isEmail, v } from '../utils'
+import { mq, isEmail } from '../utils'
 
 export default function NewsletterCTA() {
   return (
     <div
       css={{
-        backgroundColor: v('components-newsletterCTA-background'),
-        color: v('components-newsletterCTA-text'),
+        backgroundColor: 'var(--components-newsletterCTA-background)',
+        color: 'var(--components-newsletterCTA-text)',
         padding: bs(2),
       }}
     >
@@ -149,10 +148,11 @@ function SignupForm() {
     return (
       <div
         css={{
-          backgroundColor: v('components-newsletterCTA-successBox-background'),
+          backgroundColor:
+            'var(--components-newsletterCTA-successBox-background)',
           borderRadius: 4,
-          color: v('components-newsletterCTA-successBox-text'),
-          fontFamily: v('fonts-catamaran'),
+          color: 'var(--components-newsletterCTA-successBox-text)',
+          fontFamily: 'var(--fonts-catamaran)',
           padding: bs(),
         }}
       >
@@ -181,7 +181,7 @@ function SignupForm() {
             gridGap: bs(0.5),
             marginBottom: bs(),
 
-            [createMediaQuery(BREAKPOINTS.charlie)]: {
+            [mq.charlie]: {
               gridTemplateColumns: '1fr 1fr',
               gridGap: bs(),
             },
@@ -206,18 +206,16 @@ function SignupForm() {
         <button
           css={{
             ...buttonStyles,
-            backgroundColor: v(
-              'components-newsletterCTA-submitButton-background'
-            ),
-            color: v('components-newsletterCTA-submitButton-text'),
+            backgroundColor:
+              'var(--components-newsletterCTA-submitButton-background)',
+            color: 'var(--components-newsletterCTA-submitButton-text)',
             fontSize: '1.25rem',
             padding: `${bs(0.5)} ${bs(0.75)}`,
 
             '&:hover': {
-              backgroundColor: v(
-                'components-newsletterCTA-submitButton-hover-background'
-              ),
-              color: v('components-newsletterCTA-submitButton-hover-text'),
+              backgroundColor:
+                'var(--components-newsletterCTA-submitButton-hover-background)',
+              color: 'var(--components-newsletterCTA-submitButton-hover-text)',
             },
           }}
           type="submit"
@@ -264,10 +262,10 @@ function ErrorWrap({ children }) {
   return (
     <div
       css={{
-        backgroundColor: v('components-newsletterCTA-errorBox-background'),
+        backgroundColor: 'var(--components-newsletterCTA-errorBox-background)',
         borderRadius: 4,
-        color: v('components-newsletterCTA-errorBox-text'),
-        fontFamily: v('fonts-catamaran'),
+        color: 'var(--components-newsletterCTA-errorBox-text)',
+        fontFamily: 'var(--fonts-catamaran)',
         padding: bs(0.5),
         marginBottom: bs(0.5),
       }}
@@ -286,7 +284,7 @@ function ControlledInputBox({
   value,
 }) {
   return (
-    <div css={{ fontFamily: v('fonts-catamaran') }}>
+    <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>
       <label htmlFor={name}>
         <div
           css={{
@@ -298,15 +296,16 @@ function ControlledInputBox({
         </div>
         <input
           css={{
-            backgroundColor: v('components-newsletterCTA-inputs-background'),
+            backgroundColor:
+              'var(--components-newsletterCTA-inputs-background)',
             border: 'none',
             borderRadius: 4,
-            color: v('components-newsletterCTA-inputs-text'),
+            color: 'var(--components-newsletterCTA-inputs-text)',
             padding: bs(0.5),
             width: '100%',
 
             '&::placeholder': {
-              color: v('components-newsletterCTA-inputs-placeholderText'),
+              color: 'var(--components-newsletterCTA-inputs-placeholderText)',
             },
           }}
           id={name}

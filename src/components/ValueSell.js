@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
+import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery, v } from '../utils'
+import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
 
@@ -66,13 +66,13 @@ export default function ValueSell({ courseNickname }) {
   return (
     <div
       css={{
-        backgroundColor: v('colors-offset'),
+        backgroundColor: 'var(--colors-offset)',
         padding: bs(2),
       }}
     >
       <div
         css={{
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             display: 'grid',
             gridGap: bs(2),
             gridTemplateColumns: '1fr 2fr',
@@ -83,7 +83,7 @@ export default function ValueSell({ courseNickname }) {
         <div
           css={{
             marginBottom: bs(),
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               marginBottom: 0,
             },
           }}
@@ -98,13 +98,13 @@ export default function ValueSell({ courseNickname }) {
               src={publicURL}
               alt={`${title} Logo`}
             />
-            <div css={{ fontFamily: v('fonts-catamaran') }}>{title}</div>
+            <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{title}</div>
           </div>
         </div>
         <div
           css={{
             textAlign: 'center',
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq.alpha]: {
               textAlign: 'left',
             },
           }}
@@ -112,7 +112,7 @@ export default function ValueSell({ courseNickname }) {
           <h2>Check out my courses!</h2>
           <div
             css={{
-              fontFamily: v('fonts-catamaran'),
+              fontFamily: 'var(--fonts-catamaran)',
               marginBottom: bs(1),
             }}
           >

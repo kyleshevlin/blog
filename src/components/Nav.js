@@ -1,22 +1,22 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 const LINKS = [
   { to: '/', title: 'Home' },
   { to: '/all-posts', title: 'All Posts' },
   { to: '/collections', title: 'Collections' },
   { to: '/courses', title: 'Courses' },
+  { to: '/snippets', title: 'Snippets' },
   { to: '/about', title: 'About' },
 ]
 
-const linkStyles = () => ({
+const linkStyles = {
   display: 'inline-block',
-  fontFamily: v('fonts-catamaran'),
-  color: v('colors-text'),
+  fontFamily: 'var(--fonts-catamaran)',
+  color: 'var(--colors-text)',
   padding: bs(0.5),
-})
+}
 
 export default function Nav() {
   return (
@@ -27,8 +27,8 @@ export default function Nav() {
         return (
           <Link
             key={title}
-            css={linkStyles()}
-            activeStyle={{ color: v('colors-accent') }}
+            css={linkStyles}
+            activeStyle={{ color: 'var(--colors-accent)' }}
             title={title}
             to={to}
           >

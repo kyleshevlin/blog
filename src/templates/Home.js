@@ -5,8 +5,7 @@ import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { createMediaQuery, getNodes, v } from '../utils'
-import { BREAKPOINTS } from '../constants'
+import { mq, getNodes } from '../utils'
 
 export default function Home({ data }) {
   const collections = getNodes(data.allCollectionsJson)
@@ -92,7 +91,7 @@ function Collections({ collections }) {
           display: 'grid',
           gridGap: bs(),
 
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq.alpha]: {
             gridTemplateColumns: 'repeat(2, 1fr)',
           },
         }}
@@ -115,7 +114,7 @@ function CollectionItem({ collection }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontSize: shevy.h4.fontSize,
         padding: bs(),
       }}

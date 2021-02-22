@@ -1,8 +1,7 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery, v } from '../utils'
+import { mq } from '../utils'
 
 export default function Tags() {
   return (
@@ -20,29 +19,29 @@ export default function Tags() {
           font-size: 85%;
           line-height: 1.6;
 
-          ${createMediaQuery(BREAKPOINTS.alpha)} {
+          ${mq.alpha} {
             font-size: 100%;
           }
 
-          ${createMediaQuery(BREAKPOINTS.delta)} {
+          ${mq.delta} {
             font-size: 115%;
           }
         }
 
         body {
           min-height: 100vh;
-          background-color: ${v('colors-background')};
-          color: ${v('colors-text')};
+          background-color: var(--colors-background);
+          color: var(--colors-text);
           position: relative;
         }
 
         a {
-          color: ${v('colors-accent')};
+          color: var(--colors-accent);
           text-decoration: none;
           transition: color 0.3s ease;
 
           &:hover {
-            color: ${v('colors-accentLight')};
+            color: var(--colors-accentLight);
           }
         }
 
@@ -89,7 +88,7 @@ export default function Tags() {
 
         code {
           display: inline-block;
-          background-color: ${v('colors-offset')};
+          background-color: var(--colors-offset);
           padding-top: 0;
           padding-bottom: 0;
           padding-left: ${bs(0.25)};
@@ -103,8 +102,8 @@ export default function Tags() {
         }
 
         blockquote {
-          background: ${v('colors-offset')};
-          color: ${v('colors-accent')};
+          background: var(--colors-offset);
+          color: var(--colors-accent);
           font-family: 'Catamaran', sans-serif;
           font-size: 1.9531rem;
           line-height: 1.2;
@@ -112,9 +111,9 @@ export default function Tags() {
           font-style: italic;
           padding: ${bs(1.5)};
           margin-bottom: ${bs()};
-          border-left: 4px solid ${v('colors-accent')};
+          border-left: 4px solid var(--colors-accent);
 
-          ${createMediaQuery(BREAKPOINTS.alpha)} {
+          ${mq.alpha} {
             padding: ${bs(2)};
           }
 
@@ -130,7 +129,7 @@ export default function Tags() {
         }
 
         hr {
-          background-color: ${v('colors-accent')};
+          background-color: var(--colors-accent);
           border: none;
           height: 2px;
           margin-top: ${bs(2)};
@@ -143,22 +142,23 @@ export default function Tags() {
         }
 
         table {
-          border: 2px solid ${v('colors-offset')};
+          border: 4px solid var(--colors-offset);
           border-collapse: collapse;
           margin-bottom: ${bs()};
           width: 100%;
         }
 
         th {
-          background-color: ${v('colors-accent')};
-          border: 2px solid ${v('colors-offset')};
-          color: ${v('colors-background')};
-          font-family: ${v('fonts-catamaran')};
+          background-color: var(--colors-offset);
+          border: 4px solid var(--colors-offset);
+          color: var(--colors-text);
+          font-family: var(--fonts-catamaran);
+          font-weight: bold;
           padding: ${bs(0.25)} ${bs(0.5)};
         }
 
         td {
-          border: 2px solid ${v('colors-offset')};
+          border: 2px solid var(--colors-offset);
           padding: ${bs(0.25)} ${bs(0.5)};
         }
       `}

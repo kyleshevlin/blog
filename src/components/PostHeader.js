@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
 import { Link } from 'gatsby'
-import { v } from '../utils'
 
 const postLinkStyles = {
   display: 'block',
-  color: v('colors-text'),
+  color: 'var(--colors-text)',
   '&:hover': {
-    color: v('colors-accent'),
+    color: 'var(--colors-accent)',
   },
 }
 

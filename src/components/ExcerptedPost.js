@@ -6,8 +6,7 @@ import PostHeader from './PostHeader'
 import PostContent from './PostContent'
 import PostTags from './PostTags'
 import TotalBeardStrokes from './TotalBeardStrokes'
-import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 
 const ExcerptedPost = ({ post }) => {
   const {
@@ -28,7 +27,7 @@ const ExcerptedPost = ({ post }) => {
         css={{
           display: 'grid',
           gridGap: bs(),
-          [createMediaQuery(BREAKPOINTS.bravo)]: {
+          [mq.bravo]: {
             alignItems: 'center',
             gridTemplateColumns: 'max-content 1fr',
           },

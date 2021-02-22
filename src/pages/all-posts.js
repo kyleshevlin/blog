@@ -4,7 +4,7 @@ import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import Tag from '../components/icons/Tag'
 import { bs } from '../shevy'
-import { getNodes, v } from '../utils'
+import { getNodes } from '../utils'
 
 const AllPosts = ({ data }) => {
   const allPosts = getNodes(data.allPosts)
@@ -32,7 +32,7 @@ const AllPosts = ({ data }) => {
                 padding: bs(0.75),
                 marginLeft: bs(-0.75),
                 marginRight: bs(-0.75),
-                '&:hover': { backgroundColor: v('colors-offset') },
+                '&:hover': { backgroundColor: 'var(--colors-offset)' },
               }}
               key={slug}
               to={slug}
@@ -66,13 +66,13 @@ const AllPosts = ({ data }) => {
                       },
                     }}
                   >
-                    <Tag fill={v('colors-offsetMore')} />
+                    <Tag fill={'var(--colors-offsetMore)'} />
                   </div>
                   {tags.map(tag => (
                     <div
                       css={{
-                        color: v('colors-text'),
-                        fontFamily: v('fonts-catamaran'),
+                        color: 'var(--colors-text)',
+                        fontFamily: 'var(--fonts-catamaran)',
                         fontSize: '.85rem',
                       }}
                       key={tag}

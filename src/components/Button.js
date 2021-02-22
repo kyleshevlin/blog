@@ -1,12 +1,11 @@
 import React from 'react'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 export const buttonStyles = {
   display: 'inline-block',
-  backgroundColor: v('components-button-background'),
-  color: v('components-button-text'),
-  fontFamily: v('fonts-catamaran'),
+  backgroundColor: 'var(--components-button-background)',
+  color: 'var(--components-button-text)',
+  fontFamily: 'var(--fonts-catamaran)',
   fontSize: '0.85rem',
   lineHeight: 1,
   padding: `${bs(0.25)} ${bs(0.5)} ${bs(0.35)}`,
@@ -16,21 +15,21 @@ export const buttonStyles = {
   transition: 'background-color 0.3s ease',
 
   '&:disabled': {
-    backgroundColor: v('colors-offsetMore'),
+    backgroundColor: 'var(--colors-offsetMore)',
 
     '&:hover': {
-      backgroundColor: v('colors-offsetMore'),
+      backgroundColor: 'var(--colors-offsetMore)',
     },
   },
 
   '&:hover': {
-    backgroundColor: v('components-button-hover-background'),
-    color: v('components-button-hover-text'),
+    backgroundColor: 'var(--components-button-hover-background)',
+    color: 'var(--components-button-hover-text)',
   },
 
   '&:active': {
-    backgroundColor: v('components-button-active-background'),
-    color: v('components-button-active-text'),
+    backgroundColor: 'var(--components-button-active-background)',
+    color: 'var(--components-button-active-text)',
   },
 }
 

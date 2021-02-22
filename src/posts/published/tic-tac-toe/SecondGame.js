@@ -3,7 +3,6 @@ import Grid from './Grid'
 import { ButtonCell } from './Cell'
 import { newTicTacToeGrid } from './utils'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 import Button from '../../../components/Button'
 
 // Simple way to deeply clone an array or object
@@ -74,7 +73,7 @@ export default function Game() {
     <>
       <div
         style={{
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontWeight: 'bold',
           marginBottom: bs(),
           textTransform: 'uppercase',

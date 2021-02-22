@@ -1,5 +1,4 @@
 import React from 'react'
-import { v } from '../../../utils'
 import { bs } from '../../../shevy'
 
 export default function Grid({ Cell, grid, handleClick = () => {} }) {
@@ -12,7 +11,7 @@ export default function Grid({ Cell, grid, handleClick = () => {} }) {
         style={{
           // We set a background color to be revealed as the lines
           // of the board with the `grid-gap` property
-          backgroundColor: v('colors-text'),
+          backgroundColor: 'var(--colors-text)',
           display: 'grid',
           // Our rows are equal to the length of our grid
           gridTemplateRows: `repeat(${grid.length}, 1fr)`,
