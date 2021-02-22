@@ -161,7 +161,10 @@ function Label({ children }) {
 
 export const query = graphql`
   query AllSnippets {
-    snippets: allMdx(filter: { fileAbsolutePath: { regex: "/snippets/" } }) {
+    snippets: allMdx(
+      filter: { fileAbsolutePath: { regex: "/snippets/" } }
+      sort: { order: ASC, fields: id }
+    ) {
       edges {
         node {
           id
