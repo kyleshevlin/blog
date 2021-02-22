@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import shevy, { bs } from '../shevy'
-import { formatStrForPath, v } from '../utils'
+import { formatStrForPath } from '../utils'
 import Tag from './icons/Tag'
 
 const formatItemPath = item => `tags/${formatStrForPath(item)}`
@@ -22,11 +22,11 @@ export default function PostTags({ items }) {
             },
           }}
         >
-          <Tag fill={v('colors-offsetMore')} />
+          <Tag fill={'var(--colors-offsetMore)'} />
         </span>
         <span
           css={{
-            fontFamily: v('fonts-catamaran'),
+            fontFamily: 'var(--fonts-catamaran)',
             fontSize: '0.75em',
             lineHeight: shevy.baseLineHeight,
           }}
@@ -46,7 +46,7 @@ export default function PostTags({ items }) {
       >
         {items.map(item => (
           <Link
-            css={{ fontFamily: v('fonts-catamaran') }}
+            css={{ fontFamily: 'var(--fonts-catamaran)' }}
             key={item}
             to={formatItemPath(item)}
           >

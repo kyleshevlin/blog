@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useNumberInput } from '../../../components/Inputs'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 import memoize from './memoize'
 
 const FactorializerContext = React.createContext()
@@ -90,8 +89,8 @@ function Child({ resetCache, updateCache }) {
       {cache && (
         <div
           css={{
-            backgroundColor: v('colors-accent'),
-            color: v('colors-text-on-accent'),
+            backgroundColor: 'var(--colors-accent)',
+            color: 'var(--colors-text-on-accent)',
             borderRadius: 2,
             marginTop: bs(0.5),
             padding: `${bs(0.25)} ${bs(0.5)}`,

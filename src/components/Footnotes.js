@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import Button, { buttonStyles } from './Button'
 import Container from './Container'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 const initialState = {
   content: null,
@@ -116,7 +115,7 @@ const markerStyles = {
 
   '&:focus': {
     outline: 'none',
-    boxShadow: `0 0 3px 1px ${v('colors-accentDark')}`,
+    boxShadow: '0 0 3px 1px var(--colors-accentDark)',
   },
 }
 
@@ -179,10 +178,10 @@ export function FootnoteDisplay() {
       ref={displayElement}
       css={{
         width: '100%',
-        backgroundColor: v('colors-background'),
+        backgroundColor: 'var(--colors-background)',
         position: 'fixed',
         bottom: 0,
-        borderTop: `4px solid ${v('colors-accent')}`,
+        borderTop: '4px solid var(--colors-accent)',
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
         paddingTop: bs(),
         paddingBottom: bs(2),

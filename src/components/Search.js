@@ -17,7 +17,6 @@ import Modal from './Modal'
 import SearchIcon from './icons/Search'
 import CloseIcon from './icons/Close'
 import * as PaginationStyles from './Pagination'
-import { v } from '../utils'
 
 const SearchBox = connectSearchBox(({ refine }) => {
   const debouncedRefine = debounce(event => {
@@ -37,7 +36,7 @@ const SearchBox = connectSearchBox(({ refine }) => {
         css={{
           ...shevy.h5,
           display: 'block',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontWeight: 'bold',
           marginBottom: bs(0.125),
         }}
@@ -47,11 +46,11 @@ const SearchBox = connectSearchBox(({ refine }) => {
       </label>
       <input
         css={{
-          color: v('components-searchBox-text'),
-          border: `1px solid ${v('colors-offsetMore')}`,
+          color: 'var(--components-searchBox-text)',
+          border: '1px solid var(--colors-offsetMore)',
           borderRadius: 4,
           display: 'block',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           padding: `${bs(0.25)} ${bs(0.5)}`,
           width: '100%',
         }}
@@ -69,7 +68,7 @@ const Hits = connectHits(({ closeModal, hits }) => {
     <div css={{ display: 'flex', flexWrap: 'wrap' }}>
       <div
         css={{
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontSize: '.85rem',
           fontStyle: 'italic',
           marginBottom: bs(),
@@ -111,7 +110,7 @@ const Hits = connectHits(({ closeModal, hits }) => {
 const Pagination = connectPagination(
   ({ createURL, currentRefinement, nbPages, refine }) => {
     return (
-      <div css={{ fontFamily: v('fonts-catamaran') }}>
+      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>
         {currentRefinement > 1 ? (
           <a
             css={PaginationStyles.itemStyles}
@@ -171,8 +170,8 @@ const Results = connectStateResults(({ closeModal, error, searchResults }) => {
     return (
       <div
         css={{
-          backgroundColor: v('components-searchError-background'),
-          color: v('components-searchError-text'),
+          backgroundColor: 'var(--components-searchError-background)',
+          color: 'var(--components-searchError-text)',
           padding: `${bs(0.5)} ${bs()}`,
         }}
       >
@@ -213,7 +212,7 @@ export default function Search() {
         css={{
           backgroundColor: 'transparent',
           border: 'none',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
         }}
         onClick={() => {
           setIsModalOpen(true)
@@ -226,7 +225,7 @@ export default function Search() {
           role="img"
           aria-label="magnifying glass"
         >
-          <SearchIcon stroke={v('colors-text')} width={20} />
+          <SearchIcon stroke={'var(--colors-text)'} width={20} />
         </span>
       </button>
 
@@ -238,7 +237,7 @@ export default function Search() {
             <>
               Close Search{' '}
               <span role="img" aria-label="a black X">
-                <CloseIcon stroke={v('colors-text')} width={16} />
+                <CloseIcon stroke={'var(--colors-text)'} width={16} />
               </span>
             </>
           }

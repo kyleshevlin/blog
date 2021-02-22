@@ -1,13 +1,12 @@
 import React from 'react'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
 const spanStyles = {
-  color: v('components-share-highlight'),
+  color: 'var(--components-share-highlight)',
   fontWeight: 'bold',
 }
 
@@ -36,9 +35,9 @@ export default function Share(props) {
     >
       <button
         css={{
-          backgroundColor: v('components-share-background'),
+          backgroundColor: 'var(--components-share-background)',
           border: 'none',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontSize: '1.5em',
           marginBottom: bs(0.5),
           padding: bs(),
@@ -46,8 +45,8 @@ export default function Share(props) {
           width: '100%',
 
           '&:hover': {
-            backgroundColor: v('components-share-hover-background'),
-            color: v('components-share-highlight'),
+            backgroundColor: 'var(--components-share-hover-background)',
+            color: 'var(--components-share-highlight)',
           },
         }}
         onClick={handleClick}

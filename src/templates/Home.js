@@ -5,7 +5,7 @@ import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { createMediaQuery, getNodes, v } from '../utils'
+import { createMediaQuery, getNodes } from '../utils'
 import { BREAKPOINTS } from '../constants'
 
 export default function Home({ data }) {
@@ -115,7 +115,7 @@ function CollectionItem({ collection }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontSize: shevy.h4.fontSize,
         padding: bs(),
       }}

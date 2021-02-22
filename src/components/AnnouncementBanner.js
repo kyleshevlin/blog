@@ -1,15 +1,14 @@
 import React from 'react'
 import Container from './Container'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 export default function AnnouncementBanner() {
   return (
     <div
       css={{
-        backgroundColor: v('components-announcementBanner-background'),
-        color: v('components-announcementBanner-text'),
-        fontFamily: v('fonts-catamaran'),
+        backgroundColor: 'var(--components-announcementBanner-background)',
+        color: 'var(--components-announcementBanner-text)',
+        fontFamily: 'var(--fonts-catamaran)',
         paddingTop: bs(0.5),
         paddingBottom: bs(0.5),
       }}

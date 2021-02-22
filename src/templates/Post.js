@@ -14,7 +14,7 @@ import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, v } from '../utils'
+import { createMediaQuery } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -22,7 +22,7 @@ const newerOrOlderPostWrap = {
 }
 
 const newerOrOlderHeading = {
-  fontFamily: v('fonts-catamaran'),
+  fontFamily: 'var(--fonts-catamaran)',
   fontWeight: 700,
 }
 
@@ -164,14 +164,14 @@ function EditLink({ fileAbsolutePath }) {
       <a
         css={{
           display: 'inline-block',
-          fontFamily: v('fonts-catamaran'),
+          fontFamily: 'var(--fonts-catamaran)',
           fontStyle: 'italic',
           paddingLeft: bs(0.5),
           paddingRight: bs(0.5),
         }}
         href={generateEditLink(fileAbsolutePath)}
       >
-        edit <EditSVG fill={v('colors-accent')} width={18} />
+        edit <EditSVG fill="var(--colors-accent)" width={18} />
       </a>
     </div>
   )

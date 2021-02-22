@@ -1,6 +1,5 @@
 import React from 'react'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 export function Input({ label, value, onChange, type = 'text', ...rest }) {
   return (
@@ -9,9 +8,9 @@ export function Input({ label, value, onChange, type = 'text', ...rest }) {
         <span css={{ marginRight: bs(0.5) }}>{label}</span>
         <input
           css={{
-            backgroundColor: v('components-inputs-background'),
+            backgroundColor: 'var(--components-inputs-background)',
             border: 'none',
-            color: v('components-inputs-text'),
+            color: 'var(--components-inputs-text)',
             padding: `${bs(0.25)} ${bs(0.5)}`,
           }}
           id={label}

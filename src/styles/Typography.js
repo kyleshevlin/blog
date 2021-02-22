@@ -1,7 +1,6 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
 import shevy from '../shevy'
-import { v } from '../utils'
 
 export default function Typography() {
   return (
@@ -13,7 +12,7 @@ export default function Typography() {
         h4,
         h5,
         h6 {
-          font-family: ${v('fonts-catamaran')};
+          font-family: var(--fonts-catamaran);
           font-weight: 400;
           text-rendering: optimizeLegibility;
         }

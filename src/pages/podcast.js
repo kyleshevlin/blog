@@ -2,7 +2,6 @@ import React from 'react'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 function SCDLink({ children }) {
   return <a href="https://secondcareerdevs.com">{children}</a>
@@ -19,8 +18,8 @@ export default function Podcast() {
 
       <div
         css={{
-          backgroundColor: v('colors-offset'),
-          fontFamily: v('fonts-catamaran'),
+          backgroundColor: 'var(--colors-offset)',
+          fontFamily: 'var(--fonts-catamaran)',
           padding: bs(),
           marginTop: bs(2),
           marginBottom: bs(2),

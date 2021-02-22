@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { bs } from '../shevy'
-import { v } from '../utils'
 import Container from './Container'
 
 export default function Modal({
@@ -34,7 +33,7 @@ export default function Modal({
       aria-modal
       css={{
         // TODO: transparentize
-        backgroundColor: v('colors-background'),
+        backgroundColor: 'var(--colors-background)',
         position: 'absolute',
         top: 0,
         right: 0,
@@ -53,7 +52,7 @@ export default function Modal({
             css={{
               backgroundColor: 'transparent',
               border: 'none',
-              fontFamily: v('fonts-catamaran'),
+              fontFamily: 'var(--fonts-catamaran)',
               marginLeft: 'auto',
             }}
             onClick={onClick}

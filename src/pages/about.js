@@ -3,7 +3,6 @@ import { graphql } from 'gatsby'
 import { bs } from '../shevy'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
-import { v } from '../utils'
 
 const About = ({ data }) => {
   const imgSrc = data.allImageSharp.edges[0].node.original.src
@@ -89,8 +88,8 @@ const About = ({ data }) => {
         />
         <div
           css={{
-            backgroundColor: v('colors-offset'),
-            fontFamily: v('fonts-catamaran'),
+            backgroundColor: 'var(--colors-offset)',
+            fontFamily: 'var(--fonts-catamaran)',
             fontStyle: 'italic',
             lineHeight: 1.5,
             padding: `${bs(0.5)} ${bs()}`,
