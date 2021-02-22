@@ -1,0 +1,25 @@
+---
+slug: 'inflect'
+name: 'inflect()'
+description: 'Function used to choose the correct form of a word, singular or plural'
+category: 'JavaScript'
+---
+
+```javascript
+const inflect = (singular, plural = `${singular}s`) => quantity =>
+  Math.abs(quantity) === 1 ? singular : plural
+```
+
+Example:
+
+```javascript
+const inflectPosts = inflect('post')
+
+function PostCount({ count }) {
+  return (
+    <div>
+      {count} {inflectPosts(count)}
+    </div>
+  )
+}
+```

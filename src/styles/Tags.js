@@ -143,7 +143,7 @@ export default function Tags() {
         }
 
         table {
-          border: 2px solid var(--colors-offset);
+          border: 4px solid var(--colors-offset);
           border-collapse: collapse;
           margin-bottom: ${bs()};
           width: 100%;
@@ -151,9 +151,10 @@ export default function Tags() {
 
         th {
           background-color: var(--colors-accent);
-          border: 2px solid var(--colors-offset);
+          border: 4px solid var(--colors-offset);
           color: var(--colors-background);
           font-family: var(--fonts-catamaran);
+          font-weight: bold;
           padding: ${bs(0.25)} ${bs(0.5)};
         }
 

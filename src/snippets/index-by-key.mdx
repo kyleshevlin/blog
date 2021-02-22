@@ -1,0 +1,39 @@
+---
+slug: 'index-by-key'
+name: 'indexByKey()'
+description: 'A function to turn an array of objects into an object, indexed by the chosen key'
+category: 'JavaScript'
+---
+
+```javascript
+const indexByKey = key => arr =>
+  arr.reduce((acc, cur) => {
+    acc[cur[key]] = cur
+    return acc
+  }, {})
+```
+
+Use this function to make look ups based on a key for an array of items `O(1)`. So long as your list doesn't change, you should only have to run this once.
+
+Here's an example:
+
+```javascript
+const indexById = indexByKey('id')
+
+const members = [
+  { id: 1, name: 'Kyle' },
+  { id: 2, name: 'Krios' }, // my cat
+  { id: 3, name: 'Tali' }, //  my other cat
+]
+
+const membersById = indexById(members)
+/*
+  {
+    '1': { id: 1, name: 'Kyle' },
+    '2': { id: 2, name: 'Krios' },
+    '3': { id: 3, name: 'Tali' }
+  }
+*/
+```
+
+Make sure the key you're using is unique to each object, otherwise you'll have an incorrect index due to `key` collisions.

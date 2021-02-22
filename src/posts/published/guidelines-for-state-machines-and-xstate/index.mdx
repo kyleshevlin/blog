@@ -134,11 +134,11 @@ A `broken` light bulb is different than an `unlit` light bulb and deserves its o
 Most likely we would use two booleans to cover the possible states: `isLit` and `isBroken`. Since we are representing these states with booleans, each state has two possible outcomes. We can calculate the possible state permutations with the equation `2^n`, where `n` is the number of states (`2` because the enumerated states of a boolean is `2`: `true` and `false`). Thus, trying to cover our light bulb with two booleans reveals that we've actually created _four_ states.
 
 | isLit | isBroken |
-| ----- | -------- |
-| false | false    |
-| false | true     |
-| true  | false    |
-| true  | true     |
+| :---: | :------: |
+| false |  false   |
+| false |   true   |
+| true  |  false   |
+| true  |   true   |
 
 But we only have three states in our model? Where did this fourth state come from? This fourth state is an "impossible state", a state our system should not be capable of getting to. It occurs when we have `isLit && isBroken`.
 

@@ -1,0 +1,20 @@
+---
+name: 'usePrevious()'
+description: 'Hook for storing and getting a previous value'
+category: 'React Hooks'
+slug: 'use-previous'
+---
+
+```javascript
+import React from 'react'
+
+function usePrevious(value) {
+  const ref = React.useRef(value)
+
+  React.useEffect(() => {
+    ref.current = value
+  }, [value])
+
+  return ref.current
+}
+```

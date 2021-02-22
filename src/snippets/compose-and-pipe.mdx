@@ -1,0 +1,22 @@
+---
+name: 'compose() & pipe()'
+description: 'Functions for composing other functions'
+category: 'JavaScript'
+slug: 'compose-and-pipe'
+---
+
+```javascript
+const compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
+
+const pipe = (...fns) => x => fns.reduce((acc, fn) => fn(acc), x)
+```
+
+If you want to get real fancy, you can split out and share the reducer.
+
+```javascript
+const apply = (value, fn) => fn(value)
+
+const compose = (...fns) => x => fns.reduceRight(apply, x)
+
+const pipe = (...fns) => x => fns.reduce(apply, x)
+```
