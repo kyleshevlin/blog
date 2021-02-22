@@ -4,7 +4,7 @@ import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
-import { mq, getNodes, v } from '../utils'
+import { mq, getNodes } from '../utils'
 
 export default function Snippets({ data }) {
   const snippets = getNodes(data.snippets)
@@ -128,7 +128,7 @@ function HeadingCell({ children }) {
   return (
     <th
       css={{
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontWeight: 'bold',
 
         [mq(BREAKPOINTS.bravo)]: {
@@ -147,7 +147,7 @@ function Label({ children }) {
   return (
     <span
       css={{
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontWeight: 'bold',
         [mq(BREAKPOINTS.bravo)]: {
           display: 'none',
