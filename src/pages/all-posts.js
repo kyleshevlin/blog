@@ -17,8 +17,8 @@ const AllPosts = ({ data }) => {
 
       <p>
         Here is a list of the title, subtitle, and tags of all my posts. Use a
-        good old fashioned find right now to search for keywords. I'm working on
-        adding search and filters soon.
+        good old fashioned "find" in your browser (cmd+f or ctrl+f) right now to
+        search for keywords. I'm working on adding search and filters soon.
       </p>
 
       <div>

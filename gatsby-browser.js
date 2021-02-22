@@ -8,6 +8,5 @@
 import CustomLayout from './src/wrapPageElement'
 import 'prism-theme-night-owl/build/no-italics.css'
 import './src/styles/fontFaces.css'
-import './src/styles/blackout-theme.css'
 
 export const wrapPageElement = CustomLayout

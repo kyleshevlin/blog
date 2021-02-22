@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { graphql } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 
@@ -13,8 +13,10 @@ const Collections = ({ data }) => {
       <h1>Collections</h1>
 
       <p>
-        Check out some collections! Each one is a topic and a related set of
-        posts I hand pick and maintain.
+        In an effort to help readers find good articles to start reading on my
+        blog, I have created these collections. Each collection is a topic I've
+        covered in detail and they contain a list of posts that I handpicked for
+        each one. Check them out.
       </p>
 
       <div>
@@ -64,7 +66,7 @@ function Collection({ collection }) {
         <ul css={{ listStyle: 'none' }}>
           {zippedPosts.map(post => (
             <li key={post.slug}>
-              <a href={`/${post.slug}`}>{post.title}</a>
+              <Link to={post.slug}>{post.title}</Link>
             </li>
           ))}
         </ul>

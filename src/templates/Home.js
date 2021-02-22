@@ -19,6 +19,13 @@ export default function Home({ data }) {
       <hr />
       <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
+
+      <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
+        <h3>Looking for more posts?</h3>
+        If you're looking for more posts, visit the{' '}
+        <Link to="/all-posts">All Posts</Link> page.
+      </div>
+
       <AddedValue />
     </Fragment>
   )

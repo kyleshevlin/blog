@@ -2,7 +2,7 @@ import React from 'react'
 
 const LIGHT_COLORS = {
   background: 'hsl(0, 0%, 100%)',
-  text: 'hsl(0, 0%, 20%)',
+  text: 'hsl(0, 0%, 10%)',
   accent: 'hsl(197, 60%, 50%)',
   accentDark: 'hsl(197, 60%, 40%)',
   accentLight: 'hsl(197, 60%, 60%)',

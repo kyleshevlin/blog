@@ -38,6 +38,7 @@ export default function Courses() {
     <>
       <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
       <h1>Courses</h1>
+
       <div css={{ marginTop: bs(2), marginBottom: bs(4) }}>
         {courses.map(course => (
           <CourseItem key={course.title} {...course} />
@@ -52,16 +53,12 @@ export default function Courses() {
 const BUTTON_TEXT_BY_URL_TYPE = {
   default: 'View the course',
   egghead: 'View on egghead.io',
-  podia: 'View on Podia',
 }
 
 function getUrlType(url) {
   switch (true) {
     case /egghead/g.test(url):
       return 'egghead'
-
-    case /podia/g.test(url):
-      return 'podia'
 
     default:
       return 'default'
@@ -83,12 +80,13 @@ function CourseItem({ description, logo, title, url }) {
   return (
     <div
       css={{
+        marginBottom: bs(4),
+
         [mq.alpha]: {
           display: 'grid',
           gridTemplateColumns: '1fr 3fr',
           gridGap: bs(),
           alignItems: 'center',
-          marginBottom: bs(3),
         },
       }}
     >
@@ -97,6 +95,7 @@ function CourseItem({ description, logo, title, url }) {
           display: 'block',
           padding: bs(0.5),
           marginBottom: bs(),
+
           [mq.alpha]: {
             marginBottom: 0,
           },
@@ -110,17 +109,17 @@ function CourseItem({ description, logo, title, url }) {
       </div>
       <div>
         <h3>{title}</h3>
-        <div
+        <p
           css={{ marginBottom: bs() }}
           dangerouslySetInnerHTML={{ __html: description }}
         />
-        <div css={{ 'a + a': { marginLeft: bs(0.5) } }}>
-          {url && (
+        {url && (
+          <div>
             <LinkButton href={formattedUrl}>
               {BUTTON_TEXT_BY_URL_TYPE[urlType]}
             </LinkButton>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

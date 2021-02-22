@@ -18,9 +18,6 @@ exports.createPages = ({ graphql, actions }) => {
 
   return new Promise((resolve, reject) => {
     const homeTemplate = path.resolve('src/templates/Home.js')
-    const additionalPagesTemplate = path.resolve(
-      'src/templates/AdditionalPages.js'
-    )
     const postTemplate = path.resolve('src/templates/Post.js')
     const snippetTemplate = path.resolve('src/templates/Snippet.js')
     const allTags = path.resolve('src/templates/AllTags.js')
@@ -69,21 +66,14 @@ exports.createPages = ({ graphql, actions }) => {
 
         const allPosts = result.data.posts.edges
 
-        // Create paginated Excerpt pages
-        const postsPerPage = 10
-        const totalPages = Math.ceil(allPosts.length / postsPerPage)
-        Array.from({ length: totalPages }).forEach((_, index) => {
-          createPage({
-            path: index === 0 ? '/' : `/page-${index + 1}`,
-            component: index === 0 ? homeTemplate : additionalPagesTemplate,
-            context: {
-              allPostsLength: allPosts.length,
-              totalPages,
-              index,
-              limit: postsPerPage,
-              skip: index * postsPerPage,
-            },
-          })
+        // Create Home page
+        createPage({
+          path: '/',
+          component: homeTemplate,
+          context: {
+            limit: 15,
+            skip: 0,
+          },
         })
 
         // Create individual Post pages
