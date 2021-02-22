@@ -1,5 +1,4 @@
-export const createMediaQuery = breakpoint =>
-  `@media (min-width: ${breakpoint})`
+export const mq = breakpoint => `@media (min-width: ${breakpoint})`
 
 export const formatStrForPath = str =>
   str

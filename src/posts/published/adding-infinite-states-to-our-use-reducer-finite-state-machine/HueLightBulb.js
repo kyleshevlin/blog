@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import { bs } from '../../../shevy'
-import { createMediaQuery } from '../../../utils'
+import { mq } from '../../../utils'
 import { BREAKPOINTS } from '../../../constants'
 
 const toEventObject = event => {
@@ -93,7 +93,7 @@ export default function HueLightBulb() {
         padding: bs(),
         textAlign: 'center',
 
-        [createMediaQuery(BREAKPOINTS.bravo)]: {
+        [mq(BREAKPOINTS.bravo)]: {
           display: 'grid',
           gridGap: bs(),
           gridTemplateColumns: 'auto 150px',
@@ -105,7 +105,7 @@ export default function HueLightBulb() {
           textAlign: 'left',
         },
 
-        [createMediaQuery(BREAKPOINTS.delta)]: {
+        [mq(BREAKPOINTS.delta)]: {
           gridColumnGap: bs(2),
           gridTemplateColumns: 'auto 300px',
         },
@@ -116,7 +116,7 @@ export default function HueLightBulb() {
           gridArea: 'bulb',
           marginTop: bs(),
           marginBottom: bs(0.5),
-          [createMediaQuery(BREAKPOINTS.bravo)]: {
+          [mq(BREAKPOINTS.bravo)]: {
             marginTop: 0,
             marginBottom: 0,
           },
@@ -126,11 +126,11 @@ export default function HueLightBulb() {
           css={{
             width: 75,
 
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq(BREAKPOINTS.alpha)]: {
               width: 150,
             },
 
-            [createMediaQuery(BREAKPOINTS.delta)]: {
+            [mq(BREAKPOINTS.delta)]: {
               width: 300,
             },
           }}
@@ -149,7 +149,7 @@ export default function HueLightBulb() {
           textAlign: 'left',
           gridArea: 'code',
 
-          [createMediaQuery(BREAKPOINTS.bravo)]: {
+          [mq(BREAKPOINTS.bravo)]: {
             marginBottom: 0,
           },
         }}
@@ -160,7 +160,7 @@ export default function HueLightBulb() {
         css={{
           marginBottom: bs(),
           gridArea: 'events',
-          [createMediaQuery(BREAKPOINTS.bravo)]: {
+          [mq(BREAKPOINTS.bravo)]: {
             marginBottom: 0,
           },
         }}
@@ -179,7 +179,7 @@ export default function HueLightBulb() {
         css={{
           marginBottom: bs(),
           gridArea: 'colors',
-          [createMediaQuery(BREAKPOINTS.bravo)]: {
+          [mq(BREAKPOINTS.bravo)]: {
             marginBottom: 0,
           },
         }}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { BREAKPOINTS, EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
 
@@ -72,7 +72,7 @@ export default function ValueSell({ courseNickname }) {
     >
       <div
         css={{
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq(BREAKPOINTS.alpha)]: {
             display: 'grid',
             gridGap: bs(2),
             gridTemplateColumns: '1fr 2fr',
@@ -83,7 +83,7 @@ export default function ValueSell({ courseNickname }) {
         <div
           css={{
             marginBottom: bs(),
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq(BREAKPOINTS.alpha)]: {
               marginBottom: 0,
             },
           }}
@@ -104,7 +104,7 @@ export default function ValueSell({ courseNickname }) {
         <div
           css={{
             textAlign: 'center',
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq(BREAKPOINTS.alpha)]: {
               textAlign: 'left',
             },
           }}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, StaticQuery } from 'gatsby'
 import { bs } from '../shevy'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 import { BREAKPOINTS } from '../constants'
 
 const query = graphql`
@@ -34,7 +34,7 @@ const PostAuthor = () => (
           marginTop: bs(4),
           marginBottom: bs(2),
 
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq(BREAKPOINTS.alpha)]: {
             display: 'grid',
             gridTemplateColumns: '1fr 3fr',
             gridGap: bs(),
@@ -53,7 +53,7 @@ const PostAuthor = () => (
             marginRight: 'auto',
             marginBottom: bs(),
 
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq(BREAKPOINTS.alpha)]: {
               marginBottom: 0,
             },
           }}

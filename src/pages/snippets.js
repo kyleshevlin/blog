@@ -4,7 +4,7 @@ import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, getNodes, v } from '../utils'
+import { mq, getNodes, v } from '../utils'
 
 export default function Snippets({ data }) {
   const snippets = getNodes(data.snippets)
@@ -30,7 +30,7 @@ export default function Snippets({ data }) {
             marginTop: bs(2),
             marginBottom: bs(2),
 
-            [createMediaQuery(BREAKPOINTS.bravo)]: {
+            [mq(BREAKPOINTS.bravo)]: {
               display: 'table',
               borderCollapse: 'collapse',
               width: '100%',
@@ -41,7 +41,7 @@ export default function Snippets({ data }) {
             css={{
               display: 'none',
 
-              [createMediaQuery(BREAKPOINTS.bravo)]: {
+              [mq(BREAKPOINTS.bravo)]: {
                 display: 'table-header-group',
               },
             }}
@@ -91,7 +91,7 @@ function Row({ children }) {
         display: 'block',
         marginBottom: bs(1.5),
 
-        [createMediaQuery(BREAKPOINTS.bravo)]: {
+        [mq(BREAKPOINTS.bravo)]: {
           display: 'table-row',
           marginBottom: 0,
         },
@@ -111,7 +111,7 @@ function Cell({ children }) {
         padding: 0,
         marginBottom: bs(0.25),
 
-        [createMediaQuery(BREAKPOINTS.bravo)]: {
+        [mq(BREAKPOINTS.bravo)]: {
           border: '4px solid var(--colors-offset)',
           display: 'table-cell',
           padding: bs(0.75),
@@ -131,7 +131,7 @@ function HeadingCell({ children }) {
         fontFamily: v('fonts-catamaran'),
         fontWeight: 'bold',
 
-        [createMediaQuery(BREAKPOINTS.bravo)]: {
+        [mq(BREAKPOINTS.bravo)]: {
           display: 'table-cell',
           padding: `${bs(0.5)} ${bs(0.75)}`,
           textAlign: 'left',
@@ -149,7 +149,7 @@ function Label({ children }) {
       css={{
         fontFamily: v('fonts-catamaran'),
         fontWeight: 'bold',
-        [createMediaQuery(BREAKPOINTS.bravo)]: {
+        [mq(BREAKPOINTS.bravo)]: {
           display: 'none',
         },
       }}

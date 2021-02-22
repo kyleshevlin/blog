@@ -4,7 +4,7 @@ import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
 import { buttonStyles } from './Button'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, isEmail } from '../utils'
+import { mq, isEmail } from '../utils'
 
 export default function NewsletterCTA() {
   return (
@@ -182,7 +182,7 @@ function SignupForm() {
             gridGap: bs(0.5),
             marginBottom: bs(),
 
-            [createMediaQuery(BREAKPOINTS.charlie)]: {
+            [mq(BREAKPOINTS.charlie)]: {
               gridTemplateColumns: '1fr 1fr',
               gridGap: bs(),
             },

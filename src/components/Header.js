@@ -6,7 +6,7 @@ import Container from './Container'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 
 export default function Header() {
   return (
@@ -38,7 +38,7 @@ export default function Header() {
                   display: 'flex',
                   flexDirection: 'column',
 
-                  [createMediaQuery(BREAKPOINTS.alpha)]: {
+                  [mq(BREAKPOINTS.alpha)]: {
                     flexDirection: 'row',
                     alignItems: 'center',
                   },
@@ -74,7 +74,7 @@ export default function Header() {
                     marginTop: bs(0.5),
                     marginBottom: bs(0.5),
 
-                    [createMediaQuery(BREAKPOINTS.alpha)]: {
+                    [mq(BREAKPOINTS.alpha)]: {
                       marginTop: 0,
                       marginLeft: 'auto',
                     },

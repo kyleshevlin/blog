@@ -2,7 +2,7 @@ import React from 'react'
 import { Global, css } from '@emotion/core'
 import { BREAKPOINTS } from '../constants'
 import { bs } from '../shevy'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 
 export default function Tags() {
   return (
@@ -20,11 +20,11 @@ export default function Tags() {
           font-size: 85%;
           line-height: 1.6;
 
-          ${createMediaQuery(BREAKPOINTS.alpha)} {
+          ${mq(BREAKPOINTS.alpha)} {
             font-size: 100%;
           }
 
-          ${createMediaQuery(BREAKPOINTS.delta)} {
+          ${mq(BREAKPOINTS.delta)} {
             font-size: 115%;
           }
         }
@@ -114,7 +114,7 @@ export default function Tags() {
           margin-bottom: ${bs()};
           border-left: 4px solid var(--colors-accent);
 
-          ${createMediaQuery(BREAKPOINTS.alpha)} {
+          ${mq(BREAKPOINTS.alpha)} {
             padding: ${bs(2)};
           }
 

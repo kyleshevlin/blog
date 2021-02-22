@@ -14,7 +14,7 @@ import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery } from '../utils'
+import { mq } from '../utils'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -82,18 +82,18 @@ const Post = ({
 
         <div
           css={{
-            [createMediaQuery(BREAKPOINTS.alpha)]: {
+            [mq(BREAKPOINTS.alpha)]: {
               alignItems: 'center',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               marginBottom: bs(2),
             },
 
-            [createMediaQuery(BREAKPOINTS.bravo)]: {
+            [mq(BREAKPOINTS.bravo)]: {
               gridTemplateColumns: '2fr 3fr',
             },
 
-            [createMediaQuery(BREAKPOINTS.charlie)]: {
+            [mq(BREAKPOINTS.charlie)]: {
               gridTemplateColumns: '1fr 2fr',
             },
           }}

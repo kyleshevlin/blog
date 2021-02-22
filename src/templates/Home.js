@@ -5,7 +5,7 @@ import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
-import { createMediaQuery, getNodes } from '../utils'
+import { mq, getNodes } from '../utils'
 import { BREAKPOINTS } from '../constants'
 
 export default function Home({ data }) {
@@ -92,7 +92,7 @@ function Collections({ collections }) {
           display: 'grid',
           gridGap: bs(),
 
-          [createMediaQuery(BREAKPOINTS.alpha)]: {
+          [mq(BREAKPOINTS.alpha)]: {
             gridTemplateColumns: 'repeat(2, 1fr)',
           },
         }}
