@@ -38,7 +38,7 @@ export default function AllTags({ pageContext }) {
             </Link>
             <span>
               {' '}
-              - {count} {inflect('post', 'posts', count)}
+              - {count} {inflect('post')(count)}
             </span>
           </div>
         ))}

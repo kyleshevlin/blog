@@ -13,6 +13,7 @@ const inflect = (singular, plural = `${singular}s`) => quantity =>
 Example:
 
 ```javascript
+// If you use this a lot, you can export this particular inflection
 const inflectPosts = inflect('post')
 
 function PostCount({ count }) {

@@ -12,7 +12,7 @@ const RelatedPosts = ({ posts }) => (
         marginBottom: bs(0.5),
       }}
     >
-      Related {inflect('Post', 'Posts', posts.length)}:
+      Related {inflect('Post')(posts.length)}:
     </div>
 
     <div>
