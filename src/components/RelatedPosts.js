@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
-import { inflect, v } from '../utils'
+import { inflect } from '../utils'
 
 const RelatedPosts = ({ posts }) => (
   <div css={{ marginBottom: bs(2) }}>
     <div
       css={{
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontWeight: 'bold',
         marginBottom: bs(0.5),
       }}

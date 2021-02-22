@@ -1,7 +1,6 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 export default function Contributors() {
   const data = useStaticQuery(graphql`
@@ -48,7 +47,7 @@ export default function Contributors() {
   return (
     <div
       css={{
-        fontFamily: v('fonts-catamaran'),
+        fontFamily: 'var(--fonts-catamaran)',
         fontStyle: 'italic',
         textAlign: 'center',
       }}

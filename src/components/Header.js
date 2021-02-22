@@ -6,7 +6,7 @@ import Container from './Container'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
 import { BREAKPOINTS } from '../constants'
-import { createMediaQuery, v } from '../utils'
+import { createMediaQuery } from '../utils'
 
 export default function Header() {
   return (
@@ -46,7 +46,7 @@ export default function Header() {
               >
                 <Link
                   css={{
-                    color: v('colors-text'),
+                    color: 'var(--colors-text)',
                     display: 'block',
                   }}
                   to="/"
@@ -61,7 +61,7 @@ export default function Header() {
                   </h1>
                   <div
                     css={{
-                      fontFamily: v('fonts-catamaran'),
+                      fontFamily: 'var(--fonts-catamaran)',
                       fontSize: '1rem',
                       marginBottom: 0,
                     }}

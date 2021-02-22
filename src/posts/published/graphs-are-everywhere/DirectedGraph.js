@@ -1,6 +1,5 @@
 import React from 'react'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 
 // The absurd width is partnered with negative margins to create an svg that almost
 // is guaranteed to take up the full width on any gargantuan sized screen. It also
@@ -64,7 +63,7 @@ export default function DirectedGraph({
       .attr('overflow', 'visible')
       .append('svg:path')
       .attr('d', 'M 0,-5 10,0 0,5Z')
-      .attr('fill', v('colors-text'))
+      .attr('fill', 'var(--colors-text)')
       .attr('stroke', 'none')
 
     const simulation = d3.forceSimulation(data.nodes)
@@ -87,7 +86,7 @@ export default function DirectedGraph({
       .enter()
       .append('line')
       .attr('stroke-width', 2)
-      .attr('stroke', v('colors-text'))
+      .attr('stroke', 'var(--colors-text)')
       .attr('marker-end', 'url(#arrowhead)')
 
     const node = svg
@@ -108,9 +107,9 @@ export default function DirectedGraph({
     node
       .append('circle')
       .attr('r', NODE_RADIUS)
-      .attr('fill', v('colors-background'))
+      .attr('fill', 'var(--colors-background)')
       .attr('stroke-width', 1)
-      .attr('stroke', v('colors-text'))
+      .attr('stroke', 'var(--colors-text)')
 
     if (showNodeIDs) {
       node
@@ -155,7 +154,7 @@ export default function DirectedGraph({
     <div css={{ marginBottom: bs(2) }}>
       <div
         css={{
-          border: `2px dashed ${v('colors-accent')}`,
+          border: '2px dashed var(--colors-accent)',
           ...(caption ? { borderBottom: 'none' } : {}),
           display: 'flex',
           justifyContent: 'center',
@@ -167,8 +166,8 @@ export default function DirectedGraph({
       {caption ? (
         <div
           css={{
-            backgroundColor: v('colors-offset'),
-            fontFamily: v('fonts-catamaran'),
+            backgroundColor: 'var(--colors-offset)',
+            fontFamily: 'var(--fonts-catamaran)',
             fontStyle: 'italic',
             padding: `${bs(0.5)} ${bs()}`,
             textAlign: 'center',

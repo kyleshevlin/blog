@@ -2,7 +2,6 @@ import React from 'react'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { bs } from '../shevy'
-import { v } from '../utils'
 import Github from './icons/Github'
 import LinkedIn from './icons/LinkedIn'
 import Twitch from './icons/Twitch'
@@ -24,8 +23,8 @@ export default function Footer() {
   return (
     <div
       css={{
-        backgroundColor: v('components-footer-background'),
-        color: v('components-footer-text'),
+        backgroundColor: 'var(--components-footer-background)',
+        color: 'var(--components-footer-text)',
         paddingTop: bs(2),
         paddingBottom: bs(2),
         textAlign: 'center',
@@ -43,7 +42,7 @@ export default function Footer() {
                 display: 'inline-block',
                 padding: bs(0.5),
                 '&:hover svg': {
-                  fill: v('components-button-hover-background'),
+                  fill: 'var(--components-button-hover-background)',
                 },
                 svg: {
                   transition: 'fill 0.3s ease',
@@ -53,7 +52,7 @@ export default function Footer() {
               href={href}
               title={title}
             >
-              <Icon fill={v('components-button-background')} width={30} />
+              <Icon fill={'var(--components-button-background)'} width={30} />
             </OutboundLink>
           ))}
         </div>

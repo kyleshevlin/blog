@@ -3,7 +3,6 @@ import debounce from 'lodash.debounce'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
 
@@ -111,7 +110,7 @@ class BeardStrokes extends Component {
           css={{
             display: 'flex',
             alignItems: 'center',
-            fontFamily: v('fonts-catamaran'),
+            fontFamily: 'var(--fonts-catamaran)',
           }}
         >
           <div css={{ textAlign: 'center' }}>
@@ -123,7 +122,9 @@ class BeardStrokes extends Component {
                 padding: `${bs(0.25)} ${bs(0.5)}`,
                 '& svg': {
                   fill:
-                    count === 0 ? v('colors-offsetMore') : v('colors-accent'),
+                    count === 0
+                      ? 'var(--colors-offsetMore)'
+                      : 'var(--colors-accent)',
                   transform: 'scale(.95)',
                   transition: 'fill 0.3s ease, transform .15s ease',
                 },
@@ -131,11 +132,11 @@ class BeardStrokes extends Component {
                   transform: 'scale(1)',
                 },
                 '&:disabled svg': {
-                  fill: v('colors-accentDark'),
+                  fill: 'var(--colors-accentDark)',
                   transform: 'scale(1)',
                 },
                 '&:hover svg': {
-                  fill: v('colors-accentDark'),
+                  fill: 'var(--colors-accentDark)',
                 },
               }}
               onClick={this.handleBeardClick}
@@ -144,7 +145,9 @@ class BeardStrokes extends Component {
             >
               <Beard width={40} />
             </button>
-            <div css={{ fontFamily: v('fonts-catamaran') }}>{`+${count}`}</div>
+            <div
+              css={{ fontFamily: 'var(--fonts-catamaran)' }}
+            >{`+${count}`}</div>
           </div>
           <div css={{ fontStyle: 'italic' }}>
             Liked the post? Click the beard a few times.

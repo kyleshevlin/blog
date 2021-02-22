@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { bs } from '../shevy'
-import { v } from '../utils'
 
 const LINKS = [
   { to: '/', title: 'Home' },
@@ -13,8 +12,8 @@ const LINKS = [
 
 const linkStyles = () => ({
   display: 'inline-block',
-  fontFamily: v('fonts-catamaran'),
-  color: v('colors-text'),
+  fontFamily: 'var(--fonts-catamaran)',
+  color: 'var(--colors-text)',
   padding: bs(0.5),
 })
 
@@ -28,7 +27,7 @@ export default function Nav() {
           <Link
             key={title}
             css={linkStyles()}
-            activeStyle={{ color: v('colors-accent') }}
+            activeStyle={{ color: 'var(--colors-accent)' }}
             title={title}
             to={to}
           >

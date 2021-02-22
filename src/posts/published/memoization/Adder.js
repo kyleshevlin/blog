@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useNumberInput } from '../../../components/Inputs'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 import memoize from './memoize'
 
 const AdderContext = React.createContext()
@@ -87,8 +86,8 @@ function AdderForm({ add }) {
       {cacheHit && (
         <div
           css={{
-            backgroundColor: v('colors-accent'),
-            color: v('colors-text-on-accent'),
+            backgroundColor: 'var(--colors-accent)',
+            color: 'var(--colors-text-on-accent)',
             borderRadius: 2,
             marginTop: bs(0.5),
             padding: `${bs(0.25)} ${bs(0.5)}`,

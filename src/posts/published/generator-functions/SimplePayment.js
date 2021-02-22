@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useInput } from '../../../components/Inputs'
 import { bs } from '../../../shevy'
-import { v } from '../../../utils'
 
 const compound = (amount, rate) => amount + amount * rate
 
@@ -114,7 +113,7 @@ export default function SimplePayment() {
       {data && (
         <pre
           css={{
-            backgroundColor: v('colors-background'),
+            backgroundColor: 'var(--colors-background)',
             marginTop: bs(0.5),
             marginBottom: 0,
           }}
