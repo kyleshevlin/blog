@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
 import { Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath, inflect } from '../utils'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
+import Main from '../components/Main'
 
 const linkStyles = css`
   display: inline-block;
@@ -25,27 +27,29 @@ export default function AllTags({ pageContext }) {
   }, [counts, tags])
 
   return (
-    <Fragment>
-      <Seo title={title} />
+    <Container>
+      <Main>
+        <Seo title={title} />
 
-      <h1>{title}</h1>
+        <h1>{title}</h1>
 
-      <div>
-        {sortedData.map(({ tag, count }) => (
-          <div key={tag}>
-            <Link css={linkStyles} to={`tags/${formatStrForPath(tag)}`}>
-              {tag}
-            </Link>
-            <span>
-              {' '}
-              - {count} {inflect('post')(count)}
-            </span>
-          </div>
-        ))}
-      </div>
+        <div>
+          {sortedData.map(({ tag, count }) => (
+            <div key={tag}>
+              <Link css={linkStyles} to={`tags/${formatStrForPath(tag)}`}>
+                {tag}
+              </Link>
+              <span>
+                {' '}
+                - {count} {inflect('post')(count)}
+              </span>
+            </div>
+          ))}
+        </div>
 
-      <AddedValue />
-    </Fragment>
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 

@@ -39,6 +39,7 @@ export const makeHeadingId = heading => {
 
   return heading
     .trim()
+    .replace(/,|&|\?/, '')
     .split(' ')
     .map(x => x.toLowerCase())
     .join('-')

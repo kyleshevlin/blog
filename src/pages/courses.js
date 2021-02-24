@@ -4,7 +4,9 @@ import Seo from '../components/Seo'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
+import Container from '../components/Container'
 import LinkButton from '../components/LinkButton'
+import Main from '../components/Main'
 import NewsletterCTA from '../components/NewsletterCTA'
 
 const query = graphql`
@@ -35,18 +37,20 @@ export default function Courses() {
   const courses = getNodes(data.allCoursesJson)
 
   return (
-    <>
-      <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
-      <h1>Courses</h1>
+    <Container>
+      <Main>
+        <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
+        <h1>Courses</h1>
 
-      <div css={{ marginTop: bs(2), marginBottom: bs(4) }}>
-        {courses.map(course => (
-          <CourseItem key={course.title} {...course} />
-        ))}
-      </div>
+        <div css={{ marginTop: bs(2), marginBottom: bs(4) }}>
+          {courses.map(course => (
+            <CourseItem key={course.title} {...course} />
+          ))}
+        </div>
 
-      <NewsletterCTA />
-    </>
+        <NewsletterCTA />
+      </Main>
+    </Container>
   )
 }
 

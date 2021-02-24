@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
+import Main from '../components/Main'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 
@@ -12,74 +14,76 @@ export default function Snippets({ data }) {
   )
 
   return (
-    <>
-      <Seo title="Snippets" keywords={['Snippets', 'Kyle Shevlin']} />
-      <h1>Snippets</h1>
+    <Container>
+      <Main>
+        <Seo title="Snippets" keywords={['Snippets', 'Kyle Shevlin']} />
+        <h1>Snippets</h1>
 
-      <p>
-        Inspired by {joshLink}, this is a collection of my code snippets that
-        you can look at for inspiration or copy/paste at will.
-      </p>
+        <p>
+          Inspired by {joshLink}, this is a collection of my code snippets that
+          you can look at for inspiration or copy/paste at will.
+        </p>
 
-      {snippets.length ? (
-        <table
-          css={{
-            border: 'none',
-            display: 'block',
-            marginTop: bs(2),
-            marginBottom: bs(2),
-
-            [mq.bravo]: {
-              display: 'table',
-              borderCollapse: 'collapse',
-              width: '100%',
-            },
-          }}
-        >
-          <thead
+        {snippets.length ? (
+          <table
             css={{
-              display: 'none',
+              border: 'none',
+              display: 'block',
+              marginTop: bs(2),
+              marginBottom: bs(2),
 
               [mq.bravo]: {
-                display: 'table-header-group',
+                display: 'table',
+                borderCollapse: 'collapse',
+                width: '100%',
               },
             }}
           >
-            <Row>
-              <HeadingCell>Name</HeadingCell>
-              <HeadingCell>Description</HeadingCell>
-              <HeadingCell>Category</HeadingCell>
-            </Row>
-          </thead>
-          <tbody css={{ display: 'table-row-group' }}>
-            {snippets.map(snippet => {
-              const { id, frontmatter } = snippet
-              const { category, description, name, slug } = frontmatter
+            <thead
+              css={{
+                display: 'none',
 
-              return (
-                <Row key={id}>
-                  <Cell>
-                    <Link to={`/snippets/${slug}`}>{name}</Link>
-                  </Cell>
-                  <Cell>
-                    <Label>Description: </Label>
-                    {description}
-                  </Cell>
-                  <Cell>
-                    <Label>Category: </Label>
-                    {category}
-                  </Cell>
-                </Row>
-              )
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <div>No snippets yet! Working on collecting them!</div>
-      )}
+                [mq.bravo]: {
+                  display: 'table-header-group',
+                },
+              }}
+            >
+              <Row>
+                <HeadingCell>Name</HeadingCell>
+                <HeadingCell>Description</HeadingCell>
+                <HeadingCell>Category</HeadingCell>
+              </Row>
+            </thead>
+            <tbody css={{ display: 'table-row-group' }}>
+              {snippets.map(snippet => {
+                const { id, frontmatter } = snippet
+                const { category, description, name, slug } = frontmatter
 
-      <AddedValue />
-    </>
+                return (
+                  <Row key={id}>
+                    <Cell>
+                      <Link to={`/snippets/${slug}`}>{name}</Link>
+                    </Cell>
+                    <Cell>
+                      <Label>Description: </Label>
+                      {description}
+                    </Cell>
+                    <Cell>
+                      <Label>Category: </Label>
+                      {category}
+                    </Cell>
+                  </Row>
+                )
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <div>No snippets yet! Working on collecting them!</div>
+        )}
+
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 

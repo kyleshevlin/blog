@@ -1,9 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import AddedValue from '../components/AddedValue'
+import Aside from '../components/Aside'
 import BannerImage from '../components/BannerImage'
 import BeardStrokes from '../components/BeardStrokes'
+import Container from '../components/Container'
+import Main from '../components/Main'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -11,6 +14,7 @@ import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import Share from '../components/Share'
+import TableOfContents from '../components/TableOfContents'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { mq } from '../utils'
@@ -43,81 +47,101 @@ const Post = ({
       tags,
       title,
     },
+    tableOfContents,
   } = file
 
   return (
-    <Fragment>
-      <Seo title={title} description={description} keywords={keywords || []} />
-
+    <Container>
       <div
         css={{
-          '> h3': {
-            marginTop: bs(2),
-          },
+          display: 'grid',
+          gridTemplateAreas: '"main aside"',
+          gridTemplateColumns: 'minmax(0, 3fr) 1fr',
+          gridGap: bs(2),
         }}
       >
-        {coverImage && (
-          <BannerImage
-            src={coverImage.childImageSharp.original.src}
-            alt={`${title} Banner`}
+        <Aside style={{ gridArea: 'aside' }}>
+          <TableOfContents baseUrl={slug} contents={tableOfContents} />
+        </Aside>
+
+        <Main style={{ gridArea: 'main' }}>
+          <Seo
+            title={title}
+            description={description}
+            keywords={keywords || []}
           />
-        )}
-        <PostDate date={date} />
-        <TotalBeardStrokes slug={slug} />
-        <div
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '3fr 1fr',
-            alignItems: 'end',
-            marginBottom: bs(),
-          }}
-        >
-          <PostHeader {...{ subtitle, title }} />
-          <EditLink fileAbsolutePath={fileAbsolutePath} />
-        </div>
-        <MDXRenderer>{file.body}</MDXRenderer>
 
-        <Share slug={slug} title={title} />
-
-        <div
-          css={{
-            [mq.alpha]: {
-              alignItems: 'center',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              marginBottom: bs(2),
-            },
-
-            [mq.bravo]: {
-              gridTemplateColumns: '2fr 3fr',
-            },
-
-            [mq.charlie]: {
-              gridTemplateColumns: '1fr 2fr',
-            },
-          }}
-        >
-          <div css={{ marginRight: bs(1.5), marginBottom: bs() }}>
-            <BeardStrokes slug={slug} />
-          </div>
-          {tags && (
-            <div css={{ flexGrow: 0, marginBottom: bs() }}>
-              <PostTags items={tags} />
+          <div
+            css={{
+              '> h3': {
+                marginTop: bs(2),
+              },
+            }}
+          >
+            {coverImage && (
+              <BannerImage
+                src={coverImage.childImageSharp.original.src}
+                alt={`${title} Banner`}
+              />
+            )}
+            <PostDate date={date} />
+            <TotalBeardStrokes slug={slug} />
+            <div
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '3fr 1fr',
+                alignItems: 'end',
+                marginBottom: bs(),
+              }}
+            >
+              <PostHeader {...{ subtitle, title }} />
+              <EditLink fileAbsolutePath={fileAbsolutePath} />
             </div>
-          )}
-        </div>
+            <MDXRenderer>{file.body}</MDXRenderer>
 
-        <AdditionalPosts
-          newerPost={newerPost}
-          olderPost={olderPost}
-          relatedPosts={relatedPosts}
-        />
+            <Share slug={slug} title={title} />
 
-        <AddedValue courseNickname={relevantCourseNickname} />
+            <div
+              css={{
+                [mq.alpha]: {
+                  alignItems: 'center',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  marginBottom: bs(2),
+                },
 
-        <PostAuthor />
+                [mq.bravo]: {
+                  gridTemplateColumns: '2fr 3fr',
+                },
+
+                [mq.charlie]: {
+                  gridTemplateColumns: '1fr 2fr',
+                },
+              }}
+            >
+              <div css={{ marginRight: bs(1.5), marginBottom: bs() }}>
+                <BeardStrokes slug={slug} />
+              </div>
+              {tags && (
+                <div css={{ flexGrow: 0, marginBottom: bs() }}>
+                  <PostTags items={tags} />
+                </div>
+              )}
+            </div>
+
+            <AdditionalPosts
+              newerPost={newerPost}
+              olderPost={olderPost}
+              relatedPosts={relatedPosts}
+            />
+
+            <AddedValue courseNickname={relevantCourseNickname} />
+
+            <PostAuthor />
+          </div>
+        </Main>
       </div>
-    </Fragment>
+    </Container>
   )
 }
 
@@ -148,6 +172,7 @@ export const pageQuery = graphql`
         tags
         title
       }
+      tableOfContents(maxDepth: 10)
     }
   }
 `

@@ -1,32 +1,36 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
+import Main from '../components/Main'
 
 const Collections = ({ data }) => {
   const collections = data.allCollectionsJson.edges.map(edge => edge.node)
 
   return (
-    <Fragment>
-      <Seo title="Collections" keywords={['Collections', 'Kyle Shevlin']} />
+    <Container>
+      <Main>
+        <Seo title="Collections" keywords={['Collections', 'Kyle Shevlin']} />
 
-      <h1>Collections</h1>
+        <h1>Collections</h1>
 
-      <p>
-        In an effort to help readers find good articles to start reading on my
-        blog, I have created these collections. Each collection is a topic I've
-        covered in detail and they contain a list of posts that I handpicked for
-        each one. Check them out.
-      </p>
+        <p>
+          In an effort to help readers find good articles to start reading on my
+          blog, I have created these collections. Each collection is a topic
+          I've covered in detail and they contain a list of posts that I
+          handpicked for each one. Check them out.
+        </p>
 
-      <div>
-        {collections.map(collection => (
-          <Collection key={collection.name} collection={collection} />
-        ))}
-      </div>
+        <div>
+          {collections.map(collection => (
+            <Collection key={collection.name} collection={collection} />
+          ))}
+        </div>
 
-      <AddedValue />
-    </Fragment>
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 

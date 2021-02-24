@@ -1,7 +1,9 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
 import ExcerptList from '../components/ExcerptList'
+import Main from '../components/Main'
 import Pagination from '../components/Pagination'
 import Seo from '../components/Seo'
 import { getNodes } from '../utils'
@@ -11,12 +13,14 @@ export default function AdditionalPages({ data, ...props }) {
   const posts = getNodes(data.allMdx)
 
   return (
-    <>
-      <Seo title={`Page ${index + 1}`} keywords={['Kyle Shevlin']} />
-      <ExcerptList posts={posts} />
-      <Pagination {...{ index, totalPages }} />
-      <AddedValue />
-    </>
+    <Container>
+      <Main>
+        <Seo title={`Page ${index + 1}`} keywords={['Kyle Shevlin']} />
+        <ExcerptList posts={posts} />
+        <Pagination {...{ index, totalPages }} />
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 

@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, Link } from 'gatsby'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
 import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
+import Main from '../components/Main'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
@@ -12,22 +14,24 @@ export default function Home({ data }) {
   const recentPosts = getNodes(data.recent)
 
   return (
-    <Fragment>
-      <Seo title="Home" keywords={['Kyle Shevlin']} />
-      <Welcome />
-      <Collections collections={collections} />
-      <hr />
-      <h3>Recent Posts</h3>
-      <ExcerptList posts={recentPosts} />
+    <Container>
+      <Main>
+        <Seo title="Home" keywords={['Kyle Shevlin']} />
+        <Welcome />
+        <Collections collections={collections} />
+        <hr />
+        <h3>Recent Posts</h3>
+        <ExcerptList posts={recentPosts} />
 
-      <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
-        <h3>Looking for more posts?</h3>
-        If you're looking for more posts, visit the{' '}
-        <Link to="/all-posts">All Posts</Link> page.
-      </div>
+        <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
+          <h3>Looking for more posts?</h3>
+          If you're looking for more posts, visit the{' '}
+          <Link to="/all-posts">All Posts</Link> page.
+        </div>
 
-      <AddedValue />
-    </Fragment>
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 

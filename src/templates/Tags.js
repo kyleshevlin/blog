@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import AddedValue from '../components/AddedValue'
+import Container from '../components/Container'
+import Main from '../components/Main'
 
 const linkStyles = css`
   display: block;
@@ -14,24 +16,26 @@ const Tags = ({ data, ...props }) => {
   const { tag } = props.pageContext
 
   return (
-    <Fragment>
-      <Seo title={`${tag} | Tags`} />
+    <Container>
+      <Main>
+        <Seo title={`${tag} | Tags`} />
 
-      <h1>{tag}</h1>
+        <h1>{tag}</h1>
 
-      <div>
-        {posts.map(post => {
-          const { slug, title } = post.frontmatter
+        <div>
+          {posts.map(post => {
+            const { slug, title } = post.frontmatter
 
-          return (
-            <Link key={slug} css={linkStyles} to={slug}>
-              {title}
-            </Link>
-          )
-        })}
-      </div>
-      <AddedValue />
-    </Fragment>
+            return (
+              <Link key={slug} css={linkStyles} to={slug}>
+                {title}
+              </Link>
+            )
+          })}
+        </div>
+        <AddedValue />
+      </Main>
+    </Container>
   )
 }
 
