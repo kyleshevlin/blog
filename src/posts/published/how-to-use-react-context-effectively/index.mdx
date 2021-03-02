@@ -1,0 +1,124 @@
+---
+date: '2021-02-23'
+slug: 'how-to-use-react-context-effectively'
+title: 'How to Use React Context Effectively'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+In this post, I want to go over how I use React Context.
+
+### Always export your own `Provider`
+
+I cannot remember a single time in my years of writing React where there was a good reason for me not to create a custom `Provider` for a context. I do this like so:
+
+```jsx
+const MyContext = React.createContext()
+
+export function MyProvider({ children }) {
+  return <MyContext.Provider value={null}>{children}</MyContext.Provider>
+}
+```
+
+Why do I do this? I do this so that I have full control over `value`. I do not want to give users of my `Provider` options that I do not explicitly control. I can give them props that will allow them to alter whatever `value` is eventually set to, but I am still in control. This prevents a number of future problems and encapsulates the concerns of the Context well.
+
+### Create a custom hook for your context
+
+```javascript
+export const useMyContext = () => React.useContext(MyContext)
+```
+
+Now, any component that makes use of hooks has a simple way to consume and use the Context.
+
+### Optimize components that consume your custom hook
+
+From the React docs:
+
+> All consumers that are descendants of a Provider will re-render whenever the Provider’s `value` prop changes.
+
+Remember that. All consumers re-render when the Provider updates, _regardless of whether it is necessary or not_. This means that we are responsible for preventing re-renders ourselves. How do we do this for components that consume a context?
+
+There are primarily two ways to accomplish. Both use memoization but in different ways.
+
+The first way is to turn the component that consumes the context into a "container component" and to use `React.memo` on the "presentational component" that the container returns. Like so:
+
+TODO: NOT A GOOD EXAMPLE YET
+
+```jsx
+import React from 'react'
+import {useTheme} from './ThemeContext'
+
+export function HeaderContainer({ children }) {
+  const theme = useTheme()
+
+  return <Header theme={theme}>{children}</Header>
+}
+
+const Header = React.memo(
+  function Header({ children, theme }) {
+    return (
+      <header
+        style={{
+          backgroundColor: theme === 'light' : '#eee' : '#222'
+        }}
+      >
+        {children}
+      </header>
+    )
+  }
+)
+```
+
+This works because we turn the `value` of the context into a prop into a memoized component. The memoized component only updates if the props change.
+
+The other technique does not require an extra component, but instead uses `React.useMemo` to memoize what we return from the component that consumes the context. Like so:
+
+TODO: NOT A GOOD EXAMPLE YET
+
+```jsx
+import React from 'react'
+import { useTheme } from './ThemeContext'
+
+export function Header({ children }) {
+  const theme = useTheme()
+
+  return React.useMemo(
+    () => (
+      <header
+        style={{
+          backgroundColor: theme === 'light' ? '#eee' : '#222',
+        }}
+      >
+        {children}
+      </header>
+    ),
+    [theme]
+  )
+}
+```
+
+This strategy works by memoizing the return value of our component, only recalculating it when `theme` changes. It might be easier to see if you split the calculation and the return up a bit.
+
+```jsx
+export function Header({ children }) {
+  const theme = useTheme()
+
+  const result = React.useMemo(
+    () => (
+      <header
+        style={{
+          backgroundColor: theme === 'light' ? '#eee' : '#222',
+        }}
+      >
+        {children}
+      </header>
+    ),
+    [theme]
+  )
+
+  return result
+}
+```
