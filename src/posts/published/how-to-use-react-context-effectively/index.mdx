@@ -1,21 +1,23 @@
 ---
-date: '2021-02-23'
+date: '2021-03-11'
 slug: 'how-to-use-react-context-effectively'
 title: 'How to Use React Context Effectively'
 subtitle: null
-description: ''
-excerpt: null
-tags: ['React', 'Hooks']
+description: 'Learn how to use React Context effectively in your web applications by using custom hooks and memoization.'
+excerpt: 'Learn how to use React Context effectively in your web applications by using custom hooks and memoization.'
+tags: ['React', 'Hooks', 'JavaScript']
 relatedPostsSlugs: []
 ---
 
-React Context has always been a somewhat controversial tool. It was an experimental API for the longest time, but was made a standard API eventually. Now with React Hooks, React Context is easier to use than ever, but that also makes it easy to use poorly. In this post, I want to go over how I personally use React Context.
+React Context has always been a somewhat controversial tool. It was an experimental API for the longest time, but was eventually made a standard part of the API. Now with React Hooks, React Context is easier to use than ever, but that also makes it easy to use poorly. In this post, I want to go over how I personally use React Context. I think you'll find it succinct and useful.
 
 Before diving in, I want to make a distinction that's important to my mental model of Context. On its own, React Context is **not** a state management tool. React Context is a **wormhole** tool. It allows you to pass data from Point A to Point Z without passing it through all the points inbetween (aka prop drilling). That's always been the point. Yet, React Context can be _combined_ with state management <Marker content="Even regular ol' <code>React.useState</code> will suffice." /> to create a useful state management system.
 
+With that out of the way, let's begin.
+
 ### Think locally before globally
 
-I personally do not like to think of React Context as an alternative global store. It can be used that way, but Contexts should be related to a single concern in my opinion. Therefore, I find I use Context more often when working on a localized concern, such as a complex feature on a single page of an app.
+I personally do **not** think of React Context as an alternative global store. At least, it's not my first thought when I need global data. It can be used that way, but in my opinion, Contexts should be related to a single concern and not a gathering place for all your data. Therefore, I find I use Context more often when working on a localized concern, such as a particular feature in my app.
 
 It is possible to use globally, but you should at least pause before you do and consider if there's an alternative that might be more useful for your situation. If there is not, then that's fine. Don't sweat it and proceed with Context.
 
@@ -42,7 +44,7 @@ Why do I do this? I do this so that I have full control over `value`. I do not w
 
 There was a short window of time where we needed to use the `Context.Consumer` render prop pattern, but I haven't used it since React Hooks made consuming context significantly easier.
 
-Rather than pass my Context object around and passing it into `React.useContext` in ever component I need it, I instead export a custom hook from the same file I create the Context, like so:
+Rather than pass my Context object around and passing it into `React.useContext` in every component that needs it, I export a custom hook from the same file I create the Context instead, like so:
 
 ```javascript
 export const useMyContext = () => React.useContext(MyContext)
@@ -56,7 +58,7 @@ From the React docs:
 
 > All consumers that are descendants of a Provider will re-render whenever the Provider’s `value` prop changes.
 
-Remember that quote. All Consumers rerender when the Provider updates, _regardless of whether it is necessary or not_. This means, if you're not careful, you could be causing a lot of unnecessary rerenders in your application. We are responsible for preventing unnecessary rerenders, so how do we do this for components that consume a context?
+Remember that quote. All Consumers rerender when the Provider updates, _regardless of whether it is necessary or not_. This means, if you're not careful, you could be causing a lot of unnecessary rerenders in your application. React makes us, the users of React, responsible for preventing unnecessary rerenders, so how do we do this for components that consume a context?
 
 There are primarily two ways to accomplish. Both use memoization but in different ways.
 
@@ -83,7 +85,7 @@ const Header = React.memo(function Header({ authState, logIn, logOut }) {
 })
 ```
 
-This works because we turn the `value` of the context into props passed to a memoized component. The memoized component only updates if the props change.
+This works because we turn the `value` of the context into `props` that are passed to a memoized component. The memoized component only updates if the `props` change.
 
 The second technique does not require an extra component, but instead uses `React.useMemo` to memoize what we return from the component that consumes the context. Like so:
 
@@ -107,4 +109,16 @@ function Header({ authState, logIn, logOut }) {
 }
 ```
 
-This strategy works by memoizing the return value of our component, only recalculating it when one of our `auth` related values changes.
+This strategy works by memoizing the output of our component. It only recalculates our output when one of the `auth` related values changes. <Marker content="It is likely someone will say, &ldquo;That's not true!&rdquo; and they would be pedantic, but also correct. The React docs mention that values memoized with <code>useMemo</code> might be recalculated without the dependencies changing, but it works how we expect most of the time and will never calculate incorrectly, so don't worry about it." />
+
+### Summary
+
+That's it. That's how I use React Context effectively. To recap:
+
+- Make your own Provider
+- Export a custom hook, don't bother with a Consumer render prop component
+- Memoize the components that consume the context, either by:
+  - Container and `React.memo`ized presentational components
+  - `React.useMemo` the component's output
+
+Hope this helps you use React Context more effectively in your apps.
