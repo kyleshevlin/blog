@@ -2,6 +2,7 @@
   "name": "React",
   "order": 1,
   "slugs": [
+    "how-to-use-react-context-effectively",
     "mental-model-of-use-effect",
     "break-out-your-component-logic-with-hooks",
     "use-encapsulation",
