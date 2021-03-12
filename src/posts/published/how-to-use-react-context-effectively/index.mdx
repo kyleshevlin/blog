@@ -5,20 +5,33 @@ title: 'How to Use React Context Effectively'
 subtitle: null
 description: ''
 excerpt: null
-tags: ['React']
+tags: ['React', 'Hooks']
 relatedPostsSlugs: []
 ---
 
-In this post, I want to go over how I use React Context.
+React Context has always been a somewhat controversial tool. It was an experimental API for the longest time, but was made a standard API eventually. Now with React Hooks, React Context is easier to use than ever, but that also makes it easy to use poorly. In this post, I want to go over how I personally use React Context.
+
+Before diving in, I want to make a distinction that's important to my mental model of Context. On its own, React Context is **not** a state management tool. React Context is a **wormhole** tool. It allows you to pass data from Point A to Point Z without passing it through all the points inbetween (aka prop drilling). That's always been the point. Yet, React Context can be _combined_ with state management <Marker content="Even regular ol' <code>React.useState</code> will suffice." /> to create a useful state management system.
+
+### Think locally before globally
+
+I personally do not like to think of React Context as an alternative global store. It can be used that way, but Contexts should be related to a single concern in my opinion. Therefore, I find I use Context more often when working on a localized concern, such as a complex feature on a single page of an app.
+
+It is possible to use globally, but you should at least pause before you do and consider if there's an alternative that might be more useful for your situation. If there is not, then that's fine. Don't sweat it and proceed with Context.
+
+As we'll discuss soon, React Context can lead to a lot of rerenders if the data passed to the `value` prop changes frequently. If I must use a Context Provider at a high level in the tree, such as a `ThemeProvider`, I want to make sure this component does not change `value` often so that my app performs well.
 
 ### Always export your own `Provider`
 
 I cannot remember a single time in my years of writing React where there was a good reason for me _not_ to create a custom `Provider` for a context. I do this like so:
 
 ```jsx
+// You can supply a default context here
+// You may need to in order to satisfy type checkers
 const MyContext = React.createContext()
 
 export function MyProvider({ children }) {
+  // We will add an actual `value` here later
   return <MyContext.Provider value={null}>{children}</MyContext.Provider>
 }
 ```
