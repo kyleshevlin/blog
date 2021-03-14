@@ -11,13 +11,63 @@ relatedPostsSlugs: []
 
 React Context has always been a somewhat controversial tool. It was an experimental API for the longest time, but was eventually made a standard part of the API. Now with React Hooks, React Context is easier to use than ever, but that also makes it easy to use poorly. In this post, I want to go over how I personally use React Context. I think you'll find it succinct and useful.
 
-Before diving in, I want to make a distinction that's important to my mental model of Context. On its own, React Context is **not** a state management tool. React Context is a **wormhole** tool. It allows you to pass data from Point A to Point Z without passing it through all the points inbetween (aka prop drilling). That's always been the point. Yet, React Context can be _combined_ with state management <Marker content="Even regular ol' <code>React.useState</code> will suffice." /> to create a useful state management system.
+### What is React Context?
 
-With that out of the way, let's begin.
+Conceptually, I think of React Context as a **wormhole** component. It's designed to get a `value` from a `Provider` to all its distantly-related child `Consumer`s, without passing the `value` through all the components in between. In short, it's a way to avoid "prop drilling".
+
+### How to create a Context
+
+A Context is created with the `React.createContext` method.
+
+```javascript
+const MyContext = React.createContext()
+```
+
+My first tip. Don't bother with providing a `defaultValue`. If you're consuming context without a `Provider` higher in the tree, either you're making a big mistake or you know exactly what you're doing. With no insult intended, it's more likely that you're making a mistake and not providing a `defaultValue` will provide a signal that there's a problem you need to fix. <Marker content="The exception to this is if you must provide a default value for a type system. Hopefully the types save your bacon in that scenario then." />
+
+Creating a Context returns an object with two properties, `Provider` and `Consumer`, both of which are components. `Provider`s are parent components that receive a `value` prop that they wormhole to all their `Consumer` children. Here's a quick example using a `ThemeContext`:
+
+```javascript
+const ThemeContext = React.createContext()
+
+function App() {
+  return (
+    <ThemeContext.Provider value="light">
+      <Header />
+      <Main />
+      <Footer />
+    </ThemeContext.Provider>
+  )
+}
+
+function Header() {
+  return (
+    <ThemeContext.Consumer>
+      {theme => {
+        return (
+          <header
+            style={{
+              backgroundColor: theme === 'light' ? '#eee' : '#111',
+            }}
+          >
+            <Nav />
+          </header>
+        )
+      }}
+    </ThemeContext.Consumer>
+  )
+}
+```
+
+As you can see, the `Header` component consumes the `ThemeContext` with a `Consumer` component. The `theme` makes its way to the `Header` without needing to pass the value in as a prop. Now that you've seen how the `Consumer` component works, with the component and the render prop API, I want you to forget it. Obliterate it from your memory. I'm going to show you a better way to consume a Context soon enough.
+
+Now that we understand roughly how to create and use a React Context, let's discuss some of the philosophy behind using it well.
 
 ### Think locally before globally
 
-I personally do **not** think of React Context as an alternative global store. At least, it's not my first thought when I need global data. It can be used that way, but in my opinion, Contexts should be related to a single concern and not a gathering place for all your data. Therefore, I find I use Context more often when working on a localized concern, such as a particular feature in my app.
+It is tempting, once you learn React Context, to use it as a global store. It certainly can function that way and might even be effective, but I personally do **not** think of it this way. At least, it's not my first thought when I need global data.
+
+In my opinion, Contexts should be related to a single concern and not a gathering place for all your data. Therefore, I find I use Context more often when working on a localized concern, such as a particular feature in my app.
 
 It is possible to use globally, but you should at least pause before you do and consider if there's an alternative that might be more useful for your situation. If there is not, then that's fine. Don't sweat it and proceed with Context.
 
@@ -28,29 +78,78 @@ As we'll discuss soon, React Context can lead to a lot of rerenders if the data 
 I cannot remember a single time in my years of writing React where there was a good reason for me _not_ to create a custom `Provider` for a context. I do this like so:
 
 ```jsx
-// You can supply a default context here
-// You may need to in order to satisfy type checkers
-const MyContext = React.createContext()
+const ThemeContext = React.createContext()
 
-export function MyProvider({ children }) {
-  // We will add an actual `value` here later
-  return <MyContext.Provider value={null}>{children}</MyContext.Provider>
+export function ThemeProvider({ children }) {
+  return <ThemeContext.Provider value="light">{children}</ThemeContext.Provider>
 }
 ```
 
 Why do I do this? I do this so that I have full control over `value`. I do not want to give users of my `Provider` options that I do not explicitly control. I can give them props that will allow them to alter whatever `value` is eventually set to, but I am still in control. This prevents a number of future problems and encapsulates the concerns of the Context well.
 
-### Create a custom hook for your context
+### Expose an API
+
+The point of creating a Context, at least to me, is to define specifically how you want the `Consumer`s to be able to interact with their corresponding `Provider`s. Another way to say this is, if I'm going to provide `Consumer`s with some state, I'm also going to provide them with the `handlers` for that state. I'm a big fan of providing specific state updaters to the consumers of my components, like so:
+
+```jsx
+const ThemeContext = React.createContext()
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = React.useState('light')
+
+  const handlers = React.useMemo(
+    () => ({
+      lighten: () => {
+        setTheme('light')
+      },
+      darken: () => {
+        setTheme('dark')
+      },
+      toggle: () => {
+        setTheme(s => (s === 'light' ? 'dark' : 'light'))
+      },
+    }),
+    []
+  )
+
+  return (
+    <ThemeContext.Provider value={[theme, handlers]}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+```
+
+This might seem verbose to some of you, but by creating a `handlers` object with specific updaters for the theme state, we can guarantee that our theme state is never updated to a non-supported theme value.
+
+### Create a custom hook for your Context
 
 There was a short window of time where we needed to use the `Context.Consumer` render prop pattern, but I haven't used it since React Hooks made consuming context significantly easier.
 
 Rather than pass my Context object around and passing it into `React.useContext` in every component that needs it, I export a custom hook from the same file I create the Context instead, like so:
 
 ```javascript
-export const useMyContext = () => React.useContext(MyContext)
+export const useThemeContext = () => React.useContext(ThemeContext)
 ```
 
-Now, any component that needs this Context can import `useMyContext` and use it.
+Now, any component that needs to consume the `ThemeContext` can import `useThemeContext` and use it. Like so:
+
+```jsx
+function Header() {
+  const [theme, { toggle }] = useThemeContext()
+
+  return (
+    <header
+      style={{
+        backgroundColor: theme === 'light' ? '#eee' : '#111',
+      }}
+    >
+      <Nav />
+      <button onClick={toggle}>Toggle theme</button>
+    </header>
+  )
+}
+```
 
 ### Optimize components that consume your custom hook
 
@@ -65,21 +164,21 @@ There are primarily two ways to accomplish. Both use memoization but in differen
 The first way is to turn the component that consumes the context into a "container component" and to use `React.memo` on the "presentational component" that the container returns. Like so:
 
 ```jsx
-import React from 'react'
-import { useAuthContext } from './AuthContext'
-
 export function HeaderContainer({ children }) {
-  const [authState, { logIn, logOut }] = useAuthContext()
+  const [theme, { toggle }] = useThemeContext()
 
-  return <Header authState={authState} logIn={logIn} logOut={logOut} />
+  return <Header theme={theme} toggleTheme={toggle} />
 }
 
-const Header = React.memo(function Header({ authState, logIn, logOut }) {
+const Header = React.memo(function Header({ theme, toggleTheme }) {
   return (
-    <header>
-      <nav />
-      {authState === 'loggedIn' && <LogoutButton onClick={logOut} />}
-      {authState === 'loggedOut' && <LoginButton onClick={logIn} />}
+    <header
+      style={{
+        backgroundColor: theme === 'light' ? '#eee' : '#111',
+      }}
+    >
+      <Nav />
+      <button onClick={toggleTheme}>Toggle theme</button>
     </header>
   )
 })
@@ -90,21 +189,21 @@ This works because we turn the `value` of the context into `props` that are pass
 The second technique does not require an extra component, but instead uses `React.useMemo` to memoize what we return from the component that consumes the context. Like so:
 
 ```jsx
-import React from 'react'
-import { useAuthContext } from './AuthContext'
-
-function Header({ authState, logIn, logOut }) {
-  const [authState, { logIn, logOut }] = useAuthContext()
+function Header() {
+  const [theme, { toggle }] = useThemeContext()
 
   return React.useMemo(
     () => (
-      <header>
-        <nav />
-        {authState === 'loggedIn' && <LogoutButton onClick={logOut} />}
-        {authState === 'loggedOut' && <LoginButton onClick={logIn} />}
+      <header
+        style={{
+          backgroundColor: theme === 'light' ? '#eee' : '#111',
+        }}
+      >
+        <Nav />
+        <button onClick={toggle}>Toggle theme</button>
       </header>
     ),
-    [authState, logIn, logOut]
+    [theme, toggle]
   )
 }
 ```
@@ -115,7 +214,10 @@ This strategy works by memoizing the output of our component. It only recalculat
 
 That's it. That's how I use React Context effectively. To recap:
 
+- Don't worry about a default value
+- Think locally and small before globally
 - Make your own Provider
+- Expose an API
 - Export a custom hook, don't bother with a Consumer render prop component
 - Memoize the components that consume the context, either by:
   - Container and `React.memo`ized presentational components
