@@ -208,7 +208,7 @@ function Header() {
 }
 ```
 
-This strategy works by memoizing the output of our component. It only recalculates our output when one of the `auth` related values changes. <Marker content="It is likely someone will say, &ldquo;That's not true!&rdquo; and they would be pedantic, but also correct. The React docs mention that values memoized with <code>useMemo</code> might be recalculated without the dependencies changing, but it works how we expect most of the time and will never calculate incorrectly, so don't worry about it." />
+This strategy works by memoizing the output of our component. It only recalculates our output if one of the `ThemeContext` related values changes. <Marker content="It is likely someone will say, &ldquo;That's not true!&rdquo; and they would be pedantic, but also correct. The React docs mention that values memoized with <code>useMemo</code> might be recalculated without the dependencies changing, but it works how we expect most of the time and will never calculate incorrectly, so don't worry about it." />
 
 ### Summary
 
