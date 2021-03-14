@@ -27,7 +27,7 @@ My first tip. Don't bother with providing a `defaultValue`. If you're consuming 
 
 Creating a Context returns an object with two properties, `Provider` and `Consumer`, both of which are components. `Provider`s are parent components that receive a `value` prop that they wormhole to all their `Consumer` children. Here's a quick example using a `ThemeContext`:
 
-```javascript
+```jsx
 const ThemeContext = React.createContext()
 
 function App() {
