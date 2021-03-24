@@ -18,6 +18,7 @@ import { debounce } from 'lodash'
 function Search({ onSearch }) {
   const [value, setValue] = React.useState('')
 
+  // This use of `useCallback` has a problem
   const debouncedSearch = React.useCallback(
     debounce(val => {
       onSearch(val)
@@ -49,6 +50,7 @@ It might seem odd, but `useMemo` comes to the rescue.
 function Search({ onSearch }) {
   const [value, setValue] = React.useState('')
 
+  // This is the solution
   const debouncedSearch = React.useMemo(
     () =>
       debounce(val => {
@@ -74,3 +76,5 @@ Think about it. `useMemo` is used to store a memoized value that should only be 
 It wasn't obvious to me to do this at first, but it makes sense. We want the returned function, and we want it to have the correct exhaustive dependencies, and update whenever they change. `useMemo` does exactly that.
 
 You can use this same technique with `throttle`, too. Really any higher ordered function that returns a function. Sky is the limit.
+
+Lastly, credit where it's due. I came across this idea from [this GitHub comment](https://github.com/facebook/react/issues/19240#issuecomment-652945246). Maybe give it a thumbs up if you found this helpful.
