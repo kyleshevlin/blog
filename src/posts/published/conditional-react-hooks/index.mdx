@@ -1,0 +1,42 @@
+---
+date: '2021-03-30'
+slug: 'conditional-react-hooks'
+title: 'Conditional React Hooks'
+subtitle: null
+description: 'Learn how to conditionally use React Hooks by conditionally rendering a "renderless component".'
+excerpt: Learn how to conditionally use React Hooks by conditionally rendering a "renderless component".
+tags: ['React', 'Hooks']
+relatedPostsSlugs: ['renderless-components']
+---
+
+You want to conditionally call a hook, but you can't do that because of [_rules_](https://reactjs.org/docs/hooks-rules.html). What do you do?
+
+The answer is remarkably simple: **Conditionally render a renderless component that uses the custom hook**.
+
+Many years ago, I coined the phrase "renderless component" in [this blog post](/renderless-components). It's a component that uses the lifecycle methods to update app state but has no associated UI. It renders `null`, hence "renderless". These days, replace "lifecycle methods" with "custom hooks", and the same concept applies and, therefore, we can achieve the same result.
+
+If we call a custom hook in a component:
+
+```jsx
+function AutoSave({ data }) {
+  useAutoSave(data)
+  return null
+}
+```
+
+And then conditionally render that component in another component:
+
+```jsx
+function Document({ data, shouldAutoSave }) {
+  return (
+    <div>
+      {shouldAutoSave && <AutoSave data={data} />}
+      <div>
+        <Editor data={data} />
+      </div>
+    </div>
+  )
+}
+```
+
+I can't tell you when or why you may need to do this, but it's a little tool to throw in your toolbelt and pull out when the occasion calls for it.
