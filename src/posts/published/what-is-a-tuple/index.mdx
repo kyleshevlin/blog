@@ -1,0 +1,133 @@
+---
+date: '2021-04-01'
+slug: 'what-is-a-tuple'
+title: 'What is a Tuple?'
+subtitle: null
+description: 'Learn the concept of a tuple, an ordered, finite list of items that represents an implicit key/value store, and where you might already be using them in JavaScript.'
+excerpt: 'Learn the concept of a tuple, an ordered, finite list of items that represents an implicit key/value store, and where you might already be using them in JavaScript.'
+tags: ['JavaScript', 'React', 'Hooks']
+relatedPostsSlugs: []
+---
+
+As a JavaScript developer, we don't have an official `Tuple` data type like we do `Array` or `Object`, but that doesn't mean we don't have tuples in our code. In a post I'm working on, I realized I have several tuples in my code and it might be worth taking a minute to explain what a tuple is.
+
+We get tuples from mathematics. A tuple is a finite, ordered list of elements. In JavaScript, this would be likely represented as an array. I can create a tuple to represent a person like so:
+
+```javascript
+const personTuple = ['Kyle', 35, 'Portland, OR']
+```
+
+Looking at `personTuple`, we can see that it is a finite length of 3 items, and that those items are in a particular order: `name`, `age`, and `location`.
+
+### When might I use a tuple?
+
+A tuple can be a convenient way to create and use key/value data.
+
+"But Kyle, where are the keys? I don't see any!"
+
+Good question.
+
+If objects are _explicit_ key/value stores, we can think of tuples as _implied_ key/value stores. Remember, a tuple is an ordered list. We can't jumble up the items of the list without breaking the contract of the tuple. Therefore, we can infer the keys of a tuple by the order of the list.
+
+For example, if I have a function that receives a `personTuple`, I should be able to safely array destructure and get the right order of values every time.
+
+```javascript
+function personIntro(personTuple) {
+  const [name, age, location] = personTuple
+
+  return `Hi, my name is ${name}. I am ${age} years old from ${location}.`
+}
+```
+
+Array destructuring makes the implicit key/value store of the tuple pretty clear.
+
+### Wait, are we using tuples all the time?
+
+You are if you're using React! Think about what is returned to you everytime you use `useState` or `useReducer`. It's a tuple!
+
+```javascript
+const [state, setState] = React.useState()
+```
+
+What is `[state, setState]` but a tuple? It is a `[value, setter]` tuple. Same goes for `useReducer`, but swap `setter` for `dispatcher`.
+
+If I create a custom hook that returns `[state, handlers]`, what have I done but created a tuple?
+
+```javascript
+function useSwitch(initialState = false) {
+  const [state, setState] = React.useState(initialState)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => {
+        setState(true)
+      },
+      off: () => {
+        setState(false)
+      },
+      toggle: () => {
+        setState(s => !s)
+      },
+    }),
+    []
+  )
+
+  return [state, handlers]
+}
+```
+
+Turns out tuples are everywhere.
+
+### What makes a tuple different than an array?
+
+An array is generally a list of items of unknown and unforeseen length. It can hold a few items, a lot of items, or no items at all.
+
+It's also more common for an array to be homogenous. That is, all the items in the list are the same type. You have an array of strings, an array of numbers, an array of person objects.
+
+Tuples, on the other hand, are lists of items of known, foreseen length. They have a finite number of items. They are more often hetergenous, as well. Our `personTuple` from before had two strings and a number.
+
+### Tuples and type systems in JS
+
+The distinctions between arrays and tuples are rather clear when using a type system with JavaScript, such as TypeScript or Flow. If we have an array of numbers, we may type it in either of the following ways in TypeScript.
+
+```typescript
+const nums: Array<number> = [1, 2, 3, 4, 5, 6]
+
+const nums2: number[] = [1, 2, 3, 4, 5, 6]
+```
+
+In either case, it's pretty clear that what we're returning is a homogenous array of numbers. It doesn't matter what length the array is, just that each item in it is of the same type.
+
+Compare this to typing a custom React hook that returns `state` and `handlers` as a tuple.
+
+```typescript
+type SwitchTuple = [
+  state: boolean,
+  handlers: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  }
+]
+
+function useSwitch(initialState = false): SwitchTuple {
+  const [state, setState] = React.useState(initialState)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => { setState(true) },
+      off: () => { setState(false) },
+      toggle: () => { setState(s => !s) }
+    }),
+    []
+  )
+
+  return [state, handlers]
+}
+```
+
+Instead of a homogenous array type, like `number[]`, we've instead given it a tuple type, clearly demarcating the `state` and `handlers` to be returned.
+
+### Summary
+
+Tuples are ordered lists of finite length that can be used as implicit key/value stores. While JavaScript doesn't have a Tuple yet ([there is a TC39 proposal to add it](https://github.com/tc39/proposal-record-tuple)), you might already be using them. You may find them useful for particular algorithms, writing custom hooks and more.
