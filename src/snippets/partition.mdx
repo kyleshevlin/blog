@@ -1,0 +1,17 @@
+---
+slug: 'partition'
+name: ''
+description: ''
+category: ''
+---
+
+```javascript
+const partition = predicate => array =>
+  array.reduce(
+    (acc, cur) => {
+      predicate(cur) ? acc[0].push(cur) : acc[1].push(cur)
+      return acc
+    },
+    [[], []]
+  )
+```
