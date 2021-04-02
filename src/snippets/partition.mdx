@@ -1,9 +1,23 @@
 ---
 slug: 'partition'
-name: ''
-description: ''
-category: ''
+name: 'partition()'
+description: 'Split an array with a predicate filter'
+category: 'JavaScript'
 ---
+
+The other day I wanted to filter an array into two separate arrays. I'll make a trivial example:
+
+```javascript
+const nums = [1, 2, 3, 4, 5, 6]
+
+// The 1s and 0s are coerced into trues and falses respectively
+const odds = nums.filter(n => n % 2)
+const evens = nums.filter(n => !(n % 2))
+```
+
+From a big-O notation perspective, it's more than likely fine to do this loop twice. It would take a rather large array to make this very problematic. That said, it's undeniably frustrating that we can't already get the _other_ items from `.filter()`. Hence, `partition`.
+
+I didn't know this was in `lodash` before I set out to write the function (but that's where I got the name), so feel free to use that version instead. My version is curried for funsies. Slap the arguments together if you prefer.
 
 ```javascript
 const partition = predicate => array =>
@@ -15,3 +29,13 @@ const partition = predicate => array =>
     [[], []]
   )
 ```
+
+Using `reduce`, we can do a single pass through the array, calling the `predicate` function for each item <Marker content="A <code>predicate</code> is a function that returns a <code>boolean</code>" />. As we loop through our items, we build up a tuple. The first array in the tuple are the `true`s, the second, the `false`s. Using our example from before:
+
+```javascript
+const nums = [1, 2, 3, 4, 5, 6]
+
+const [odds, evens] = partition(n => n % 2)(nums)
+```
+
+And there you have it.
