@@ -162,7 +162,7 @@ export const query = graphql`
   query AllSnippets {
     snippets: allMdx(
       filter: { fileAbsolutePath: { regex: "/snippets/" } }
-      sort: { order: ASC, fields: id }
+      sort: { order: ASC, fields: frontmatter___name }
     ) {
       edges {
         node {
