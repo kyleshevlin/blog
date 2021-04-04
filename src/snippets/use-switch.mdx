@@ -1,0 +1,36 @@
+---
+slug: 'use-switch'
+name: 'useSwitch()'
+description: 'A basic React Hook for managing binary states'
+category: 'React Hooks'
+---
+
+I can't tell you how many times I've needed some binary state management. I've called this `useBool`, `useToggle`, and now call it `useSwitch` (like a light switch).
+
+Copy/paste this and change it to suit whatever needs you have.
+
+```javascript
+function useSwitch(initialState = false) {
+  const [state, setState] = React.useState(initialState)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => {
+        setState(true)
+      },
+      off: () => {
+        setState(false)
+      },
+      toggle: () => {
+        setState(s => !s)
+      },
+      reset: () => {
+        setState(initialState)
+      },
+    }),
+    [initialState]
+  )
+
+  return [state, handlers]
+}
+```
