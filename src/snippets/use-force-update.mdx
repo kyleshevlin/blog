@@ -11,4 +11,4 @@ In React, A component will update whenever state is updated _regardless of wheth
 const useForceUpdate = () => React.useState()[1]
 ```
 
-This can be useful when using `useRef`. Changes to `ref`s won't trigger a component to update. Calling `forceUpdate` after setting a `ref` may be the trick you're looking for. <Marker content="Arguably, there may be a better way to do what you're trying to achieve, perhaps with a <code>useEffect</code> hook isntead." />
+This can be useful when using `useRef`. Changes to `ref`s won't trigger a component to update. Calling `forceUpdate` after setting a `ref` may be the trick you're looking for. <Marker content="Arguably, there may be a better way to do what you're trying to achieve, perhaps with a <code>useEffect</code> hook instead." />
