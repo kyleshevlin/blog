@@ -13,7 +13,7 @@ If you find a typo or a mistake and would like to contribute, you may do so by s
 
 If you are looking for a post, it is somewhere under `src/posts/published`. Doing a search under there will lead you to the right post. My apologies that directory names do not always match the eventual title of the blog. The idea I start writing does not always end up being the same as the finished post.
 
-If you make a contribution that is merged into `master`, your Github avatar will be displayed on each of my blog posts as a thank you for your work. If you would prefer your avatar not be displayed, please let me know so I can work out a way to achieve that.
+If you make a contribution that is merged into `main`, your Github avatar will be displayed on each of my blog posts as a thank you for your work. If you would prefer your avatar not be displayed, please let me know so I can work out a way to achieve that.
 
 ## Theft
 
