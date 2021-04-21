@@ -118,7 +118,7 @@ function symmetricDifference(setA, setB) {
 }
 ```
 
-Not, unlike `difference`, `symmetricDifference` will achieve the same result regardless of argument order. In this case, `symmetricDifference(setA, setB)` will result in the same set as `symmetricDifference(setB, setA)`.
+Note, unlike `difference`, `symmetricDifference` will achieve the same result regardless of argument order. In this case, `symmetricDifference(setA, setB)` will result in the same set as `symmetricDifference(setB, setA)`.
 
 #### Complements
 
@@ -136,9 +136,11 @@ const notShared = difference(all, shared)
 
 #### Subsets and Supersets
 
-Set A is a subset of Set B if every element of Set A is in Set B. We can make use of `Array.prototype.every` to help us with this one.
+Set A is a subset of Set B if every element of Set A is in Set B.
 
 ![Two concentric circles, one containing the other, colored different colors. Set A is fully inside Set B, and thus A is a subset of B, and B is a superset of A](./images/Subset+Superset.jpg)
+
+We can make use of `Array.prototype.every` to help us with this one.
 
 ```javascript
 function subset(setA, setB) {
