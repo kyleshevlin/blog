@@ -1,0 +1,120 @@
+---
+date: '2021-04-22'
+slug: 'symbolic-logic'
+title: 'Symbolic Logic'
+subtitle: 'or Algebra meets Logic'
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+In college, I double majored in Philosophy and Mathematics. A required class for both of those majors was one called Symbolic Logic, or often referred to as Propositional Logic. The course teaches you to break arguments down into an algebraic notation, and follow rules to come to logically sound conclusions.
+
+I have found that as a software engineer I frequently use the rules this course taught me in my programming. I may not look at some code and specifically say out loud, "That's a _modus ponens_" or "That's a hypothetical syllogism", but I know they're there. <Marker content={`I have said, "I can use DeMorgan's Law here," many times.`} />
+
+My hope with this post isn't to radically change your ability to code, but rather give you some vocabulary for discussing logic in your programs and more.
+
+### Foundational knowledge
+
+There are a few things you need to know before reading the rest of this post. I'm going to express all of these logical rules with pseudo-code as best as I can. This accomplishes two things. It makes it easier for me to type (rather than using the formal symbols more common in textbooks on the subject), and my hope is it'll relate better to some concepts you already know, therefore improving the learning of the concepts.
+
+In addition to using pseudo-code, I'll be using the traditional variables of symbolic logic, `p` and `q`, and proceeding with the alphabet from there.
+
+Here is a small legend of my pseudo-code:
+
+- `p` or `q` represent variables, or elements of an argument
+- `=>` is used for "entails". It can also be read as "If `p`, then `q`"
+- `---` is used for "therefore". The following lines are conclusions.
+- `!` is used for negation
+- `&` is used for "and"
+- `|` is used for "inclusive or"
+- `^` is used for "exclusive or"
+
+Certain conclusions can only be derived from applying other rules. When a rule is applied, an abbreviation of the rule, as well as the line numbers, will be noted next to the conclusion.
+
+### _Modus Ponens_
+
+If `p`, then `q`. `p`, therefore `q`.
+
+```
+1. p => q
+2. p
+---
+3. q   1,2 M.P.
+```
+
+### _Modus Tollens_
+
+If `p`, then `q`. Not `q`, therefore not `p`.
+
+```
+1. p => q
+2. !q
+---
+3. !p   1,2 M.T.
+```
+
+I have always found _modus tollens_ fascinating. Heuristically, we would gravitate towards saying, "Not `p` entails not `q`", but this isn't quite true. Why? Because other elements of the universe can cause `q`. We only know with certainty that the existence of `p` demands the existence of `q`. We also know with certainty, that the absence of `q` demands the absence of `p`.
+
+### Conjuction and Simplification
+
+Conjuction is the combining of two elements: `p`, `q`, therefore `p & q`.
+
+```
+1. p
+2. q
+---
+3. p & q   1,2 Con.
+```
+
+Simplification is taking a conjuction, and reducing it to one of its elements: `p & q`, therefore `p`.
+
+```
+1. p & q
+---
+2. p   1 Simp.
+```
+
+### Hypothetical Syllogism
+
+`p` entails `q` and `q` entails `r`. Therefore, `p` entails `r`.
+
+```
+1. p => q
+2. q => r
+---
+3. p => r   1,2 H.S.
+```
+
+### Absorption
+
+If `p`, then `q`. Therefore, if `p`, then `p & q`.
+
+```
+1. p => q
+---
+2. p => p & q   1 Abs.
+```
+
+### Disjunctive Syllogism
+
+`p` or `q`. Not `p`. Therefore, `q`.
+
+```
+1. p | q
+2. !p
+---
+3. q   1,2 D.S.
+```
+
+### Constructive Dilemma
+
+`p` entails `q`, and `r` entails `s`. `p | r`. Therefore, `q | s`.
+
+```
+1. (p => q) & (r => s)
+2. p | r
+---
+3. q | s   1,2 C.D.
+```
