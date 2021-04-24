@@ -9,29 +9,32 @@ tags: ['React']
 relatedPostsSlugs: []
 ---
 
-In college, I double majored in Philosophy and Mathematics. A required class for both of those majors was one called Symbolic Logic, or often referred to as Propositional Logic. The course teaches you to break arguments down into an algebraic notation, and follow rules to come to logically sound conclusions.
+In college, I double majored in Philosophy and Mathematics. A required class for both of those majors was one called Symbolic Logic, or often referred to as Propositional Logic. The course teaches you to break arguments down into an algebraic notation and follow a set of principles to come to logically sound conclusions.
 
-I have found that as a software engineer I frequently use the rules this course taught me in my programming. I may not look at some code and specifically say out loud, "That's a _modus ponens_" or "That's a hypothetical syllogism", but I know they're there. <Marker content={`I have said, "I can use DeMorgan's Law here," many times.`} />
+I have found that as a software engineer I frequently use the principles this course taught me in my programming. I may not look at some code and specifically say out loud, "That's a _modus ponens_" or "That's a hypothetical syllogism", but I know they're there. <Marker content={`I have said, "I can use DeMorgan's Law here," many times.`} />
 
 My hope with this post isn't to radically change your ability to code, but rather give you some vocabulary for discussing logic in your programs and more.
 
 ### Foundational knowledge
 
-There are a few things you need to know before reading the rest of this post. I'm going to express all of these logical rules with pseudo-code as best as I can. This accomplishes two things. It makes it easier for me to type (rather than using the formal symbols more common in textbooks on the subject), and my hope is it'll relate better to some concepts you already know, therefore improving the learning of the concepts.
+There are a few things you need to know before reading the rest of this post. I'm going to express all of these logical principles with pseudo-code as best as I can. This accomplishes two things (at least). First, it makes it easier for me to type (rather than using the formal symbols more commonly used in textbooks on the subject). Second, it is my hope that using a code-like syntax will help you relate the concepts to your coding work more easily, therefore improving the learning of the concepts.
 
-In addition to using pseudo-code, I'll be using the traditional variables of symbolic logic, `p` and `q`, and proceeding with the alphabet from there.
+In my pseudo-code, I will be using the traditional letters used in symbolic logic, `p` and `q`, as placeholders for propositions. You can think of them as variables in our logical equations. To the best of my knowledge, `p` was chosen as an abbreviation of "proposition", and then letters are chosen by alphabetical order. Just like real variable names, you can choose to replace them with something more meaningful if that helps you.
 
 Here is a small legend of my pseudo-code:
 
-- `p` or `q` represent variables, or elements of an argument
+- `p` or `q` represent propositions, or elements of an argument
 - `=>` is used for "entails". It can also be read as "If `p`, then `q`"
-- `---` is used for "therefore". The following lines are conclusions.
-- `!` is used for negation
+- `---` is used to indicate the end of the original propositions. What follows are conclusions derived from those propositions.
+- `!` is used for "negation"
 - `&` is used for "and"
 - `|` is used for "inclusive or"
 - `^` is used for "exclusive or"
+- `===` is used for "material equivalence"
 
-Certain conclusions can only be derived from applying other rules. When a rule is applied, an abbreviation of the rule, as well as the line numbers, will be noted next to the conclusion.
+Certain conclusions can only be derived from applying other logical principles. When a principle is applied, an abbreviation of the principle's name, as well as the line numbers of the propositions required to impart that principle, will be noted next to the conclusion.
+
+Let's get started.
 
 ### _Modus Ponens_
 
@@ -44,6 +47,16 @@ If `p`, then `q`. `p`, therefore `q`.
 3. q   1,2 M.P.
 ```
 
+This is the most foundational principle we can learn. If one proposition entails another, and the first proposition is true, we can conclude that the second proposition is true. We use this all of the time in programming:
+
+```javascript
+if (name === 'Kyle') {
+  console.log('Hey, Kyle 👋')
+}
+```
+
+You use this principle when frequently when debugging code. "If this result isn't happening, then this condition must not be met (or my condition is incorrect)".
+
 ### _Modus Tollens_
 
 If `p`, then `q`. Not `q`, therefore not `p`.
@@ -55,11 +68,13 @@ If `p`, then `q`. Not `q`, therefore not `p`.
 3. !p   1,2 M.T.
 ```
 
-I have always found _modus tollens_ fascinating. Heuristically, we would gravitate towards saying, "Not `p` entails not `q`", but this isn't quite true. Why? Because other elements of the universe can cause `q`. We only know with certainty that the existence of `p` demands the existence of `q`. We also know with certainty, that the absence of `q` demands the absence of `p`.
+I have always found _modus tollens_ fascinating. Heuristically, we would gravitate towards saying, "Not `p` entails not `q`", but this isn't quite true. Why? Because other elements of the universe can cause `q`. We only know with certainty that the existence of `p` demands the existence of `q`. Thus, we also know with certainty, that the absence of `q` demands the absence of `p`.
+
+In programming, if we know that we have written a condition correctly, and we do not get the desired result, than we can deduce we have not met our condition. Worse that not meeting our condition, is knowing we haven't met our condition and our desired result still occurs. That, my friends, is a bug.
 
 ### Conjuction and Simplification
 
-Conjuction is the combining of two elements: `p`, `q`, therefore `p & q`.
+Conjuction is the combining of two propositions: `p`, `q`, therefore `p & q`.
 
 ```
 1. p
@@ -68,13 +83,15 @@ Conjuction is the combining of two elements: `p`, `q`, therefore `p & q`.
 3. p & q   1,2 Con.
 ```
 
-Simplification is taking a conjuction, and reducing it to one of its elements: `p & q`, therefore `p`.
+Simplification is taking a conjuction, and reducing it to one of its propositions: `p & q`, therefore `p`.
 
 ```
 1. p & q
 ---
 2. p   1 Simp.
 ```
+
+In programming, we create a number of conjunctions and simplifications all the time. A conjunction could be creating a condition based on two different values, and a simplification could be the destructuring of a key/value from an object.
 
 ### Hypothetical Syllogism
 
@@ -86,6 +103,8 @@ Simplification is taking a conjuction, and reducing it to one of its elements: `
 ---
 3. p => r   1,2 H.S.
 ```
+
+For me, hypothetical syllogism _just makes sense_, which has always made it a bit difficult to explain to others. Essentially, it's a chain of _modus ponens_, and removing the middle.
 
 ### Absorption
 
@@ -118,3 +137,61 @@ If `p`, then `q`. Therefore, if `p`, then `p & q`.
 ---
 3. q | s   1,2 C.D.
 ```
+
+### Addition
+
+`p`, therefore `p | q`.
+
+This one's odd, but useful for meeting the requirements for other principles. Essentially, if you have a proposition, then you have that proposition _or_ any other proposition in the universe.
+
+### Rules of Replacement
+
+There are 10 rules of replacement that we will learn.
+
+### Double Negation
+
+`p === !!p`
+
+### Commutation
+
+`p | q === q | p` as well as `p & q === q & p`
+
+### Tautology
+
+This one is quite possibly my favorite.
+
+`p === p | p` as well as `p === p & p`
+
+### Association
+
+`(p | (q | r)) === ((p | q) | r)` as well as `(p & (q & r)) === ((p & q) & r)`
+
+### Transposition
+
+`p => q === !q => !p`
+
+### Material Implication
+
+`p => q === !p | q`
+
+### Exportation
+
+`(p & q) => r === p => (q => r)`
+
+### Material Equivalence
+
+`(p === q) === ((p => q) & (q => p))`
+
+`(p === q) === ((p & q) | (!p & !q))`
+
+### Distribution
+
+`(p & (q | r)) === ((p & q) | (p & r))`
+
+`(p | (q & r)) === ((p | q) & (p | r))`
+
+### De Morgan's Theorems
+
+`!(p & q) === (!p | !q)`
+
+`!(p | q) === (!p & !q)`
