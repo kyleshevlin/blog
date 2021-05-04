@@ -34,11 +34,17 @@ Here is a small legend of my pseudo-code:
 
 Certain conclusions can only be derived from applying other logical principles. When a principle is applied, an abbreviation of the principle's name, as well as the line numbers of the propositions required to impart that principle, will be noted next to the conclusion.
 
-Let's get started.
+### Rules of Inference
 
-### _Modus Ponens_
+The first set of logical rules we are going to discuss can be categorized as "rules of inference". That is, from the information at hand, we can logically deduce a set of conclusions. This set of logical principles may be useful in debugging programs, as they will teach you to arrive at sound conclusions given the information you have. Let's get started.
 
-If `p`, then `q`. `p`, therefore `q`.
+#### _Modus Ponens_ - M.P.
+
+_Modus ponens_ is the most foundational rule of inference we can learn. I would tell you what the Latin means, but honestly, I think it would only add confusion rather than clarity, so I'll leave you to read the [wiki on it](https://en.wikipedia.org/wiki/Modus_ponens) on your own. The rule reads as follows:
+
+If `p`, then `q`. `p` is true, therefore `q`.
+
+And in our symbolic logic format, it looks like:
 
 ```
 1. p => q
@@ -47,19 +53,25 @@ If `p`, then `q`. `p`, therefore `q`.
 3. q   1,2 M.P.
 ```
 
-This is the most foundational principle we can learn. If one proposition entails another, and the first proposition is true, we can conclude that the second proposition is true. We use this all of the time in programming:
+If one proposition entails another and the first proposition is true, we can conclude that the second proposition is true. We use this all of the time in programming:
 
 ```javascript
-if (name === 'Kyle') {
-  console.log('Hey, Kyle 👋')
+if (data) {
+  doSomethingWith(data)
 }
 ```
 
-You use this principle when frequently when debugging code. "If this result isn't happening, then this condition must not be met (or my condition is incorrect)".
+This principle is also used frequently when debugging code. If you do not have the result you would expect from a condition, then you must not have a truthful condition.
 
-### _Modus Tollens_
+The opposite, if I have the result I expect, then I must have a truthful condition, **cannot** be logically deduced and is a common fallacy known as "affirming the consequent". The reason this fails is that there may be other propositions that entail `q` other than `p`. Be careful when you program in making this fallacy. Getting the right result doesn't necessarily guarantee it got there by the path you expected. Always verify.
+
+#### _Modus Tollens_
+
+Our next rule of inference is _modus tollens_, whose Latin meaning might also cause more confusion than clarity, [wiki here](https://en.wikipedia.org/wiki/Modus_tollens). It is closely related to _modus ponens_. It follows:
 
 If `p`, then `q`. Not `q`, therefore not `p`.
+
+And in symbolic form, reads as:
 
 ```
 1. p => q
@@ -68,11 +80,13 @@ If `p`, then `q`. Not `q`, therefore not `p`.
 3. !p   1,2 M.T.
 ```
 
-I have always found _modus tollens_ fascinating. Heuristically, we would gravitate towards saying, "Not `p` entails not `q`", but this isn't quite true. Why? Because other elements of the universe can cause `q`. We only know with certainty that the existence of `p` demands the existence of `q`. Thus, we also know with certainty, that the absence of `q` demands the absence of `p`.
+I have always found _modus tollens_ fascinating. Heuristically, we would gravitate towards saying, "Not `p` entails not `q`", but this isn't quite true. Why? Because other elements of the universe can cause `q`. We only know with certainty that the truthful condition of `p` entails the consequent of `q`. Thus, we also know with certainty, that the absence of `q` ensures the absence of `p`.
 
-In programming, if we know that we have written a condition correctly, and we do not get the desired result, than we can deduce we have not met our condition. Worse that not meeting our condition, is knowing we haven't met our condition and our desired result still occurs. That, my friends, is a bug.
+In programming, if we know that we have written a condition correctly, and we do not get the desired result, than we can deduce we have not met our condition. Worse than not meeting the requirements our condition, is knowing we have not satisfied our condition and, yet, our desired result still occurs. That, my friends, is a bug.
 
-### Conjuction and Simplification
+#### Conjuction and Simplification
+
+No more Latin principles. I promise. Our next rules can be considered partners, and therefore will be taught together.
 
 Conjuction is the combining of two propositions: `p`, `q`, therefore `p & q`.
 
@@ -83,7 +97,7 @@ Conjuction is the combining of two propositions: `p`, `q`, therefore `p & q`.
 3. p & q   1,2 Con.
 ```
 
-Simplification is taking a conjuction, and reducing it to one of its propositions: `p & q`, therefore `p`.
+Simplification is taking a conjuction and reducing it to one of its propositions: `p & q`, therefore `p`.
 
 ```
 1. p & q
@@ -93,7 +107,9 @@ Simplification is taking a conjuction, and reducing it to one of its proposition
 
 In programming, we create a number of conjunctions and simplifications all the time. A conjunction could be creating a condition based on two different values, and a simplification could be the destructuring of a key/value from an object.
 
-### Hypothetical Syllogism
+#### Hypothetical Syllogism
+
+This logical principle is sometimes known as "double _modus ponens_", you'll soon see why.
 
 `p` entails `q` and `q` entails `r`. Therefore, `p` entails `r`.
 
@@ -104,9 +120,15 @@ In programming, we create a number of conjunctions and simplifications all the t
 3. p => r   1,2 H.S.
 ```
 
-For me, hypothetical syllogism _just makes sense_, which has always made it a bit difficult to explain to others. Essentially, it's a chain of _modus ponens_, and removing the middle.
+For me, hypothetical syllogism _just makes sense_, which has always made it a bit difficult to explain to others. Essentially, it's a chain of _modus ponens_, and removing the middle link in that chain.
 
-### Absorption
+It is closely related to the transitive property. For example, in math, if you had `x > y` and `y > z`, then you can infer that `x > z`.
+
+In programming, correct usage of hypothetical syllogism may show you that you're able to reduce a few steps in a particular program, recognizing that one antecedent, `p` entails a further consequent, `r`.
+
+#### Absorption
+
+This one is probably the first oddball we're going to encounter and it might not be terribly useful for programming, though there might be times it is useful in debugging. Absorption goes as follows:
 
 If `p`, then `q`. Therefore, if `p`, then `p & q`.
 
@@ -116,9 +138,11 @@ If `p`, then `q`. Therefore, if `p`, then `p & q`.
 2. p => p & q   1 Abs.
 ```
 
-### Disjunctive Syllogism
+The premise of this principle builds upon a conjunction. If a condition leads to a result, then it is true that having that condition means having both the condition and the result. Another way to think about this is, the condition doesn't _disappear_ because it has led to a result. It is still present, and therefore, can be combined with the result to make new inferences.
 
-`p` or `q`. Not `p`. Therefore, `q`.
+#### Disjunctive Syllogism
+
+`p` (inclusive) or `q`. Not `p`. Therefore, `q`.
 
 ```
 1. p | q
@@ -127,7 +151,7 @@ If `p`, then `q`. Therefore, if `p`, then `p & q`.
 3. q   1,2 D.S.
 ```
 
-### Constructive Dilemma
+#### Constructive Dilemma
 
 `p` entails `q`, and `r` entails `s`. `p | r`. Therefore, `q | s`.
 
@@ -138,7 +162,7 @@ If `p`, then `q`. Therefore, if `p`, then `p & q`.
 3. q | s   1,2 C.D.
 ```
 
-### Addition
+#### Addition
 
 `p`, therefore `p | q`.
 
@@ -146,51 +170,51 @@ This one's odd, but useful for meeting the requirements for other principles. Es
 
 ### Rules of Replacement
 
-There are 10 rules of replacement that we will learn.
+The next set of priciples we will learn are known as "rules of replacement". These rules will teach us logically sound ways to swap one set of premises for another. These rules can often be applied when trying to improve the legibility or even the performance of some code.
 
-### Double Negation
+#### Double Negation
 
 `p === !!p`
 
-### Commutation
+#### Commutation
 
 `p | q === q | p` as well as `p & q === q & p`
 
-### Tautology
+#### Tautology
 
 This one is quite possibly my favorite.
 
 `p === p | p` as well as `p === p & p`
 
-### Association
+#### Association
 
 `(p | (q | r)) === ((p | q) | r)` as well as `(p & (q & r)) === ((p & q) & r)`
 
-### Transposition
+#### Transposition
 
 `p => q === !q => !p`
 
-### Material Implication
+#### Material Implication
 
 `p => q === !p | q`
 
-### Exportation
+#### Exportation
 
 `(p & q) => r === p => (q => r)`
 
-### Material Equivalence
+#### Material Equivalence
 
 `(p === q) === ((p => q) & (q => p))`
 
 `(p === q) === ((p & q) | (!p & !q))`
 
-### Distribution
+#### Distribution
 
 `(p & (q | r)) === ((p & q) | (p & r))`
 
 `(p | (q & r)) === ((p | q) & (p | r))`
 
-### De Morgan's Theorems
+#### De Morgan's Theorems
 
 `!(p & q) === (!p | !q)`
 
