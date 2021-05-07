@@ -142,7 +142,11 @@ The premise of this principle builds upon a conjunction. If a condition leads to
 
 #### Disjunctive Syllogism
 
-`p` (inclusive) or `q`. Not `p`. Therefore, `q`.
+This one might seem odd at first, so I'll give you an insight right away. The key to understanding disjunctive syllogism is understanding that when `|` is used, it guarantees that _one_ of the premises is true. The rule goes as follows:
+
+`p` or `q`. Not `p`. Therefore, `q`.
+
+If we have a scenario where we have one premise or another, and we know for certain that we do not have one of them, we can deduce that we have the other. In our symbolic format, it looks like this:
 
 ```
 1. p | q
@@ -151,9 +155,15 @@ The premise of this principle builds upon a conjunction. If a condition leads to
 3. q   1,2 D.S.
 ```
 
+This one might be a bit harder to use directly while programming. The best scenario I can think of is if you have a condition that's being met based on an `||`, and you know for certain that one of the operands is `false`, then you know the other is `true`.
+
 #### Constructive Dilemma
 
+This rule of inference is is essentially combining _modus ponens_ with disjunctive syllogism. The rule goes:
+
 `p` entails `q`, and `r` entails `s`. `p | r`. Therefore, `q | s`.
+
+We have two entailment clauses, this antecedent leads to that consequent. If we have a premise that says we have one or the other antecedent, in this case `p | r`, then it follows that we have one or the other consequent `q | s`. In symbolic form, it looks like this:
 
 ```
 1. (p => q) & (r => s)
@@ -162,15 +172,45 @@ The premise of this principle builds upon a conjunction. If a condition leads to
 3. q | s   1,2 C.D.
 ```
 
+A constructive dilemma essentially occurs whenever we have multiple conditional statements in some code. If we have multiple `if` statements, we can think of those as entailments clauses. Because we know the set of antecedents, we also know the set of consequents that come from those `if` statements.
+
+```javascript
+function passwordStrength(str) {
+  if (!str) return
+  if (meetsTheseConditions(str)) return 'weak'
+  if (meetsTheseOtherConditions(str)) return 'strong'
+}
+```
+
 #### Addition
 
 `p`, therefore `p | q`.
 
-This one's odd, but useful for meeting the requirements for other principles. Essentially, if you have a proposition, then you have that proposition _or_ any other proposition in the universe.
+This one's odd, but useful for meeting the requirements for other logical principles. Essentially, if you have a proposition, then you have that proposition _or_ any other proposition in the universe.
+
+```
+1. p
+---
+2. p | q   1 Add.
+```
+
+I'll come up with a rudimentary symbolic logic problem to show you what I mean. Let's combine addition with constructive dilemma. I'll give a set of premises and a conclusion we should be able to reach.
+
+```
+1. (p => q) & (r => s)
+2. p
+```
+
+How do we prove the conclusion `q | s`? We can do the following:
+
+```
+3. p | r   2 Add.
+4. q | s   1,3 C.D.
+```
 
 ### Rules of Replacement
 
-The next set of priciples we will learn are known as "rules of replacement". These rules will teach us logically sound ways to swap one set of premises for another. These rules can often be applied when trying to improve the legibility or even the performance of some code.
+The next set of principles we will learn are known as "rules of replacement". These rules will teach us logically sound ways to swap one set of premises for another. These rules can often be applied when trying to improve the legibility or even the performance of some code.
 
 #### Double Negation
 
@@ -219,3 +259,7 @@ This one is quite possibly my favorite.
 `!(p & q) === (!p | !q)`
 
 `!(p | q) === (!p & !q)`
+
+```
+
+```
