@@ -6,6 +6,7 @@ const LIGHT_COLORS = {
   accent: 'hsl(197, 60%, 50%)',
   accentDark: 'hsl(197, 60%, 40%)',
   accentLight: 'hsl(197, 60%, 60%)',
+  accentExtraLight: 'hsl(197, 50%, 90%)',
   offset: 'hsl(190, 23%, 95%)',
   offsetMore: 'hsl(197, 12%, 65%)',
   error: 'hsl(347, 71%, 54%)',
@@ -28,6 +29,7 @@ const makeDefaultCSSVars = colors => ({
   '--colors-accent': colors.accent,
   '--colors-accentDark': colors.accentDark,
   '--colors-accentLight': colors.accentLight,
+  '--colors-accentExtraLight': colors.accentExtraLight,
   '--colors-offset': colors.offset,
   '--colors-offsetMore': colors.offsetMore,
   '--colors-error': colors.error,
@@ -79,6 +81,7 @@ const makeDefaultCSSVars = colors => ({
 const LIGHT_VARS = {
   ...makeDefaultCSSVars(LIGHT_COLORS),
   '--components-share-hover-background': 'hsl(197, 12%, 87%)',
+  '--tags-code': 'var(--colors-accentExtraLight)',
 }
 
 const DARK_VARS = {
@@ -99,6 +102,7 @@ const DARK_VARS = {
     'var(--colors-text)',
   '--components-pagination-normal-text': 'var(--colors-text)',
   '--components-pagination-active-text': 'var(--colors-text)',
+  '--tags-code': 'var(--colors-offset)',
 }
 
 const makeCSSVarsString = obj =>

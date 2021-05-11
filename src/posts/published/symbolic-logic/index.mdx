@@ -25,12 +25,11 @@ Here is a small legend of my pseudo-code:
 
 - `p` or `q` represent propositions, or elements of an argument
 - `=>` is used for "entails". It can also be read as "If `p`, then `q`"
-- `---` is used to indicate the end of the original propositions. What follows are conclusions derived from those propositions.
+- `---` is used to indicate the end of the original set of propositions. What follows are conclusions derived from those propositions.
 - `!` is used for "negation"
 - `&` is used for "and"
-- `|` is used for "inclusive or"
-- `^` is used for "exclusive or"
-- `===` is used for "material equivalence"
+- `|` is used for "or"
+- `===` is used for "equality"
 
 Certain conclusions can only be derived from applying other logical principles. When a principle is applied, an abbreviation of the principle's name, as well as the line numbers of the propositions required to impart that principle, will be noted next to the conclusion.
 
@@ -38,7 +37,7 @@ Certain conclusions can only be derived from applying other logical principles. 
 
 The first set of logical rules we are going to discuss can be categorized as "rules of inference". That is, from the information at hand, we can logically deduce a set of conclusions. This set of logical principles may be useful in debugging programs, as they will teach you to arrive at sound conclusions given the information you have. Let's get started.
 
-#### _Modus Ponens_ - M.P.
+#### _Modus Ponens_
 
 _Modus ponens_ is the most foundational rule of inference we can learn. I would tell you what the Latin means, but honestly, I think it would only add confusion rather than clarity, so I'll leave you to read the [wiki on it](https://en.wikipedia.org/wiki/Modus_ponens) on your own. The rule reads as follows:
 
@@ -210,56 +209,126 @@ How do we prove the conclusion `q | s`? We can do the following:
 
 ### Rules of Replacement
 
-The next set of principles we will learn are known as "rules of replacement". These rules will teach us logically sound ways to swap one set of premises for another. These rules can often be applied when trying to improve the legibility or even the performance of some code.
+The next set of principles we will learn are known as "rules of replacement". These rules will teach us logically sound ways of swapping one set of premises for another. These rules can often be applied when trying to improve the legibility or even the performance of some code.
 
 #### Double Negation
 
 `p === !!p`
 
+We are all not unfamiliar with this concept, right? <Marker content="See what I did there?" /> Or would it be better to ask, "We are all familiar with this concept, right?"
+
+The most common time you'll see this in coding is if you come across the "double bang" `!!`. This is often used in JavaScript to coerce a value into a boolean. It is the equivalent of calling `Boolean(value)`. I prefer to use `Boolean()`. It's easier to read.
+
 #### Commutation
 
 `p | q === q | p` as well as `p & q === q & p`
 
-#### Tautology
+The rule of commutation means that, for certain logical operations, the order of the arguments does not matter. `|` and `&` are commutative operations. In mathematics, `+` and `*` are commutative.
 
-This one is quite possibly my favorite.
+This rule can actually be useful in optimizing our program's performance. In JavaScript, when using a logical operand such as `&&` or `||`, we can improve performance by making the left side of the operation a case that is most like to "short circuit" the operation.
+
+Short circuiting a logical operation occurs when the left side of the infix operator guarantess the result. If the left side of conjunction is `false`, as in `false && ...`, then the right side is irrelevant and not evaluated. Similarly, if the left side of a disjunction is `true`, as in `true || ...`, then the right side is irrelevant and not evaluated. We can use this to our advantage. Let's make an example.
+
+Let's say I want to determine if I should wear my rain jacket. I only wear my rain jacket when it's both cold and raining.
+
+```javascript
+const requiresRainJacket = weather => isCold(weather) && isRaining(weather)
+```
+
+Now, consider the order of functions here. As written, we'll only get to the `isRaining` check if it's cold. Is this the best order? I live in a pretty cool climate, it could probably evaluate that function to `true` for 7-8 months of the year. <Marker content="I run pretty cold, wear a hoodie most of the year" /> Two-thirds of the time, our function won't short circuit. Arguably, the `isRaining` check is _more_ important, and more likely to short circuit than the `isCool` check. So we can gain a _slight_ improvement by flipping the conditions.
+
+```javascript
+const requiresRainJacket = weather => isRaining(weather) && isCold(weather)
+```
+
+#### Tautology
 
 `p === p | p` as well as `p === p & p`
 
+This one is quite possibly my favorite. <Marker content="It also has pretty much no practical use in programming. Sorry." /> A tautology is when we say that some thing is _that_ thing. Like, the weekend _is_ the end of the week. It's the kind of thing that when you were a kid you might have responded with a loud and emphatic, "Duhhh!".
+
+In symbolic logic, we can use tautologies to achieve propositions that enable the inference of other propositions.
+
 #### Association
 
-`(p | (q | r)) === ((p | q) | r)` as well as `(p & (q & r)) === ((p & q) & r)`
+`(p | (q | r)) === ((p | q) | r)` and `(p & (q & r)) === ((p & q) & r)`
+
+This rule of replacement may have you thinking we're writing a LISP with all the parentheses. This is similar to commutation, in that the rule of association says that, for certain logical operations, the grouping of operations does not matter. Again, this is similar to how in mathematics, if all the operations of an equation are `+` or `*`, it doesn't matter which one you do first.
+
+It's not often that this will come up in programming. In fact, it's more likely to come up when something is _not_ associative. In other words, sometimes you'll find a bug when you're parentheses group conditions in the wrong way. It's quite likely if the operations are associative, than your formatter may remove the groupings altogether.
 
 #### Transposition
 
 `p => q === !q => !p`
 
+Transposition is a replacement that we can see derives from _modus tollens_. In programming, sometimes it is easier to read or write that the negation of one thing results in the negation of the other. Another way to think about this is "absence". Sometimes it can be easier to say, "The absence of this condition results in the absence of this other condition". Hopefully, that's some food for thought.
+
 #### Material Implication
 
 `p => q === !p | q`
+
+This rule of replacement is the logical conclusion of a _modus ponens_. If we have an entailment, where a condition leads to a result, then we can conclude that, at any given time, we either don't have a truthful condition, or we have the result.
 
 #### Exportation
 
 `(p & q) => r === p => (q => r)`
 
+When I first started writing this rule of replacement, I thought, "There's no way this is useful", but then I realized that exportation happens all the time. The rule works like this: If a consequent is the result of a conjunction, then we can simplify that conjunction, and deduce that one condition leads to the entailment of the rest. <Marker content="Confusing, I know. Give me a minute to explain." />
+
+A simpler way to understand this, is probably just to see it. Have you ever written code like this?
+
+```javascript
+if (thisCondition) {
+  if (thisOtherCondition) {
+    // ... some result
+  }
+}
+```
+
+If you have, then you've written the right side of an exportation. Can you see it? The logical replacement is:
+
+```javascript
+if (thisCondition && thisOtherCondition) {
+  // ... some result
+}
+```
+
+Now, I bet you've done that refactor _a lot_. Combine this with "short circuiting", and you may have vastly improved some nasty nested `if-else` code. Might I suggest you read my post ["When `else`s Make Your Code Worse"](/when-elses-make-your-code-worse) some time.
+
 #### Material Equivalence
 
-`(p === q) === ((p => q) & (q => p))`
+`(p === q) === ((p => q) & (q => p))` and `(p === q) === ((p & q) | (!p & !q))`
 
-`(p === q) === ((p & q) | (!p & !q))`
+This one is fairly complex looking, but breaking it down makes it more digestible.
+
+Two propositions are equivalent if it can be demonstrated that they entail one another. Two propositions are also equivalent if it can be demonstrated that their conjuction is true or the conjunction of their negations is true.
 
 #### Distribution
 
-`(p & (q | r)) === ((p & q) | (p & r))`
+`(p & (q | r)) === ((p & q) | (p & r))` and `(p | (q & r)) === ((p | q) & (p | r))`
 
-`(p | (q & r)) === ((p | q) & (p | r))`
+The rule of distribution is the same for math as it is for symbolic logic. You might recall from an algebra class having an equation that looked like `3(2x + 4y) = 42`. You might be required to distribute the `3` to make it `6x + 12y = 42`. Or the opposite, factoring out the `3` if you had been given the latter equation. It works the same way for logic.
+
+You can see this in complicated conditional code sometimes:
+
+```javascript
+if (conditionA) {
+  if (conditionB || conditionC) {
+    // ... some result
+  }
+}
+```
+
+That's the same as:
+
+```javascript
+if ((conditionA && conditionB) || (conditionA && conditionC)) {
+  // ... some result
+}
+```
 
 #### De Morgan's Theorems
 
-`!(p & q) === (!p | !q)`
+`!(p & q) === (!p | !q)` and `!(p | q) === (!p & !q)`
 
-`!(p | q) === (!p & !q)`
-
-```
-
-```
+Saving the best <Marker content="Best is debatable." /> and most useful for last. You should probably memorize this one.
