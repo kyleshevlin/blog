@@ -1,11 +1,11 @@
 ---
-date: '2021-04-22'
+date: '2021-05-12'
 slug: 'symbolic-logic'
 title: 'Symbolic Logic'
 subtitle: 'or Algebra meets Logic'
-description: ''
-excerpt: null
-tags: ['React']
+description: 'Symbolic logic, the study of reducing arguments to an algebraic notation, can be useful knowledge for debugging and reasoning about programs.'
+excerpt: 'Symbolic logic, the study of reducing arguments to an algebraic notation, can be useful knowledge for debugging and reasoning about programs.'
+tags: ['Software Engineering']
 relatedPostsSlugs: []
 ---
 
@@ -29,7 +29,7 @@ Here is a small legend of my pseudo-code:
 - `!` is used for "negation"
 - `&` is used for "and"
 - `|` is used for "or"
-- `===` is used for "equality"
+- `===` is used for "material equivalence"
 
 Certain conclusions can only be derived from applying other logical principles. When a principle is applied, an abbreviation of the principle's name, as well as the line numbers of the propositions required to impart that principle, will be noted next to the conclusion.
 
@@ -181,6 +181,21 @@ function passwordStrength(str) {
 }
 ```
 
+Here we have three `if` statements and the set of their consequents contains `weak`, `strong`, or `undefined`. If we extrapolate this, we can see we have multiple constructive dilemmas.
+
+```
+1. noString => undefined
+2. weakString => 'weak'
+3. strongString => 'strong'
+---
+4. (noString => undefined) & (weakString => 'weak')   1,2 Conj.
+5. (noString => undefined) & (strongString => 'strong')   1,3 Conj.
+6. (weakString => 'weak') & (strongString => 'strong')  2,3 Conj.
+7. undefined | 'weak'   4 C.D.
+8. undefined | 'strong'   5 C.D.
+9. 'weak' | 'strong'   6 C.D.
+```
+
 #### Addition
 
 `p`, therefore `p | q`.
@@ -267,7 +282,19 @@ Transposition is a replacement that we can see derives from _modus tollens_. In 
 
 `p => q === !p | q`
 
-This rule of replacement is the logical conclusion of a _modus ponens_. If we have an entailment, where a condition leads to a result, then we can conclude that, at any given time, we either don't have a truthful condition, or we have the result.
+This rule of replacement is the logical conclusion of a _modus ponens_. If we have an entailment, where a condition leads to a result, then we can conclude that, at any given time, we either don't have a truthful condition or we have the result.
+
+In programming, we can recognize that either a condition isn't met or its result exists.
+
+```javascript
+// There is no universe where the condition is false
+// && the result exists simultaneously. They are mutually
+// exclusive propositions
+
+if (condition) {
+  return result
+}
+```
 
 #### Exportation
 
@@ -332,3 +359,34 @@ if ((conditionA && conditionB) || (conditionA && conditionC)) {
 `!(p & q) === (!p | !q)` and `!(p | q) === (!p & !q)`
 
 Saving the best <Marker content="Best is debatable." /> and most useful for last. You should probably memorize this one.
+
+The negation of the conjunction of two premises is equivalent to the disjunction of the negation of each premise. Also, the negation of the disjunction of two premises is equivalent to the conjunction of the negation of each premise.
+
+Simple, right?
+
+Let's use a code example to make it simpler. Let's say we have an `item` and we want to determine if it's `notForSale`:
+
+```javascript
+const notForSale = !(inStock(item) && hasPrice(item))
+```
+
+This might be easier to read and understand as:
+
+```javascript
+const notForSale = !inStock(item) || !hasPrice(item)
+```
+
+Same thing goes for `||`s. Maybe we want to determine if an event is coming soon:
+
+```javascript
+const isUpcomingSoon = !(inThePast(event) || isBeyondThreshold(event))
+
+// is the same as
+const isUpcomingSoon = !inThePast(event) && !isBeyondThreshold(event)
+```
+
+Knowing De Morgan's Theorems can help you refactor tricky conditionals into more legible code for you and your team.
+
+### Conclusion
+
+And that's it. Everything there is to learn about symbolic logic. <Marker content="It's not." /> Truthfully, this is just scratching the surface. I hope that there's something in this post that inspires you and maybe helps you in a refactor or two.
