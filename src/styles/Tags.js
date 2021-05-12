@@ -88,12 +88,12 @@ export default function Tags() {
 
         code {
           display: inline-block;
-          background-color: var(--colors-offset);
+          background-color: var(--tags-code);
           padding-top: 0;
           padding-bottom: 0;
           padding-left: ${bs(0.25)};
           padding-right: ${bs(0.25)};
-          border-radius: 3px;
+          border-radius: 2px;
         }
 
         code[class*='language-'],
