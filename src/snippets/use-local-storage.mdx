@@ -1,0 +1,55 @@
+---
+slug: 'use-local-storage'
+name: 'useLocalStorage()'
+description: 'Drop-in replacement for <code>useState</code> that persists state to <code>localStorage</code>'
+category: 'React Hooks'
+---
+
+This is a drop-in replacement for `useState` that will persist the value to `localStorage`. Update the error handling to suit your needs.
+
+```typescript
+import { useCallback, useState } from "react";
+
+type UpdaterFn<TState> = (currentState: TState) => TState;
+
+type Result<TState> = [
+  state: TState,
+  wrappedSetState: (update: TState | UpdaterFn<TState>) => void
+];
+
+export default function useLocalStorage<TState>(
+  key: string,
+  initialValue: TState
+): Result<TState> {
+  const [state, setState] = useState<TState>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+
+      return initialValue;
+    }
+  });
+
+  const wrappedSetState = useCallback(
+    (update) => {
+      try {
+        setState((currentState) => {
+          const nextState =
+            typeof update === "function" ? update(currentState) : update;
+
+          window.localStorage.setItem(key, JSON.stringify(nextState));
+          return nextState;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [key]
+  );
+
+  return [state, wrappedSetState];
+}
+```

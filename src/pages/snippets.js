@@ -132,7 +132,7 @@ export default function Snippets({ data }) {
                   </Cell>
                   <Cell>
                     <Label>Description: </Label>
-                    {description}
+                    <div dangerouslySetInnerHTML={{ __html: description }} />
                   </Cell>
                   <Cell>
                     <Label>Category: </Label>
