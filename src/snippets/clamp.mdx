@@ -1,0 +1,56 @@
+---
+slug: 'clamp'
+name: 'clamp()'
+description: 'A function that "clamps" a number between a minimum and maximum value'
+category: 'JavaScript'
+---
+
+```javascript
+const clamp = (min, max) => number => Math.min(Math.max(min, number), max)
+```
+
+I have found this function useful again and again in my career, often serving as a way to prevent broken number values from getting somewhere without being to obtrusive to the user.
+
+It can take a moment to understand how `clamp` works because it's a bit counterintuitive. We make use of `Math.min` and `Math.max` to accomplish `clamp`.
+
+`Math.min` will return you the _minimal_ value of a set of numbers.
+
+```javascript
+console.log(Math.min(76, 24, -42)) // -42
+```
+
+`Math.max` will return to you the _maximal_ value of a set of numbers.
+
+```javascript
+console.log(Math.max(76, 24, -42)) // 76
+```
+
+Therefore, we can create a `clamp` by composing these together. First we make sure that the number is not below our `min` with:
+
+```javascript
+const minThresholdResult = Math.max(min, number)
+```
+
+You can hopefully see that if `number` is less than `min`, `Math.max` will return `min`, therefore clamping the result to the `min` value. We pass this result into our next check, ensuring the value is not above `max` with:
+
+```javascript
+const result = Math.min(minThresholdResult, max)
+```
+
+If the value of `minThresholdResult` is higher than our `max` value, it will clamp it to the `max` value of our range, otherwise it will return our value.
+
+Here it is in use:
+
+```javascript
+const between0and100 = clamp(0, 100)
+
+const numbers = [42, 142, -42]
+
+numbers.forEach(number => {
+  console.log(between0and100(number))
+})
+
+// 42
+// 100
+// 0
+```
