@@ -1,0 +1,130 @@
+---
+date: '2021-06-08'
+slug: 'usememo-and-stable-values'
+title: '`useMemo` and Stable Values'
+subtitle: null
+description: 'A short explanation on how I use `React.useMemo` to stabilize values for re-renders.'
+excerpt: 'A short explanation on how I use `React.useMemo` to stabilize values for re-renders.'
+tags: ['React']
+relatedPostsSlugs:
+  ['memoization', 'using-react-memo-to-avoid-unnecessary-rerenders']
+---
+
+The most common pattern I use when writing custom React hooks is to return a tuple of `[state, handlers]`. `state` is the value held by the hook, and `handlers` is an object with methods that update the state. <Marker content="I really need to write a post about this pattern next." /> The way I write the `handlers` object typically raises some questions. <Marker content="And potentially a few eyebrows." /> I'll show you an example from a basic `useSwitch` hook.
+
+```javascript
+function useSwitch(initialState = false) {
+  const [state, setState] = React.useState(initialState)
+
+  // PAY ATTENTION HERE
+  const handlers = React.useMemo(
+    () => ({
+      on: () => {
+        setState(true)
+      },
+      off: () => {
+        setState(false)
+      },
+      toggle: () => {
+        setState(s => !s)
+      },
+      reset: () => {
+        setState(initialState)
+      },
+    }),
+    [initialState]
+  )
+
+  return [state, handlers]
+}
+```
+
+The typical question I get, and why I'm writing this post, is "Why did you use `useMemo` instead of several `useCallback`s?"
+
+The answer has two parts, but both are straightforward:
+
+- `useMemo` is the simplest way I know to create a **stable value**
+- A `handlers` object of methods is the nicest API I can provide my hook users
+
+### Creating stable values
+
+`useMemo` returns a memoized value. [Learn about memoization here](/memoization) if you need to first. This means that as long as the dependencies don't change, `useMemo` will return the cached value from when it was previously computed. It is made [clear in the docs](https://reactjs.org/docs/hooks-reference.html#usememo) that this is _not_ a guarantee, but for all intents and purposes, we can treat it like it is one. <Marker content="Recalculations when no dependencies have changed are rare." /> Therefore, we can use `useMemo` to eliminate value changes that may cause unnecessary renders downstream. I have found `useMemo` especially useful for values stored by reference: arrays, objects, sets, etc, and hence why I use it for my `handlers` object.
+
+### Nice APIs
+
+Often, the abbreviation API is reserved for the interface for getting items from a database or a service, but often I think about what I'm returning from a function as an API as well. I think this is the best way to think about custom React hooks. Ask yourself, "What API am I giving users of this?" as you design it.
+
+When it comes to custom hooks, the API pattern of a tuple of `[state, handlers]` is very simple, yet flexible for the user. Perhaps my user only needs one method from `handlers`. Or needs to rename a method to be more semantically accurate for their purposes:
+
+```jsx
+function Door() {
+  const [isOpen, { toggle }] = useSwitch(false)
+
+  return (
+    <div>
+      <p>The door is {isOpen ? 'open' : 'closed'}.</p>
+      <div>
+        <Button onClick={toggle}>Toggle door</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+Imagine if I _did not_ use an object for my `handlers`? What if we wrote it as a collection of `useCallback`s instead?
+
+```javascript
+function useSwitch(initialState = false) {
+  const [state, setState] = React.useState(initialState)
+
+  const on = React.useCallback(() => {
+    setState(true)
+  }, [])
+
+  const off = React.useCallback(() => {
+    setState(false)
+  }, [])
+
+  const toggle = React.useCallback(() => {
+    setState(s => !s)
+  }, [])
+
+  const reset = React.useCallback(() => {
+    setState(initialState)
+  }, [initialState])
+
+  return [state /* WHAT DO I DO HERE? */]
+}
+```
+
+Do I return each callback as a positional item in the tuple? No! That would be a pain in the ass.
+
+```jsx
+function useSwitch(initialState = false) {
+  // ... all the code from before
+  return [state, on, off, toggle, reset]
+}
+
+function Door() {
+  // you can skip items while array destructuring by not assigning the value
+  // at that index a variable name
+  const [isOpen, , , toggle] = useSwitch(false)
+
+  // ... the rest of the code
+}
+```
+
+So we're back to putting them in an object:
+
+```javascript
+function useSwitch(initialState = false) {
+  // ... all the code from before
+  return [state, { on, off, toggle, reset }]
+}
+```
+
+But that object is getting recreated every render. <Marker content="So is the array literal, but try not to fixate on that too much. You can stabilize that, too, if you'd like." /> Might as well use `useMemo` and return a stable object. They're practically never going to change anyways!
+
+### Summary
+
+`useMemo` is a way of creating stable values. It can be useful for values stored by reference, like an object of methods. Use it to optimize the performance of downstream consumers of that value. That's it.
