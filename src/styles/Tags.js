@@ -1,6 +1,6 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import { bs } from '../shevy'
+import shevy, { bs } from '../shevy'
 import { mq } from '../utils'
 
 export default function Tags() {
@@ -17,7 +17,7 @@ export default function Tags() {
           box-sizing: border-box;
           font-family: 'Droid Serif', serif;
           font-size: 85%;
-          line-height: 1.6;
+          line-height: ${shevy.baseLineHeight};
 
           ${mq.alpha} {
             font-size: 100%;
@@ -84,15 +84,17 @@ export default function Tags() {
 
         pre code {
           background: transparent;
+          padding: 0;
         }
 
         code {
           display: inline-block;
           background-color: var(--tags-code);
+          line-height: 1.5;
           padding-top: 0;
           padding-bottom: 0;
-          padding-left: ${bs(0.25)};
-          padding-right: ${bs(0.25)};
+          padding-left: ${bs(0.125)};
+          padding-right: ${bs(0.125)};
           border-radius: 2px;
         }
 
