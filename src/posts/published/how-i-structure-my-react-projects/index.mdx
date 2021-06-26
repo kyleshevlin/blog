@@ -1,0 +1,67 @@
+---
+date: '2021-06-24'
+slug: 'how-i-structure-my-react-projects'
+title: 'How I Structure My React Projects'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+Recently, my friend Chance and I had this exchange on Twitter:
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    Do you shrug and go “it really doesn’t matter, just pick one and be
+    consistent?”
+    <br />
+    <br />
+    Cause that’s what I would do.
+  </p>
+  &mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1403437846954795008?ref_src=twsrc%5Etfw">
+    June 11, 2021
+  </a>
+</blockquote>
+<script
+  async
+  src="https://platform.twitter.com/widgets.js"
+  charset="utf-8"
+></script>
+
+It's true. It really doesn't matter. That said, I'm going to share my preferences and why I have them.
+
+### Single File Components
+
+**Don't** have a folder named `MyComponent` with an `index.tsx`, `styles.ts|css`, and `types.ts` file.
+
+**Do** have a file named `MyComponent.js|tsx` and have all related styles and types in the same file.
+
+### Why?
+
+First, it is a waste of time and annoying AF to have to search for a file in my editor by typing `MyComponent` plus `index` to ensure I get the right file.
+
+This is one of my least favorite features of "convention over configuration" frameworks like Ember and should be avoided in React projects. You end up with hundreds and hundreds of files that have the same name, `index.js` or `component.js` and you always have to do two-part searches. What an absolute waste of keystrokes. I know you may think that's trivial, but it adds up when you're searching for dozens and dozens of files every day.It's never good enough to just do `MyComponent`. You need to add `styles` or `types`, or use arrow keys to navigate a list, to get the file you were looking for. What a waste!
+
+Second, having files that only exist to export tightly coupled information, like `styles` and `types` is equally wasteful, and can lead to some organizational footguns. Put the info directly in the same file. You'll convey information faster, improve Intellisense speed, and more. Plus, you get the bonus of **not** creating an export unless other modules _actually_ need that value. When you do the multi-file approach, you run the risk of people importing styles and types in an ad hoc fashion and it's a fast way to running into duplication and organizational messes.
+
+Related, if you are breaking up a bigger component into subcomponents, and those subcomponents are relatively small and are not reusable by other components, keep those in the same file as well.
+
+```jsx
+function BigComponent(props) {
+  return (
+    <div>
+      <SubComponentA />
+      <SubComponentB someProp={props.someProp} />
+    </div>
+  )
+}
+
+function SubComponentA() {
+  return <div>Sub A</div>
+}
+
+function SubComponentB({ someProp }) {
+  return <div>{someProp}</div>
+}
+```
