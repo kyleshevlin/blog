@@ -37,11 +37,15 @@ const AllPosts = ({ data }) => {
               key={slug}
               to={slug}
             >
-              <h3 css={{ marginBottom: 0 }}>{title}</h3>
+              <h3
+                css={{ marginBottom: 0 }}
+                dangerouslySetInnerHTML={{ __html: title }}
+              />
               {subtitle && (
-                <h5 css={{ fontWeight: 'bold', marginBottom: 0 }}>
-                  {subtitle}
-                </h5>
+                <h5
+                  css={{ fontWeight: 'bold', marginBottom: 0 }}
+                  dangerouslySetInnerHTML={{ __html: subtitle }}
+                />
               )}
               {tags && tags.length ? (
                 <div

@@ -197,18 +197,20 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
       {newerPost ? (
         <div css={newerOrOlderPostWrap}>
           <span css={newerOrOlderHeading}>Newer Post: </span>
-          <Link to={newerPost.frontmatter.slug}>
-            {newerPost.frontmatter.title}
-          </Link>
+          <Link
+            to={newerPost.frontmatter.slug}
+            dangerouslySetInnerHTML={{ __html: newerPost.frontmatter.title }}
+          />
         </div>
       ) : null}
 
       {olderPost ? (
         <div css={newerOrOlderPostWrap}>
           <span css={newerOrOlderHeading}>Older Post: </span>
-          <Link to={olderPost.frontmatter.slug}>
-            {olderPost.frontmatter.title}
-          </Link>
+          <Link
+            to={olderPost.frontmatter.slug}
+            dangerouslySetInnerHTML={{ __html: olderPost.frontmatter.title }}
+          />
         </div>
       ) : null}
     </div>

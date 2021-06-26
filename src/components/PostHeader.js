@@ -16,9 +16,15 @@ export default function PostHeader({ slug, subtitle, title }) {
   return (
     <header>
       <Wrap {...wrapProps}>
-        <h2 css={{ marginBottom: 0 }}>{title}</h2>
+        <h2
+          css={{ marginBottom: 0 }}
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
         {subtitle && (
-          <h4 css={{ fontWeight: 700, marginBottom: 0 }}>{subtitle}</h4>
+          <h4
+            css={{ fontWeight: 700, marginBottom: 0 }}
+            dangerouslySetInnerHTML={{ __html: subtitle }}
+          />
         )}
       </Wrap>
     </header>

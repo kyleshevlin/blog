@@ -66,7 +66,10 @@ function Collection({ collection }) {
         <ul css={{ listStyle: 'none' }}>
           {zippedPosts.map(post => (
             <li key={post.slug}>
-              <Link to={post.slug}>{post.title}</Link>
+              <Link
+                to={post.slug}
+                dangerouslySetInnerHTML={{ __html: post.title }}
+              />
             </li>
           ))}
         </ul>

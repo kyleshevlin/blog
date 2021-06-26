@@ -19,11 +19,12 @@ const RelatedPosts = ({ posts }) => (
       {posts.map(({ slug, title }) => (
         <Link
           css={{ display: 'block', marginBottom: bs(0.5) }}
+          dangerouslySetInnerHTML={{
+            __html: title,
+          }}
           key={slug}
           to={slug}
-        >
-          {title}
-        </Link>
+        />
       ))}
     </div>
   </div>

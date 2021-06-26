@@ -1,0 +1,82 @@
+---
+date: '2021-06-26'
+slug: 'what-are-magic-values'
+title: 'What are &ldquo;Magic Values&rdquo;?'
+subtitle: null
+description: ''
+excerpt: 'I recently did a code review for an aspring developer and instructed them to &ldquo;get rid of the &lsquo;magic values&rsquo; in their code.&rdquo; It dawned on me that it might not have been obvious what I meant, so I figured I would take a few moments, and paragraphs, to explain.'
+tags: ['JavaScript', 'Software Engineering']
+relatedPostsSlugs: []
+---
+
+I recently did a code review for an aspring developer and instructed them to "get rid of the 'magic values' in their code." It dawned on me that it might not have been obvious what I meant, so I figured I would take a few moments, and paragraphs, to explain.
+
+**A "magic value" is a string or number used in a program that is essential to its proper function but provides no context or explanation for why it is what it is.** The best explanation is that it "magically" works.
+
+We know that there is no magic in programming, <Marker content="Though it certainly seems like it at times." /> and so we should do our best to remove "magic" from our code so that future you or others understand what we write today more clearly.
+
+Here are some common "magic values" I save as variables in my code.
+
+### Time related numbers
+
+Let's say we are comparing two `Date`s and we want to see if they are within three days of each other. We could do:
+
+```javascript
+function isWithinThreeDays(date1, date2) {
+  const difference = Math.abs(date1 - date2)
+  return difference <= 259200000
+}
+```
+
+Now, you _might_ be clever enough to figure out that `259200000` is the number of milliseconds in three days, but I doubt you would figure it out with a quick glance. Better is:
+
+```javascript
+const DAY_IN_MS = 1000 * 60 * 60 * 24
+
+function isWithinThreeDays(date1, date2) {
+  const difference = Math.abs(date1 - date2)
+  return difference <= DAY_IN_MS * 3
+}
+```
+
+Now our number isn't so "magic" anymore. It's a lot easier to understand that we're comparing `difference` with three days worth of milliseconds.
+
+### `localStorage` keys
+
+If I ever have to store something in `localStorage` for an app, I make sure to turn my storage key into a constant variable. This way I have a single string declared, but a variable I can use over and over and over and know with certainty it will be correct. No typos possible.
+
+```javascript
+const STORAGE_KEY = 'kyleshevlin:theme'
+
+const currentTheme = localStorage.getItem(STORAGE_KEY)
+
+const updateTheme = theme => localStorage.setItem(STORAGE_KEY, theme)
+```
+
+### Regexes
+
+Assuming you are a human, you probably can't read complicated regexes with full comprehension at a glance. Better to give your patterns a really good variable name and use that in your program. Would you rather have:
+
+```javascript
+function isValidEmail(email) {
+  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email.toLowerCase()
+  )
+}
+```
+
+Or this?
+
+```javascript
+// You can even go the extra mile and leave a comment about the pattern
+// or the URL where you found it: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+const VALID_EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+function isValidEmail(email) {
+  return VALID_EMAIL_PATTERN.test(email.toLowerCase())
+}
+```
+
+### Summary
+
+Avoid "magic values" in your code. Don't be afraid to pull strings, numbers and more out and give them some context with a great name. It'll prevent bugs in your code from typos, and make your programs easier to understand in the future.
