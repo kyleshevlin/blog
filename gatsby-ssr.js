@@ -91,12 +91,12 @@ void function() {
     '--components-share-background': 'var(--colors-offset)',
     '--components-share-highlight': 'var(--colors-accent)',
     '--components-share-hover-background': 'var(--colors-offsetMore)',
+    '--tags-code': 'var(--colors-offset)',
   })
 
   const LIGHT_VARS = {
     ...makeDefaultCSSVars(LIGHT_COLORS),
     '--components-share-hover-background': 'hsl(197, 12%, 87%)',
-    '--tags-code': 'var(--colors-accentExtraLight)',
   }
 
   const DARK_VARS = {
@@ -117,7 +117,6 @@ void function() {
       'var(--colors-text)',
     '--components-pagination-normal-text': 'var(--colors-text)',
     '--components-pagination-active-text': 'var(--colors-text)',
-    '--tags-code': 'var(--colors-offset)',
   }
 
   const makeCSSVarsString = obj =>
