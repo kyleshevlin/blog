@@ -17,8 +17,10 @@ function Seo({ description, lang, meta, keywords, title }) {
             htmlAttributes={{
               lang,
             }}
-            title={title}
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+            title={removeVariousHTMLEntities(title)}
+            titleTemplate={`%s | ${removeVariousHTMLEntities(
+              data.site.siteMetadata.title
+            )}`}
             meta={[
               {
                 name: `description`,
@@ -30,7 +32,7 @@ function Seo({ description, lang, meta, keywords, title }) {
               },
               {
                 property: `og:title`,
-                content: title,
+                content: removeVariousHTMLEntities(title),
               },
               {
                 property: `og:description`,
@@ -62,7 +64,7 @@ function Seo({ description, lang, meta, keywords, title }) {
               },
               {
                 name: `twitter:title`,
-                content: title,
+                content: removeVariousHTMLEntities(title),
               },
               {
                 name: `twitter:description`,
@@ -127,3 +129,11 @@ const detailsQuery = graphql`
     }
   }
 `
+
+function removeVariousHTMLEntities(str) {
+  return str
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rsquo;/g, "'")
+}
