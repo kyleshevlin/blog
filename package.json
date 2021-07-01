@@ -1,7 +1,7 @@
 {
-  "name": "blog-rewrite",
+  "name": "blog",
   "private": true,
-  "description": "A rewrite of my blog in Gatsby",
+  "description": "My blog",
   "version": "1.0.0",
   "author": "Kyle Shevlin <kyle.a.shevlin@gmail.com>",
   "dependencies": {
@@ -10,7 +10,6 @@
     "@mdx-js/react": "^1.5.7",
     "@mdx-js/tag": "^0.20.3",
     "@xstate/react": "^0.8.1",
-    "algoliasearch": "^3.35.1",
     "dotenv": "^8.2.0",
     "firebase": "^5.8.1",
     "gatsby": "^2.19.45",
@@ -43,7 +42,6 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.0",
-    "react-instantsearch-dom": "^5.7.0",
     "shevyjs": "^1.1.0",
     "xstate": "^4.9.1"
   },
