@@ -22,6 +22,8 @@ void function() {
     accentDark: 'hsl(197, 60%, 40%)',
     accentLight: 'hsl(197, 60%, 60%)',
     accentExtraLight: 'hsl(197, 50%, 90%)',
+    contra: 'hsl(347, 87%, 60%)',
+    contraLight: 'hsl(347, 87%, 65%)',
     offset: 'hsl(190, 23%, 95%)',
     offsetMore: 'hsl(197, 12%, 65%)',
     error: 'hsl(347, 71%, 54%)',
@@ -33,6 +35,8 @@ void function() {
     accent: 'hsl(197, 60%, 50%)',
     accentDark: 'hsl(197, 60%, 40%)',
     accentLight: 'hsl(197, 60%, 60%)',
+    contra: 'hsl(347, 87%, 60%)',
+    contraLight: 'hsl(347, 87%, 65%)',
     offset: 'hsl(197, 61%, 14%)',
     offsetMore: 'hsl(197, 61%, 24%)',
     error: 'hsl(347, 71%, 54%)',
@@ -45,6 +49,8 @@ void function() {
     '--colors-accentDark': colors.accentDark,
     '--colors-accentLight': colors.accentLight,
     '--colors-accentExtraLight': colors.accentExtraLight,
+    '--colors-contra': colors.contra,
+    '--colors-contraLight': colors.contraLight,
     '--colors-offset': colors.offset,
     '--colors-offsetMore': colors.offsetMore,
     '--colors-error': colors.error,
@@ -93,7 +99,7 @@ void function() {
 
   const LIGHT_VARS = {
     ...makeDefaultCSSVars(LIGHT_COLORS),
-    '--components-share-hover-background': 'hsl(197, 12%, 87%)',
+    '--components-share-hover-background': 'var(--colors-accentExtraLight)',
   }
 
   const DARK_VARS = {

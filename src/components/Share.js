@@ -5,14 +5,7 @@ const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
-const spanStyles = {
-  color: 'var(--components-share-highlight)',
-  fontWeight: 'bold',
-}
-
-export default function Share(props) {
-  const { slug, title } = props
-
+export default function Share({ slug, title }) {
   const handleClick = () => {
     popupWindow(
       `https://twitter.com/intent/tweet?text=${generateText(
@@ -46,13 +39,30 @@ export default function Share(props) {
 
           '&:hover': {
             backgroundColor: 'var(--components-share-hover-background)',
-            color: 'var(--components-share-highlight)',
           },
         }}
         onClick={handleClick}
       >
-        <span css={spanStyles}>Click here</span> to share this article with your
-        friends on <span css={spanStyles}>Twitter</span>
+        <span
+          css={{
+            backgroundColor: 'var(--colors-contra)',
+            borderRadius: 4,
+            color: 'white',
+            display: 'inline-block',
+            padding: `0 ${bs(0.35)}`,
+            transition: 'background-color .3s ease',
+
+            '&:hover': {
+              backgroundColor: 'var(--colors-contraLight)',
+            },
+          }}
+        >
+          Click here
+        </span>{' '}
+        to share this article with your friends on&nbsp;
+        <span css={{ color: 'var(--colors-accent)', fontWeight: 'bold' }}>
+          Twitter
+        </span>
       </button>
       <div css={{ fontSize: '.85rem', paddingLeft: bs(), paddingRight: bs() }}>
         Sharing this article on Twitter is a great way to help me out and I
