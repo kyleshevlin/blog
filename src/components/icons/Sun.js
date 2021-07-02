@@ -1,0 +1,84 @@
+import React from 'react'
+
+export default function Sun({ width = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" height={width} width={width}>
+      <circle
+        cx="12"
+        cy="12"
+        r="7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+      />
+      <g>
+        <line
+          x1="12"
+          y1="0"
+          x2="12"
+          y2="4"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="0"
+          y1="12"
+          x2="4"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="12"
+          y1="24"
+          x2="12"
+          y2="20"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="24"
+          y1="12"
+          x2="20"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+      </g>
+      <g style={{ transform: 'rotate(45deg)', transformOrigin: 'center' }}>
+        <line
+          x1="12"
+          y1="0"
+          x2="12"
+          y2="4"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="0"
+          y1="12"
+          x2="4"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="12"
+          y1="24"
+          x2="12"
+          y2="20"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+        <line
+          x1="24"
+          y1="12"
+          x2="20"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth={2}
+        />
+      </g>
+    </svg>
+  )
+}

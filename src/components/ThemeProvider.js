@@ -153,11 +153,15 @@ export function ThemeProvider({ children }) {
     localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
-  return (
-    <ThemeContext.Provider value={{ rotateTheme }}>
-      {children}
-    </ThemeContext.Provider>
+  const value = React.useMemo(
+    () => ({
+      rotateTheme,
+      theme,
+    }),
+    [rotateTheme, theme]
   )
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => React.useContext(ThemeContext)

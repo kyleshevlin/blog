@@ -39,6 +39,7 @@ export default function Button({
   onClick,
   style = {},
   type = 'button',
+  ...rest
 }) {
   return (
     <button
@@ -46,6 +47,7 @@ export default function Button({
       disabled={disabled}
       type={type}
       onClick={onClick}
+      {...rest}
     >
       {children}
     </button>

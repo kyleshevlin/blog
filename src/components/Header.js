@@ -6,6 +6,9 @@ import Container from './Container'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
 import { mq } from '../utils'
+import ShiftBy from './ShiftBy'
+import Moon from './icons/Moon'
+import Sun from './icons/Sun'
 
 export default function Header() {
   return (
@@ -92,6 +95,26 @@ export default function Header() {
 }
 
 function ThemeRotator() {
-  const { rotateTheme } = useTheme()
-  return <Button onClick={rotateTheme}>Toggle Theme</Button>
+  const { rotateTheme, theme } = useTheme()
+  const icon = getIcon(theme)
+
+  return (
+    <Button
+      aria-label="Toggle theme"
+      onClick={rotateTheme}
+      title="Toggle theme"
+    >
+      <ShiftBy y={1}>{icon}</ShiftBy>
+    </Button>
+  )
+}
+
+function getIcon(theme) {
+  switch (theme) {
+    case 'light':
+      return <Moon width={14} />
+
+    case 'dark':
+      return <Sun width={14} />
+  }
 }
