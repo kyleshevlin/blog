@@ -96,7 +96,7 @@ export default function Header() {
 
 function ThemeRotator() {
   const { rotateTheme, theme } = useTheme()
-  const icon = getIcon(theme)
+  const Icon = getIcon(theme)
 
   return (
     <Button
@@ -104,7 +104,9 @@ function ThemeRotator() {
       onClick={rotateTheme}
       title="Toggle theme"
     >
-      <ShiftBy y={1}>{icon}</ShiftBy>
+      <ShiftBy y={1}>
+        <Icon width={14} />
+      </ShiftBy>
     </Button>
   )
 }
@@ -112,9 +114,9 @@ function ThemeRotator() {
 function getIcon(theme) {
   switch (theme) {
     case 'light':
-      return <Moon width={14} />
+      return Moon
 
     case 'dark':
-      return <Sun width={14} />
+      return Sun
   }
 }
