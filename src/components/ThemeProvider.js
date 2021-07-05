@@ -148,9 +148,9 @@ const ThemeContext = React.createContext()
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = React.useState(getInitialTheme)
 
-  const rotateTheme = () => {
-    setTheme(NEXT_THEME[theme])
-  }
+  const rotateTheme = React.useCallback(() => {
+    setTheme(_theme => NEXT_THEME[_theme])
+  }, [])
 
   React.useEffect(() => {
     const html = document.documentElement
@@ -159,15 +159,11 @@ export function ThemeProvider({ children }) {
     localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
-  const value = React.useMemo(
-    () => ({
-      rotateTheme,
-      theme,
-    }),
-    [rotateTheme, theme]
+  return (
+    <ThemeContext.Provider value={{ rotateTheme, theme }}>
+      {children}
+    </ThemeContext.Provider>
   )
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => React.useContext(ThemeContext)
