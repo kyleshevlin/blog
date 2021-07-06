@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
@@ -105,7 +105,7 @@ class BeardStrokes extends Component {
     const { count } = this.state
 
     return (
-      <Fragment>
+      <>
         <div
           css={{
             display: 'flex',
@@ -119,7 +119,9 @@ class BeardStrokes extends Component {
                 appearance: 'none',
                 backgroundColor: 'transparent',
                 border: 'none',
-                padding: `${bs(0.25)} ${bs(0.5)}`,
+                padding: `${bs(0.25)} ${bs(0.5)} 0`,
+                touchAction: 'manipulation',
+
                 '& svg': {
                   fill:
                     count === 0
@@ -128,13 +130,16 @@ class BeardStrokes extends Component {
                   transform: 'scale(.95)',
                   transition: 'fill 0.3s ease, transform .15s ease',
                 },
+
                 '&:active svg': {
                   transform: 'scale(1)',
                 },
+
                 '&:disabled svg': {
                   fill: 'var(--colors-accentDark)',
                   transform: 'scale(1)',
                 },
+
                 '&:hover svg': {
                   fill: 'var(--colors-accentDark)',
                 },
@@ -145,15 +150,15 @@ class BeardStrokes extends Component {
             >
               <Beard width={40} />
             </button>
-            <div
-              css={{ fontFamily: 'var(--fonts-catamaran)' }}
-            >{`+${count}`}</div>
+            <div css={{ fontFamily: 'var(--fonts-catamaran)', lineHeight: 1 }}>
+              {`+${count}`}
+            </div>
           </div>
-          <div css={{ fontStyle: 'italic' }}>
-            Liked the post? Click the beard a few times.
+          <div css={{ fontStyle: 'italic', lineHeight: 1.2 }}>
+            Liked the post? Click the beard a few times to show how much.
           </div>
         </div>
-      </Fragment>
+      </>
     )
   }
 }

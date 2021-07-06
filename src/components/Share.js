@@ -1,12 +1,12 @@
 import React from 'react'
-import { bs } from '../shevy'
+import shevy, { bs } from '../shevy'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
 export default function Share({ slug, title }) {
-  const handleClick = () => {
+  const handleClick = React.useCallback(() => {
     popupWindow(
       `https://twitter.com/intent/tweet?text=${generateText(
         title
@@ -16,59 +16,29 @@ export default function Share({ slug, title }) {
       600,
       400
     )
-  }
+  }, [slug, title])
 
   return (
-    <div
+    <button
       css={{
-        margin: `${bs(3)} auto`,
-        textAlign: 'center',
-        width: '75%',
+        backgroundColor: 'var(--colors-contra)',
+        border: 'none',
+        borderRadius: 2,
+        color: 'white',
+        fontFamily: 'var(--fonts-catamaran)',
+        fontSize: shevy.h4.fontSize,
+        padding: `${bs(0.35)} ${bs(0.5)}`,
+        transition: 'all .3s ease',
+        width: '100%',
+
+        '&:hover': {
+          backgroundColor: 'var(--colors-contraLight)',
+        },
       }}
+      onClick={handleClick}
     >
-      <button
-        css={{
-          backgroundColor: 'var(--components-share-background)',
-          border: 'none',
-          fontFamily: 'var(--fonts-catamaran)',
-          fontSize: '1.5em',
-          marginBottom: bs(0.5),
-          padding: bs(),
-          transition: 'all .3s ease',
-          width: '100%',
-
-          '&:hover': {
-            backgroundColor: 'var(--components-share-hover-background)',
-          },
-        }}
-        onClick={handleClick}
-      >
-        <span
-          css={{
-            backgroundColor: 'var(--colors-contra)',
-            borderRadius: 4,
-            color: 'white',
-            display: 'inline-block',
-            padding: `0 ${bs(0.35)}`,
-            transition: 'background-color .3s ease',
-
-            '&:hover': {
-              backgroundColor: 'var(--colors-contraLight)',
-            },
-          }}
-        >
-          Click here
-        </span>{' '}
-        to share this article with your friends on&nbsp;
-        <span css={{ color: 'var(--colors-accent)', fontWeight: 'bold' }}>
-          Twitter
-        </span>
-      </button>
-      <div css={{ fontSize: '.85rem', paddingLeft: bs(), paddingRight: bs() }}>
-        Sharing this article on Twitter is a great way to help me out and I
-        really appreciate the support.
-      </div>
-    </div>
+      Click to share on Twitter
+    </button>
   )
 }
 
