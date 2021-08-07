@@ -1,0 +1,217 @@
+---
+date: '2021-08-07'
+slug: 'prefer-declarative-state-handlers'
+title: 'Prefer Declarative State Handlers'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+In the last few years, I've come across a pattern in React projects that I think is less than ideal. It's not an anti-pattern. It's not harmful, but I think it can lead to footguns. Especially if you don't have the safety of types.
+
+There might be a better name for this, but I'll call it the "bare state handler" for now. Let's look at some code to explain. I'm going to make a simple counter: <Marker content="Big surprise, right?" />
+
+```jsx
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  return <div>{count}</div>
+}
+```
+
+Before you lose your mind wondering why I have state when I haven't made any state updater functions to change that state, I want to point out what the "bare state setter" is. It's the `setCount` in this example. It's bare. **It's naked**. It's not wrapped in anything. Yet.
+
+Let's finish our component (for now).
+
+```jsx
+import Button from './components/Button'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <div>
+      <div>{count}</div>
+      <div>
+        <Button
+          onClick={() => {
+            setCount(s => s + 1)
+          }}
+        >
+          +
+        </Button>
+        <Button
+          onClick={() => {
+            setCount(s => s - 1)
+          }}
+        >
+          -
+        </Button>
+        <Button
+          onClick={() => {
+            setCount(0)
+          }}
+        >
+          reset
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+We've written all of our state updater functions inline. This isn't that uncommon, and honestly, there are many situations where this is fine. But just because it's fine, doesn't mean it can't be better.
+
+**What is the problem with these inline state updaters?**
+
+They don't tell you what they do. You have to read the body of the function to get that information.
+
+What if, instead, we made declarative state updater functions?
+
+```jsx
+import Button from './components/Button'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  const increment = React.useCallback(() => {
+    setCount(s => s + 1)
+  }, [])
+
+  const decrement = React.useCallback(() => {
+    setCount(s => s - 1)
+  }, [])
+
+  const reset = React.useCallback(() => {
+    setCount(0)
+  }, [])
+
+  return (
+    <div>
+      <div>{count}</div>
+      <div>
+        <Button onClick={increment}>+</Button>
+        <Button onClick={decrement}>-</Button>
+        <Button onClick={reset}>reset</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+Now, we have three declarative state updaters. They describe what they do. As I'm reading the UI, I don't have to read the body of the function to know what they do, they tell me what they do.
+
+"But why does this matter? It's all in the same component. It's simple. I can understand it!"
+
+Ok. I hear you. But what about when we have to pass those updaters down to some children?
+
+Let's say this component looked like this:
+
+```jsx
+import CounterActions from './CounterActions'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  // What props should CounterActions get?
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions />
+    </div>
+  )
+}
+```
+
+In this case, I've got another component that renders the actions of the `Counter`. It needs to be able to update the state in _this_ component. So what `props` should it be designed to receive.
+
+Naively, we could just give it `setCount`.
+
+```jsx
+<CounterActions setCount={setCount} />
+```
+
+This works, right? I can write all those updaters in the `CounterActions` component. But what if I don't control `CounterActions`? Maybe I'm giving them a little too much leeway by giving them the "bare state handler". If I don't have types, I can't even guarantee that `CounterActions` uses the `setCount` state setter with the right values.
+
+It's more power than we should give the component, and frankly it's more power than the component should ask for.
+
+Instead, having declarative state handlers means the API contract between these two components is rock solid.
+
+```jsx
+import CounterActions from './CounterActions'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  const increment = React.useCallback(() => {
+    setCount(s => s + 1)
+  }, [])
+
+  const decrement = React.useCallback(() => {
+    setCount(s => s - 1)
+  }, [])
+
+  const reset = React.useCallback(() => {
+    setCount(0)
+  }, [])
+
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions
+        increment={increment}
+        decrement={decrement}
+        reset={reset}
+      />
+    </div>
+  )
+}
+```
+
+Now, I don't have to worry about how `CounterActions` uses my handlers. They can't be abused. They only do what they say they'll do. It's the perfect amount of power to pass to another component.
+
+### A step further
+
+What makes declarative state handlers even more powerful is how easily they can be refactored into a good custom hook. I'm actually going to do _two_ refactors here at once.
+
+```jsx
+import CounterActions from './CounterActions'
+
+function useCounter() {
+  const [count, setCount] = React.useState(0)
+
+  const handlers = React.useMemo(
+    () => ({
+      increment: () => {
+        setCount(s => s + 1)
+      },
+      decrement: () => {
+        setCount(s => s - 1)
+      },
+      reset: () => {
+        setCount(0)
+      },
+    }),
+    []
+  )
+
+  return [count, handlers]
+}
+
+function Counter() {
+  const [count, { increment, decrement, reset }] = useCounter()
+
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions
+        increment={increment}
+        decrement={decrement}
+        reset={reset}
+      />
+    </div>
+  )
+}
+```
