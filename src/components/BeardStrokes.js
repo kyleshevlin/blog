@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import debounce from 'lodash.debounce'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
@@ -33,7 +33,7 @@ function setClicksForPostInLocalStorage(slug, count) {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(update))
 }
 
-function addClicksToDatabase(database, slug, count, lastUpdateCount) {
+function addClicksToDatabase({ count, lastUpdateCount, slug, database }) {
   if (database) {
     database
       .ref(`posts/${slug}`)
@@ -54,113 +54,122 @@ function addClicksToDatabase(database, slug, count, lastUpdateCount) {
   }
 }
 
-class BeardStrokes extends Component {
-  state = {
-    count: 0,
-    database: null,
-    lastUpdateCount: 0,
-  }
+function BeardStrokes({ slug }) {
+  const { count, handleBeardClick, maximumStrokesApplied } = useBeardStrokes(
+    slug
+  )
 
-  handleBeardClick = () => {
-    this.setState(state =>
-      state.count >= 50 ? null : { count: Math.min(50, state.count + 1) }
-    )
-  }
+  return (
+    <>
+      <div
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          fontFamily: 'var(--fonts-catamaran)',
+        }}
+      >
+        <div css={{ textAlign: 'center' }}>
+          <button
+            css={{
+              appearance: 'none',
+              backgroundColor: 'transparent',
+              border: 'none',
+              padding: `${bs(0.25)} ${bs(0.5)} 0`,
+              touchAction: 'manipulation',
 
-  storeBeardClicks = debounce(() => {
-    const { slug } = this.props
-    const { count, database, lastUpdateCount } = this.state
+              '& svg': {
+                fill:
+                  count === 0
+                    ? 'var(--colors-offsetMore)'
+                    : 'var(--colors-accent)',
+                transform: 'scale(.95)',
+                transition: 'fill 0.3s ease, transform .15s ease',
+              },
 
-    setClicksForPostInLocalStorage(slug, count)
-    addClicksToDatabase(database, slug, count, lastUpdateCount)
-    this.setState({ lastUpdateCount: count })
-  }, 500)
+              '&:active svg': {
+                transform: 'scale(1)',
+              },
 
-  componentDidMount() {
-    const lazyApp = import('@firebase/app')
-    const lazyDatabase = import('@firebase/database')
-    const { slug } = this.props
+              '&:disabled svg': {
+                fill: 'var(--colors-accentDark)',
+                transform: 'scale(1)',
+              },
 
-    Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {
-      const database = getFirebase(firebase).database()
-      const localCount = getClicksForPostFromLocalStorage(slug)
-
-      this.setState({
-        count: localCount,
-        database,
-        lastUpdateCount: localCount,
-      })
-    })
-  }
-
-  componentDidUpdate() {
-    this.storeBeardClicks()
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.count !== this.state.count
-  }
-
-  render() {
-    const { count } = this.state
-
-    return (
-      <>
-        <div
-          css={{
-            display: 'flex',
-            alignItems: 'center',
-            fontFamily: 'var(--fonts-catamaran)',
-          }}
-        >
-          <div css={{ textAlign: 'center' }}>
-            <button
-              css={{
-                appearance: 'none',
-                backgroundColor: 'transparent',
-                border: 'none',
-                padding: `${bs(0.25)} ${bs(0.5)} 0`,
-                touchAction: 'manipulation',
-
-                '& svg': {
-                  fill:
-                    count === 0
-                      ? 'var(--colors-offsetMore)'
-                      : 'var(--colors-accent)',
-                  transform: 'scale(.95)',
-                  transition: 'fill 0.3s ease, transform .15s ease',
-                },
-
-                '&:active svg': {
-                  transform: 'scale(1)',
-                },
-
-                '&:disabled svg': {
-                  fill: 'var(--colors-accentDark)',
-                  transform: 'scale(1)',
-                },
-
-                '&:hover svg': {
-                  fill: 'var(--colors-accentDark)',
-                },
-              }}
-              onClick={this.handleBeardClick}
-              disabled={count === 50}
-              type="button"
-            >
-              <Beard width={40} />
-            </button>
-            <div css={{ fontFamily: 'var(--fonts-catamaran)', lineHeight: 1 }}>
-              {`+${count}`}
-            </div>
-          </div>
-          <div css={{ fontStyle: 'italic', lineHeight: 1.2 }}>
-            Liked the post? Click the beard a few times to show how much.
+              '&:hover svg': {
+                fill: 'var(--colors-accentDark)',
+              },
+            }}
+            onClick={handleBeardClick}
+            disabled={maximumStrokesApplied}
+            type="button"
+          >
+            <Beard width={40} />
+          </button>
+          <div css={{ fontFamily: 'var(--fonts-catamaran)', lineHeight: 1 }}>
+            {`+${count}`}
           </div>
         </div>
-      </>
-    )
-  }
+        <div css={{ fontStyle: 'italic', lineHeight: 1.2 }}>
+          Liked the post? Click the beard a few times to show how much.
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default BeardStrokes
+
+function useBeardStrokes(slug) {
+  const database = useDatabase()
+  const [count, setCount] = React.useState(0)
+  const [lastUpdateCount, setLastUpdateCount] = React.useState(0)
+
+  const maximumStrokesApplied = count >= 50
+
+  const handleBeardClick = React.useCallback(() => {
+    if (count >= 50) return
+    setCount(s => s + 1)
+  }, [count])
+
+  const storeBeardClicks = React.useMemo(
+    () =>
+      debounce(({ count, database, lastUpdateCount, slug }) => {
+        setClicksForPostInLocalStorage(slug, count)
+        addClicksToDatabase({
+          count,
+          database,
+          lastUpdateCount,
+          slug,
+        })
+        setLastUpdateCount(count)
+      }, 500),
+    []
+  )
+
+  React.useEffect(() => {
+    const localCount = getClicksForPostFromLocalStorage(slug)
+    setCount(localCount)
+    setLastUpdateCount(localCount)
+  }, [slug])
+
+  React.useEffect(() => {
+    storeBeardClicks({ count, database, lastUpdateCount, slug })
+  }, [count, database, lastUpdateCount, slug])
+
+  return { count, handleBeardClick, maximumStrokesApplied }
+}
+
+function useDatabase() {
+  const database = React.useRef(null)
+
+  React.useEffect(() => {
+    const lazyApp = import('@firebase/app')
+    const lazyDatabase = import('@firebase/database')
+
+    Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {
+      database.current = getFirebase(firebase).database()
+    })
+  }, [])
+
+  return database.current
+}
