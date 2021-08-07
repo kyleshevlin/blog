@@ -4,7 +4,7 @@ import shevy, { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 import Tag from './icons/Tag'
 
-const formatItemPath = item => `tags/${formatStrForPath(item)}`
+const formatItemPath = item => `/tags/${formatStrForPath(item)}`
 
 export default function PostTags({ items }) {
   return items && items.length ? (

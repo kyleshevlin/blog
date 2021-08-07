@@ -11,7 +11,7 @@ const postLinkStyles = {
 
 export default function PostHeader({ slug, subtitle, title }) {
   const Wrap = slug ? Link : Fragment
-  const wrapProps = slug ? { css: postLinkStyles, to: slug } : {}
+  const wrapProps = slug ? { css: postLinkStyles, to: `/${slug}` } : {}
 
   return (
     <header>

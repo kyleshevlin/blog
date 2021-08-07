@@ -35,7 +35,7 @@ const AllPosts = ({ data }) => {
                 '&:hover': { backgroundColor: 'var(--colors-offset)' },
               }}
               key={slug}
-              to={slug}
+              to={`/${slug}`}
             >
               <h3
                 css={{ marginBottom: 0 }}

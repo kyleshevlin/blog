@@ -34,7 +34,7 @@ const ExcerptedPost = ({ post }) => {
         }}
       >
         <div>
-          <Link css={buttonStyles} to={slug}>
+          <Link css={buttonStyles} to={`/${slug}`}>
             Read More
           </Link>
         </div>

@@ -212,7 +212,7 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
         <div css={newerOrOlderPostWrap}>
           <span css={newerOrOlderHeading}>Newer Post: </span>
           <Link
-            to={newerPost.frontmatter.slug}
+            to={`/${newerPost.frontmatter.slug}`}
             dangerouslySetInnerHTML={{ __html: newerPost.frontmatter.title }}
           />
         </div>
@@ -222,7 +222,7 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
         <div css={newerOrOlderPostWrap}>
           <span css={newerOrOlderHeading}>Older Post: </span>
           <Link
-            to={olderPost.frontmatter.slug}
+            to={`/${olderPost.frontmatter.slug}`}
             dangerouslySetInnerHTML={{ __html: olderPost.frontmatter.title }}
           />
         </div>
