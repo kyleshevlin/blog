@@ -134,7 +134,7 @@ Naively, we could just give it `setCount`.
 <CounterActions setCount={setCount} />
 ```
 
-This works, right? I can write all those updaters in the `CounterActions` component. But what if I don't control `CounterActions`? Maybe I'm giving them a little too much leeway by giving them the "bare state handler". What if `CounterActions` arbitrarily decides to increment and decrement by values different than `1`? What if I'm giving them a little too much control. Nothing stops someone from writing `CounterActions` like this:
+This works, right? I can write all those updaters in the `CounterActions` component. But what if I don't control `CounterActions`? Maybe I'm giving them a little too much leeway by giving them the naked state setter. What if `CounterActions` arbitrarily decides to increment and decrement by values other than `1`? What if I'm giving them a little too much control? Nothing stops someone from writing `CounterActions` like this:
 
 ```jsx
 import Button from './components/Button'
