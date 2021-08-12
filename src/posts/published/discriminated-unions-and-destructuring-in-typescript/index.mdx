@@ -1,0 +1,232 @@
+---
+date: '2021-08-11'
+slug: 'discriminated-unions-and-destructuring-in-typescript'
+title: 'Discriminated Unions and Destructuring in TypeScript'
+subtitle: null
+description: 'Discriminated unions in TypeScript can go awry when you use object or array destructuring. Learn why it happens and what you can do to fix the problem.'
+excerpt: 'Discriminated unions in TypeScript can go awry when you use object or array destructuring. Learn why it happens and what you can do to fix the problem.'
+tags: ['React', 'JavaScript', 'TypeScript']
+relatedPostsSlugs: ['enumerate-dont-booleanate']
+---
+
+I'm writing this post because I've forgotten the following material enough times to warrant leaving myself a permanent resource for future reference. I figure it will likely help out a few of you as well.
+
+I am a big fan of state machines, but often find myself unable to use them in the projects I work on. People are so hesitant to give them a try. I'll never understand it. Given this, I turn to the next best thing: enums.
+
+I like to enumerate the finite states my functions can return. If you're writing TypeScript, something I find myself doing more and more of these days, enumerated states often mean using ["discriminated unions"](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions).
+
+A discriminated union is a type where a key or value can be used to determine the rest of the shape of that type. An example might be several types for objects that have a `kind` key, like so:
+
+```typescript
+type GetPostsSuccess = {
+  kind: 'success'
+  context: {
+    data: { posts: [] }
+  }
+}
+
+type GetPostsFailure = {
+  kind: 'failure'
+  context: {
+    error: { message: 'something went wrong' }
+  }
+}
+```
+
+I can combine these with a union:
+
+```typescript
+type GetPostResults = GetPostsSuccess | GetPostsFailure
+```
+
+And now I can discriminate that union by the `kind` key:
+
+```typescript
+function getPosts(): GetPostResults {
+  // Let's assume something happens and I get a result
+}
+
+function doSomethingWithPosts() {
+  const result = getPosts()
+
+  switch (result.kind) {
+    case 'success':
+      return result.context.data.posts
+
+    case 'failure':
+      return result.context.error.message
+  }
+}
+```
+
+I don't have to check if `result.context` has `error` or `data` in either case because the TypeScript compiler _knows_ that if `result.kind` is `"success"`, then the rest of the object has `context.data.posts`. This is a really nice feature, but it's easily broken with [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment).
+
+Changing that example only slightly, we break **everything**:
+
+```typescript
+function getPosts(): GetPostResults {
+  // Let's assume something happens and I get a result
+}
+
+function doSomethingWithPosts() {
+  const { kind, context } = getPosts()
+
+  switch (kind) {
+    case 'success':
+      return context.data.posts // Error
+
+    case 'failure':
+      return context.error.message // Error
+  }
+}
+```
+
+If you try this in TypeScript, [which you can do here](https://www.typescriptlang.org/play?#code/C4TwDgpgBA4hwAUD2BnYKDKBXAxjiKKUAvFAN4CwAUFFANYCWAdgCYBcUA5CrvoZ9Vo4kTYBAAewDpRq0oLAIbAF0qGFToOAbQC6UAL6CD1Q1WqhIseMjQoAYgoYAbLACdopGbUasOnAGaOLu4CssKiElLkRrQQrq5IrqoAtgQoCgDmEH4oSKnAABbMGVAA7hCiZQlMGZzGsqam5uDQcIgaAEoEWE7oJFbttth4aVAAPgM26A7ObhDU1P5YTDjADCJQWYPoABQAlBxtU108vUReUAD0l1AAMvDcUAqEWKlQuflFNVAFCmCQTCIClYUAAkpt4E8oO5TsATAsqEsVmsNiwkBg8vAvhkAOoMQpTFD7aJhERocj0ZgsAA0UHCYkkBn6W0J+wRtBQpXxOAKUB2PhYexJcjpz2g3F4aU4bBicncwDcTDpIgZwAAdIplGr1LYrjcAKLxRLsuQ4MVcQKzEIy2Qi+WK5URSRquIJVxq1KETLQa5QQ1uoyNIA), it will error. Twice, actually. It will tell you that `data` doesn't exist on `context` in the `'success'` case and that `error` doesn't exist in the `'failure'` case. To which you will respond with, "Sure the heck does!"
+
+You, a mere mortal, can determine precisely what shape the type is, but alas, the TypeScript compiler can not.
+
+**Why?**
+
+In short, TypeScript loses the "refinement" of the discrimination when we use object or array destructuring. If you destructure an object or an array, TypeScript is unable to remember the shape of the whole based on a part. If we destructure `kind`, it completely forgets what `context` _specifically_ is, and instead types it as a union of what it could be:
+
+```typescript
+type context =
+  | {
+      data: { posts: [] }
+    }
+  | {
+      error: { message: 'something went wrong' }
+    }
+```
+
+It's created a union that's no longer discriminated and you're stuck having to check what keys or what objects again. Not ideal.
+
+I'll give you another example using an array as a [tuple](https://kyleshevlin.com/what-is-a-tuple). This is a replication of the very problem I was working on today when I ran into this.
+
+I was trying to set up some state to follow the progress of calling an API. This is a very common pattern in web apps that benefits a lot from using enumerated states. Here are the types I created:
+
+```typescript
+enum States {
+  IDLE = 'IDLE',
+  LOADING = 'LOADING',
+  SUCCESS = 'SUCCESS',
+  FAILURE = 'FAILURE',
+}
+
+type Post = {
+  title: string
+  body: string
+}
+
+type Data = { posts: Array<Post> }
+
+type Results =
+  | [States.IDLE, undefined]
+  | [States.LOADING, undefined]
+  | [States.SUCCESS, Data]
+  | [States.FAILURE, Error]
+```
+
+Examining `Results`, we can see a discriminated union based on the `States` enum. Let's create a custom hook that will use these types and fetch our posts:
+
+```typescript
+function useGetPosts(): Results {
+  const [result, setResult] = useState<Results>([States.IDLE, undefined])
+
+  useEffect(() => {
+    setResult([States.LOADING, undefined])
+
+    fetch('/api/posts')
+      .then(res => res.json())
+      .then(data => {
+        setResult([States.SUCCESS, data])
+      })
+      .catch(error => {
+        setResult([States.FAILURE, error])
+      })
+  }, [])
+
+  return result
+}
+```
+
+Going through the code, our typechecker is satisfied. Our `Results` tuple is always one of our four possible results. Let's make use of this in a component.
+
+```typescript
+function Posts() {
+  const result = useGetPosts()
+  const [state, context] = result
+
+  switch (state) {
+    case States.IDLE:
+      return <div>idle</div>
+
+    case States.LOADING:
+      return <div>loading...</div>
+
+    case States.SUCCESS: {
+      return (
+        <div>
+          {context.posts.map(post => (
+            <div key={post.title}>
+              {post.title} {post.body}
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    case States.FAILURE: {
+      return <div>{context.message}</div>
+    }
+  }
+}
+```
+
+What do you think happens in this case? **We lose our refinement!**
+
+We've done a perfectly natural thing in modern JavaScript. We've returned a small array from our custom hook with our `state` and some relevant `context`, and then we destructured that `state` and that `context` where we make use of that hook so that our code is really easy to read for humans. _But it's not easy for the compiler_. <Marker content="Compiler schmiler! This really grinds my gears." />
+
+Instead, we need to make adjustments to keep our refinement.
+
+```typescript
+function Posts() {
+  const result = useGetPosts()
+
+  switch (result[0] /* state */) {
+    case States.IDLE:
+      return <div>idle</div>
+
+    case States.LOADING:
+      return <div>loading...</div>
+
+    case States.SUCCESS: {
+      // We can destructure here because our `context` is refined to the
+      // correct shape by the switch statement. We can also skip
+      // destructuring `state` and rename `context` to `data` in one step
+      const [, data] = result
+
+      return (
+        <div>
+          {data.posts.map(post => (
+            <div key={post.title}>
+              {post.title} {post.body}
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    case States.FAILURE: {
+      const [, error] = result
+      return <div>{error.message}</div>
+    }
+  }
+}
+```
+
+This produces no TypeScript errors. I find the code to be _ok_. I could live with this, but it does not bring me joy.
+
+In this particular situation, it might be best to stick with an object instead of a tuple. Then at least you could have `result.state` and `result.context`. You would lose the convenience of renaming the values to be contextually appropriate though, eg `data` in `SUCCESS` and `error` in `FAILURE`.
+
+Hopefully this has helped you understand discriminated unions a bit better and prevents you from getting stuck on these destructuring gotchas in the future. At the very least, I hope writing this helps _me_ with those things in the future, too.
