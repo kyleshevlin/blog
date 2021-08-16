@@ -12,7 +12,6 @@ import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { mq } from '../utils'
-import Spacer from '../components/Spacer'
 import FinishedReading from '../components/FinishedReading'
 
 const newerOrOlderPostWrap = {
@@ -79,9 +78,7 @@ const Post = ({
 
         <hr />
 
-        <Spacer bottom={2}>
-          <FinishedReading slug={slug} title={title} />
-        </Spacer>
+        <FinishedReading slug={slug} title={title} />
 
         <hr />
 
