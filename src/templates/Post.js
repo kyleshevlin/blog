@@ -78,7 +78,7 @@ const Post = ({
 
         <hr />
 
-        <FinishedReading slug={slug} title={title} />
+        <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
 
         <hr />
 

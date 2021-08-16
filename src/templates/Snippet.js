@@ -7,6 +7,8 @@ import Spacer from '../components/Spacer'
 import FinishedReading from '../components/FinishedReading'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 
+const modifySnippetSlugForDB = slug => `snippets---${slug}`
+
 export default function Snippet({ data }) {
   const snippet = data.mdx
   const { name, slug } = snippet.frontmatter
@@ -17,7 +19,7 @@ export default function Snippet({ data }) {
 
       <h4 css={{ fontWeight: 700, marginBottom: 0 }}>Snippet</h4>
       <h2>{name}</h2>
-      <TotalBeardStrokes slug={`snippets/${slug}`} />
+      <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
 
       <div>
         <MDXRenderer>{snippet.body}</MDXRenderer>
@@ -26,7 +28,11 @@ export default function Snippet({ data }) {
       <hr />
 
       <Spacer bottom={2}>
-        <FinishedReading slug={`snippets/${slug}`} title={name} />
+        <FinishedReading
+          beardStrokeKey={modifySnippetSlugForDB(slug)}
+          slug={`snippets/${slug}`}
+          title={name}
+        />
       </Spacer>
 
       <hr />

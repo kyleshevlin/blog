@@ -7,7 +7,7 @@ import Share from './Share'
 import ShiftBy from './ShiftBy'
 import Spacer from './Spacer'
 
-export default function FinishedReading({ slug, title }) {
+export default function FinishedReading({ beardStrokeKey, slug, title }) {
   return (
     <div>
       <h3 css={{ fontWeight: 'bold', marginBottom: bs(0.25) }}>
@@ -16,7 +16,7 @@ export default function FinishedReading({ slug, title }) {
       <p>Here are a few options for what to do next.</p>
       <AfterOptionWrap>
         <AfterOption label="Like">
-          <BeardStrokes slug={slug} />
+          <BeardStrokes slug={beardStrokeKey} />
         </AfterOption>
         <AfterOption label="Share">
           <Share slug={slug} title={title} />
