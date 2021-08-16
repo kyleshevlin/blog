@@ -40,37 +40,52 @@ const sortsMachine = Machine({
 
 const comparators = {
   nameAsc: (a, b) => {
-    if (a.frontmatter.name < b.frontmatter.name) return -1
-    if (a.frontmatter.name > b.frontmatter.name) return 1
+    a = a.frontmatter.name.toLowerCase()
+    b = b.frontmatter.name.toLowerCase()
+
+    if (a < b) return -1
+    if (a > b) return 1
     return 0
   },
   nameDesc: (a, b) => {
-    if (a.frontmatter.name > b.frontmatter.name) return -1
-    if (a.frontmatter.name < b.frontmatter.name) return 1
+    a = a.frontmatter.name.toLowerCase()
+    b = b.frontmatter.name.toLowerCase()
+
+    if (a > b) return -1
+    if (a < b) return 1
     return 0
   },
   categoryAsc: (a, b) => {
-    if (a.frontmatter.category < b.frontmatter.category) return -1
-    if (a.frontmatter.category > b.frontmatter.category) return 1
+    a = a.frontmatter.category.toLowerCase()
+    b = b.frontmatter.category.toLowerCase()
+
+    if (a < b) return -1
+    if (a > b) return 1
     return 0
   },
   categoryDesc: (a, b) => {
-    if (a.frontmatter.category > b.frontmatter.category) return -1
-    if (a.frontmatter.category < b.frontmatter.category) return 1
+    a = a.frontmatter.category.toLowerCase()
+    b = b.frontmatter.category.toLowerCase()
+
+    if (a > b) return -1
+    if (a < b) return 1
     return 0
   },
 }
 
 const safeSort = comparator => array => [...array].sort(comparator)
 
+function JoshLink() {
+  return (
+    <a href="https://www.joshwcomeau.com/snippets/">Josh W. Comeau's blog</a>
+  )
+}
+
 export default function Snippets({ data }) {
   const [state, send] = useMachine(sortsMachine)
   const comparator = comparators[state.value]
   const snippets = getNodes(data.snippets)
   const sortedSnippets = safeSort(comparator)(snippets)
-  const joshLink = (
-    <a href="https://www.joshwcomeau.com/snippets/">Josh W. Comeau's blog</a>
-  )
 
   return (
     <>
@@ -78,7 +93,7 @@ export default function Snippets({ data }) {
       <h1>Snippets</h1>
 
       <p>
-        Inspired by {joshLink}, this is a collection of my code snippets that
+        Inspired by <JoshLink />, this is a collection of my code snippets that
         you can look at for inspiration or copy/paste at will.
       </p>
 

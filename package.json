@@ -55,7 +55,7 @@
     "fixTags": "node ./scripts/fixTags.js",
     "format": "prettier --loglevel=error --write \"src/**/*.js\"",
     "lint": "eslint ./src",
-    "newmdx": "node ./scripts/newMdx.js",
+    "newpost": "node ./scripts/newMdx.js",
     "newsnippet": "node ./scripts/newSnippet.js",
     "serve": "gatsby serve",
     "start": "npm run develop",

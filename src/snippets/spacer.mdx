@@ -1,0 +1,147 @@
+---
+slug: 'spacer'
+name: 'Spacer'
+description: 'A component for easily applying margins with component composition'
+category: 'React'
+---
+
+It is a mistake for reusable components to export their own margins. Doing so makes it difficult to compose them with other components to build up more complex ones. For more on this concept, I encourage you to read [Max Stoiber's article, "Margin considered harmful"](https://mxstbr.com/thoughts/margin/).
+
+When we compose components, we can use other elements to affect their layout. This can be done with one-off elements with styles applied, or we can create some declarative layout components. One of the ones I find most useful is the `Spacer` component you see below. I have used the component you see below in a number of applications. I use a `Spacer` all over this blog, but I make a small modification which I will show later on.
+
+I even added some `jsdoc` comments and some TypeScript types for you.
+
+```tsx
+type Margin = number | string;
+
+type SpacerProps = {
+  children: React.ReactNode;
+  /**
+   * Shorthand for applying margin to all sides
+   */
+  all?: Margin
+  /**
+   * Shorthand for applying margin to left and right sides
+   */
+  horz?: Margin
+  /**
+   * Shorthand for applying margin to top and bottom sides
+   */
+  vert?: Margin
+  /**
+   * Applies margin to the top
+   */
+  top?: Margin
+  /**
+   * Applies margin to the right
+   */
+  right?: Margin
+  /**
+   * Applies margin to the bottom
+   */
+  bottom?: Margin
+  /**
+   * Applies margin to the left
+   */
+  left?: Margin
+}
+
+function Spacer({
+  children,
+  all = 0,
+  horz = 0,
+  vert = 0,
+  top = 0,
+  right = 0,
+  bottom = 0,
+  left = 0,
+}: SpacerProps) {
+  const margins = {
+    ...(all && {
+      marginTop: all,
+      marginRight: all,
+      marginBottom: all,
+      marginLeft: all,
+    }),
+    ...(horz && {
+      marginLeft: horz,
+      marginRight: horz,
+    }),
+    ...(vert && {
+      marginTop: vert,
+      marginBottom: vert,
+    })
+    ...(top && { marginTop: top }),
+    ...(right && { marginRight: right }),
+    ...(bottom && { marginBottom: bottom }),
+    ...(left && { marginLeft: left }),
+  }
+
+  return <div style={margins}>{children}</div>
+}
+```
+
+Now we can compose components together. A simple example might be a `Name` and `Avatar` component that may have different layouts in different contexts. Perhaps in one layout they are adjacent to one another, as inline or flex elements:
+
+```jsx
+<div style={{ display: 'flex' }}>
+  <Spacer right={8}>
+    <Avatar src={avatar} />
+  </Spacer>
+  <Name>{name}</Name>
+</div>
+```
+
+And in another, perhaps a `Bio` component is introduced and some of them are stacked:
+
+```jsx
+<div>
+  <Spacer bottom={8}>
+    <Name>{name}</Name>
+  </Spacer>
+  <div style={{ display: 'flex' }}>
+    <Spacer right={4}>
+      <Avatar src={avatar} />
+    </Spacer>
+    <Bio>{bio}</Bio>
+  </div>
+</div>
+```
+
+The `Spacer` component makes it very easy to arbitrarily create new layouts for reusable components. I think you'll enjoy learning to use it.
+
+## My modification
+
+Because I use [`shevyjs`](https://github.com/kyleshevlin/shevyjs) in my projects, I modify my `Spacer` to use the `baseSpacing` function under the hood. Here is a direct copy/paste of what I'm using in this blog, right now:
+
+```jsx
+import React from 'react'
+import { bs } from '../shevy' // alias of the baseSpacing function I export
+
+export default function Spacer({
+  children,
+  all = 0,
+  vert = 0,
+  horz = 0,
+  top = 0,
+  right = 0,
+  bottom = 0,
+  left = 0,
+}) {
+  const margins = {
+    ...(all && { margin: bs(all) }),
+    ...(vert && { marginTop: bs(vert), marginBottom: bs(vert) }),
+    ...(horz && { marginLeft: bs(horz), marginRight: bs(horz) }),
+    ...(top && { marginTop: bs(top) }),
+    ...(right && { marginRight: bs(right) }),
+    ...(bottom && { marginBottom: bs(bottom) }),
+    ...(left && { marginLeft: bs(left) }),
+  }
+
+  return <div css={margins}>{children}</div>
+}
+```
+
+Now, when I pass a number in, it's being passed to `bs` and always returns a value that's in rhythm with my vertical spacing.
+
+You might also notice that I use the `margin` shorthand for the `all` prop. Since I'm the only one working on [kyleshevlin.com](/), I'm not worried about making a mistake combining props on this component. You may want to bake in stronger safety rails on your version of the component, disallowing overriding the `all` prop with other props. I leave that up to you.
