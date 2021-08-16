@@ -83,13 +83,15 @@ const Post = ({
           <FinishedReading slug={slug} title={title} />
         </Spacer>
 
+        <hr />
+
         <div
           css={{
-            marginBottom: bs(2),
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: bs(),
 
             [mq.bravo]: {
-              display: 'grid',
-              gap: bs(),
               gridTemplateColumns: '1fr 1fr',
             },
           }}
@@ -107,6 +109,8 @@ const Post = ({
             </div>
           )}
         </div>
+
+        <hr />
 
         <AddedValue courseNickname={relevantCourseNickname} />
 

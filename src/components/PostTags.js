@@ -3,13 +3,14 @@ import { Link } from 'gatsby'
 import shevy, { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 import Tag from './icons/Tag'
+import Spacer from './Spacer'
 
 const formatItemPath = item => `/tags/${formatStrForPath(item)}`
 
 export default function PostTags({ items }) {
   return items && items.length ? (
     <>
-      <div>
+      <Spacer bottom={0.25}>
         <span
           css={{
             display: 'inline-block',
@@ -33,7 +34,7 @@ export default function PostTags({ items }) {
         >
           Tags
         </span>
-      </div>
+      </Spacer>
       <div
         css={{
           display: 'flex',
