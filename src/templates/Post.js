@@ -3,20 +3,17 @@ import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import AddedValue from '../components/AddedValue'
 import BannerImage from '../components/BannerImage'
-import BeardStrokes from '../components/BeardStrokes'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
 import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
-import Share from '../components/Share'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import shevy, { bs } from '../shevy'
+import { bs } from '../shevy'
 import { mq } from '../utils'
 import Spacer from '../components/Spacer'
-import LinkButton from '../components/LinkButton'
-import KofiLogo from '../components/KofiLogo'
+import FinishedReading from '../components/FinishedReading'
 
 const newerOrOlderPostWrap = {
   paddingTop: bs(0.25),
@@ -83,23 +80,7 @@ const Post = ({
         <hr />
 
         <Spacer bottom={2}>
-          <div>
-            <h3 css={{ fontWeight: 'bold', marginBottom: bs(0.25) }}>
-              Finished reading?
-            </h3>
-            <p>Here are a few options for what to do next.</p>
-            <AfterOptionWrap>
-              <AfterOption label="Like">
-                <BeardStrokes slug={slug} />
-              </AfterOption>
-              <AfterOption label="Share">
-                <Share slug={slug} title={title} />
-              </AfterOption>
-              <AfterOption label="Support">
-                <Kofi />
-              </AfterOption>
-            </AfterOptionWrap>
-          </div>
+          <FinishedReading slug={slug} title={title} />
         </Spacer>
 
         <div
@@ -228,56 +209,5 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
         </div>
       ) : null}
     </div>
-  )
-}
-
-function AfterOptionWrap({ children }) {
-  return (
-    <div
-      css={{
-        display: 'grid',
-        gridTemplateColumns: 'auto auto',
-        gap: bs(),
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-function AfterOption({ children, label }) {
-  return (
-    <>
-      <div
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'var(--fonts-catamaran)',
-          fontSize: shevy.h4.fontSize,
-          fontWeight: 'bold',
-        }}
-      >
-        {label}
-      </div>
-      <div css={{ display: 'flex', alignItems: 'center' }}>{children}</div>
-    </>
-  )
-}
-
-function Kofi() {
-  return (
-    <LinkButton
-      href="https://ko-fi.com/kyleshevlin"
-      overrideStyles={{ width: '100%' }}
-    >
-      <div css={{ display: 'inline-block' }}>
-        <div css={{ display: 'flex', alignItems: 'center' }}>
-          <Spacer vert={0.25} right={0.5}>
-            <KofiLogo width={40} />
-          </Spacer>
-          <span css={{ fontSize: shevy.h4.fontSize }}>Buy me a Kofi</span>
-        </div>
-      </div>
-    </LinkButton>
   )
 }
