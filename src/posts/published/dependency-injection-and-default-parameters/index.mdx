@@ -1,0 +1,217 @@
+---
+date: '2021-08-19'
+slug: 'dependency-injection-and-default-parameters'
+title: 'Dependency Injection and Default Parameters'
+subtitle: 'or One Way to Make Your Programs More Flexible'
+description: ''
+excerpt: null
+tags: ['JavaScript']
+relatedPostsSlugs: []
+---
+
+I've been working on lessons for a new course recently, and one of the the lessons I created inspired me to share one of my favorite techniques for creating flexible functions: **dependency injection and default parameters**. Let's dig in.
+
+### Dependency injection
+
+Now, I don't have a computer science degree, so my understanding of what "dependency injection" is _might_ be a little different than yours, but allow me to explain how I understand it so we're on the same page for the rest of the blog post.
+
+Let's start by coming to agreement on what a "dependency" is. Let's say I have the following function:
+
+```javascript
+function formatString(str) {
+  return capitalize(str)
+}
+```
+
+This is a simple, well named function. It _formats_ a string. But the part I want to focus on for a moment is use of `capitalize`. What is `capitalize` in this situation?
+
+It is a dependency.
+
+`formatString` _depends_ on `capitalize` (for now). If `capitalize` isn't in scope for `formatString`, the program falls apart and throws an error. In this way, _anything_ a `function` <Marker content="Or class, which is more typically used when describing dependency injection." /> depends on is a dependency.
+
+This, of course, begs the next question: what does it mean to "inject" a dependency. Let's modify our `formatString` function a little bit and find out.
+
+Instead of relying on `capitalize` to be in the same scope, let's make it a parameter of the function and pass `capitalize` in as an argument.
+
+```javascript
+function formatString(str, formatter) {
+  return formatter(str)
+}
+
+const capitalizedHello = formatString('hello', formatter)
+console.log(capitalizedHello) // 'Hello'
+```
+
+Now the `formatter` of our `formatString` function is passed in as an argument. This allows us to pass in other `formatter`s as well.
+
+```javascript
+const scream = str => [...str].map(x => x.toUpperCase()).join('')
+const snakeCase = str => str.replace(/\s/g, '_')
+
+const str = 'hello world'
+
+formatString(str, scream) // HELLO WORLD
+formatString(str, snakeCase) // hello_world
+```
+
+But what happens if we _forget_ to pass in a `formatter`?
+
+_\*Cue the womp womp womp noises_ 🎺
+
+It falls apart, right? We can solve this with a default parameter.
+
+### Default parameters
+
+JavaScript functions can be variadic, meaning they can be called with a variable number of arguments. When a function is called without an argument for a particular parameter, that parameter is assigned `undefined`. However, if this is undesirable behavior, we can define defaults for these unassigned parameters using [default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters).
+
+In the case of our `formatString` function, we can make use of the `identity` function.
+
+```javascript
+const identity = x => x
+```
+
+The `identity` function simply returns whatever is passed in. Give it a string. Get that string right back. It's perfect for a default parameter in our `formatString` function. <Marker content="It turns out, the identity function is a useful default parameter in a lot of other functions, too" />
+
+```javascript
+function formatString(str, formatter = identity) {
+  return formatter(str)
+}
+
+formatString('hello world') // hello world
+```
+
+Now, we don't need to provide a dependency if the default one suits our needs. Are you starting to see how this can bake flexibility into the programs you write?
+
+### Practical example
+
+I'm currently working on a course to help people understand `Array.reduce()` better. It confuses a lot of people, and if you're one of them, know help is coming.
+
+In the course, we do a _lot_ of exercises using `reduce` to build up our muscle memory. One of the more practical exercises is a `counts` function. It receives an array, and counts the items in the array based on some criteria. The question is, how do we determine the criteria for counting the items?
+
+In the case of primitive values, such as `Number`s, `String`s and `Boolean`s, the criteria is can be fairly simple: use the item itself. Let's start building this `counts` function, but with a `for` loop. Don't want to spoil all my course material:
+
+```javascript
+function counts(items) {
+  const result = {}
+
+  for (const item of items) {
+    if (result[item] === undefined) {
+      result[item] = 0
+    }
+
+    result[item]++
+  }
+
+  return result
+}
+```
+
+Now if we call `counts` on some arrays with primitives, we'd get results like these:
+
+```javascript
+counts([true, false, true, true, false, false, true])
+// { true: 4, false: 3 }
+
+counts([1, 2, 2, 3, 3, 3])
+// { '1': 1, '2': 2, '3': 3}
+
+counts(['apple', 'banana', 'apple', 'orange', 'orange', 'apple'])
+// { apple: 3, banana: 1, orange: 2}
+```
+
+That works great, but how do we handle situations where our items aren't primitives? Or situations where we might want to do something more complicated than use the `item` itself as the key? <Marker content="Or handle <code>undefined</code> as a value?" />
+
+You guessed it. Dependency injection and a default parameter.
+
+Let's add an argument to our `counts` function, a `getKey` callback function that will be passed the `item` (and some other arguments). This function will determine the `key` to be used in our `counts` function for us.
+
+```javascript
+function counts(items, getKey /* what should the default parameter be? */) {
+  const result = {}
+
+  // Notice the change we make with entries()
+  for (const [index, item] of items.entries()) {
+    // This is the same signature as the callback for .map or .filter
+    const key = getKey(item, index, items)
+
+    if (result[key] === undefined) {
+      result[key] = 0
+    }
+
+    result[key]++
+  }
+
+  return result
+}
+```
+
+Now, if we have a more complicated array of items, or simply want to do something more complicated _with_ a primitive array of items, we can. Let's say I'm counting inventory of some clothing. I want to be able to generate `counts` based on the `color` of the shirt and the `size` of the shirt.
+
+```javascript
+const shirts = [
+  { color: 'red', size: 'M' },
+  { color: 'blue', size: 'M' },
+  { color: 'red', size: 'S' },
+  { color: 'red', size: 'L' },
+  { color: 'blue', size: 'S' },
+]
+
+counts(shirts, item => item.color)
+// { red: 3, blue: 2 }
+
+counts(shirts, item => item.size)
+// { L: 1, M: 2, S: 2 }
+```
+
+We can even use it to do something like count how many even and odd numbers are in a list.
+
+```javascript
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+counts(nums, x => (x % 2 ? 'odd' : 'even'))
+// { odd: 5, even: 4 }
+```
+
+Injecting the `getKey` dependency makes this function a lot more flexible. We just have one thing remaining. Did you figure out what the default `getKey` function should be?
+
+That's right. It should be `identity`. Our final `counts` function looks like this:
+
+```javascript
+function counts(items, getKey = identity) {
+  const result = {}
+
+  for (const [index, item] of items.entries()) {
+    const key = getKey(item, index, items)
+
+    if (result[key] === undefined) {
+      result[key] === 0
+    }
+
+    result[key]++
+  }
+
+  return result
+}
+```
+
+### Summary
+
+Functions can be made more flexible by passing in their dependencies rather than relying on them being available in their scope. We can set good defaults to handle most cases, and then override that parameter with argument of our own which injects the dependency. This pattern can be seen in something as small as the examples here, to much bigger systems.
+
+### Additional resources
+
+One of the most fantastic talks I've ever seen is "Nothing is Something" by [Sandi Metz](https://sandimetz.com/). I have watched this talk half a dozen times in my life, it's that good. Even if you never write a line of Ruby, deep diving on her talks is well worth your time.
+
+This talk, "Nothing is Something", really explores how dependency injection and object composition is the way to create truly flexible programs. I strongly encourage you to give it a watch:
+
+<div style={{ display: 'flex', justifyContent: 'center' }}>
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/29MAL8pJImQ"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+/>
+</div>
