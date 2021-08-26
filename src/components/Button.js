@@ -26,11 +26,6 @@ export const buttonStyles = {
     backgroundColor: 'var(--components-button-hover-background)',
     color: 'var(--components-button-hover-text)',
   },
-
-  '&:active': {
-    backgroundColor: 'var(--components-button-active-background)',
-    color: 'var(--components-button-active-text)',
-  },
 }
 
 export default function Button({

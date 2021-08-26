@@ -1,5 +1,6 @@
 import React from 'react'
 import shevy, { bs } from '../shevy'
+import ShiftBy from './ShiftBy'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
@@ -37,7 +38,7 @@ export default function Share({ slug, title }) {
       }}
       onClick={handleClick}
     >
-      Click to share on Twitter
+      <ShiftBy y={-2}>Click to share on Twitter</ShiftBy>
     </button>
   )
 }

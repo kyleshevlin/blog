@@ -1,8 +1,9 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
+import { buttonStyles } from '../components/Button'
+import Spacer from '../components/Spacer'
 import Beard from '../components/icons/Beard'
 import { getFirebase } from '../firebase'
-import { bs } from '../shevy'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
 
@@ -61,58 +62,55 @@ function BeardStrokes({ slug }) {
 
   return (
     <>
-      <div
+      <button
         css={{
-          display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'var(--fonts-catamaran)',
+          ...buttonStyles,
+          appearance: 'none',
+          backgroundColor: 'var(--colors-accentExtraDark)',
+          touchAction: 'manipulation',
+          width: '100%',
+
+          '&:hover': {
+            backgroundColor: 'var(--colors-accentExtraDark)',
+          },
+
+          '& svg': {
+            fill: count === 0 ? 'var(--colors-offsetMore)' : '#fff',
+            transform: 'scale(.95)',
+            transition: 'fill 0.3s ease, transform .15s ease',
+          },
+
+          '&:active svg': {
+            transform: 'scale(1)',
+          },
+
+          '&:disabled svg': {
+            fill: 'var(--colors-offset)',
+            transform: 'scale(1)',
+          },
+
+          '&:hover svg': {
+            fill: '#fff',
+          },
         }}
+        onClick={handleBeardClick}
+        disabled={maximumStrokesApplied}
+        type="button"
       >
-        <div css={{ textAlign: 'center' }}>
-          <button
-            css={{
-              appearance: 'none',
-              backgroundColor: 'transparent',
-              border: 'none',
-              padding: `${bs(0.25)} ${bs(0.5)} 0`,
-              touchAction: 'manipulation',
-
-              '& svg': {
-                fill:
-                  count === 0
-                    ? 'var(--colors-offsetMore)'
-                    : 'var(--colors-accent)',
-                transform: 'scale(.95)',
-                transition: 'fill 0.3s ease, transform .15s ease',
-              },
-
-              '&:active svg': {
-                transform: 'scale(1)',
-              },
-
-              '&:disabled svg': {
-                fill: 'var(--colors-accentDark)',
-                transform: 'scale(1)',
-              },
-
-              '&:hover svg': {
-                fill: 'var(--colors-accentDark)',
-              },
-            }}
-            onClick={handleBeardClick}
-            disabled={maximumStrokesApplied}
-            type="button"
-          >
+        <div
+          css={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Spacer right={0.25}>
             <Beard width={40} />
-          </button>
-          <div css={{ fontFamily: 'var(--fonts-catamaran)', lineHeight: 1 }}>
-            {`+${count}`}
-          </div>
+          </Spacer>
+          <Spacer right={0.5}>+{count}</Spacer>
+          <span>Liked the post? Click the beard up to 50 times to show it</span>
         </div>
-        <div css={{ fontStyle: 'italic', lineHeight: 1.2 }}>
-          Liked the post? Click the beard a few times to show how much.
-        </div>
-      </div>
+      </button>
     </>
   )
 }
