@@ -7,6 +7,7 @@ import LinkedIn from './icons/LinkedIn'
 import Twitch from './icons/Twitch'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
+import Spacer from './Spacer'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -31,35 +32,42 @@ export default function Footer() {
       }}
     >
       <Container>
-        <div css={{ marginBottom: bs(2) }}>
+        <Spacer bottom={2}>
           <Contributors />
-        </div>
+        </Spacer>
 
-        <div css={{ marginBottom: bs(0.5) }}>
-          {links.map(({ href, icon: Icon, title }) => (
-            <OutboundLink
-              css={{
-                display: 'inline-block',
-                padding: bs(0.5),
-                '&:hover svg': {
-                  fill: 'var(--components-button-hover-background)',
-                },
-                svg: {
-                  transition: 'fill 0.3s ease',
-                },
-              }}
-              key={title}
-              href={href}
-              title={title}
-            >
-              <Icon fill={'var(--components-button-background)'} width={30} />
-            </OutboundLink>
-          ))}
-        </div>
+        <Spacer bottom={0.5}>
+          <div
+            css={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {links.map(({ href, icon: Icon, title }) => (
+              <OutboundLink
+                css={{
+                  display: 'inline-block',
+                  padding: `${bs(0.25)} ${bs(0.5)}`,
+                  '&:hover svg': {
+                    fill: 'var(--components-button-hover-background)',
+                  },
+                  svg: {
+                    transition: 'fill 0.3s ease',
+                  },
+                }}
+                key={title}
+                href={href}
+                title={title}
+              >
+                <Icon fill={'var(--components-button-background)'} width={30} />
+              </OutboundLink>
+            ))}
+          </div>
+        </Spacer>
 
         <div>
           &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
-          Built with <a href="https://www.gatsbyjs.org">Gatsby</a>.
         </div>
       </Container>
     </div>
