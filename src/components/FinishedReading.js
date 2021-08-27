@@ -6,6 +6,7 @@ import LinkButton from './LinkButton'
 import Share from './Share'
 import ShiftBy from './ShiftBy'
 import Spacer from './Spacer'
+import { mq } from '../utils'
 
 export default function FinishedReading({ beardStrokeKey, slug, title }) {
   return (
@@ -36,6 +37,7 @@ function AfterOptionWrap({ children }) {
         display: 'grid',
         gridTemplateColumns: 'auto auto',
         gap: bs(),
+        alignItems: 'end',
       }}
     >
       {children}
@@ -48,14 +50,12 @@ function AfterOption({ children, label }) {
     <>
       <div
         css={{
-          display: 'flex',
-          alignItems: 'center',
           fontFamily: 'var(--fonts-catamaran)',
           fontSize: shevy.h4.fontSize,
           fontWeight: 'bold',
         }}
       >
-        {label}
+        <Spacer bottom={0.25}>{label}</Spacer>
       </div>
       <div css={{ display: 'flex', alignItems: 'center' }}>{children}</div>
     </>
@@ -64,20 +64,35 @@ function AfterOption({ children, label }) {
 
 function Kofi() {
   return (
-    <LinkButton
-      href="https://ko-fi.com/kyleshevlin"
-      overrideStyles={{ width: '100%' }}
-    >
-      <div css={{ display: 'inline-block' }}>
-        <div css={{ display: 'flex', alignItems: 'center' }}>
-          <span css={{ fontSize: shevy.h4.fontSize }}>Make a donation</span>
+    <div css={{ textAlign: 'center', width: '100%' }}>
+      <Spacer bottom={0.25}>
+        <div
+          css={{
+            fontFamily: 'var(--fonts-catamaran)',
+          }}
+        >
+          Was this post valuable to you? Make a donation to show&nbsp;it
+        </div>
+      </Spacer>
+      <LinkButton
+        href="https://ko-fi.com/kyleshevlin"
+        overrideStyles={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: 56,
+        }}
+      >
+        <span css={{ fontSize: shevy.h4.fontSize }}>Make a Donation</span>
+        <div css={{ display: 'none', [mq.alpha]: { display: 'block' } }}>
           <Spacer vert={0.25} left={0.5}>
             <ShiftBy y={2}>
               <KofiLogo width={40} />
             </ShiftBy>
           </Spacer>
         </div>
-      </div>
-    </LinkButton>
+      </LinkButton>
+    </div>
   )
 }

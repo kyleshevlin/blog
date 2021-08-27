@@ -1,6 +1,7 @@
 import React from 'react'
 import shevy, { bs } from '../shevy'
 import ShiftBy from './ShiftBy'
+import Spacer from './Spacer'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
@@ -20,26 +21,40 @@ export default function Share({ slug, title }) {
   }, [slug, title])
 
   return (
-    <button
-      css={{
-        backgroundColor: 'var(--colors-contra)',
-        border: 'none',
-        borderRadius: 2,
-        color: 'white',
-        fontFamily: 'var(--fonts-catamaran)',
-        fontSize: shevy.h4.fontSize,
-        padding: `${bs(0.35)} ${bs(0.5)}`,
-        transition: 'all .3s ease',
-        width: '100%',
+    <div css={{ width: '100%', textAlign: 'center' }}>
+      <Spacer bottom={0.25}>
+        <div
+          css={{
+            fontFamily: 'var(--fonts-catamaran)',
+          }}
+        >
+          Sharing this post on Twitter & elsewhere is a great way to
+          help&nbsp;me&nbsp;out
+        </div>
+      </Spacer>
+      <button
+        css={{
+          backgroundColor: 'var(--colors-contra)',
+          border: 'none',
+          borderRadius: 2,
+          color: 'white',
+          fontFamily: 'var(--fonts-catamaran)',
+          fontSize: shevy.h4.fontSize,
+          lineHeight: 1,
+          padding: `${bs(0.35)} ${bs(0.5)}`,
+          transition: 'all .3s ease',
+          width: '100%',
+          height: 56,
 
-        '&:hover': {
-          backgroundColor: 'var(--colors-contraLight)',
-        },
-      }}
-      onClick={handleClick}
-    >
-      <ShiftBy y={-2}>Click to share on Twitter</ShiftBy>
-    </button>
+          '&:hover': {
+            backgroundColor: 'var(--colors-contraLight)',
+          },
+        }}
+        onClick={handleClick}
+      >
+        <ShiftBy y={-2}>Click to share on Twitter</ShiftBy>
+      </button>
+    </div>
   )
 }
 

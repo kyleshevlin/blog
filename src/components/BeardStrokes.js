@@ -61,21 +61,34 @@ function BeardStrokes({ slug }) {
   )
 
   return (
-    <>
+    <div css={{ width: '100%', textAlign: 'center' }}>
+      <Spacer bottom={0.25}>
+        <div
+          css={{
+            fontFamily: 'var(--fonts-catamaran)',
+          }}
+        >
+          Liked the post? Click the beard up to 50 times to show&nbsp;it
+        </div>
+      </Spacer>
       <button
         css={{
           ...buttonStyles,
           appearance: 'none',
-          backgroundColor: 'var(--colors-accentExtraDark)',
+          backgroundColor: 'var(--components-beard-strokes-button-bg)',
           touchAction: 'manipulation',
           width: '100%',
+          height: 56,
 
           '&:hover': {
-            backgroundColor: 'var(--colors-accentExtraDark)',
+            backgroundColor: 'var(--components-beard-strokes-button-bg-hover)',
           },
 
           '& svg': {
-            fill: count === 0 ? 'var(--colors-offsetMore)' : '#fff',
+            fill:
+              count === 0
+                ? 'var(--components-beard-strokes-fill-default)'
+                : 'var(--components-beard-strokes-fill-nonzero)',
             transform: 'scale(.95)',
             transition: 'fill 0.3s ease, transform .15s ease',
           },
@@ -84,13 +97,13 @@ function BeardStrokes({ slug }) {
             transform: 'scale(1)',
           },
 
-          '&:disabled svg': {
-            fill: 'var(--colors-offset)',
-            transform: 'scale(1)',
+          '&:hover svg': {
+            fill: 'var(--components-beard-strokes-fill-hover)',
           },
 
-          '&:hover svg': {
-            fill: '#fff',
+          '&:disabled svg': {
+            fill: 'var(--components-beard-strokes-fill-disabled)',
+            transform: 'scale(1)',
           },
         }}
         onClick={handleBeardClick}
@@ -108,10 +121,9 @@ function BeardStrokes({ slug }) {
             <Beard width={40} />
           </Spacer>
           <Spacer right={0.5}>+{count}</Spacer>
-          <span>Liked the post? Click the beard up to 50 times to show it</span>
         </div>
       </button>
-    </>
+    </div>
   )
 }
 
