@@ -301,7 +301,7 @@ function useItemSelection(getKey = tryId) {
         })
       },
     }),
-    []
+    [getKey]
   )
 
   return [selectedItem, handlers]
