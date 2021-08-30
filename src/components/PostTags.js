@@ -8,7 +8,14 @@ const formatItemPath = item => `/tags/${formatStrForPath(item)}`
 
 export default function PostTags({ items }) {
   return items && items.length ? (
-    <div css={{ display: 'flex', flexWrap: 'wrap', gap: bs(0.5) }}>
+    <div
+      css={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'baseline',
+        gap: bs(0.5),
+      }}
+    >
       <div>
         <span
           css={{
