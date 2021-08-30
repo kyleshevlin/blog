@@ -187,7 +187,7 @@ console.log(state) // { error: null, data: null, loading true }
 
 #### Calling state setters more than once in a handler body
 
-This "gotcha" has also been true since the class component days. If you call a state setter more than once in the same function body, there's a _really_ good chance that the update will not be what you expect when you that body completes.
+This "gotcha" has also been true since the class component days. If you call a state setter more than once in the same function body, there's a _really_ good chance that the update will not be what you expect when that function body completes.
 
 Here's an absurd example, with a `useTripleCounter` hook:
 
