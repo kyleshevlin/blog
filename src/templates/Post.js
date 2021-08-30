@@ -14,11 +14,6 @@ import { bs } from '../shevy'
 import { mq } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 
-const newerOrOlderPostWrap = {
-  paddingTop: bs(0.25),
-  paddingBottom: bs(0.25),
-}
-
 const newerOrOlderHeading = {
   fontFamily: 'var(--fonts-catamaran)',
   fontWeight: 700,
@@ -189,9 +184,9 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
   return relatedPosts && relatedPosts.length ? (
     <RelatedPosts posts={relatedPosts} />
   ) : (
-    <div>
+    <div css={{ display: 'grid', gridTemplateColumns: '1fr', gap: bs(0.5) }}>
       {newerPost ? (
-        <div css={newerOrOlderPostWrap}>
+        <div>
           <span css={newerOrOlderHeading}>Newer Post: </span>
           <Link
             to={`/${newerPost.frontmatter.slug}`}
@@ -201,7 +196,7 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
       ) : null}
 
       {olderPost ? (
-        <div css={newerOrOlderPostWrap}>
+        <div>
           <span css={newerOrOlderHeading}>Older Post: </span>
           <Link
             to={`/${olderPost.frontmatter.slug}`}

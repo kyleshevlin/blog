@@ -28,7 +28,7 @@ const ExcerptedPost = ({ post }) => {
           display: 'grid',
           gridGap: bs(),
           [mq.bravo]: {
-            alignItems: 'center',
+            alignItems: 'start',
             gridTemplateColumns: 'max-content 1fr',
           },
         }}
