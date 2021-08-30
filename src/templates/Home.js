@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, Link } from 'gatsby'
 import AddedValue from '../components/AddedValue'
 import { buttonStyles } from '../components/Button'
@@ -8,14 +8,14 @@ import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 
 export default function Home({ data }) {
-  const collections = getNodes(data.allCollectionsJson)
   const recentPosts = getNodes(data.recent)
 
   return (
-    <Fragment>
-      <Seo title="Home" keywords={['Kyle Shevlin']} />
+    <>
+      <Seo title="Home" keywords={['Kyle Shevlin', 'React', 'JavaScript']} />
       <Welcome />
-      <Collections collections={collections} />
+      <hr />
+      <SelectedTags />
       <hr />
       <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
@@ -27,20 +27,12 @@ export default function Home({ data }) {
       </div>
 
       <AddedValue />
-    </Fragment>
+    </>
   )
 }
 
 export const query = graphql`
   query HomeQuery($skip: Int!, $limit: Int!) {
-    allCollectionsJson(sort: { fields: [order], order: ASC }) {
-      edges {
-        node {
-          name
-        }
-      }
-    }
-
     recent: allMdx(
       filter: { fileAbsolutePath: { regex: "/posts/" } }
       sort: { fields: [frontmatter___date], order: DESC }
@@ -88,11 +80,18 @@ function Welcome() {
   )
 }
 
-function Collections({ collections }) {
+const TAGS = [
+  { to: 'react', label: 'React' },
+  { to: 'state-machines', label: 'State Machines' },
+  { to: 'functional-programming', label: 'Functional Programming' },
+  { to: 'software-engineering', label: 'Software Engineering' },
+]
+
+function SelectedTags() {
   return (
     <section>
       <h3>Unsure Where to Start?</h3>
-      <p>Try one of these curated collections.</p>
+      <p>Try a post in one of these tagged collections.</p>
       <div
         css={{
           display: 'grid',
@@ -103,17 +102,15 @@ function Collections({ collections }) {
           },
         }}
       >
-        {collections.map(collection => (
-          <CollectionItem key={collection.name} collection={collection} />
+        {TAGS.map(({ label, to }) => (
+          <CollectionItem key={label} label={label} to={to} />
         ))}
       </div>
     </section>
   )
 }
 
-function CollectionItem({ collection }) {
-  const { name } = collection
-
+function CollectionItem({ label, to }) {
   return (
     <Link
       css={{
@@ -125,9 +122,9 @@ function CollectionItem({ collection }) {
         fontSize: shevy.h4.fontSize,
         padding: bs(),
       }}
-      to={`/collections#${name.replace(' ', '-').toLowerCase()}`}
+      to={`/tags/${to}`}
     >
-      <span>{name}</span>
+      <span>{label}</span>
     </Link>
   )
 }

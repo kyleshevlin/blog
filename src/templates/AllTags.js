@@ -1,19 +1,13 @@
-import React, { Fragment } from 'react'
-import { css } from '@emotion/core'
+import React from 'react'
 import { Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath, inflect } from '../utils'
 import AddedValue from '../components/AddedValue'
 
-const linkStyles = css`
-  display: inline-block;
-  margin-bottom: ${bs(0.5)};
-`
-
 export default function AllTags({ pageContext }) {
   const { counts, tags } = pageContext
-  const title = 'All Tags'
+  const title = 'Tags'
 
   const sortedData = React.useMemo(() => {
     return sortByCount(
@@ -25,15 +19,24 @@ export default function AllTags({ pageContext }) {
   }, [counts, tags])
 
   return (
-    <Fragment>
+    <>
       <Seo title={title} />
 
       <h1>{title}</h1>
 
+      <p>
+        I categorize each of my blog posts with tags. I hope this helps you find
+        interesting articles to read related to ones you have already enjoyed or
+        would like to explore next.
+      </p>
+
       <div>
         {sortedData.map(({ tag, count }) => (
-          <div key={tag}>
-            <Link css={linkStyles} to={`tags/${formatStrForPath(tag)}`}>
+          <div css={{ marginBottom: bs(0.5) }} key={tag}>
+            <Link
+              css={{ display: 'inline-block' }}
+              to={`tags/${formatStrForPath(tag)}`}
+            >
               {tag}
             </Link>
             <span>
@@ -45,7 +48,7 @@ export default function AllTags({ pageContext }) {
       </div>
 
       <AddedValue />
-    </Fragment>
+    </>
   )
 }
 

@@ -5,7 +5,7 @@ import { bs } from '../shevy'
 const LINKS = [
   { to: '/', title: 'Home' },
   { to: '/all-posts', title: 'All Posts' },
-  { to: '/collections', title: 'Collections' },
+  { to: '/tags', title: 'Tags' },
   { to: '/courses', title: 'Courses' },
   { to: '/snippets', title: 'Snippets' },
   { to: '/about', title: 'About' },
