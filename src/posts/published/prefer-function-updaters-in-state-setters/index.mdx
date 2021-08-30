@@ -11,7 +11,7 @@ relatedPostsSlugs: ['use-encapsulation', 'prefer-declarative-state-updaters']
 
 import ItemSelectorBad from './ItemSelectorBad'
 
-This one will be short and sweet. You're using React. You have some state.
+This one will be short and sweet. <Marker content="At least I thought so when I started writing this, and I have no intention of changing the sentence now" /> You're using React. You have some state.
 
 ```javascript
 const [selectedItem, setSelectedItem] = React.useState(null)
@@ -243,3 +243,75 @@ What happens now? Now our updates are all applied. Our count increments and decr
 ### Summary
 
 Using function updaters leads to fewer gotchas and requires fewer dependencies than simply replacing the current state. Consider using them more often to improve your stateful React components.
+
+### Bonus: Improving the `useItemSelection` hook
+
+I wanted to take a moment and make this hook a little better before finishing the post. This relates to my recent post on [dependency injection](dependency-injection-and-default-parameters) which you should read.
+
+Did you happen to notice _another_ dependency in the `useItemSelection` hook? Here it is in full so you can look for it:
+
+```javascript
+function useItemSelection() {
+  const [selectedItem, setSelectedItem] = React.useState(null)
+
+  const handlers = React.useMemo(
+    () => ({
+      selectItem: item => {
+        setSelectedItem(item)
+      },
+      unselectItem: () => {
+        setSelectedItem(null)
+      },
+      smartSelectItem: item => {
+        setSelectedItem(currentItem => {
+          if (item?.id === currentItem?.id) return null
+          return item
+        })
+      },
+    }),
+    []
+  )
+
+  return [selectedItem, handlers]
+}
+```
+
+Hopefully you recognized that `smartSelectItem` knows a _bit_ too much about the shape of the items being selected. What if these items are _not_ objects? What if they are but don't have `id`s, but some other key?
+
+Let's use dependency injection and a default parameter to fix this:
+
+```javascript
+const tryId = x => x?.id
+
+function useItemSelection(getKey = tryId) {
+  const [selectedItem, setSelectedItem] = React.useState(null)
+
+  const handlers = React.useMemo(
+    () => ({
+      selectItem: item => {
+        setSelectedItem(item)
+      },
+      unselectItem: () => {
+        setSelectedItem(null)
+      },
+      smartSelectItem: item => {
+        setSelectedItem(currentItem => {
+          if (getKey(item) === getKey(currentItem)) return null
+          return item
+        })
+      },
+    }),
+    []
+  )
+
+  return [selectedItem, handlers]
+}
+```
+
+Now `useItemSelection` is a bit more flexible. Perhaps you want to use `name` as a key instead:
+
+```javascript
+const [state, handlers] = useItemSelection(x => x?.name)
+```
+
+No longer does `useItemSelection` for your data into a shape. You can easily conform `useItemSelection` to your data.
