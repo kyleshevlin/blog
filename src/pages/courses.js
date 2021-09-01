@@ -6,6 +6,7 @@ import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
 import NewsletterCTA from '../components/NewsletterCTA'
+import Spacer from '../components/Spacer'
 
 const query = graphql`
   {
@@ -39,43 +40,47 @@ export default function Courses() {
       <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
       <h1>Courses</h1>
 
-      <div css={{ marginTop: bs(2), marginBottom: bs(4) }}>
+      <p>
+        Here you will find all of the courses I have created with links to where
+        you can get them. If you ever have a question about one of my courses,
+        feel free to send me a message on{' '}
+        <a href="https://twitter.com/kyleshevlin">Twitter</a> about it and I'll
+        do my best to help you out.
+      </p>
+
+      <Spacer top={2} bottom={4}>
         {courses.map(course => (
           <CourseItem key={course.title} {...course} />
         ))}
-      </div>
+      </Spacer>
 
       <NewsletterCTA />
     </>
   )
 }
 
-const BUTTON_TEXT_BY_URL_TYPE = {
-  default: 'View the course',
-  egghead: 'View on egghead.io',
-}
-
-function getUrlType(url) {
+/**
+ * This function implements a Strategy pattern for handling different
+ * types of courses.
+ */
+function getCourseTypeValues(url) {
   switch (true) {
-    case /egghead/g.test(url):
-      return 'egghead'
+    case /egghead/.test(url):
+      return {
+        buttonText: 'View on egghead.io',
+        url: url + EGGHEAD_AFFILIATE_QUERY_PARAM,
+      }
 
     default:
-      return 'default'
+      return {
+        buttonText: 'View the course',
+        url,
+      }
   }
-}
-
-function formatUrl(url, urlType) {
-  if (urlType === 'egghead') {
-    return url + EGGHEAD_AFFILIATE_QUERY_PARAM
-  }
-
-  return url
 }
 
 function CourseItem({ description, logo, title, url }) {
-  const urlType = getUrlType(url)
-  const formattedUrl = formatUrl(url, urlType)
+  const course = getCourseTypeValues(url)
 
   return (
     <div
@@ -115,9 +120,7 @@ function CourseItem({ description, logo, title, url }) {
         />
         {url && (
           <div>
-            <LinkButton href={formattedUrl}>
-              {BUTTON_TEXT_BY_URL_TYPE[urlType]}
-            </LinkButton>
+            <LinkButton href={course.url}>{course.buttonText}</LinkButton>
           </div>
         )}
       </div>
