@@ -1,0 +1,90 @@
+---
+date: '2021-09-02'
+slug: 'what-is-a-closure'
+title: 'What is a Closure?'
+subtitle: null
+description: 'JavaScript closures are confusing for some, but they do not have to be. Learn what a closure is and why they are a powerful tool to have in your programming repertoire.'
+excerpt: 'JavaScript closures are confusing for some, but they do not have to be. Learn what a closure is and why they are a powerful tool to have in your programming repertoire.'
+tags: ['JavaScript', 'Computer Science']
+relatedPostsSlugs: []
+---
+
+In JavaScript, and some other languages, too, there is the concept of a "closure". This concept can be confusing at first, but once understood, can become a useful tool in your repertoire. I want to help you discover how useful it can be.
+
+In short, a "closure" occurs when a bit of "state", created inside of a function body, is exposed, with some indirection, to the outside world in the function's return. To make sense of this, let's break down a few things.
+
+This is a function.
+
+```javascript
+function() {}
+```
+
+When I create values inside of this function, they are scoped to the body, the `{}`, of the function. They cannot be accessed from outside of the function body.
+
+```javascript
+function counter() {
+  let count = 0
+}
+
+console.log(count) // Uncaught ReferenceError: count is not defined
+```
+
+If I return the `count`, the outside world can access the value, but it has no means of updating the value. Think of this as a bit of "state", but one that cannot be updated.
+
+```javascript
+function counter() {
+  let count = 0
+  return count
+}
+
+const count = counter()
+
+console.log(count) // 0
+```
+
+If instead of returning the `count`, I instead return an object that gives you access to reading the current `count` and methods for updating `count`, I will have exposed a bit of "state" that _can_ be updated.
+
+```javascript
+function createCounter() {
+  let count = 0
+
+  return {
+    /**
+     * Read the current state
+     */
+    state: () => count,
+    /**
+     * Increment the state by 1
+     */
+    increment: () => {
+      count++
+    },
+    /**
+     * Decrement the state by 1
+     */
+    decrement: () => {
+      count--
+    },
+  }
+}
+
+const counter = createCounter()
+
+console.log(counter.state()) // 0
+counter.increment()
+counter.increment()
+counter.increment()
+console.log(counter.state()) // 3
+```
+
+Now, I have a bit of state from our `createCounter` function body that is held in the memory of my program so long as I still have access to the returned `counter` object. _That_ is the **closure**.
+
+I can read that state, I can update that state, but not directly. I do it _indirectly_ through the API established by the returned object. <Marker content="The <code>createCounter</code> function is actually a <strong>factory function</strong>, which I hope to write about next." /> Can you start to see how useful this is?
+
+This method can be used to create persistent state for the life of our program, it can be used for [partially applying values](/just-enough-fp-partial-application) to [curried functions](/just-enough-fp-currying), it can be used to create _truly_ private functions and values, something we don't yet have for `classes` in JavaScript. The applications are numerous.
+
+I highly encourage you try making a few simple closures (if you haven't before), to get the hang of it. I think it can be a real eye opener, and you'll start to think of the returns of your functions as little APIs that your program interacts with.
+
+## Summary
+
+A closure is created when state held inside of a function body is exposed to the world outside of that function through its return value. It remains accessible, albeit indirectly, so long as the returned value exists in the program.
