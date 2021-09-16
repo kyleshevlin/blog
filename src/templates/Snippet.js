@@ -6,19 +6,32 @@ import AddedValue from '../components/AddedValue'
 import Spacer from '../components/Spacer'
 import FinishedReading from '../components/FinishedReading'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
+import EditLink from '../components/EditLink'
+import { bs } from '../shevy'
 
 const modifySnippetSlugForDB = slug => `snippets---${slug}`
 
 export default function Snippet({ data }) {
   const snippet = data.mdx
-  const { name, slug } = snippet.frontmatter
+  const { fileAbsolutePath, frontmatter } = snippet
+  const { name, slug } = frontmatter
 
   return (
     <Fragment>
       <Seo title={`${name} | Snippets`} />
 
       <h4 css={{ fontWeight: 700, marginBottom: 0 }}>Snippet</h4>
-      <h2>{name}</h2>
+      <div
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
+          marginBottom: bs(),
+        }}
+      >
+        <h2 css={{ marginBottom: 0 }}>{name}</h2>
+        <EditLink fileAbsolutePath={fileAbsolutePath} />
+      </div>
       <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
 
       <div>
@@ -49,6 +62,7 @@ export const pageQuery = graphql`
       frontmatter: { slug: { eq: $slug } }
     ) {
       body
+      fileAbsolutePath
       frontmatter {
         name
         slug

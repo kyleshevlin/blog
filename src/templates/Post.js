@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import AddedValue from '../components/AddedValue'
 import BannerImage from '../components/BannerImage'
+import EditLink from '../components/EditLink'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -40,7 +41,7 @@ const Post = ({
   } = file
 
   return (
-    <Fragment>
+    <>
       <Seo title={title} description={description} keywords={keywords || []} />
 
       <div
@@ -60,9 +61,9 @@ const Post = ({
         <TotalBeardStrokes slug={slug} />
         <div
           css={{
-            display: 'grid',
-            gridTemplateColumns: '3fr 1fr',
-            alignItems: 'end',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
             marginBottom: bs(),
           }}
         >
@@ -108,7 +109,7 @@ const Post = ({
 
         <PostAuthor />
       </div>
-    </Fragment>
+    </>
   )
 }
 
@@ -142,43 +143,6 @@ export const pageQuery = graphql`
     }
   }
 `
-
-const generateEditLink = fileAbsolutePath => {
-  const [, filePath] = fileAbsolutePath.split('src')
-  return `https://github.com/kyleshevlin/blog/edit/main/src${filePath}`
-}
-
-function EditLink({ fileAbsolutePath }) {
-  return (
-    <div css={{ textAlign: 'right' }}>
-      <a
-        css={{
-          display: 'inline-block',
-          fontFamily: 'var(--fonts-catamaran)',
-          fontStyle: 'italic',
-          paddingLeft: bs(0.5),
-          paddingRight: bs(0.5),
-        }}
-        href={generateEditLink(fileAbsolutePath)}
-      >
-        edit <EditSVG fill="var(--colors-accent)" width={18} />
-      </a>
-    </div>
-  )
-}
-
-function EditSVG({ fill = '#000', width }) {
-  return (
-    <svg
-      width={width}
-      viewBox="0 0 31 23"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M9.5 23H0L4 14L25 0L30.5 8.5L9.5 23Z" fill={fill} />
-    </svg>
-  )
-}
 
 function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
   return relatedPosts && relatedPosts.length ? (

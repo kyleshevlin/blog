@@ -12,10 +12,10 @@ When we compose components, we can use other elements to affect their layout. Th
 I even added some `jsdoc` comments and some TypeScript types for you.
 
 ```tsx
-type Margin = number | string;
+type Margin = number | string
 
 type SpacerProps = {
-  children: React.ReactNode;
+  children: React.ReactNode
   /**
    * Shorthand for applying margin to all sides
    */
@@ -70,7 +70,7 @@ function Spacer({
     ...(vert && {
       marginTop: vert,
       marginBottom: vert,
-    })
+    }),
     ...(top && { marginTop: top }),
     ...(right && { marginRight: right }),
     ...(bottom && { marginBottom: bottom }),
