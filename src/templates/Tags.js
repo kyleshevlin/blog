@@ -20,7 +20,10 @@ const Tags = ({ data, ...props }) => {
 
           return (
             <Spacer bottom={0.5} key={slug}>
-              <Link dangerouslySetInnerHTML={{ __html: title }} to={slug} />
+              <Link
+                dangerouslySetInnerHTML={{ __html: title }}
+                to={`/${slug}`}
+              />
             </Spacer>
           )
         })}

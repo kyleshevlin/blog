@@ -35,7 +35,7 @@ export default function AllTags({ pageContext }) {
           <div css={{ marginBottom: bs(0.5) }} key={tag}>
             <Link
               css={{ display: 'inline-block' }}
-              to={`tags/${formatStrForPath(tag)}`}
+              to={`/tags/${formatStrForPath(tag)}`}
             >
               {tag}
             </Link>
