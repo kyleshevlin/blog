@@ -36,7 +36,7 @@
     "gatsby-transformer-sharp": "^2.12.1",
     "lodash.debounce": "^4.0.8",
     "prism-theme-night-owl": "^1.4.0",
-    "prismjs": "^1.24.1",
+    "prismjs": "^1.25.0",
     "prop-types": "^15.6.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
