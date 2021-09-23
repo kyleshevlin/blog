@@ -5,10 +5,17 @@ description: 'An imperative way to force a component to update with Hooks'
 category: 'React Hooks'
 ---
 
-In React, A component will update whenever state is updated _regardless of whether the next state is identical to the current state_. So all we need to make it happen is call a `setState` function. Doesn't even need a value.
+In React, a component will update whenever state is updated. So all we need to make an update happen is call a `setState` with a new value. Simplest way to do this is flip a boolean.
 
 ```javascript
-const useForceUpdate = () => React.useState()[1]
+const useForceUpdate = () => {
+  const [, setState] = React.useState(true)
+  const forceUpdate = React.useCallback(() => {
+    setState(s => !s)
+  }, [])
+
+  return forceUpdate
+}
 ```
 
 This can be useful when using `useRef`. Changes to `ref`s won't trigger a component to update. Calling `forceUpdate` after setting a `ref` may be the trick you're looking for. <Marker content="Arguably, there may be a better way to do what you're trying to achieve, perhaps with a <code>useEffect</code> hook instead." />
