@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import CoursesProvider from './components/CoursesProvider'
 import OffsetWrap from './components/OffsetWrap'
 import { FootnotesProvider, FootnoteMarker } from './components/Footnotes'
+import Spacer from './components/Spacer'
 import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
@@ -35,6 +36,7 @@ const wrapPageElement = ({ element, props }) => {
               h6: H6,
               Marker: FootnoteMarker,
               OffsetWrap,
+              Spacer,
             }}
           >
             <Layout {...props}>{element}</Layout>
