@@ -43,3 +43,13 @@ export const makeHeadingId = heading => {
     .map(x => x.toLowerCase())
     .join('-')
 }
+
+export const random255 = () => Math.floor(Math.random() * 255)
+
+export const randomRGB = () => {
+  const r = random255()
+  const g = random255()
+  const b = random255()
+
+  return `rgb(${r}, ${g}, ${b})`
+}
