@@ -22,13 +22,15 @@ Before we get into the specific differences, I want to share a realization I rec
   <HookCategories />
 </Spacer>
 
-Notice that I put `useRef` in _two_ categories. It doesn't fall neatly into one or the other. It holds a bit of state, whatever value is assigned to `ref.current`, making it a "State Manager". But it's also a "Stabilizer" in that changing the value of `ref.current` **does not** cause a component to update.
+Notice that I put `useRef` in _two_ categories. It doesn't fall neatly into one or the other. It holds a bit of state, whatever value is assigned to `ref.current`, making it a "State Manager". But it's also a "Stabilizer" because changing the value of `ref.current` **does not** cause a component to update.
 
-`useState`, on the other hand, is designed to update a component. <Marker content="That's kind of the whole point, ha." /> In fact, I often like to help people understand `useState` by showing them how to make a `useForceUpdate` hook with it.
+`useState`, on the other hand, is designed to update a component. <Marker content="That's kind of the whole point, ha." /> In fact, I like to help people understand `useState` better by showing them how to make a `useForceUpdate` hook with it.
 
-If you've written React long enough, or have had the chance to search through some class component code, you may have used or come across an invocation of `this.forceUpdate()`. React class components have a method, `forceUpdate`, that you can use to imperatively force a component to rerender. It was an escape hatch of last resort. The move to React Hooks meant we lost this escape hatch, right? Wrong.
+If you have written React for long enough, or have had the chance to work or search through some class component code, you may have used or come across an invocation of `this.forceUpdate()`. React class components have a method, `forceUpdate`, that you can use to imperatively force a component to rerender. It was an escape hatch of last resort. The move to React Hooks meant we lost this escape hatch, right?
 
-We can create that same imperative function like so: <Marker content={`You can also find this code on my <a href="/snippets">Snippets</a> under <a href="/snippets/use-force-update">useForceUpdate()</a>.`} />
+**Wrong**.
+
+We can create that same imperative escape hatch function like so: <Marker content={`You can also find this code on my <a href="/snippets">Snippets</a> under <a href="/snippets/use-force-update">useForceUpdate()</a>.`} />
 
 ```javascript
 const useForceUpdate = () => {
@@ -41,7 +43,7 @@ const useForceUpdate = () => {
 }
 ```
 
-Let's break this code down. First, we only destructure the state setter from the `useState` hook. We don't actually _need_ the state, we just need it to change whenever we want to force an update. Next, we make a callback function, stabilize it with `useCallback` and use a [function updater](/prefer-function-updaters-in-state-setters) to flip the boolean back and forth. We then return our function from the hook. If we include this in a component, which we will see soon enough, we can force it to update. Let's put this into practice.
+Let's break this code down. First, we only destructure the state setter from the `useState` hook. <Marker content="With array destructuring, you can skip values at any index just be not declaring a variable name at that position." /> We don't actually _need_ the state, we just need it to change whenever we want to force an update. Next, we make a callback function, stabilize it with `useCallback`, and use a [function updater](/prefer-function-updaters-in-state-setters) to flip the boolean back and forth. We then return our function from the hook. If we include this in a component, which we will see soon enough, we can force it to update. Let's put this into practice.
 
 As I've demonstrated before in my post on [React.memo](/using-react-memo-to-avoid-unnecessary-rerenders), one way to visually see that a component has updated is to give it a random background color with each render. Let's make a component that does just that. First, the `randomRGB` function: <Marker content={`This, too, can be found on my <a href="/snippets">Snippets</a> page under <a href="/snippets/random-rgb">randomRGB()</a>`} />
 
@@ -77,7 +79,7 @@ And let's see it in action.
   <RandomBox />
 </Spacer>
 
-Neat. Now we are clear on what causes a component to rerender with `useState`. How does this relate to `useRef`. Let's try to make a similar box, but use a `useRef` instead. We'll have to create our own state updater to do this since `useRef` doesn't give us one.
+Neat. Now, hopefully it's clear what causes a rerender with `useState`. The question we must now ask ourselves is, "How does this relate to `useRef`?". Let's try to make a similar box, but use `useRef` instead. We'll have to create our own state updater to do this since `useRef` doesn't give us one.
 
 ```jsx
 function RefBox() {
@@ -100,9 +102,9 @@ function RefBox() {
 
 I bet you just clicked that button repeatedly and wondered if it's actually doing anything. I assure you it is, check your console. I snuck a `console.log` into `flip` on you.
 
-`useRef` is a _mutable_ value store, that is we can imperatively update the `ref` with a simple assignment of a value to `ref.current`. However, a component does not update when `ref.current` changes. Some other update needs to happen in order for the component to rerender.
+`useRef` is a _mutable_ value store. In other words, we can imperatively update the `ref` by assigning a new value to `ref.current`. However, a component _does not_ update when `ref.current` changes. Some other kind of state update needs to happen in order for the component to rerender.
 
-Let's make an example that combines these two features together. We'll make a box with a counter as a `ref`. We'll update that counter in the background, and see the current value of that `ref` whenever we force the component to update.
+Let's make an example that combines these two features together. We'll make a box with a counter as a `ref`. We'll update that counter in the background and see the current value of that `ref` whenever we force the component to update.
 
 ```jsx
 function BackgroundCounter() {
@@ -146,7 +148,7 @@ And let's see how that works.
   <BackgroundCounter />
 </Spacer>
 
-Notice that the value displayed only updates when we force it, too. It's been changing in the background the whole time and yet because it was a `ref`, the component never updates. It was probably a pretty big number the first time you updated it, too. It's been running since you started reading this article.
+Notice that the value displayed only updates when we force it to. It's been changing in the background this entire time, and yet, because it was a `ref`, the component never updates. It was probably a pretty big number the first time you updated it, too. It's been running since you started reading this article.
 
 So when might we practically want to use `useRef`? Well, the answer is the combination of those facts, "Whenever we need a value that will always be available, can be changed when necessary, without updating the component." I know that seems unhelpful, but let's make another example.
 
@@ -198,10 +200,10 @@ function useEffectEveryNthTime(effect, dependencies, n) {
 }
 ```
 
-The point is a `ref` is very useful when you need to track a value for the lifetime of a component, but don't need it's every change to update the UI. If you need that, you probably need to use a different state manager hook.
+The point is a `ref` is very useful when you need to track a value for the lifetime of a component but don't need it's every change to update the UI. If you need that, you probably need to use a different state manager hook.
 
 ### Summary
 
 Changing `useState`'s value will always cause a rerender, even if that state isn't used anywhere in the component. Changing `useRef`'s value will never cause a rerender, even if you use that state somewhere in the component.
 
-`useRef` is useful for having a stable reference to a value throughout the lifetime of a component. It can be treated like a mutable value held in the closure of a function, used when necessary by functions internal to the component.
+`useRef` is useful for having a stable reference to a value throughout the lifetime of a component. It is a mutable value held in the closure of your component function and can be used by the functions created in the body of the component function.
