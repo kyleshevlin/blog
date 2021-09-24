@@ -27,7 +27,7 @@ const RelatedPosts = ({ posts }) => (
             __html: title,
           }}
           key={slug}
-          to={slug}
+          to={`/${slug}`}
         />
       ))}
     </div>
