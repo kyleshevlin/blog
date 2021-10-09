@@ -1,5 +1,5 @@
 ---
-date: '2021-09-03'
+date: '2021-10-02'
 slug: 'what-is-a-factory-function'
 title: 'What is a Factory Function?'
 subtitle: null
@@ -9,6 +9,44 @@ tags: ['JavaScript', 'Computer Science']
 relatedPostsSlugs: ['what-is-a-closure']
 ---
 
-Building upon [closures](/what-is-a-closure), I want to teach you about "factory functions" next. Many factory functions use closures, and therefore, it is quite useful to learn of them together, so if you haven't read that post, you may want to do so first.
+Building upon [closures](/what-is-a-closure), I want to teach you about "factory functions", too. Many factory functions use closures, and therefore, it is quite useful to learn them together. So if you haven't read that post, you may want to do so first.
 
 A **factory function** is a function that creates objects. At a fundamental level, _that's it_. But there's a lot more to it and the implications are interesting, especially for JavaScript.
+
+The simplest factory function returns a static object of keys and values. Ever needed to turn a small list of values into an object? Take that [tuple](/what-is-a-tuple) and give it to a factory function, like so:
+
+```javascript
+const createPerson = (name, twitterHandle) => ({
+  name,
+  twitterHandle,
+})
+
+const kyle = createPerson('Kyle', '@kyleshevlin')
+console.log(kyle.twitterHanle) // '@kyleshevlin'
+```
+
+That's not terribly interesting, but it can be a useful way to generate objects. If you had a long list of person-related tuples like this, you could use `createPerson` with `Array.map` to turn them into props for a React component.
+
+```jsx
+const people = [
+  ['Kyle', '@kyleshevlin'],
+  ['Tracy', '@stack_tracy_'],
+  ['Kurt', '@theworstdev'],
+]
+
+function PeopleList() {
+  return (
+    <ul>
+      {people.map(personTuple => {
+        const person = createPerson(...personTuple)
+
+        return (
+          <li key={person.name}>
+            <Person {...person} />
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+```
