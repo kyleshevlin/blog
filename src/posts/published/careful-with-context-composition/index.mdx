@@ -159,7 +159,7 @@ I assure you, a state change is still occurring, but because `Box` is not render
 
 ### A More Robust Solution: `react-generate-context`
 
-I'm a believer that if you can put guide rails in place to keep people on a good path, you should use them. When I saw the mistake the team was making, I realized I could build a small package that puts these guide rails in place. Say hello to `react-generate-context`.
+I'm a believer that if you can put guide rails in place to keep people on a good path, you should use them. When I saw the mistake the team was making, I realized I could build a small package that puts these guide rails in place. Say hello to [`react-generate-context`](https://github.com/kyleshevlin/react-generate-context).
 
 This library is a single function, `generateContext`, that receives a custom hook to manage the `value` for your `Context` and returns to you the `Provider` and custom hook for that context.
 
@@ -176,7 +176,7 @@ const [MyProvider, useMyContext] = generateContext(() => {
 
 Notice that the function we pass to `generateContext` is itself a custom hook. We use it to establish the very same value we did before. We can consume `useMyContext` in `Trigger` just like before, too.
 
-To make a slightly better example, and the one you'll find if you visit the Github page for it, let's make a `Counter`:
+To make a slightly better example, and the one you'll find if you visit the [Github page](https://github.com/kyleshevlin/react-generate-context) for it, let's make a `Counter`:
 
 ```jsx
 const useCounterValue = ({ startingCount = 0 }) => {
