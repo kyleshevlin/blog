@@ -9,10 +9,15 @@ export const buttonStyles = {
   fontSize: '0.85rem',
   lineHeight: 1,
   padding: `${bs(0.25)} ${bs(0.5)} ${bs(0.35)}`,
+  position: 'relative',
   border: 'none',
   borderRadius: '2px',
   textAlign: 'center',
-  transition: 'background-color 0.3s ease',
+  transition: 'all 0.3s ease',
+
+  '&:active': {
+    top: '1px',
+  },
 
   '&:disabled': {
     backgroundColor: 'var(--colors-offsetMore)',
