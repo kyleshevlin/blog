@@ -276,7 +276,7 @@ Obviously, this type of change might be completely unnecessary for my example, b
 
 ### How to Enforce this Pattern
 
-What good is a pattern if you can't come up with a way to get others to use it? To steer them down the good path? We can do that for this pattern with an ESLint plugin and rule. Thus, I give you the `prefer-custom-hooks` rule! You can find it here: [https://github.com/kyleshevlin/eslint-plugin](https://github.com/kyleshevlin/eslint-plugin).
+What good is a pattern if you can't come up with a way to get others to use it? To steer them down the good path? We can do that for this pattern with an ESLint plugin and rule. Thus, I give you the `eslint-plugin-use-encapsulation` and the `prefer-custom-hooks` rule! You can find it here: [https://github.com/kyleshevlin/eslint-plugin-use-encapsulation](https://github.com/kyleshevlin/eslint-plugin-use-encapsulation).
 
 Following the installation instructions, you'll see that `prefer-custom-hooks` will warn you whenever you use a React hook directly inside a component. The only way around the warning (other than disabling the rule), is to use the React hooks from within a custom hook.
 
