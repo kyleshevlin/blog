@@ -1,0 +1,162 @@
+---
+date: '2021-11-05'
+slug: 'what-is-a-factory-function'
+title: 'What is a Factory Function?'
+subtitle: null
+description: 'Factory functions help us quickly create objects. They make use of closures to have private values and functions, all while avoiding the `this` keyword. Learn how to use them in this article.'
+excerpt: 'Factory functions help us quickly create objects. They make use of closures to have private values and functions, all while avoiding the `this` keyword. Learn how to use them in this article.'
+tags: ['JavaScript', 'Computer Science']
+relatedPostsSlugs: ['what-is-a-closure']
+---
+
+Building upon [closures](/what-is-a-closure), I want to teach you about "factory functions", too. Factory functions often use closures, so it makes sense to learn them together. So if you don't know what a closure is or need a refresher, I encourage you to read that blog post first.
+
+A **factory function** is a function that returns a new object. <Marker content="On occasion, it may return some other data structure." /> The key feature of a factory is that its only job is to _pump out those items_, just like an actual factory.
+
+The simplest factory function returns a static object of keys and values. Ever needed to turn a small list of values into an object? Take that [tuple](/what-is-a-tuple) and give it to a factory function, like so:
+
+```javascript
+const createPerson = (name, twitterHandle) => ({
+  name,
+  twitterHandle: `@${twitterHandle}`,
+})
+
+const kyle = createPerson('Kyle', 'kyleshevlin')
+console.log(kyle.twitterHandle) // '@kyleshevlin'
+```
+
+That's not all that interesting, but it can be a useful way to generate objects. If you had a long list of person-related tuples like this, you could use `createPerson` with `Array.map` to turn them into props for a React component.
+
+```jsx
+const people = [
+  ['Kyle', 'kyleshevlin'],
+  ['Jane', 'janeDoe12345'],
+  ['John', 'johnDoe67890'],
+]
+
+function PeopleList() {
+  return (
+    <ul>
+      {people.map(personTuple => {
+        const person = createPerson(...personTuple)
+
+        return (
+          <li key={person.name}>
+            <Person {...person} />
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+```
+
+This is a great use of a factory function, but let's move on to a more interesting use case.
+
+### Replacing Classes with Factories
+
+The place I use factories most often is when I want to return an object with methods but use closures to create private methods and values. Even better, I _never_ have to even think about the `this` keyword.
+
+When I created my [data structures and algorithms course on egghead](https://kyleshevl.in/dsa), I used factory functions to create the data structures. Let's make a `createQueue` factory to show you how this strategy works.
+
+```javascript
+function createQueue() {
+  // Create an array in closure. This is a private variable.
+  const queue = []
+
+  // This could have been a private method, if we didn't also want to expose it
+  // Notice how simple this is to understand. No need for `this`
+  const isEmpty = () => queue.length === 0
+
+  return {
+    enqueue(x) {
+      queue.push(x)
+    },
+    dequeue() {
+      return queue.shift()
+    },
+    peek() {
+      if (isEmpty()) return undefined
+      return queue[queue.length - 1]
+    },
+    get length() {
+      return queue.length
+    },
+    isEmpty,
+  }
+}
+
+const queue1 = createQueue()
+```
+
+What's great about this pattern is that it's compatible in _every_ browser. Private fields and private methods for JavaScript classes are widely implemented, but not every where (and never will be).
+
+I recently used this pattern to upgrade my [shevyjs](https://github.com/kyleshevlin/shevyjs) package. I was able to have truly private values and functions that I couldn't have back when I originally wrote the code. I highly recommend taking a look at the source code to see a more complex factory function in action.
+
+### Composition with Factories
+
+There are 100s of posts out there on the difficulty of building object hierarchies with inheritance. I kind of want to skip that part and jump right to composition. <Marker content="Maybe I'll find the energy to write that post or update this one in the future, but I just don't have it in me right now." />
+
+Let's imagine we're building a game with animal characters. Animals are notoriously difficult to create inheritance hierarchies for because of their diversity and literal exceptionality.
+
+In my game, let's say I want to create `Hawk`, `Penguin` and `FlyingFish` factories. How can I use composition to make this possible?
+
+There are some shared traits with these animals. `Hawk`s and `Penguin`s both have wings, but not `FlyingFish`. `Penguin`s and `FlyingFish` both swim, but `Hawk`s don't. While also `Hawk`s and `FlyingFish` fly, while `Penguin`s don't, despite their wings.
+
+Simply put, inheritance can't help us here. Let's compose our factories:
+
+First, we can make factories that `createBird`s and `createFish`, they will create very small objects.
+
+```javascript
+const createBird = () => ({
+  hasWings: true,
+})
+
+const createFish = () => ({
+  hasFins: true,
+})
+```
+
+There are more properties we could add, but we should be careful with adding to many too the base object. Next, we can create factories for objects based on what they do. Focusing on what something does, versus what it _is_ is a great way to find these kinds of compositional pieces:
+
+```javascript
+const createFlyer = () => ({
+  canFly: true,
+  fly(vx, vy, vz) {
+    // Do something with the velocities
+  },
+})
+
+const createSwimmer = () => ({
+  canSwim: true,
+  swim(vx, vy, vz) {
+    // Do something with the velocities
+  },
+})
+```
+
+Now that we have those, we can create compositions to create our various animal factories easily:
+
+```javascript
+const createHawk = () => ({
+  ...createBird(),
+  ...createFlyer(),
+})
+
+const createPenguin = () => ({
+  ...createBird(),
+  ...createSwimmer(),
+})
+
+const createFlyingFish = () => ({
+  ...createFish(),
+  ...createFlyer(),
+  ...createSwimmer(),
+})
+```
+
+Look how clean that is! Ahh, just fills my heart with joy. Imagine trying to do that with classes?
+
+### Summary
+
+Factory functions are functions that return objects. We can use factory functions and closures to have private variables and private functions, only exposing what we want to our consumer through the object we return, all while avoiding the `this` keyword. Factories make for easy composition of values and functionality. Use them when inheritance can't solve your problems.
