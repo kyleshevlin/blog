@@ -1,0 +1,45 @@
+---
+date: '2021-11-02'
+slug: 'updating-state-with-a-component'
+title: 'Updating State with a Component'
+subtitle: 'Not with a State Updater Function'
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+Have you ever wanted to create a component like `Head` from `next/head` or `Helmet` from `react-helmet` that would update some state by using the contents of a component? It's simpler than you might think.
+
+Recently I was working with a design that has an `h1` heading in the middle of the `header`. One way to solve this is to use a `Header` component with a prop, or preferably with `children` in a way that you could compose `Header` with the correct title. The downside of this is that we would have to use `Header` in _every single page in the application_. That seems like a lot of work.
+
+Another option is to create a space in the `Header` component for the `h1` heading, and use Context to update the `value` rendered inside of the `h1`. This is what I ended up choosing.
+
+Using [`react-generate-context`](https://github.com/kyleshevlin/react-generate-context), I quickly created a `HeaderTitle` context for my app.
+
+```javascript
+import generateContext from 'react-generate-context'
+
+function useHeaderTitleValue() {
+  const [state, setState] = React.useState('')
+  const handlers = React.useMemo(
+    () => ({
+      reset: () => {
+        setState('')
+      },
+      update: val => {
+        setState(val)
+      },
+    }),
+    []
+  )
+
+  return [state, handlers]
+}
+
+const [HeaderTitleProvider, useHeaderTitleContext] = generateContext(
+  useHeaderTitleValue
+)
+
+export { HeaderTitleProvider, useHeaderTitleContext }
+```
