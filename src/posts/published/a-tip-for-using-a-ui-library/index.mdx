@@ -1,0 +1,65 @@
+---
+date: '2021-11-06'
+slug: 'how-I-would-use-a-ui-library'
+title: 'How I Would Use a UI Library'
+subtitle: null
+description: "UI Libraries are great for having a solid design system to build from. Here's a small architectural decision I would do to make them even nicer to work with."
+excerpt: "UI Libraries are great for having a solid design system to build from. Here's a small architectural decision I would do to make them even nicer to work with."
+tags: ['React', 'JavaScript']
+relatedPostsSlugs: []
+---
+
+I've recently been working on a project that uses [Chakra UI](https://chakra-ui.com/). I've enjoyed using it, for the most part. I've had a few moments that made me go, "Do I want to build my own UI library?" and then immediately snuffed that thought out of existence. Ain't nobody got time for that.
+
+That said, working with Chakra has made me think of an architectural pattern I would be very tempted to employ if I was building the project's design system from the ground up and knew it was going to be a long-living project.
+
+I'll get right to the chase. Here's my idea: for every UI component you're using in the library, create a [facade](/facade-pattern) of your own and consume the facade throughout your app. **Do not** consume the library directly in your features and other component compositions. If I implemented this, I would go so far as to create an ESLint rule that enforced this pattern.
+
+Before I explain all the reasons why, here's a simple facade example. You'll probably think I'm nuts.
+
+```javascript
+import React from 'react'
+import { Button as ChakraButton } from '@chakra-ui/react'
+
+export default function Button(props) {
+  return <ChakraButton {...props} />
+}
+```
+
+I can hear you saying, "Ok, why in the hell would you recommend this, Kyle?" The answer is simple. This creates a lot of flexibility and likely will save me future pain when requirements change at a very low cost now.
+
+"YAGNI! YAGNI! **Y**ou're **N**ot **G**onna **N**eed **I**t!" I hear you scream. Maybe you're right. But I've never worked in a project that lasted a decent amount of time without some upheaval to the UI components.
+
+Here is a short, non-exhaustive list of things you can do easily with this one layer of indirection:
+
+#### Swap out the library
+
+If you need/want to try a different component library, you can swap out the implementation under the hood without any change to consumers of your UI components (your other developers/teammates). You can make this change _component by component_. You don't have to do a wholesale, sweeping change.
+
+#### Add or Restrict `props`
+
+If you want to _add_ `props` that aren't on the underlying component, you can do so and map them to some functionality. Or you can create useful aliases to props if they would benefit your team.
+
+Also, you can _restrict_ which `props` can be used in the underlying UI library. Maybe there's some weird `prop` you just really want to avoid using. All easily done with a layer of indirection.
+
+#### Rename/Remap `props`
+
+If you ever need to rename/remap a `prop` because of an update to the component library, you can do so without needing to change every instance of that component throughout your app. No codemods. Just one simple change.
+
+### How I would implement this
+
+I would start by making two directories: `features` and `ui`. I may need to add this to my [React project structure post](/how-i-structure-my-react-projects).
+
+Then, every UI component in my app gets a facade in the `ui` directory. No exceptions.
+
+Finally, I would implement an ESLint rule preventing the import of any third party UI library into the `features` directory. Features can only import components from other `features` or the `ui` directory.
+
+### Downsides
+
+I can think of one downside to this approach. **Documentation**.
+
+Consuming the UI library directly in your app means you rely solely on the documentation of the UI library. If you use the facade pattern, you have to indicate to your consumers where to find the information they need. This means pointing to the documentation of the implementation details, or writing your own docs to cover them. If you end up adding or restricting props, you're going to need to document how the component is used anyways.
+
+### Summary
+
+Give yourself some future flexibility by using a facade between the UI library you're using and your features. The extra work could save you a lot of pain down the line.
