@@ -48,7 +48,6 @@ export default function Contributors() {
     <div
       css={{
         fontFamily: 'var(--fonts-catamaran)',
-        fontStyle: 'italic',
         textAlign: 'center',
       }}
     >
