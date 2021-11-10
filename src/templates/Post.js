@@ -10,6 +10,7 @@ import PostHeader from '../components/PostHeader'
 import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
+import Spacer from '../components/Spacer'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { mq } from '../utils'
@@ -51,63 +52,66 @@ const Post = ({
           },
         }}
       >
-        {coverImage && (
-          <BannerImage
-            src={coverImage.childImageSharp.original.src}
-            alt={`${title} Banner`}
-          />
-        )}
-        <PostDate date={date} />
-        <TotalBeardStrokes slug={slug} />
-        <div
-          css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            marginBottom: bs(),
-          }}
-        >
-          <PostHeader {...{ subtitle, title }} />
-          <EditLink fileAbsolutePath={fileAbsolutePath} />
-        </div>
-        <MDXRenderer>{file.body}</MDXRenderer>
-
-        <hr />
-
-        <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
-
-        <hr />
-
-        <div
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: bs(),
-
-            [mq.bravo]: {
-              gridTemplateColumns: '1fr 1fr',
-            },
-          }}
-        >
-          <div>
-            <AdditionalPosts
-              newerPost={newerPost}
-              olderPost={olderPost}
-              relatedPosts={relatedPosts}
+        <Spacer bottom={2}>
+          {coverImage && (
+            <BannerImage
+              src={coverImage.childImageSharp.original.src}
+              alt={`${title} Banner`}
             />
-          </div>
-          {tags && (
-            <div>
-              <PostTags items={tags} />
-            </div>
           )}
-        </div>
+          <PostDate date={date} />
+          <TotalBeardStrokes slug={slug} />
+          <div
+            css={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              marginBottom: bs(),
+            }}
+          >
+            <PostHeader {...{ subtitle, title }} />
+            <EditLink fileAbsolutePath={fileAbsolutePath} />
+          </div>
 
-        <hr />
+          <MDXRenderer>{file.body}</MDXRenderer>
+
+          <hr />
+
+          <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
+
+          <hr />
+
+          <div
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: bs(),
+
+              [mq.bravo]: {
+                gridTemplateColumns: '1fr 1fr',
+              },
+            }}
+          >
+            <div>
+              <AdditionalPosts
+                newerPost={newerPost}
+                olderPost={olderPost}
+                relatedPosts={relatedPosts}
+              />
+            </div>
+            {tags && (
+              <div>
+                <PostTags items={tags} />
+              </div>
+            )}
+          </div>
+
+          <hr />
+
+          <PostAuthor />
+        </Spacer>
 
         <AddedValue courseNickname={relevantCourseNickname} />
-
-        <PostAuthor />
       </div>
     </>
   )

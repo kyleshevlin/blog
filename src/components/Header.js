@@ -30,7 +30,6 @@ export default function Header() {
       css={{
         paddingTop: bs(),
         paddingBottom: bs(),
-        marginBottom: bs(),
       }}
     >
       <Container>

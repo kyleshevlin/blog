@@ -5,22 +5,26 @@ import { FootnoteDisplay } from './Footnotes'
 import Header from './Header'
 import { bs } from '../shevy'
 import AllGlobalStyles from '../styles/AllGlobalStyles'
+import Flex from './Flex'
 
 export default function Layout({ children }) {
   return (
     <>
       <AllGlobalStyles />
-      <Header />
-      <main
-        css={{
-          paddingBottom: bs(2),
-          minHeight: '65vh',
-        }}
-        role="main"
-      >
-        <Container>{children}</Container>
-      </main>
-      <Footer />
+
+      <Flex direction="column" style={{ minHeight: '100vh' }}>
+        <Header />
+        <main
+          css={{
+            paddingBottom: bs(2),
+            flexGrow: 1,
+          }}
+          role="main"
+        >
+          <Container>{children}</Container>
+        </main>
+        <Footer />
+      </Flex>
       <FootnoteDisplay />
     </>
   )

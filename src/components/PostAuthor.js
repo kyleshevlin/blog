@@ -30,8 +30,6 @@ const PostAuthor = () => (
         css={{
           paddingLeft: bs(),
           paddingRight: bs(),
-          marginTop: bs(4),
-          marginBottom: bs(2),
 
           [mq.alpha]: {
             display: 'grid',

@@ -6,6 +6,7 @@ import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
+import Spacer from '../components/Spacer'
 
 export default function Home({ data }) {
   const recentPosts = getNodes(data.recent)
@@ -20,11 +21,13 @@ export default function Home({ data }) {
       <h3>Recent Posts</h3>
       <ExcerptList posts={recentPosts} />
 
-      <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
-        <h3>Looking for more posts?</h3>
-        If you're looking for more posts, visit the{' '}
-        <Link to="/all-posts">All Posts</Link> page.
-      </div>
+      <Spacer bottom={2}>
+        <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
+          <h3>Looking for more posts?</h3>
+          If you're looking for more posts, visit the{' '}
+          <Link to="/all-posts">All Posts</Link> page.
+        </div>
+      </Spacer>
 
       <AddedValue />
     </>

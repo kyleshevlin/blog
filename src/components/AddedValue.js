@@ -1,14 +1,14 @@
 import React from 'react'
 import NewsletterCTA from './NewsletterCTA'
+import Spacer from './Spacer'
 import ValueSell from './ValueSell'
-import { bs } from '../shevy'
 
 export default function AddedValue({ courseNickname }) {
   return (
     <div>
-      <div css={{ marginTop: bs(2), marginBottom: bs(2) }}>
+      <Spacer bottom={2}>
         <NewsletterCTA />
-      </div>
+      </Spacer>
       <ValueSell courseNickname={courseNickname} />
     </div>
   )

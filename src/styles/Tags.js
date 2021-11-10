@@ -29,7 +29,6 @@ export default function Tags() {
         }
 
         body {
-          min-height: 100vh;
           background-color: var(--colors-background);
           color: var(--colors-text);
           position: relative;

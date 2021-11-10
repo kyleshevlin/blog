@@ -1,28 +1,28 @@
 import React from 'react'
+import { bs } from '../shevy'
 import { mq } from '../utils'
 
 const Container = ({ children }) => (
   <div
     css={{
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      width: '80%',
-      maxWidth: '90ch',
+      paddingLeft: bs(1.5),
+      paddingRight: bs(1.5),
 
       [mq.bravo]: {
-        width: '70%',
-      },
-
-      [mq.charlie]: {
-        width: '60%',
-      },
-
-      [mq.delta]: {
-        width: '50%',
+        paddingLeft: bs(3),
+        paddingRight: bs(3),
       },
     }}
   >
-    {children}
+    <div
+      css={{
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        maxWidth: '90ch',
+      }}
+    >
+      {children}
+    </div>
   </div>
 )
 

@@ -22,7 +22,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <div
+    <footer
       css={{
         backgroundColor: 'var(--components-footer-background)',
         color: 'var(--components-footer-text)',
@@ -70,6 +70,6 @@ export default function Footer() {
           &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
         </div>
       </Container>
-    </div>
+    </footer>
   )
 }
