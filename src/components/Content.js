@@ -11,7 +11,6 @@ export default function Content({
   newsletter = true,
   valueSell = true,
 }) {
-  console.log('Content rendered')
   return (
     <div
       css={{
