@@ -3,7 +3,7 @@ import { Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath, inflect } from '../utils'
-import AddedValue from '../components/AddedValue'
+import Content from '../components/Content'
 
 export default function AllTags({ pageContext }) {
   const { counts, tags } = pageContext
@@ -22,32 +22,32 @@ export default function AllTags({ pageContext }) {
     <>
       <Seo title={title} />
 
-      <h1>{title}</h1>
+      <Content>
+        <h1>{title}</h1>
 
-      <p>
-        I categorize each of my blog posts with tags. I hope this helps you find
-        interesting articles to read related to ones you have already enjoyed or
-        would like to explore next.
-      </p>
+        <p>
+          I categorize each of my blog posts with tags. I hope this helps you
+          find interesting articles to read related to ones you have already
+          enjoyed or would like to explore next.
+        </p>
 
-      <div>
-        {sortedData.map(({ tag, count }) => (
-          <div css={{ marginBottom: bs(0.5) }} key={tag}>
-            <Link
-              css={{ display: 'inline-block' }}
-              to={`/tags/${formatStrForPath(tag)}`}
-            >
-              {tag}
-            </Link>
-            <span>
-              {' '}
-              - {count} {inflect('post')(count)}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <AddedValue />
+        <div>
+          {sortedData.map(({ tag, count }) => (
+            <div css={{ marginBottom: bs(0.5) }} key={tag}>
+              <Link
+                css={{ display: 'inline-block' }}
+                to={`/tags/${formatStrForPath(tag)}`}
+              >
+                {tag}
+              </Link>
+              <span>
+                {' '}
+                - {count} {inflect('post')(count)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </Content>
     </>
   )
 }

@@ -15,9 +15,9 @@ export default function Layout({ children }) {
       <Flex direction="column" style={{ minHeight: '100vh' }}>
         <Header />
 
-        <main css={{ flexGrow: 1 }}>
+        <div css={{ flexGrow: 1 }}>
           <Container>{children}</Container>
-        </main>
+        </div>
 
         <Spacer top={2}>
           <Footer />

@@ -1,7 +1,6 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
-import AddedValue from '../components/AddedValue'
 import BannerImage from '../components/BannerImage'
 import EditLink from '../components/EditLink'
 import PostAuthor from '../components/PostAuthor'
@@ -15,6 +14,7 @@ import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { mq } from '../utils'
 import FinishedReading from '../components/FinishedReading'
+import Content from '../components/Content'
 
 const newerOrOlderHeading = {
   fontFamily: 'var(--fonts-catamaran)',
@@ -45,74 +45,74 @@ const Post = ({
     <>
       <Seo title={title} description={description} keywords={keywords || []} />
 
-      <div
-        css={{
-          '> h3, > h4, > h5, > h6': {
-            marginTop: bs(2),
-          },
-        }}
-      >
-        <Spacer bottom={2}>
-          {coverImage && (
-            <BannerImage
-              src={coverImage.childImageSharp.original.src}
-              alt={`${title} Banner`}
-            />
-          )}
-          <PostDate date={date} />
-          <TotalBeardStrokes slug={slug} />
-          <div
-            css={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: bs(),
-            }}
-          >
-            <PostHeader {...{ subtitle, title }} />
-            <EditLink fileAbsolutePath={fileAbsolutePath} />
-          </div>
-
-          <MDXRenderer>{file.body}</MDXRenderer>
-
-          <hr />
-
-          <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
-
-          <hr />
-
-          <div
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: bs(),
-
-              [mq.bravo]: {
-                gridTemplateColumns: '1fr 1fr',
-              },
-            }}
-          >
-            <div>
-              <AdditionalPosts
-                newerPost={newerPost}
-                olderPost={olderPost}
-                relatedPosts={relatedPosts}
+      <Content courseNickname={relevantCourseNickname}>
+        <div
+          css={{
+            '> h3, > h4, > h5, > h6': {
+              marginTop: bs(2),
+            },
+          }}
+        >
+          <Spacer bottom={2}>
+            {coverImage && (
+              <BannerImage
+                src={coverImage.childImageSharp.original.src}
+                alt={`${title} Banner`}
               />
-            </div>
-            {tags && (
-              <div>
-                <PostTags items={tags} />
-              </div>
             )}
-          </div>
+            <PostDate date={date} />
+            <TotalBeardStrokes slug={slug} />
+            <div
+              css={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                marginBottom: bs(),
+              }}
+            >
+              <PostHeader {...{ subtitle, title }} />
+              <EditLink fileAbsolutePath={fileAbsolutePath} />
+            </div>
 
-          <hr />
+            <MDXRenderer>{file.body}</MDXRenderer>
 
-          <PostAuthor />
-        </Spacer>
+            <hr />
 
-        <AddedValue courseNickname={relevantCourseNickname} />
-      </div>
+            <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
+
+            <hr />
+
+            <div
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gap: bs(),
+
+                [mq.bravo]: {
+                  gridTemplateColumns: '1fr 1fr',
+                },
+              }}
+            >
+              <div>
+                <AdditionalPosts
+                  newerPost={newerPost}
+                  olderPost={olderPost}
+                  relatedPosts={relatedPosts}
+                />
+              </div>
+              {tags && (
+                <div>
+                  <PostTags items={tags} />
+                </div>
+              )}
+            </div>
+
+            <hr />
+
+            <PostAuthor />
+          </Spacer>
+        </div>
+      </Content>
     </>
   )
 }

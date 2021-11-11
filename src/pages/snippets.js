@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
-import AddedValue from '../components/AddedValue'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
+import Content from '../components/Content'
 
 const sortsMachine = Machine({
   id: 'sorts',
@@ -90,79 +90,80 @@ export default function Snippets({ data }) {
   return (
     <>
       <Seo title="Snippets" keywords={['Snippets', 'Kyle Shevlin']} />
-      <h1>Snippets</h1>
 
-      <p>
-        Inspired by <JoshLink />, this is a collection of my code snippets that
-        you can look at for inspiration or copy/paste at will.
-      </p>
+      <Content>
+        <h1>Snippets</h1>
 
-      {snippets.length ? (
-        <table
-          css={{
-            border: 'none',
-            display: 'block',
-            marginTop: bs(2),
-            marginBottom: bs(2),
+        <p>
+          Inspired by <JoshLink />, this is a collection of my code snippets
+          that you can look at for inspiration or copy/paste at will.
+        </p>
 
-            [mq.bravo]: {
-              display: 'table',
-              borderCollapse: 'collapse',
-              width: '100%',
-            },
-          }}
-        >
-          <thead
+        {snippets.length ? (
+          <table
             css={{
-              display: 'none',
+              border: 'none',
+              display: 'block',
+              marginTop: bs(2),
+              marginBottom: 0,
 
               [mq.bravo]: {
-                display: 'table-header-group',
+                display: 'table',
+                borderCollapse: 'collapse',
+                width: '100%',
               },
             }}
           >
-            <Row>
-              <HeadingCell onClick={() => send('CLICK_NAME')}>
-                <span>Name</span>
-                {state.matches('nameAsc') && <Arrow />}
-                {state.matches('nameDesc') && <Arrow flip />}
-              </HeadingCell>
-              <HeadingCell>Description</HeadingCell>
-              <HeadingCell onClick={() => send('CLICK_CATEGORY')}>
-                <span>Category</span>
-                {state.matches('categoryAsc') && <Arrow />}
-                {state.matches('categoryDesc') && <Arrow flip />}
-              </HeadingCell>
-            </Row>
-          </thead>
-          <tbody css={{ display: 'table-row-group' }}>
-            {sortedSnippets.map(snippet => {
-              const { id, frontmatter } = snippet
-              const { category, description, name, slug } = frontmatter
+            <thead
+              css={{
+                display: 'none',
 
-              return (
-                <Row key={id}>
-                  <Cell>
-                    <Link to={`/snippets/${slug}`}>{name}</Link>
-                  </Cell>
-                  <Cell>
-                    <Label>Description: </Label>
-                    <div dangerouslySetInnerHTML={{ __html: description }} />
-                  </Cell>
-                  <Cell>
-                    <Label>Category: </Label>
-                    {category}
-                  </Cell>
-                </Row>
-              )
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <div>No snippets yet! Working on collecting them!</div>
-      )}
+                [mq.bravo]: {
+                  display: 'table-header-group',
+                },
+              }}
+            >
+              <Row>
+                <HeadingCell onClick={() => send('CLICK_NAME')}>
+                  <span>Name</span>
+                  {state.matches('nameAsc') && <Arrow />}
+                  {state.matches('nameDesc') && <Arrow flip />}
+                </HeadingCell>
+                <HeadingCell>Description</HeadingCell>
+                <HeadingCell onClick={() => send('CLICK_CATEGORY')}>
+                  <span>Category</span>
+                  {state.matches('categoryAsc') && <Arrow />}
+                  {state.matches('categoryDesc') && <Arrow flip />}
+                </HeadingCell>
+              </Row>
+            </thead>
+            <tbody css={{ display: 'table-row-group' }}>
+              {sortedSnippets.map(snippet => {
+                const { id, frontmatter } = snippet
+                const { category, description, name, slug } = frontmatter
 
-      <AddedValue />
+                return (
+                  <Row key={id}>
+                    <Cell>
+                      <Link to={`/snippets/${slug}`}>{name}</Link>
+                    </Cell>
+                    <Cell>
+                      <Label>Description: </Label>
+                      <div dangerouslySetInnerHTML={{ __html: description }} />
+                    </Cell>
+                    <Cell>
+                      <Label>Category: </Label>
+                      {category}
+                    </Cell>
+                  </Row>
+                )
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <div>No snippets yet! Working on collecting them!</div>
+        )}
+      </Content>
     </>
   )
 }

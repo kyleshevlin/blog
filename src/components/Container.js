@@ -19,6 +19,10 @@ const Container = ({ children }) => (
         marginLeft: 'auto',
         marginRight: 'auto',
         maxWidth: '90ch',
+
+        [mq.epsilon]: {
+          maxWidth: '180ch',
+        },
       }}
     >
       {children}

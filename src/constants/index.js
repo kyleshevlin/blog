@@ -3,6 +3,7 @@ export const BREAKPOINTS = {
   bravo: '769px',
   charlie: '1025px',
   delta: '1350px',
+  epsilon: '1800px',
 }
 
 export const FONTS = {

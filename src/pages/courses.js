@@ -5,8 +5,8 @@ import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
-import NewsletterCTA from '../components/NewsletterCTA'
 import Spacer from '../components/Spacer'
+import Content from '../components/Content'
 
 const query = graphql`
   {
@@ -38,23 +38,24 @@ export default function Courses() {
   return (
     <>
       <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
-      <h1>Courses</h1>
 
-      <p>
-        Here you will find all of the courses I have created with links to where
-        you can get them. If you ever have a question about one of my courses,
-        feel free to send me a message on{' '}
-        <a href="https://twitter.com/kyleshevlin">Twitter</a> about it and I'll
-        do my best to help you out.
-      </p>
+      <Content valueSell={false}>
+        <h1>Courses</h1>
 
-      <Spacer top={2} bottom={4}>
-        {courses.map(course => (
-          <CourseItem key={course.title} {...course} />
-        ))}
-      </Spacer>
+        <p>
+          Here you will find all of the courses I have created with links to
+          where you can get them. If you ever have a question about one of my
+          courses, feel free to send me a message on{' '}
+          <a href="https://twitter.com/kyleshevlin">Twitter</a> about it and
+          I'll do my best to help you out.
+        </p>
 
-      <NewsletterCTA />
+        <Spacer top={2} bottom={4}>
+          {courses.map(course => (
+            <CourseItem key={course.title} {...course} />
+          ))}
+        </Spacer>
+      </Content>
     </>
   )
 }

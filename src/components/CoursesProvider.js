@@ -21,7 +21,10 @@ export default function CoursesProvider({ children }) {
     }
   `)
 
-  const courses = data.allCoursesJson.edges.map(edge => edge.node)
+  const courses = React.useMemo(
+    () => data.allCoursesJson.edges.map(edge => edge.node),
+    [data]
+  )
 
   return (
     <CoursesContext.Provider value={courses}>

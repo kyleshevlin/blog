@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
-import AddedValue from '../components/AddedValue'
+import Content from '../components/Content'
 
 const linkStyles = {
   display: 'block',
@@ -12,26 +12,27 @@ const linkStyles = {
 const NotFoundPage = ({ data }) => (
   <>
     <Seo title="404: Not found" />
-    <h1>Not Found</h1>
 
-    <p>
-      Sorry, you've hit a URL that doesn't exist! That's a bummer. Please try a
-      different URL or perhaps choose one of the blog posts listed below.
-    </p>
+    <Content>
+      <h1>Not Found</h1>
 
-    {data.allMdx.edges
-      .map(edge => edge.node)
-      .map(post => {
-        const { slug, title } = post.frontmatter
+      <p>
+        Sorry, you've hit a URL that doesn't exist! That's a bummer. Please try
+        a different URL or perhaps choose one of the blog posts listed below.
+      </p>
 
-        return (
-          <Link css={linkStyles} key={slug} to={slug}>
-            {title}
-          </Link>
-        )
-      })}
+      {data.allMdx.edges
+        .map(edge => edge.node)
+        .map(post => {
+          const { slug, title } = post.frontmatter
 
-    <AddedValue />
+          return (
+            <Link css={linkStyles} key={slug} to={slug}>
+              {title}
+            </Link>
+          )
+        })}
+    </Content>
   </>
 )
 

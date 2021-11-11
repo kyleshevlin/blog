@@ -1,13 +1,13 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import Seo from '../components/Seo'
-import AddedValue from '../components/AddedValue'
-import Spacer from '../components/Spacer'
 import FinishedReading from '../components/FinishedReading'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import EditLink from '../components/EditLink'
 import { bs } from '../shevy'
+import Content from '../components/Content'
+import PostAuthor from '../components/PostAuthor'
 
 const modifySnippetSlugForDB = slug => `snippets---${slug}`
 
@@ -17,41 +17,36 @@ export default function Snippet({ data }) {
   const { name, slug } = frontmatter
 
   return (
-    <Fragment>
+    <>
       <Seo title={`${name} | Snippets`} />
 
-      <h4 css={{ fontWeight: 700, marginBottom: 0 }}>Snippet</h4>
-      <div
-        css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          marginBottom: bs(),
-        }}
-      >
-        <h2 css={{ marginBottom: 0 }}>{name}</h2>
-        <EditLink fileAbsolutePath={fileAbsolutePath} />
-      </div>
-      <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
-
-      <div>
-        <MDXRenderer>{snippet.body}</MDXRenderer>
-      </div>
-
-      <hr />
-
-      <Spacer bottom={2}>
+      <Content>
+        <h4 css={{ fontWeight: 700, marginBottom: 0 }}>Snippet</h4>
+        <div
+          css={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            marginBottom: bs(),
+          }}
+        >
+          <h2 css={{ marginBottom: 0 }}>{name}</h2>
+          <EditLink fileAbsolutePath={fileAbsolutePath} />
+        </div>
+        <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
+        <div>
+          <MDXRenderer>{snippet.body}</MDXRenderer>
+        </div>
+        <hr />
         <FinishedReading
           beardStrokeKey={modifySnippetSlugForDB(slug)}
           slug={`snippets/${slug}`}
           title={name}
         />
-      </Spacer>
-
-      <hr />
-
-      <AddedValue />
-    </Fragment>
+        <hr />
+        <PostAuthor />
+      </Content>
+    </>
   )
 }
 

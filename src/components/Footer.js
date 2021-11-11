@@ -33,7 +33,11 @@ export default function Footer() {
     >
       <Container>
         <Spacer bottom={2}>
-          <Contributors />
+          <div
+            css={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '90ch' }}
+          >
+            <Contributors />
+          </div>
         </Spacer>
 
         <Spacer bottom={0.5}>

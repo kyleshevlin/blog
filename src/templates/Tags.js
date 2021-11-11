@@ -1,8 +1,8 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
-import AddedValue from '../components/AddedValue'
 import Spacer from '../components/Spacer'
+import Content from '../components/Content'
 
 const Tags = ({ data, ...props }) => {
   const posts = data.allMdx.edges.map(edge => edge.node)
@@ -12,23 +12,24 @@ const Tags = ({ data, ...props }) => {
     <>
       <Seo title={`${tag} | Tags`} />
 
-      <h1>Tags: {tag}</h1>
+      <Content>
+        <h1>Tags: {tag}</h1>
 
-      <div>
-        {posts.map(post => {
-          const { slug, title } = post.frontmatter
+        <div>
+          {posts.map(post => {
+            const { slug, title } = post.frontmatter
 
-          return (
-            <Spacer bottom={0.5} key={slug}>
-              <Link
-                dangerouslySetInnerHTML={{ __html: title }}
-                to={`/${slug}`}
-              />
-            </Spacer>
-          )
-        })}
-      </div>
-      <AddedValue />
+            return (
+              <Spacer bottom={0.5} key={slug}>
+                <Link
+                  dangerouslySetInnerHTML={{ __html: title }}
+                  to={`/${slug}`}
+                />
+              </Spacer>
+            )
+          })}
+        </div>
+      </Content>
     </>
   )
 }

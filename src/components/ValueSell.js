@@ -51,7 +51,10 @@ function formatUrl(url, urlType) {
 
 export default function ValueSell({ courseNickname }) {
   const courses = useCoursesContext()
-  const course = chooseCourse(courses, courseNickname)
+  const course = React.useMemo(() => chooseCourse(courses, courseNickname), [
+    courses,
+    courseNickname,
+  ])
 
   if (!course) return null
 
@@ -60,6 +63,7 @@ export default function ValueSell({ courseNickname }) {
     title,
     url,
   } = course
+
   const urlType = getUrlType(url)
   const formattedUrl = formatUrl(url, urlType)
 
