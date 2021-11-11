@@ -3,9 +3,9 @@ import { graphql, Link, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 import Button from './Button'
 import Container from './Container'
+import Flex from './Flex'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
-import { mq } from '../utils'
 import ShiftBy from './ShiftBy'
 import Moon from './icons/Moon'
 import Sun from './icons/Sun'
@@ -33,17 +33,7 @@ export default function Header() {
       }}
     >
       <Container>
-        <div
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-
-            [mq.alpha]: {
-              flexDirection: 'row',
-              alignItems: 'center',
-            },
-          }}
-        >
+        <Flex align="center" justify="space-between" gap={bs()} wrap="wrap">
           <Link
             css={{
               color: 'var(--colors-text)',
@@ -69,20 +59,10 @@ export default function Header() {
               {subTitle}
             </div>
           </Link>
-          <div
-            css={{
-              marginTop: bs(0.5),
-              marginBottom: bs(0.5),
 
-              [mq.alpha]: {
-                marginTop: 0,
-                marginLeft: 'auto',
-              },
-            }}
-          >
-            <ThemeRotator />
-          </div>
-        </div>
+          <ThemeRotator />
+        </Flex>
+
         <Nav />
       </Container>
     </header>
