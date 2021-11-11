@@ -3,9 +3,9 @@ import Container from './Container'
 import Footer from './Footer'
 import { FootnoteDisplay } from './Footnotes'
 import Header from './Header'
-import { bs } from '../shevy'
 import AllGlobalStyles from '../styles/AllGlobalStyles'
 import Flex from './Flex'
+import Spacer from './Spacer'
 
 export default function Layout({ children }) {
   return (
@@ -14,16 +14,14 @@ export default function Layout({ children }) {
 
       <Flex direction="column" style={{ minHeight: '100vh' }}>
         <Header />
-        <main
-          css={{
-            paddingBottom: bs(2),
-            flexGrow: 1,
-          }}
-          role="main"
-        >
+
+        <main css={{ flexGrow: 1 }}>
           <Container>{children}</Container>
         </main>
-        <Footer />
+
+        <Spacer top={2}>
+          <Footer />
+        </Spacer>
       </Flex>
       <FootnoteDisplay />
     </>
