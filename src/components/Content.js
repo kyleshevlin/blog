@@ -14,10 +14,12 @@ export default function Content({
   return (
     <div
       css={{
-        display: 'grid',
+        display: 'flex',
+        flexDirection: 'column',
         gap: bs(2),
 
         [mq.epsilon]: {
+          display: 'grid',
           gridTemplateColumns: '90ch auto',
           gap: bs(4),
         },
