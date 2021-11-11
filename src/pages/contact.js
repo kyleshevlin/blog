@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 
 const Contact = () => (
-  <Fragment>
+  <>
     <Seo title="Contact" keywords={['Contact', 'Kyle Shevlin']} />
     <h1>Contact</h1>
     <p>
@@ -12,7 +12,7 @@ const Contact = () => (
     </p>
 
     <AddedValue />
-  </Fragment>
+  </>
 )
 
 export default Contact

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
@@ -10,7 +10,7 @@ const linkStyles = {
 }
 
 const NotFoundPage = ({ data }) => (
-  <Fragment>
+  <>
     <Seo title="404: Not found" />
     <h1>Not Found</h1>
 
@@ -32,7 +32,7 @@ const NotFoundPage = ({ data }) => (
       })}
 
     <AddedValue />
-  </Fragment>
+  </>
 )
 
 export default NotFoundPage

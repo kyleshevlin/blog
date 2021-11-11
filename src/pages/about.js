@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
 import { bs } from '../shevy'
 import Seo from '../components/Seo'
@@ -8,7 +8,7 @@ const About = ({ data }) => {
   const imgSrc = data.allImageSharp.edges[0].node.original.src
 
   return (
-    <Fragment>
+    <>
       <Seo title="About" keywords={['About', 'Kyle Shevlin']} />
 
       <h1>About</h1>
@@ -101,7 +101,7 @@ const About = ({ data }) => {
       </div>
 
       <AddedValue />
-    </Fragment>
+    </>
   )
 }
 

@@ -1,16 +1,17 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import AddedValue from '../components/AddedValue'
 import Tag from '../components/icons/Tag'
 import { bs } from '../shevy'
 import { getNodes } from '../utils'
+import Spacer from '../components/Spacer'
 
 const AllPosts = ({ data }) => {
   const allPosts = getNodes(data.allPosts)
 
   return (
-    <Fragment>
+    <>
       <Seo title="All Posts" keywords={['All Posts', 'Kyle Shevlin']} />
 
       <h1>All Posts</h1>
@@ -21,7 +22,7 @@ const AllPosts = ({ data }) => {
         search for keywords. I'm working on adding search and filters soon.
       </p>
 
-      <div>
+      <Spacer bottom={2}>
         {allPosts.map(post => {
           const { slug, subtitle, tags, title } = post.frontmatter
 
@@ -89,10 +90,10 @@ const AllPosts = ({ data }) => {
             </Link>
           )
         })}
-      </div>
+      </Spacer>
 
       <AddedValue />
-    </Fragment>
+    </>
   )
 }
 
