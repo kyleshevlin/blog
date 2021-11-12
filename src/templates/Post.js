@@ -9,17 +9,11 @@ import PostHeader from '../components/PostHeader'
 import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
-import Spacer from '../components/Spacer'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { bs } from '../shevy'
 import { mq } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
-
-const newerOrOlderHeading = {
-  fontFamily: 'var(--fonts-catamaran)',
-  fontWeight: 700,
-}
 
 const Post = ({
   data,
@@ -53,64 +47,62 @@ const Post = ({
             },
           }}
         >
-          <Spacer bottom={2}>
-            {coverImage && (
-              <BannerImage
-                src={coverImage.childImageSharp.original.src}
-                alt={`${title} Banner`}
+          {coverImage && (
+            <BannerImage
+              src={coverImage.childImageSharp.original.src}
+              alt={`${title} Banner`}
+            />
+          )}
+          <PostDate date={date} />
+          <TotalBeardStrokes slug={slug} />
+          <div
+            css={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              marginBottom: bs(),
+            }}
+          >
+            <PostHeader {...{ subtitle, title }} />
+            <EditLink fileAbsolutePath={fileAbsolutePath} />
+          </div>
+
+          <MDXRenderer>{file.body}</MDXRenderer>
+
+          <hr />
+
+          <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
+
+          <hr />
+
+          <div
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: bs(),
+
+              [mq.bravo]: {
+                gridTemplateColumns: '1fr 1fr',
+              },
+            }}
+          >
+            <div>
+              <AdditionalPosts
+                newerPost={newerPost}
+                olderPost={olderPost}
+                relatedPosts={relatedPosts}
               />
-            )}
-            <PostDate date={date} />
-            <TotalBeardStrokes slug={slug} />
-            <div
-              css={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-                marginBottom: bs(),
-              }}
-            >
-              <PostHeader {...{ subtitle, title }} />
-              <EditLink fileAbsolutePath={fileAbsolutePath} />
             </div>
-
-            <MDXRenderer>{file.body}</MDXRenderer>
-
-            <hr />
-
-            <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
-
-            <hr />
-
-            <div
-              css={{
-                display: 'grid',
-                gridTemplateColumns: '1fr',
-                gap: bs(),
-
-                [mq.bravo]: {
-                  gridTemplateColumns: '1fr 1fr',
-                },
-              }}
-            >
+            {tags && (
               <div>
-                <AdditionalPosts
-                  newerPost={newerPost}
-                  olderPost={olderPost}
-                  relatedPosts={relatedPosts}
-                />
+                <PostTags items={tags} />
               </div>
-              {tags && (
-                <div>
-                  <PostTags items={tags} />
-                </div>
-              )}
-            </div>
+            )}
+          </div>
 
-            <hr />
+          <hr />
 
-            <PostAuthor />
-          </Spacer>
+          <PostAuthor />
         </div>
       </Content>
     </>
@@ -154,24 +146,37 @@ function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
   ) : (
     <div css={{ display: 'grid', gridTemplateColumns: '1fr', gap: bs(0.5) }}>
       {newerPost ? (
-        <div>
-          <span css={newerOrOlderHeading}>Newer Post: </span>
-          <Link
-            to={`/${newerPost.frontmatter.slug}`}
-            dangerouslySetInnerHTML={{ __html: newerPost.frontmatter.title }}
-          />
-        </div>
+        <AdditionalPost
+          heading="Newer Post"
+          slug={`/${newerPost.frontmatter.slug}`}
+          title={newerPost.frontmatter.title}
+        />
       ) : null}
 
       {olderPost ? (
-        <div>
-          <span css={newerOrOlderHeading}>Older Post: </span>
-          <Link
-            to={`/${olderPost.frontmatter.slug}`}
-            dangerouslySetInnerHTML={{ __html: olderPost.frontmatter.title }}
-          />
-        </div>
+        <AdditionalPost
+          heading="Older Post"
+          slug={`/${olderPost.frontmatter.slug}`}
+          title={olderPost.frontmatter.title}
+        />
       ) : null}
+    </div>
+  )
+}
+
+function AdditionalPost({ heading, slug, title }) {
+  return (
+    <div>
+      <span
+        css={{
+          fontFamily: 'var(--fonts-catamaran)',
+          fontWeight: 700,
+        }}
+      >
+        {heading}
+      </span>
+      {': '}
+      <Link to={slug} dangerouslySetInnerHTML={{ __html: title }} />
     </div>
   )
 }
