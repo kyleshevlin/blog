@@ -22,3 +22,13 @@ I am just going to come out and say it. It is totally possible that an open sour
 ## Thanks
 
 If you're here and reading this, I just want to say thank you. I hope you find something useful here. If you do, please tweet about what you read and learned. It's the best way to share it with others.
+
+### Some changes
+
+At the page - https://kyleshevlin.com/snippets/clamp
+https://prnt.sc/1za21wg 
+
+Before: Math.min will return you the minimal value of a set of numbers.
+After: Math.min will return to you the minimal value of a set of numbers.
+
+Example: Math.max will return to you the maximal value of a set of numbers.
