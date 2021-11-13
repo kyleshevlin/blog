@@ -148,7 +148,14 @@ export default function DirectedGraph({
     }
 
     simulation.on('tick', tickActions)
-  }, [data, isReady])
+  }, [
+    data,
+    isReady,
+    options.chargeStrength,
+    options.linkDistance,
+    options.linkStrength,
+    showNodeIDs,
+  ])
 
   return (
     <div css={{ marginBottom: bs(2) }}>
@@ -223,7 +230,7 @@ function useScript(url) {
     }, 100)
 
     return () => clearInterval(intervalId)
-  }, [isReady])
+  }, [isReady, url])
 
   return isReady
 }

@@ -24,7 +24,7 @@ export function Input({ label, value, onChange, type = 'text', ...rest }) {
   )
 }
 
-const useInputFactory = (formatter = x => x) => initialValue => {
+const inputHooksFactory = (formatter = x => x) => initialValue => {
   const [value, setValue] = React.useState(formatter(initialValue))
 
   const onChange = e => {
@@ -34,5 +34,5 @@ const useInputFactory = (formatter = x => x) => initialValue => {
   return [value, onChange, setValue]
 }
 
-export const useInput = useInputFactory()
-export const useNumberInput = useInputFactory(Number)
+export const useInput = inputHooksFactory()
+export const useNumberInput = inputHooksFactory(Number)

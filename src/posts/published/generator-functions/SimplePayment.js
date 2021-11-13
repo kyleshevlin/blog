@@ -86,11 +86,11 @@ export default function SimplePayment() {
       Number(payment)
     )
     setData(null)
-  }, [principal, rate, payment, setData, genRef])
+  }, [principal, rate, payment])
 
   React.useEffect(() => {
     reset()
-  }, [principal, rate, payment])
+  }, [reset])
 
   return (
     <div>
