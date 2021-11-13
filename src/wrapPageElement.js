@@ -8,7 +8,8 @@ import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
 
-const makeHeading = element =>
+const makeHeading =
+  element =>
   // eslint-disable-next-line react/display-name
   ({ children, ...props }) =>
     React.createElement(
