@@ -1,6 +1,8 @@
 import React from 'react'
 import { bs } from '../shevy'
 import { mq } from '../utils'
+import { formatLength } from '../utils/length'
+import { CONTENT_WIDTH } from '../constants'
 import Flex from './Flex'
 import NewsletterCTA from './NewsletterCTA'
 import ValueSell from './ValueSell'
@@ -20,7 +22,7 @@ export default function Content({
 
         [mq.epsilon]: {
           display: 'grid',
-          gridTemplateColumns: '90ch auto',
+          gridTemplateColumns: `${formatLength(CONTENT_WIDTH)} auto`,
           gap: bs(4),
         },
       }}

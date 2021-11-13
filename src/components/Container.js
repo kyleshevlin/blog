@@ -1,6 +1,8 @@
 import React from 'react'
+import { CONTENT_WIDTH } from '../constants'
 import { bs } from '../shevy'
 import { mq } from '../utils'
+import { formatLength, modifyLength } from '../utils/length'
 
 const Container = ({ children }) => (
   <div
@@ -18,10 +20,10 @@ const Container = ({ children }) => (
       css={{
         marginLeft: 'auto',
         marginRight: 'auto',
-        maxWidth: '90ch',
+        maxWidth: formatLength(CONTENT_WIDTH),
 
         [mq.epsilon]: {
-          maxWidth: '180ch',
+          maxWidth: formatLength(modifyLength(v => v * 2, CONTENT_WIDTH)),
         },
       }}
     >

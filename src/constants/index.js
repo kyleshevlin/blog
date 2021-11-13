@@ -1,3 +1,5 @@
+import { makeLength } from '../utils/length'
+
 export const BREAKPOINTS = {
   alpha: '481px',
   bravo: '769px',
@@ -11,3 +13,5 @@ export const FONTS = {
 }
 
 export const EGGHEAD_AFFILIATE_QUERY_PARAM = '?af=8u8eik'
+
+export const CONTENT_WIDTH = makeLength(90, 'ch')

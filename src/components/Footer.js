@@ -8,6 +8,9 @@ import Twitch from './icons/Twitch'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
 import Spacer from './Spacer'
+import { formatLength } from '../utils/length'
+import { CONTENT_WIDTH } from '../constants'
+import Flex from './Flex'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -34,20 +37,18 @@ export default function Footer() {
       <Container>
         <Spacer bottom={2}>
           <div
-            css={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '90ch' }}
+            css={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              maxWidth: formatLength(CONTENT_WIDTH),
+            }}
           >
             <Contributors />
           </div>
         </Spacer>
 
         <Spacer bottom={0.5}>
-          <div
-            css={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <Flex align="center" justify="center">
             {links.map(({ href, icon: Icon, title }) => (
               <OutboundLink
                 css={{
@@ -67,7 +68,7 @@ export default function Footer() {
                 <Icon fill={'var(--components-button-background)'} width={30} />
               </OutboundLink>
             ))}
-          </div>
+          </Flex>
         </Spacer>
 
         <div>
