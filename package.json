@@ -65,17 +65,18 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
     "@emotion/babel-preset-css-prop": "^10.2.1",
     "@testing-library/react": "^10.4.9",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-preset-gatsby": "^0.1.6",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.1",
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^2.5.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
     "prettier": "^1.19.1"

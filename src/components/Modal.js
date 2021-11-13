@@ -14,10 +14,11 @@ export default function Modal({
 
   React.useEffect(() => {
     const portalRoot = document.getElementById('portal')
-    portalRoot.appendChild(el.current)
+    const currentElement = el.current
+    portalRoot.appendChild(currentElement)
 
     return () => {
-      portalRoot.removeChild(el.current)
+      portalRoot.removeChild(currentElement)
     }
   }, [])
 
@@ -25,7 +26,7 @@ export default function Modal({
     if (closeButtonRef.current) {
       closeButtonRef.current.focus()
     }
-  }, [])
+  }, [closeButtonRef])
 
   const modal = (
     <div

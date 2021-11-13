@@ -161,7 +161,7 @@ function useBeardStrokes(slug) {
 
   React.useEffect(() => {
     storeBeardClicks({ count, database, lastUpdateCount, slug })
-  }, [count, database, lastUpdateCount, slug])
+  }, [count, database, lastUpdateCount, slug, storeBeardClicks])
 
   return { count, handleBeardClick, maximumStrokesApplied }
 }

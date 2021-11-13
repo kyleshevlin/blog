@@ -140,7 +140,7 @@ export function FootnoteMarker({ content }) {
     return () => {
       removeMarker(content)
     }
-  }, [])
+  }, [addMarker, content, removeMarker])
 
   return (
     <button
