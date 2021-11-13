@@ -53,9 +53,8 @@ function addClicksToDatabase({ count, lastUpdateCount, slug, database }) {
 }
 
 function BeardStrokes({ slug }) {
-  const { count, handleBeardClick, maximumStrokesApplied } = useBeardStrokes(
-    slug
-  )
+  const { count, handleBeardClick, maximumStrokesApplied } =
+    useBeardStrokes(slug)
 
   return (
     <div css={{ width: '100%', textAlign: 'center' }}>

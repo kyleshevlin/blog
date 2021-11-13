@@ -8,13 +8,14 @@ import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
 
-// eslint-disable-next-line react/display-name
-const makeHeading = element => ({ children, ...props }) =>
-  React.createElement(
-    element,
-    { id: makeHeadingId(children), ...props },
-    children
-  )
+const makeHeading = element =>
+  // eslint-disable-next-line react/display-name
+  ({ children, ...props }) =>
+    React.createElement(
+      element,
+      { id: makeHeadingId(children), ...props },
+      children
+    )
 
 const H2 = makeHeading('h2')
 const H3 = makeHeading('h3')

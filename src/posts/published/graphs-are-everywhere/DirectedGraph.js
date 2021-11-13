@@ -97,12 +97,7 @@ export default function DirectedGraph({
       .enter()
       .append('g')
       .attr('class', 'node')
-      .call(
-        d3
-          .drag()
-          .on('start', handleDragStart)
-          .on('drag', handleDrag)
-      )
+      .call(d3.drag().on('start', handleDragStart).on('drag', handleDrag))
 
     node
       .append('circle')

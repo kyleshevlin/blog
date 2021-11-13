@@ -168,9 +168,8 @@ const displayMarkerStyles = {
 
 export function FootnoteDisplay() {
   const displayElement = useRef(null)
-  const { content, hideFootnote, index, isVisible } = useContext(
-    FootnotesContext
-  )
+  const { content, hideFootnote, index, isVisible } =
+    useContext(FootnotesContext)
   useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (

@@ -37,7 +37,7 @@ const Tags = ({ data, ...props }) => {
 export default Tags
 
 export const pageQuery = graphql`
-  query($tag: String) {
+  query ($tag: String) {
     allMdx(
       filter: {
         fileAbsolutePath: { regex: "/posts/" }

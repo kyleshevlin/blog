@@ -112,7 +112,7 @@ const Post = ({
 export default Post
 
 export const pageQuery = graphql`
-  query($slug: String!) {
+  query ($slug: String!) {
     mdx(
       fileAbsolutePath: { regex: "/posts/" }
       frontmatter: { slug: { eq: $slug } }
