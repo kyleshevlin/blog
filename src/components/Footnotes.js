@@ -71,32 +71,35 @@ const FootnotesContext = React.createContext({
 export function FootnotesProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const addMarker = payload => {
+  const addMarker = React.useCallback(payload => {
     dispatch({ type: 'ADD_MARKER', payload })
-  }
+  }, [])
 
-  const removeMarker = payload => {
+  const removeMarker = React.useCallback(payload => {
     dispatch({ type: 'REMOVE_MARKER', payload })
-  }
+  }, [])
 
-  const updateFootnote = payload => {
+  const updateFootnote = React.useCallback(payload => {
     dispatch({ type: 'UPDATE_FOOTNOTE', payload })
-  }
+  }, [])
 
-  const hideFootnote = () => {
+  const hideFootnote = React.useCallback(() => {
     dispatch({ type: 'HIDE_FOOTNOTE' })
-  }
+  }, [])
+
+  const value = React.useMemo(
+    () => ({
+      ...state,
+      addMarker,
+      removeMarker,
+      hideFootnote,
+      updateFootnote,
+    }),
+    [state, addMarker, removeMarker, hideFootnote, updateFootnote]
+  )
 
   return (
-    <FootnotesContext.Provider
-      value={{
-        ...state,
-        addMarker,
-        removeMarker,
-        hideFootnote,
-        updateFootnote,
-      }}
-    >
+    <FootnotesContext.Provider value={value}>
       {children}
     </FootnotesContext.Provider>
   )
@@ -168,8 +171,9 @@ const displayMarkerStyles = {
 
 export function FootnoteDisplay() {
   const displayElement = useRef(null)
-  const { content, hideFootnote, index, isVisible } =
-    useContext(FootnotesContext)
+  const { content, hideFootnote, index, isVisible } = useContext(
+    FootnotesContext
+  )
   useFootnoteDisplayEvents(displayElement)
 
   return isVisible ? (
