@@ -53,9 +53,8 @@ function addClicksToDatabase({ count, lastUpdateCount, slug, database }) {
 }
 
 function BeardStrokes({ slug }) {
-  const { count, handleBeardClick, maximumStrokesApplied } = useBeardStrokes(
-    slug
-  )
+  const { count, handleBeardClick, maximumStrokesApplied } =
+    useBeardStrokes(slug)
 
   return (
     <div css={{ width: '100%', textAlign: 'center' }}>
@@ -161,7 +160,7 @@ function useBeardStrokes(slug) {
 
   React.useEffect(() => {
     storeBeardClicks({ count, database, lastUpdateCount, slug })
-  }, [count, database, lastUpdateCount, slug])
+  }, [count, database, lastUpdateCount, slug, storeBeardClicks])
 
   return { count, handleBeardClick, maximumStrokesApplied }
 }

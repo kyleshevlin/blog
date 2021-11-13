@@ -51,14 +51,14 @@ export default function Collatz() {
     resetSequence()
   }
 
-  const softReset = () => {
+  const softReset = React.useCallback(() => {
     genRef.current = collatzSequence(Number(value))
     resetSequence()
-  }
+  }, [value])
 
   React.useEffect(() => {
     softReset()
-  }, [value])
+  }, [softReset])
 
   const handleNext = () => {
     const next = genRef.current.next()

@@ -7,17 +7,16 @@ export const mq = Object.entries(BREAKPOINTS).reduce((acc, [key, value]) => {
   return acc
 }, {})
 
-export const formatStrForPath = str =>
-  str
-    .toLowerCase()
-    .split(' ')
-    .join('-')
+export const formatStrForPath = str => str.toLowerCase().split(' ').join('-')
 
-export const inflect = (singular, plural = `${singular}s`) => quantity =>
-  Math.abs(quantity) === 1 ? singular : plural
+export const inflect =
+  (singular, plural = `${singular}s`) =>
+  quantity =>
+    Math.abs(quantity) === 1 ? singular : plural
 
 // Copied from https://github.com/vigour-io/nice-is-email/blob/master/lib/index.js
-const EMAIL_PATTERN = /^([^.](?![a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~]+\.\.)([a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~.]+[^.])|([a-zA-Z0-9]{1,2}))@([A-Za-z0-9-]{1,64}\.){1,10}[a-zA-Z]{2,64}$/
+const EMAIL_PATTERN =
+  /^([^.](?![a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~]+\.\.)([a-zA-Z0-9!#$%&'*+\-/=?^_`{|}~.]+[^.])|([a-zA-Z0-9]{1,2}))@([A-Za-z0-9-]{1,64}\.){1,10}[a-zA-Z]{2,64}$/
 
 export const isEmail = value => {
   return (

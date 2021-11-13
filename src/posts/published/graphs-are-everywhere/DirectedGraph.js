@@ -97,12 +97,7 @@ export default function DirectedGraph({
       .enter()
       .append('g')
       .attr('class', 'node')
-      .call(
-        d3
-          .drag()
-          .on('start', handleDragStart)
-          .on('drag', handleDrag)
-      )
+      .call(d3.drag().on('start', handleDragStart).on('drag', handleDrag))
 
     node
       .append('circle')
@@ -148,7 +143,14 @@ export default function DirectedGraph({
     }
 
     simulation.on('tick', tickActions)
-  }, [data, isReady])
+  }, [
+    data,
+    isReady,
+    options.chargeStrength,
+    options.linkDistance,
+    options.linkStrength,
+    showNodeIDs,
+  ])
 
   return (
     <div css={{ marginBottom: bs(2) }}>
@@ -223,7 +225,7 @@ function useScript(url) {
     }, 100)
 
     return () => clearInterval(intervalId)
-  }, [isReady])
+  }, [isReady, url])
 
   return isReady
 }
