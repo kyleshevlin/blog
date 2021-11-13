@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce'
 import { buttonStyles } from '../components/Button'
 import Spacer from '../components/Spacer'
 import Beard from '../components/icons/Beard'
-import { getFirebase } from '../firebase'
+import { getDb, getValueOnce, setValue } from '../firebase'
 
 const LOCAL_STORAGE_KEY = 'kyleshevlin:beardStrokes'
 
@@ -36,22 +36,19 @@ function setClicksForPostInLocalStorage(slug, count) {
 
 function addClicksToDatabase({ count, lastUpdateCount, slug, database }) {
   if (database) {
-    database
-      .ref(`posts/${slug}`)
-      .once('value')
-      .then(snapshot => {
-        const value = snapshot.val()
-        const currentTotal = value ? value : 0
+    const postRef = `posts/${slug}`
 
-        database
-          .ref('posts')
-          .child(slug)
-          // If we don't track and subtract the lastUpdateCount, then if a user
-          // leaves and comes back to a post, we'll be adding whatever clicks
-          // they had stored in localStorage AGAIN to the database if they choose
-          // to like the post some more.
-          .set(currentTotal + count - lastUpdateCount)
-      })
+    getValueOnce(postRef, snapshot => {
+      const value = snapshot.val()
+      const currentTotal = value ? value : 0
+      // If we don't track and subtract the lastUpdateCount, then if a user
+      // leaves and comes back to a post, we'll be adding whatever clicks
+      // they had stored in localStorage AGAIN to the database if they choose
+      // to like the post some more.
+      const nextAmount = currentTotal + count - lastUpdateCount
+
+      setValue(postRef, nextAmount)
+    })
   }
 }
 
@@ -173,12 +170,11 @@ function useDatabase() {
   const database = React.useRef(null)
 
   React.useEffect(() => {
-    const lazyApp = import('@firebase/app')
-    const lazyDatabase = import('@firebase/database')
+    async function assignDatabase() {
+      database.current = await getDb()
+    }
 
-    Promise.all([lazyApp, lazyDatabase]).then(([firebase]) => {
-      database.current = getFirebase(firebase).database()
-    })
+    assignDatabase()
   }, [])
 
   return database.current

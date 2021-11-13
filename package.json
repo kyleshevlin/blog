@@ -11,7 +11,7 @@
     "@mdx-js/tag": "^0.20.3",
     "@xstate/react": "^0.8.1",
     "dotenv": "^8.6.0",
-    "firebase": "^5.8.1",
+    "firebase": "^9.4.1",
     "gatsby": "^2.32.13",
     "gatsby-image": "^2.11.0",
     "gatsby-plugin-catch-links": "^2.10.0",
