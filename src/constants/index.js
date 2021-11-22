@@ -14,4 +14,4 @@ export const FONTS = {
 
 export const EGGHEAD_AFFILIATE_QUERY_PARAM = '?af=8u8eik'
 
-export const CONTENT_WIDTH = makeLength(90, 'ch')
+export const CONTENT_WIDTH = makeLength(80, 'ch')

@@ -1,0 +1,47 @@
+---
+slug: 'to-array'
+name: 'toArray()'
+description: 'A function for normalizing a value to an array'
+category: 'JavaScript'
+---
+
+`toArray` is a helper function that takes a value, and always returns an array of that value. I think this snippet is best understood with types, so even though the category is JavaScript, I'm going to write it both in plain JavaScript and TypeScript in my code snippet.
+
+```typescript
+// JavaScript
+function toArray(value) {
+  return Array.isArray(value) ? value : [value]
+}
+
+// TypeScript
+function toArray<Value>(value: Value | Value[]): Value[] {
+  return Array.isArray(value) ? value : [value]
+}
+```
+
+This is primarily useful in two situations. First, when a function might return you a single value or an array of values. I would argue that the API should _always_ return an array, but you don't always control that. With `toArray` you can normalize the result. A recent example I've run into is `next/router` returning `string | string[]` for params.
+
+```javascript
+let { id } = useRouter // could be string | string[]
+id = toArray(id) // guaranteed to be string[]
+```
+
+The second is when you want to provide the consumer of a function a shorthand for a single item. The first example that comes to mind is the [XState library](https://github.com/statelyai/xstate). In fact, the source code for it is where I learned this trick.
+
+The XState API frequently has places where you can pass a `string` or an array of `string`s. When you pass in a single string, under the hood, the argument is passed to `toArray` so that the rest of the function can treat it like an array.
+
+```javascript
+{
+  // imagine we're in a statechart
+  active: {
+    on: {
+      DEACTIVATE: {
+        target: 'inactive',
+        actions: 'someSideEffect', // same as ['someSideEffect']
+      }
+    }
+  }
+}
+```
+
+I should write a full blog post on this someday, but the benefit of normalizing a value to an array is not needing to bifurcate your logic on whether you're operating over one item or many. Wrap it in an array and `map`, `filter` and loop your way to your necessary result _regardless_ of how many items are being operated on.
