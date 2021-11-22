@@ -4,6 +4,7 @@ import CoursesProvider from './components/CoursesProvider'
 import OffsetWrap from './components/OffsetWrap'
 import { FootnotesProvider, FootnoteMarker } from './components/Footnotes'
 import Spacer from './components/Spacer'
+import YoutubeEmbed from './components/YoutubeEmbed'
 import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
@@ -39,6 +40,7 @@ const wrapPageElement = ({ element, props }) => {
               Marker: FootnoteMarker,
               OffsetWrap,
               Spacer,
+              YoutubeEmbed,
             }}
           >
             <Layout {...props}>{element}</Layout>
