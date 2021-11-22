@@ -5,22 +5,32 @@ description: 'Function used to choose the correct form of a word, singular or pl
 category: 'JavaScript'
 ---
 
-```javascript
-const inflect = (singular, plural = `${singular}s`) => quantity =>
-  Math.abs(quantity) === 1 ? singular : plural
-```
-
-Example:
+Often nouns need slight changes depending on the quantity of that noun. Example: One person, several people. I call these differences "inflections". The `inflect` function below is a little helper function I use to help me apply inflections in my application.
 
 ```javascript
-// If you use this a lot, you can export this particular inflection
-const inflectPosts = inflect('post')
-
-function PostCount({ count }) {
-  return (
-    <div>
-      {count} {inflectPosts(count)}
-    </div>
-  )
-}
+const inflect =
+  (singular, plural = `${singular}s`) =>
+  quantity =>
+    Math.abs(quantity) === 1 ? singular : plural
 ```
+
+`inflect` is a higher order function, meaning it's a function that returns a function. If you need some info on higher order functions, check out [my post on them](/just-enough-fp-higher-order-functions) and the post on [currying](/just-enough-fp-currying).
+
+This solution makes use of [default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters) for the `plural` argument. If adding an "s" is all you need to make a plural, then you don't need to provide it. Like this:
+
+```javascript
+const inflectPost = inflect('post')
+
+console.log(inflectPost(1)) // 'post'
+console.log(inflectPost(2)) // 'posts'
+```
+
+But often plurals have oddities (like "person" and "people"), so you can supply a `plural` argument when you need it.
+
+```javascript
+const inflectMouse = inflect('mouse', 'mice')
+const inflectKnife = inflect('knife', 'knives')
+// etc
+```
+
+Now, as helpful as this is, it is _not_ a proper solution should you need internationalization. Treat this is a helper function for those instances this can support.
