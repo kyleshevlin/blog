@@ -22,7 +22,8 @@ function toArray<Value>(value: Value | Value[]): Value[] {
 This is primarily useful in two situations. First, when a function might return you a single value or an array of values. I would argue that the API should _always_ return an array, but you don't always control that. With `toArray` you can normalize the result. A recent example I've run into is `next/router` returning `string | string[]` for params.
 
 ```javascript
-let { id } = useRouter // could be string | string[]
+const router = useRouter()
+let { id } = router.query // could be string | string[]
 id = toArray(id) // guaranteed to be string[]
 ```
 
