@@ -31,31 +31,39 @@ export default function NewsletterCTA() {
   )
 }
 
-const FORM_ID = process.env.GATSBY_CONVERT_KIT_FORM_ID
-const API_KEY = process.env.GATSBY_CONVERT_KIT_API_KEY
-const TAG_ID = process.env.GATSBY_CONVERT_KIT_FROM_KYLESHEVLIN_DOT_COM_TAG_ID
+const API_KEY = process.env.GATSBY_BUTTONDOWN_EMAIL_API_KEY
 
-function postNewSubscriber({ email, name }) {
-  return fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      api_key: API_KEY,
-      first_name: name,
-      email,
-      tags: [TAG_ID],
-    }),
-  }).then(res => {
-    const data = res.json()
+async function postNewSubscriber({ email, name }) {
+  try {
+    const response = await fetch(
+      'https://api.buttondown.email/v1/subscribers',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          metadata: {
+            name,
+          },
+          tags: ['From kyleshevlin.com'],
+        }),
+      }
+    )
 
-    if (!res.ok) {
-      return Promise.reject(data)
-    }
+    if (!response.ok) return Promise.reject()
 
-    return data
-  })
+    const json = await response.json()
+
+    return Promise.resolve(json)
+  } catch (error) {
+    console.error(error)
+    throw new Error(
+      'Something went wrong while attempting to subscribe you to the newsletter'
+    )
+  }
 }
 
 const submitEvent = {
