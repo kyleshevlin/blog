@@ -82,6 +82,7 @@ function getCourseTypeValues(url) {
 
 function CourseItem({ description, logo, title, url }) {
   const course = getCourseTypeValues(url)
+  const imgSrc = logo?.childImageSharp?.original?.src
 
   return (
     <div
@@ -107,11 +108,7 @@ function CourseItem({ description, logo, title, url }) {
           },
         }}
       >
-        <img
-          css={{ display: 'block' }}
-          src={logo.childImageSharp.original.src}
-          alt={title}
-        />
+        {imgSrc && <img css={{ display: 'block' }} src={imgSrc} alt={title} />}
       </div>
       <div>
         <h3>{title}</h3>
