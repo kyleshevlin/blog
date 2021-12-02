@@ -7,11 +7,7 @@
 // You can delete this file if you're not using it
 const path = require('path')
 
-const formatStrForPath = str =>
-  str
-    .toLowerCase()
-    .split(' ')
-    .join('-')
+const formatStrForPath = str => str.toLowerCase().split(' ').join('-')
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions

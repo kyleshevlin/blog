@@ -56,7 +56,7 @@ export default function ValueSell({ courseNickname }) {
 
   const { logo, title, url } = course
 
-  const publicURL = logo?.publicURL ?? ''
+  const publicURL = logo?.publicURL
   const urlType = getUrlType(url)
   const formattedUrl = formatUrl(url, urlType)
 

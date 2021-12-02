@@ -82,7 +82,7 @@ function getCourseTypeValues(url) {
 
 function CourseItem({ description, logo, title, url }) {
   const course = getCourseTypeValues(url)
-  const imgSrc = logo?.childImageSharp?.original?.src ?? ''
+  const imgSrc = logo?.childImageSharp?.original?.src
 
   return (
     <div
