@@ -7,7 +7,9 @@ const GlobalStyles = () => (
     styles={css`
       .twitter-tweet-rendered {
         margin-top: ${bs()} !important;
+        margin-right: auto;
         margin-bottom: ${bs()} !important;
+        margin-left: auto;
       }
     `}
   />

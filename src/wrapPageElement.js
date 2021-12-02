@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from './components/Layout'
 import CoursesProvider from './components/CoursesProvider'
+import Flex from './components/Flex'
 import OffsetWrap from './components/OffsetWrap'
 import { FootnotesProvider, FootnoteMarker } from './components/Footnotes'
 import Spacer from './components/Spacer'
@@ -32,6 +33,7 @@ const wrapPageElement = ({ element, props }) => {
         <FootnotesProvider>
           <MDXProvider
             components={{
+              Flex,
               h2: H2,
               h3: H3,
               h4: H4,

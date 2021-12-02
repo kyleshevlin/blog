@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
-import { bs } from '../shevy'
+import shevy, { bs } from '../shevy'
 import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
@@ -25,16 +25,12 @@ const chooseCourse = (courses, nickname) => {
 const BUTTON_TEXT_BY_URL_TYPE = {
   default: 'View the course',
   egghead: 'View on egghead.io',
-  podia: 'View on Podia',
 }
 
 function getUrlType(url) {
   switch (true) {
     case /egghead/g.test(url):
       return 'egghead'
-
-    case /podia/g.test(url):
-      return 'podia'
 
     default:
       return 'default'
@@ -58,12 +54,9 @@ export default function ValueSell({ courseNickname }) {
 
   if (!course) return null
 
-  const {
-    logo: { publicURL },
-    title,
-    url,
-  } = course
+  const { logo, title, url } = course
 
+  const publicURL = logo?.publicURL ?? ''
   const urlType = getUrlType(url)
   const formattedUrl = formatUrl(url, urlType)
 
@@ -93,16 +86,25 @@ export default function ValueSell({ courseNickname }) {
           }}
         >
           <div css={{ textAlign: 'center' }}>
-            <img
+            {publicURL && (
+              <img
+                css={{
+                  display: 'block',
+                  width: '100%',
+                  marginBottom: bs(0.5),
+                }}
+                src={publicURL}
+                alt={`${title} Logo`}
+              />
+            )}
+            <div
               css={{
-                display: 'block',
-                width: '100%',
-                marginBottom: bs(0.5),
+                fontSize: publicURL ? 'inherit' : shevy.h2.fontSize,
+                fontFamily: 'var(--fonts-catamaran)',
               }}
-              src={publicURL}
-              alt={`${title} Logo`}
-            />
-            <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{title}</div>
+            >
+              {title}
+            </div>
           </div>
         </div>
         <div
@@ -120,9 +122,9 @@ export default function ValueSell({ courseNickname }) {
               marginBottom: bs(1),
             }}
           >
-            Liked the post? You might like my video courses, too. Click the
-            button to view this course or go to{' '}
-            <Link to="/courses">Courses</Link> for more information.
+            Liked the post? You might like my courses, too. Click the button to
+            view this course or go to <Link to="/courses">Courses</Link> for
+            more information.
           </div>
           <div css={{ a: { marginTop: bs(0.5), marginRight: bs(0.5) } }}>
             <LinkButton href={formattedUrl}>
