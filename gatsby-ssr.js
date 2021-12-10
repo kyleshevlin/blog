@@ -27,7 +27,7 @@ void function() {
     contra: 'hsl(347, 87%, 60%)',
     contraLight: 'hsl(347, 87%, 65%)',
     offset: 'hsl(190, 23%, 95%)',
-    offsetMore: 'hsl(197, 12%, 65%)',
+    offsetMore: 'hsl(197, 12%, 75%)',
     error: 'hsl(347, 71%, 54%)',
   }
 
@@ -42,7 +42,7 @@ void function() {
     contra: 'hsl(347, 87%, 60%)',
     contraLight: 'hsl(347, 87%, 65%)',
     offset: 'hsl(197, 61%, 14%)',
-    offsetMore: 'hsl(197, 61%, 24%)',
+    offsetMore: 'hsl(197, 61%, 28%)',
     error: 'hsl(347, 71%, 54%)',
   }
 
@@ -79,6 +79,7 @@ void function() {
     '--components-button-hover-text': 'var(--colors-background)',
     '--components-button-active-background': 'var(--colors-background)',
     '--components-button-active-text': 'var(--colors-text)',
+    '--components-button-shadow-color': 'var(--colors-offsetMore)',
     '--components-footer-background': 'var(--colors-text)',
     '--components-footer-text': 'var(--colors-background)',
     '--components-inputs-background': 'var(--colors-background)',

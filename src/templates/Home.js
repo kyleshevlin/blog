@@ -6,6 +6,8 @@ import Seo from '../components/Seo'
 import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import Content from '../components/Content'
+import LinkButton from '../components/LinkButton'
+import Spacer from '../components/Spacer'
 
 export default function Home({ data }) {
   const recentPosts = getNodes(data.recent)
@@ -24,8 +26,13 @@ export default function Home({ data }) {
 
         <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
           <h3>Looking for more posts?</h3>
-          If you're looking for more posts, visit the{' '}
-          <Link to="/all-posts">All Posts</Link> page.
+          <Spacer bottom={1}>
+            If you're looking for more posts, visit the{' '}
+            <Link to="/all-posts">All Posts</Link> page.
+          </Spacer>
+          <LinkButton href="/all-posts" variant="bigWide">
+            All Posts
+          </LinkButton>
         </div>
       </Content>
     </>

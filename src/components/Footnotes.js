@@ -107,6 +107,7 @@ export function FootnotesProvider({ children }) {
 
 const markerStyles = {
   ...buttonStyles,
+  boxShadow: 'none',
   width: 20,
   height: 20,
   fontSize: 12,
@@ -115,6 +116,8 @@ const markerStyles = {
   borderRadius: '50%',
   position: 'relative',
   top: '-2px',
+
+  '&:active': {},
 
   '&:focus': {
     outline: 'none',

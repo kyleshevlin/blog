@@ -1,5 +1,6 @@
 import React from 'react'
 import shevy, { bs } from '../shevy'
+import Button from './Button'
 import ShiftBy from './ShiftBy'
 import Spacer from './Spacer'
 
@@ -32,17 +33,11 @@ export default function Share({ slug, title }) {
           help&nbsp;me&nbsp;out
         </div>
       </Spacer>
-      <button
+      <Button
         css={{
           backgroundColor: 'var(--colors-contra)',
-          border: 'none',
-          borderRadius: 2,
-          color: 'white',
-          fontFamily: 'var(--fonts-catamaran)',
           fontSize: shevy.h4.fontSize,
-          lineHeight: 1,
           padding: `${bs(0.35)} ${bs(0.5)}`,
-          transition: 'all .3s ease',
           width: '100%',
           height: 56,
 
@@ -53,7 +48,7 @@ export default function Share({ slug, title }) {
         onClick={handleClick}
       >
         <ShiftBy y={-2}>Click to share on Twitter</ShiftBy>
-      </button>
+      </Button>
     </div>
   )
 }
