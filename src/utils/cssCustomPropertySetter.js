@@ -69,6 +69,8 @@ const DEFAULT_THEME = 'light'
 
 const THEME_STORAGE_KEY = 'kyleshevlin:theme'
 
+const THEMES = ['light', 'dark']
+
 const NEXT_THEME = {
   dark: 'light',
   light: 'dark',
@@ -145,13 +147,16 @@ function makeDefaultCSSVars(colors) {
 export const headScript = `
 void function() {
   ${makeDefaultCSSVars.toString()}
+  ${makeCSSVarsString.toString()}
   ${getCSSVars.toString()}
+  ${getInitialTheme.toString()}
   ${setTheme.toString()}
 
   const LIGHT_COLORS = ${JSON.stringify(LIGHT_COLORS)};
   const DARK_COLORS = ${JSON.stringify(DARK_COLORS)};
   const LIGHT_VARS = ${JSON.stringify(LIGHT_VARS)};
   const DARK_VARS = ${JSON.stringify(DARK_VARS)};
+  const THEMES = ${JSON.stringify(THEMES)};
   const DEFAULT_THEME = '${DEFAULT_THEME}';
   const THEME_STORAGE_KEY = '${THEME_STORAGE_KEY}';
   const THEME_TO_CSS_VARS = {
@@ -159,7 +164,7 @@ void function() {
     light: LIGHT_VARS,
   };
 
-  const theme = localStorage.getItem(THEME_STORAGE_KEY);
+  const theme = getInitialTheme();
 
   setTheme(theme);
 }()
@@ -181,7 +186,7 @@ export function getInitialTheme() {
 
     if (!themeName) return DEFAULT_THEME
 
-    if (Object.keys(NEXT_THEME).includes(themeName)) {
+    if (THEMES.includes(themeName)) {
       return themeName
     }
 
