@@ -2,7 +2,7 @@ import React from 'react'
 import { Machine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
-import { buttonStyles } from './Button'
+import { buttonStyles, shadowSize } from './Button'
 import { mq, isEmail } from '../utils'
 
 export default function NewsletterCTA() {
@@ -216,6 +216,10 @@ function SignupForm() {
             ...buttonStyles,
             backgroundColor:
               'var(--components-newsletterCTA-submitButton-background)',
+            boxShadow: `
+              ${shadowSize()} ${shadowSize()} var(--components-newsletterCTA-background),
+              ${shadowSize(2)} ${shadowSize(2)} var(--colors-offset)
+            `,
             color: 'var(--components-newsletterCTA-submitButton-text)',
             fontSize: '1.25rem',
             padding: `${bs(0.5)} ${bs(0.75)}`,

@@ -4,6 +4,7 @@ import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import shevy, { bs } from '../shevy'
 import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
+import { shadowSize } from './Button'
 import LinkButton from './LinkButton'
 
 const randomIndex = length => Math.floor(Math.random() * length)
@@ -127,7 +128,15 @@ export default function ValueSell({ courseNickname }) {
             more information.
           </div>
           <div css={{ a: { marginTop: bs(0.5), marginRight: bs(0.5) } }}>
-            <LinkButton href={formattedUrl}>
+            <LinkButton
+              href={formattedUrl}
+              overrideStyles={{
+                boxShadow: `
+                ${shadowSize()} ${shadowSize()} var(--colors-offset),
+                ${shadowSize(2)} ${shadowSize(2)} var(--colors-offsetMore)
+              `,
+              }}
+            >
               {BUTTON_TEXT_BY_URL_TYPE[urlType]}
             </LinkButton>
           </div>
