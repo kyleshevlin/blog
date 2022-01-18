@@ -1,4 +1,5 @@
 import React from 'react'
+import { bs } from '../shevy'
 
 export default function Flex({
   align: alignItems,
@@ -9,6 +10,8 @@ export default function Flex({
   style = {},
   wrap: flexWrap,
 }) {
+  gap = typeof gap === 'number' ? bs(gap) : gap
+
   return (
     <div
       css={{
