@@ -84,8 +84,8 @@ function drawSpirograph({ color, context, cx, cy, radius1, radius2, ratio }) {
   context.stroke()
 }
 
-const WIDTH = 480
-const HEIGHT = 480
+const WIDTH = 360
+const HEIGHT = WIDTH
 
 function Spirograph() {
   const { radius1, radius2, ratio } = useSpiro()
@@ -94,7 +94,7 @@ function Spirograph() {
   const bgRef = React.useRef('#000')
   const lineRef = React.useRef('#fff')
 
-  React.useEffect(() => {
+  const getColors = React.useCallback(() => {
     const el = document.querySelector('html')
     const bgColor = el.style.getPropertyValue('--colors-background')
     const textColor = el.style.getPropertyValue('--colors-text')
@@ -106,6 +106,8 @@ function Spirograph() {
   React.useEffect(() => {
     if (canvasRef.current) {
       const context = canvasRef.current.getContext('2d')
+
+      getColors()
 
       drawBackground({
         color: bgRef.current,
@@ -124,7 +126,7 @@ function Spirograph() {
         ratio,
       })
     }
-  }, [radius1, radius2, ratio])
+  }, [getColors, radius1, radius2, ratio])
 
   return (
     <div>
@@ -138,13 +140,12 @@ export default function FullSpiro() {
     <SpiroProvider>
       <Flex
         align="center"
+        justify="center"
         gap={1}
         style={{ fontFamily: 'var(--fonts-catamaran)' }}
         wrap="wrap"
       >
-        <div style={{ flexShrink: 0 }}>
-          <Spirograph />
-        </div>
+        <Spirograph />
         <Controls />
       </Flex>
     </SpiroProvider>

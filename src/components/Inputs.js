@@ -1,6 +1,16 @@
 import React from 'react'
 import { bs } from '../shevy'
 
+function getPaddingForType(type) {
+  switch (type) {
+    case 'range':
+      return 0
+
+    default:
+      return `${bs(0.25)} ${bs(0.5)}`
+  }
+}
+
 export function Input({ label, value, onChange, type = 'text', ...rest }) {
   return (
     <div>
@@ -11,7 +21,7 @@ export function Input({ label, value, onChange, type = 'text', ...rest }) {
             backgroundColor: 'var(--components-inputs-background)',
             border: 'none',
             color: 'var(--components-inputs-text)',
-            padding: `${bs(0.25)} ${bs(0.5)}`,
+            padding: getPaddingForType(type),
           }}
           id={label}
           type={type}
