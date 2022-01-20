@@ -66,16 +66,20 @@ Now, let's say that we want to store these changes to `notes` in `localStorage` 
 
 If we look at all our declarative updaters, they all make a call to `setNotes`. If we had a way to change `setNotes`, we could make this happen. This is where the "wrapped" part of the title comes in.
 
-We're going to create a higher order function that will use `setNotes` in its closure to continue to have the current behavior, while providing us an opportunity to extend that behavior to our benefit. Let's wrap it up, like so:
+We're going to create a function that will call the current `setNotes` and use it to provide ourselves with a seam in which to extend the current behavior. Let's wrap it up, like so:
 
 ```javascript
 const wrappedSetNotes = React.useCallback(update => {
+  // Call the original state setter, use the function updater to get the current state
   setNotes(currentNotes => {
+    // Determine the nextState
     const nextState =
       typeof update === 'function' ? update(currentNotes) : update
 
+    // This is where we extend the functionality
     localStorage.setItem(YOUR_LOCAL_STORAGE_KEY, JSON.stringify(nextState))
 
+    // We preserve the existing functionality
     return nextState
   })
 }, [])
