@@ -1,0 +1,120 @@
+---
+date: '2022-01-19'
+slug: 'wrapped-state-setter-pattern'
+title: 'The Wrapped State Setter Pattern'
+subtitle: null
+description: 'Sometimes we want to add functionality that happens with every call of a state setter. Learn how to wrap that state setter to add it.'
+excerpt: 'Sometimes we want to add functionality that happens with every call of a state setter. Learn how to wrap that state setter to add it.'
+tags: ['JavaScript', 'React']
+relatedPostsSlugs: ['prefer-declarative-state-updaters']
+---
+
+Today, in the process of working on what might potentially become a course on React, I used a pattern that I've found useful from time to time that I want to share with you.
+
+Have you ever wanted to have something happen _every_ time you use `setState` in React? Perhaps you wanted a way to finagle the `nextState` or wanted to run a side effect where you store the value in `localStorage`. We can accomplish this and more with a "wrapped state setter" pattern.
+
+Since my example app for the potential course uses `localStorage` in lieu of a database, I'll use that for my example code. That said, the pattern is the same regardless of what you use it for, so let's dive in.
+
+Let's say my app stores a collection of notes:
+
+```javascript
+function App() {
+  const [notes, setNotes] = React.useState([])
+  //...
+}
+```
+
+Now, let's add some [declarative state updaters](/prefer-declarative-state-updaters) that will update our notes. Keep in mind, there are multiple ways to write these updaters. Don't get too focused on the implementation details, just recognize we've written a few. Like so:
+
+```javascript
+function App() {
+  const [notes, setNotes] = React.useState([])
+
+  const createNote = note => {
+    setNotes(currentNotes => [...currentNotes, note])
+  }
+
+  const updateNote = update => {
+    setNotes(currentNotes => {
+      const index = currentNotes.findIndex(note => note.id === update.id)
+
+      if (index < 0) return currentNotes
+
+      return [
+        ...currentNotes.slice(0, index),
+        { ...currentNotes[index], ...update },
+        ...currentNotes.slice(index + 1),
+      ]
+    })
+  }
+
+  const deleteNote = id => {
+    setNotes(currentNotes => {
+      const index = currentNotes.findIndex(note => note.id === id)
+
+      if (index < 0) return currentNotes
+
+      return [...currentNotes.slice(0, index), ...currentNotes.slice(index + 1)]
+    })
+  }
+
+  //...
+}
+```
+
+Now, let's say that we want to store these changes to `notes` in `localStorage` _every_ time we make an update. What is the simplest way to do this?
+
+If we look at all our declarative updaters, they all make a call to `setNotes`. If we had a way to change `setNotes`, we could make this happen. This is where the "wrapped" part of the title comes in.
+
+We're going to create a higher order function that will use `setNotes` in its closure to continue to have the current behavior, while providing us an opportunity to extend that behavior to our benefit. Let's wrap it up, like so:
+
+```javascript
+const wrappedSetNotes = React.useCallback(update => {
+  setNotes(currentNotes => {
+    const nextState =
+      typeof update === 'function' ? update(currentNotes) : update
+
+    localStorage.setItem(YOUR_LOCAL_STORAGE_KEY, JSON.stringify(nextState))
+
+    return nextState
+  })
+}, [])
+```
+
+And then every where we previously called `setNotes`, we update to `wrappedSetNotes`:
+
+```javascript
+const createNote = note => {
+  wrappedSetNotes(currentNotes => [...currentNotes, note])
+}
+
+const updateNote = update => {
+  wrappedSetNotes(currentNotes => {
+    const index = currentNotes.findIndex(note => note.id === update.id)
+
+    if (index < 0) return currentNotes
+
+    return [
+      ...currentNotes.slice(0, index),
+      { ...currentNotes[index], ...update },
+      ...currentNotes.slice(index + 1),
+    ]
+  })
+}
+
+const deleteNote = id => {
+  wrappedSetNotes(currentNotes => {
+    const index = currentNotes.findIndex(note => note.id === id)
+
+    if (index < 0) return currentNotes
+
+    return [...currentNotes.slice(0, index), ...currentNotes.slice(index + 1)]
+  })
+}
+```
+
+Now, any updates that we make to `notes` will have the side effect of updating the value in `localStorage`.
+
+There are other ways to use this pattern. If you've ever heard of the "state reducer pattern", that's an example of wrapping the state setter.
+
+This pattern also doesn't have to be _just_ for state setters. If ever you find yourself with a function that you want to add some functionality to, you might be able to simply wrap it in a function, and add your functionality in the function body. Try it out, see if it works.
