@@ -17,7 +17,7 @@ const ExcerptedPost = ({ post }) => {
   const formattedExcerpt = formatExcerpt(excerpt)
 
   return (
-    <div css={{ marginBottom: bs(2) }}>
+    <article css={{ marginBottom: bs(2) }}>
       <div css={{ marginBottom: bs() }}>
         <PostHeader {...{ slug, subtitle, title }} />
       </div>
@@ -45,7 +45,7 @@ const ExcerptedPost = ({ post }) => {
           </div>
         )}
       </div>
-    </div>
+    </article>
   )
 }
 
