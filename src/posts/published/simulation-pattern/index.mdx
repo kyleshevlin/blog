@@ -1,0 +1,106 @@
+---
+date: '2022-01-28'
+slug: 'simulation-pattern'
+title: 'The Simulation Pattern'
+subtitle: null
+description: "The &ldquo;simulation pattern&rdquo; is a useful tool for anyone's programming repertoire. Let's learn how to use it on almost any state problem that advances by discrete increments."
+excerpt: "The &ldquo;simulation pattern&rdquo; is a useful tool for anyone's programming repertoire. Let's learn how to use it on almost any state problem that advances by discrete increments."
+tags: ['JavaScript', 'Computer Science']
+relatedPostsSlugs: ['what-is-a-closure', 'generator-functions']
+---
+
+**Disclaimer**: If this pattern has an established name, let me know. I'll update the article to reflect that.
+
+In December, <Marker content="And some of January..." /> I participated in [Advent of Code](https://adventofcode.com). It was _mostly_ fun, but I did have some _extremely_ difficult days. If you follow me on Twitter, you know of my travails with day 19. Oof.
+
+That said, there was a common pattern I used to solve several of the puzzles that I want to share with you. I call it the **"simulation pattern"** and if I hadn't tried to learn the _tiniest_ amount of game dev a few years back, I may have never learned it. Thus, I want to pass it on to you in the hopes you find it useful.
+
+### What is a "simulation"?
+
+A "simulation", in my own words, is where we create some conditions and store some state, and then add a `tick` method to advance that state to the next discrete increment. [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) is an excellent example of a simulation and I encourage you to take this pattern and try to build Conway's Game of Life with it when you're done reading this post.
+
+### The pieces of the pattern
+
+In its most basic form, a simulation is a [closure](/what-is-a-closure) which exposes a `tick` method to advance to the next state. Using a [factory function](/what-is-a-factory-function), it looks like this:
+
+```javascript
+function createSimulation(initialState) {
+  let state = initialState
+
+  return {
+    tick() {
+      // Add functionality to update state
+    },
+    getState() {
+      return state
+    },
+  }
+}
+
+const sim = createSim()
+sim.tick()
+sim.getState()
+```
+
+We create a function that holds our `state` in closure. We add functionality in our exposed `tick` method to advance the state, and we create a way to access the current state with `getState`. All simulations are some variation of this pattern.
+
+Let's create a simple example to demonstrate this. All of us have to deal with money in some capacity, so a loan payoff calculator can be a useful tool to have. We can create a simulation that takes in a `principal`, an `interestRate`, and expose a tick method that receives a `payment` to determine how many payments are necessary to pay off a loan.
+
+First, let's create our factory function:
+
+```javascript
+function createLoanPayoffSimulation(principal, interestRate) {
+  let total = principal
+
+  return {
+    tick(payment) {
+      const interest = total * interestRate
+
+      if (payment <= interest) {
+        throw new Error('Impossible to pay off loan. Increase payment amount.')
+      }
+
+      const diff = interest - payment
+      total += diff
+
+      return this
+    },
+    getTotal() {
+      return total
+    },
+  }
+}
+
+// Dividing by 12 gives us a monthly interest rate
+const sim = createLoanPayoffSimulation(10000, 0.05 / 12)
+```
+
+Now that we have our simulation, we can create a function that uses a simulation to determine how many payments are needed to payoff the loan.
+
+```javascript
+function getTotalPayments(payoffSimulation, payment) {
+  let payments = 0
+  let paid = false
+
+  while (!paid) {
+    payoffSimulation.tick(payment)
+    payments++
+
+    const total = payoffSimulation.getTotal()
+    paid = total <= 0
+  }
+
+  return payments
+}
+
+// Divide the rate by 12 for the monthly interest rate
+console.log(getTotalPayments(sim, 500)) // 21
+```
+
+We can pass different simulations with different conditions into `getTotalPayments` to solve other loan payoff scenarios.
+
+Now that you've seen the basics, give it a try on some other problems. Or try it on an Advent of Code problem, [like this one](https://adventofcode.com/2021/day/5).
+
+### Related
+
+You can also use [generator functions](/generator-functions) to create a similar effect, just with `next` as the method instead of `tick`. The difference being that you `yield` the next state with each run of the function. I make a loan payment calculator in that post as well, so you can hopefully compare the two.
