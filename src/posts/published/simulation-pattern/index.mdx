@@ -15,7 +15,7 @@ In December, <Marker content="And some of January..." /> I participated in [Adve
 
 That said, there was a common pattern I used to solve several of the puzzles that I want to share with you. I call it the **"simulation pattern"** and if I hadn't tried to learn the _tiniest_ amount of game dev a few years back, I may have never learned it. Thus, I want to pass it on to you in the hopes you find it useful.
 
-### What is a "simulation"?
+### What is a &ldquo;simulation&rdquo;?
 
 A "simulation", in my own words, is where we create some conditions and store some state, and then add a `tick` method to advance that state to the next discrete increment. [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) is an excellent example of a simulation and I encourage you to take this pattern and try to build Conway's Game of Life with it when you're done reading this post.
 
@@ -44,7 +44,7 @@ sim.getState()
 
 We create a function that holds our `state` in closure. We add functionality in our exposed `tick` method to advance the state, and we create a way to access the current state with `getState`. All simulations are some variation of this pattern.
 
-Let's create a simple example to demonstrate this. All of us have to deal with money in some capacity, so a loan payoff calculator can be a useful tool to have. We can create a simulation that takes in a `principal`, an `interestRate`, and expose a tick method that receives a `payment` to determine how many payments are necessary to pay off a loan.
+Let's create a simple example to demonstrate this. All of us have to deal with money in some capacity, so a loan payoff calculator can be a useful tool to have. We can create a simulation that takes in a `principal`, an `interestRate`, and expose a `tick` method that receives a `payment` to determine how many payments are necessary to pay off a loan.
 
 First, let's create our factory function:
 
@@ -93,7 +93,6 @@ function getTotalPayments(payoffSimulation, payment) {
   return payments
 }
 
-// Divide the rate by 12 for the monthly interest rate
 console.log(getTotalPayments(sim, 500)) // 21
 ```
 
