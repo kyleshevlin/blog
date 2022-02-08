@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '../../../components/Button'
 import Flex from '../../../components/Flex'
 import Spacer from '../../../components/Spacer'
+import { mq } from '../../../utils'
 
 const randomBool = () => Boolean(Math.round(Math.random()))
 
@@ -109,16 +110,22 @@ export default function GameOfLife() {
                 <button
                   key={colIdx}
                   onClick={handleCellClick(rowIdx, colIdx)}
-                  style={{
+                  css={{
                     backgroundColor: cellState
                       ? 'var(--colors-accent)'
                       : 'var(--colors-offset)',
                     border: 'none',
                     borderRadius: '50%',
-                    height: 20,
-                    margin: 5,
-                    width: 20,
+                    height: 15,
+                    margin: 3,
                     transition: `all ${INTERVAL / 2}ms linear`,
+                    width: 15,
+
+                    [mq.alpha]: {
+                      height: 20,
+                      margin: 5,
+                      width: 20,
+                    },
                   }}
                   type="button"
                 />
