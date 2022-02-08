@@ -7,22 +7,6 @@ import { useCoursesContext } from './CoursesProvider'
 import { shadowSize } from './Button'
 import LinkButton from './LinkButton'
 
-const randomIndex = length => Math.floor(Math.random() * length)
-
-const chooseCourse = (courses, nickname) => {
-  if (!courses.length) return null
-
-  const randomCourse = courses[randomIndex(courses.length)]
-
-  if (!nickname) return randomCourse
-
-  const course = courses.find(course => course.nickname === nickname)
-
-  if (!course) return randomCourse
-
-  return course
-}
-
 const BUTTON_TEXT_BY_URL_TYPE = {
   default: 'View the course',
   egghead: 'View on egghead.io',
@@ -47,13 +31,25 @@ function formatUrl(url, urlType) {
 }
 
 export default function ValueSell({ courseNickname }) {
-  const courses = useCoursesContext()
-  const course = React.useMemo(
-    () => chooseCourse(courses, courseNickname),
-    [courses, courseNickname]
-  )
+  const { getCourseByNickname, getRandomCourse } = useCoursesContext()
 
-  if (!course) return null
+  let course
+
+  /**
+   * If the post has a courseNickname for an associated course,
+   * try to get that course.
+   */
+  if (courseNickname) {
+    course = getCourseByNickname(courseNickname)
+  }
+
+  /**
+   * If for some reason the nickname didn't work, choose a course at random
+   * to display
+   */
+  if (!course) {
+    course = getRandomCourse()
+  }
 
   const { logo, title, url } = course
 

@@ -20,16 +20,26 @@ export default function CoursesProvider({ children }) {
       }
     }
   `)
+  const courses = data.allCoursesJson.edges.map(edge => edge.node)
 
-  const courses = React.useMemo(
-    () => data.allCoursesJson.edges.map(edge => edge.node),
-    [data]
+  const getRandomCourse = React.useCallback(() => {
+    const index = Math.floor(Math.random() * courses.length)
+    return courses[index]
+  }, [courses])
+
+  const getCourseByNickname = React.useCallback(
+    nickname => courses.find(course => course.nickname === nickname),
+    [courses]
   )
 
+  const value = {
+    courses,
+    getCourseByNickname,
+    getRandomCourse,
+  }
+
   return (
-    <CoursesContext.Provider value={courses}>
-      {children}
-    </CoursesContext.Provider>
+    <CoursesContext.Provider value={value}>{children}</CoursesContext.Provider>
   )
 }
 
