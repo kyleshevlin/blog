@@ -1,0 +1,203 @@
+---
+date: '2022-02-14'
+slug: 'why-use-use-reducer'
+title: 'Why Use <code>useReducer</code>?'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import JumpingBall from './JumpingBall'
+
+Recently, my buddy [Mike Hartington](https://twitter.com/mhartington) asked this:
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    Random question for my react friends...
+    <br />
+    <br />
+    Is useReducer something folks use/like?
+  </p>
+  &mdash; Mike Hartington (@mhartington) <a href="https://twitter.com/mhartington/status/1492526006443335680?ref_src=twsrc%5Etfw">
+    February 12, 2022
+  </a>
+</blockquote>
+<script
+  async
+  src="https://platform.twitter.com/widgets.js"
+  charset="utf-8"
+></script>
+
+I gave a brief answer in the replies, but thought I'd write a bit more about it here. If you've come across my blog before, much of what I'm going to write in this post will relate to other posts of mine, such as [`useEncapsulation`](/use-encapsulation) and [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and more. There's a lot of overlap, so please check them out if you haven't. In the fashion of those articles, let's work through an example, iterating through it to gain some insights.
+
+### Our example
+
+Here I have a little jumping ball. Go ahead. Make it jump.
+
+<Spacer vert={2}>
+  <JumpingBall />
+</Spacer>
+
+Every time we click the button, the ball jumps. If we click it while the ball is already in the air, it does nothing. Let's look at our first iteration of code. I'll show the whole thing and then we'll focus on the key parts individually. It looks like this:
+
+```jsx
+import React from 'react'
+import Button from '../../../components/Button'
+import Flex from '../../../components/Flex'
+
+const GRAVITY = 0.5
+const JUMP_IMPULSE = 12
+const BALL_SIZE = 20
+const BALL_STATE = {
+  idle: 'idle',
+  jumping: 'jumping',
+}
+
+export default function JumpingBall() {
+  const [position, setPosition] = React.useState(0)
+  const delta = React.useRef(0)
+  const ballState = React.useRef(BALL_STATE.idle)
+
+  const tick = React.useCallback(() => {
+    if (ballState.current === BALL_STATE.idle) return
+
+    setPosition(pos => {
+      delta.current -= GRAVITY
+      const nextPos = Math.floor(pos + delta.current)
+
+      if (nextPos <= 0) {
+        delta.current = 0
+        ballState.current = BALL_STATE.idle
+        return 0
+      }
+
+      return nextPos
+    })
+  }, [])
+
+  React.useEffect(() => {
+    const id = setInterval(tick, 1000 / 60)
+
+    return () => clearInterval(id)
+  }, [tick])
+
+  const handleClick = React.useCallback(() => {
+    if (ballState.current === BALL_STATE.jumping) return
+
+    delta.current = JUMP_IMPULSE
+    ballState.current = BALL_STATE.jumping
+  }, [])
+
+  return (
+    <Flex direction="column" gap={1} align="center">
+      <Canvas>
+        <Ball position={position} />
+      </Canvas>
+      <Button onClick={handleClick}>Jump</Button>
+    </Flex>
+  )
+}
+
+function Canvas({ children }) {
+  return (
+    <div
+      css={{
+        border: '2px solid var(--colors-offsetMore)',
+        position: 'relative',
+        height: 300,
+        width: '100%',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function Ball({ position }) {
+  return (
+    <div
+      style={{
+        backgroundColor: 'var(--colors-accent)',
+        height: BALL_SIZE,
+        width: BALL_SIZE,
+        borderRadius: '50%',
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        bottom: position,
+      }}
+    />
+  )
+}
+```
+
+Ok, let's get some things out of the way. The `Canvas` and `Ball` components are pretty self explanatory. The first is the "world" our `Ball` lives in, and well, the second is the `Ball`.
+
+The `Ball` receives a `position` prop to determine where to render it on the `Canvas` on any given `tick`. Which is a nice segue for discussing "the loop" I've implemented in our component.
+
+In digital games, it is common to have a running loop that fires a `tick` function for every frame (in our case, approximately 60 frames per second). In that `tick`, we need to create the next state of our game so it can be rendered the next frame.
+
+_Our_ `tick` function determines the next `position` of the ball based on its current position and the `delta`, that is the change resulting from the upward "force" of the ball when it jumps, the `JUMP_IMPULSE` that is added when `handleClick` is called, and the constant "downward" force of `GRAVITY`.
+
+Looking closely, you'll see I only maintain one state, the `position`, with a `useState` hook. The other states, `ballState` and `delta` are managed with `useRef`s. You might be asking, "Why?"
+
+I am storing state this way because we only need to rerender our component when the `position` changes. Since `position` is set in every call of `tick`, any changes to `ballState` or `delta` will be reflected in the next position. If you want to learn more about the differences between `useState` and `useRef`, check out my post [Comparing `useRef` and `useState`](/comparing-use-ref-and-use-state).
+
+Let's take a closer look at the `tick` function. I've added comments to explain what's happening.
+
+```javascript
+const tick = React.useCallback(() => {
+  // If the ball is idle, we don't need to calculate anything
+  if (ballState.current === BALL_STATE.idle) return
+
+  // Otherwise
+  setPosition(pos => {
+    // At the start of the jump, delta is set to JUMP_IMPULSE
+    // With each tick, we want to subtract the force of gravity...
+    delta.current -= GRAVITY
+
+    // ...and calculate the next position,
+    // rounding just makes it a touch nicer to deal with
+    const nextPos = Math.floor(pos + delta.current)
+
+    // If that next position collides with the "ground", put the ball at rest
+    if (nextPos <= 0) {
+      delta.current = 0
+      ballState.current = BALL_STATE.idle
+      return 0
+    }
+
+    // Otherwise, return the next position
+    return nextPos
+  })
+}, [])
+```
+
+The ball only gains upward momentum through the `delta` and `ballState` being updated in the `handleClick` handler.
+
+```javascript
+const handleClick = React.useCallback(() => {
+  // If the ball is already jumping, don't jump again
+  if (ballState.current === BALL_STATE.jumping) return
+
+  // Otherwise, change the ball and the delta, our "loop" will render it
+  delta.current = JUMP_IMPULSE
+  ballState.current = BALL_STATE.jumping
+}, [])
+```
+
+And then the "loop" is our `useEffect` utilizing `setInterval` to call our `tick` at roughly 60fps (`1000ms` divided by `60`).
+
+```javascript
+React.useEffect(() => {
+  const id = setInterval(tick, 1000 / 60)
+
+  // Always be sure to clean up calls to setTimeout or setInterval
+  // in your useEffects!
+  return () => clearInterval(id)
+}, [tick])
+```
+
+Now that we understand the code, let's start to modify it to reveal some weaknesses to our current approach.
