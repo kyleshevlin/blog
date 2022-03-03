@@ -1,0 +1,94 @@
+---
+date: '2022-02-22'
+slug: 'event-capture-in-react'
+title: 'Event Capture In React'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import Breakfast from './Breakfast'
+import EventButton from './EventButton'
+
+So... as of the time I'm writing this, I've used React for 7 years and _today_ I learned something completely unbeknownst to me. **You can append** `Capture` **to an event name to have it handled in the "capture" phase of event delegation, instead of the "bubbling" phase**. Who knew?! It's [right here in the docs](https://reactjs.org/docs/events.html#supported-events).
+
+So what is this and why is it useful? Let's explore.
+
+### What is event capturing and bubbling?
+
+In short, because there are a million other articles on the topic, event capturing and bubbling describe how events traverse the DOM. Look at the following markup:
+
+```html
+<html>
+  <head>
+    Event capturing and bubbling
+  </head>
+  <body>
+    <div>
+      <button>Click me</button>
+    </div>
+  </body>
+</html>
+```
+
+When you click the `button`, the "capture" phase begins. It starts at the top of the DOM, and traverses down the tree through each element. When it reaches the target, the `button`, it begins the "bubbling" phase and traverses back up to the top of the DOM tree. We can imagine that loop like this:
+
+| Element  |  Event  |  Phase  |
+| :------: | :-----: | :-----: |
+|  `html`  | `click` | capture |
+|  `body`  | `click` | capture |
+|  `div`   | `click` | capture |
+| `button` | `click` | capture |
+| `button` | `click` | bubble  |
+|  `div`   | `click` | bubble  |
+|  `body`  | `click` | bubble  |
+|  `html`  | `click` | bubble  |
+
+We can see this by writing just a few lines of code:
+
+```javascript
+// Wildcard selector
+const allElements = document.querySelectorAll('*')
+
+function logNodeName() {
+  // I know, I hate using `this` too
+  console.log(this.nodeName)
+}
+
+for (const el of allElements) {
+  // This one will be used in the capture phase
+  el.addEventListener('click', logNodeName, true)
+  // This one will be used in the bubbling phase
+  el.addEventListener('click', logNodeName)
+}
+```
+
+Now I've attached the `logNodeName` function as a `click` event handler to _every_ element on the `document`. That means, clicking anywhere, should log out _all_ the elements touched in the "bubbling" phase. **Note**: this does not remove any listeners, so it's possible to have memory leaks if you add or remove elements from the page between clicks. Try it out here:
+
+<OffsetWrap>
+  <EventButton />
+</OffsetWrap>
+
+You can see that it starts at the `html` element and works its way down to the button and then works its way back up. Honestly, because I used the wildcard selector, `*`, you can click _anywhere_ and see the output. Have fun.
+
+### Using the capture phase with React events
+
+In most cases, React abstracts the process of attaching event handlers to elements. Rather than getting the element and writing `addEventListener` and `removeEventListener`, we use the associated element attribute for the given event we want to respond to, such as `onClick`.
+
+```javascript
+const button = document.getElementById('#btn')
+button.addEventListener('click', () => { console.log('clicked') })
+
+// Vs.
+<button onClick={() => { console.log('clicked') }}>Click me</button>
+```
+
+`addEventListener` and `removeEventListener` receive an optional third argument of the type `boolean | Options`. I will ignore the `Options` argument as you can [look that up here](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) and instead focus on the `boolean` that represents the `useCapture` value. By passing `true` into this third argument, we indicate that this event handler should be used in the capture phase. But, if we're using React's abstractions, we have no place to pass in a `useCapture` argument, do we?
+
+This is where appending `Capture` comes in. If we want a click handler to be used in the capture phase, rather than the bubbling phase, we use `onClickCapture` instead. Let's make an example.
+
+<OffsetWrap>
+  <Breakfast />
+</OffsetWrap>
