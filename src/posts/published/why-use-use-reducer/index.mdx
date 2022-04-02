@@ -30,7 +30,49 @@ Recently, my buddy [Mike Hartington](https://twitter.com/mhartington) asked this
   charset="utf-8"
 ></script>
 
-I gave a brief answer in the replies, but thought I'd write a bit more about it here. If you've come across my blog before, much of what I'm going to write in this post will relate to other posts of mine, such as [`useEncapsulation`](/use-encapsulation) and [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and more. There's a lot of overlap, so please check them out if you haven't. In the fashion of those articles, let's work through an example, iterating through it to gain some insights.
+I gave a brief answer in the replies, but thought I'd write a bit more about it here. If you've come across my blog before, much of what I'm going to write in this post will relate to other posts of mine, such as [`useEncapsulation`](/use-encapsulation) and [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and more. There's a lot of overlap, so please check them out if you haven't. Forgive me if this all sounds familiar.
+
+### Two state primitives
+
+React provides two state primitives, `useState` and `useReducer`. `useState` is hook that gives us a straightforward `[read, write]` tuple. Like so:
+
+```javascript
+const [count, setCount] = React.useState(0)
+
+console.log(count) // "read" the value
+setCount(count + 1) // "write" the next value
+```
+
+The other primitive, `useReducer` is a bit more complex. It gives us a `[read, emitEvent]` tuple. Like so:
+
+```javascript
+const reducer = (state, event) => {
+  switch (event) {
+    case 'INCREMENT':
+      return state + 1
+    default:
+      return state
+  }
+}
+
+const [count, emitEvent] = React.useReducer(reducer, 0)
+
+console.log(count) // "read" the value
+emitEvent('INCREMENT') // emit the event
+```
+
+Now, more often you'll see `emitEvent` and `event` named `dispatch` and `action` respectively. I, too, often do this. However, I wanted to make it clear that what we're doing when we use `useReducer` is emitting and responding to events. Just because we use different variable names, doesn't mean we're doing something different. It's like "coriander" and "cilantro", or "typhoon" and "hurricane". Literally the same thing, different names.
+
+### Choosing one over the other
+
+In general, I treat `useState` as the default tool for the state management job. In many situations, I have a single state to manage and writing a few [declarative state updaters]() does the trick. But there are certain conditions that make `useReducer` a better choice. Here are the things I consider when making the choice:
+
+- Does the next state frequently depend upon the current state?
+- Is there more than one state to manage? More importantly, _are there situations where we change multiple states at the same time_?
+- Are there situations where the same user event is responded to differently depending on the current state?
+- Far less common, is there a use case where a consumer of the component may need to hook into and respond to events, aka the state reducer pattern?
+
+---
 
 ### Our example
 
