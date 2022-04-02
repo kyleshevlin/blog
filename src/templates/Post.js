@@ -15,6 +15,18 @@ import { mq } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
 
+/**
+ * This regex checks for an opening `<`
+ * Then an optional `/` for the closing tags
+ * Then any number of lowercase alphabetic characters
+ * Followed by a closing `>`
+ */
+const ELEMENT_TAGS_PATTERN = /<\/?[a-z]+>/g
+
+function formatTitleForHead(str) {
+  return str.replaceAll(ELEMENT_TAGS_PATTERN, '')
+}
+
 const Post = ({
   data,
   pageContext: { olderPost, newerPost, relatedPosts },
@@ -37,7 +49,11 @@ const Post = ({
 
   return (
     <>
-      <Seo title={title} description={description} keywords={keywords || []} />
+      <Seo
+        title={formatTitleForHead(title)}
+        description={description}
+        keywords={keywords || []}
+      />
 
       <Content courseNickname={relevantCourseNickname}>
         <div
