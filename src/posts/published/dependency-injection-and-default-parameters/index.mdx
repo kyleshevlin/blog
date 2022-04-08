@@ -184,7 +184,7 @@ function counts(items, getKey = identity) {
     const key = getKey(item, index, items)
 
     if (result[key] === undefined) {
-      result[key] === 0
+      result[key] = 0
     }
 
     result[key]++
