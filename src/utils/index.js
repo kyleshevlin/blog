@@ -52,3 +52,15 @@ export const randomRGB = () => {
 
   return `rgb(${r}, ${g}, ${b})`
 }
+
+/**
+ * This regex checks for an opening `<`
+ * Then an optional `/` for the closing tags
+ * Then any number of lowercase alphabetic characters
+ * Followed by a closing `>`
+ */
+const ELEMENT_TAGS_PATTERN = /<\/?[a-z]+>/g
+
+export function stripElementTags(str) {
+  return str.replace(ELEMENT_TAGS_PATTERN, '')
+}
