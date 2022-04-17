@@ -4,7 +4,7 @@ import Seo from '../components/Seo'
 import Tag from '../components/icons/Tag'
 import { bs } from '../shevy'
 import { getNodes } from '../utils'
-import Spacer from '../components/Spacer'
+import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const AllPosts = ({ data }) => {
@@ -23,7 +23,7 @@ const AllPosts = ({ data }) => {
           to search for keywords. I'm working on adding search and filters soon.
         </p>
 
-        <Spacer bottom={2}>
+        <Margin bottom={2}>
           {allPosts.map(post => {
             const { slug, subtitle, tags, title } = post.frontmatter
 
@@ -91,7 +91,7 @@ const AllPosts = ({ data }) => {
               </Link>
             )
           })}
-        </Spacer>
+        </Margin>
       </Content>
     </>
   )

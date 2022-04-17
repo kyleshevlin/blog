@@ -22,7 +22,7 @@ To understand this post, we need to establish a shared context (pun intended). W
 
 ```jsx
 import Button from './Button'
-import Spacer from './Button'
+import Margin from './Button'
 // A spacing helper function from my shevyjs library
 // It's an alias of the `baseSpacing` method
 // Spacer uses this under the hood
@@ -47,9 +47,9 @@ function App() {
 
   return (
     <div>
-      <Spacer bottom={1}>
+      <Margin bottom={1}>
         <Button onClick={forceUpdate}>Force Update</Button>
-      </Spacer>
+      </Margin>
       <Box />
     </div>
   )
@@ -109,9 +109,9 @@ function Trigger() {
 function App() {
   return (
     <MyProvider>
-      <Spacer bottom={1}>
+      <Margin bottom={1}>
         <Trigger />
-      </Spacer>
+      </Margin>
     </MyProvider>
   )
 }
@@ -140,9 +140,9 @@ function MyProvider({ children }) {
 function App() {
   return (
     <MyProvider>
-      <Spacer bottom={1}>
+      <Margin bottom={1}>
         <Trigger />
-      </Spacer>
+      </Margin>
       <Box />
     </MyProvider>
   )

@@ -5,7 +5,7 @@ import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
-import Spacer from '../components/Spacer'
+import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const query = graphql`
@@ -50,11 +50,11 @@ export default function Courses() {
           I'll do my best to help you out.
         </p>
 
-        <Spacer top={2} bottom={4}>
+        <Margin top={2} bottom={4}>
           {courses.map(course => (
             <CourseItem key={course.title} {...course} />
           ))}
-        </Spacer>
+        </Margin>
       </Content>
     </>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { bs } from '../shevy'
 
-export default function Spacer({
+export default function Margin({
   children,
   all = 0,
   vert = 0,

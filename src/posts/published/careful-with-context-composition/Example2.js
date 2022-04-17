@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 // These can be found on my snippets page
 import { randomRGB } from '../../../utils'
 import useForceUpdate from '../../../hooks/useForceUpdate'
@@ -41,9 +41,9 @@ function Trigger() {
 export default function App() {
   return (
     <MyProvider>
-      <Spacer bottom={1}>
+      <Margin bottom={1}>
         <Trigger />
-      </Spacer>
+      </Margin>
     </MyProvider>
   )
 }

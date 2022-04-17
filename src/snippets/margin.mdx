@@ -1,52 +1,56 @@
 ---
-slug: 'spacer'
-name: 'Spacer'
+slug: 'margin'
+name: 'Margin'
 description: 'A component for easily applying margins with component composition'
 category: 'React Component'
 ---
 
+**Update**: This component was formerly names `Spacer`. It was brought to my attention that a few design systems use `Spacer` in the way of old `spacer.gif`s, arbitrarily sized empty boxes used for pushing elements around. Thus, I've renamed this component to `Margin`. It's more accurate anyways.
+
+---
+
 It is a mistake for reusable components to export their own margins. Doing so makes it difficult to compose them with other components to build up more complex ones. For more on this concept, I encourage you to read [Max Stoiber's article, "Margin considered harmful"](https://mxstbr.com/thoughts/margin/).
 
-When we compose components, we can use other elements to affect their layout. This can be done with one-off elements with styles applied, or we can create some declarative layout components. One of the ones I find most useful is the `Spacer` component you see below. I have used the component you see below in a number of applications. I use a `Spacer` all over this blog, but I make a small modification which I will show later on.
+When we compose components, we can use other elements to affect their layout. This can be done with one-off elements with styles applied, or we can create some declarative layout components. One of the ones I find most useful is the `Margin` component you see below. I have used the component you see below in a number of applications. I use a `Margin` all over this blog, but I make a small modification which I will show later on.
 
 I even added some `jsdoc` comments and some TypeScript types for you.
 
 ```tsx
-type Margin = number | string
+type TMargin = number | string
 
-type SpacerProps = {
+type MarginProps = {
   children: React.ReactNode
   /**
    * Shorthand for applying margin to all sides
    */
-  all?: Margin
+  all?: TMargin
   /**
    * Shorthand for applying margin to left and right sides
    */
-  horz?: Margin
+  horz?: TMargin
   /**
    * Shorthand for applying margin to top and bottom sides
    */
-  vert?: Margin
+  vert?: TMargin
   /**
    * Applies margin to the top
    */
-  top?: Margin
+  top?: TMargin
   /**
    * Applies margin to the right
    */
-  right?: Margin
+  right?: TMargin
   /**
    * Applies margin to the bottom
    */
-  bottom?: Margin
+  bottom?: TMargin
   /**
    * Applies margin to the left
    */
-  left?: Margin
+  left?: TMargin
 }
 
-function Spacer({
+function Margin({
   children,
   all = 0,
   horz = 0,
@@ -55,7 +59,7 @@ function Spacer({
   right = 0,
   bottom = 0,
   left = 0,
-}: SpacerProps) {
+}: MarginProps) {
   const margins = {
     ...(all && {
       marginTop: all,
@@ -85,9 +89,9 @@ Now we can compose components together. A simple example might be a `Name` and `
 
 ```jsx
 <div style={{ display: 'flex' }}>
-  <Spacer right={8}>
+  <Margin right={8}>
     <Avatar src={avatar} />
-  </Spacer>
+  </Margin>
   <Name>{name}</Name>
 </div>
 ```
@@ -96,29 +100,29 @@ And in another, perhaps a `Bio` component is introduced and some of them are sta
 
 ```jsx
 <div>
-  <Spacer bottom={8}>
+  <Margin bottom={8}>
     <Name>{name}</Name>
-  </Spacer>
+  </Margin>
   <div style={{ display: 'flex' }}>
-    <Spacer right={4}>
+    <Margin right={4}>
       <Avatar src={avatar} />
-    </Spacer>
+    </Margin>
     <Bio>{bio}</Bio>
   </div>
 </div>
 ```
 
-The `Spacer` component makes it very easy to arbitrarily create new layouts for reusable components. I think you'll enjoy learning to use it.
+The `Margin` component makes it very easy to arbitrarily create new layouts for reusable components. I think you'll enjoy learning to use it.
 
 ## My modification
 
-Because I use [`shevyjs`](https://github.com/kyleshevlin/shevyjs) in my projects, I modify my `Spacer` to use the `baseSpacing` function under the hood. Here is a direct copy/paste of what I'm using in this blog, right now:
+Because I use [`shevyjs`](https://github.com/kyleshevlin/shevyjs) in my projects, I modify my `Margin` to use the `baseSpacing` function under the hood. Here is a direct copy/paste of what I'm using in this blog, right now:
 
 ```jsx
 import React from 'react'
 import { bs } from '../shevy' // alias of the baseSpacing function I export
 
-export default function Spacer({
+export default function Margin({
   children,
   all = 0,
   vert = 0,

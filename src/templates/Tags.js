@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
-import Spacer from '../components/Spacer'
+import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const Tags = ({ data, ...props }) => {
@@ -20,12 +20,12 @@ const Tags = ({ data, ...props }) => {
             const { slug, title } = post.frontmatter
 
             return (
-              <Spacer bottom={0.5} key={slug}>
+              <Margin bottom={0.5} key={slug}>
                 <Link
                   dangerouslySetInnerHTML={{ __html: title }}
                   to={`/${slug}`}
                 />
-              </Spacer>
+              </Margin>
             )
           })}
         </div>

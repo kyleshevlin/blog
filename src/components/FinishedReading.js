@@ -5,7 +5,7 @@ import KofiLogo from './KofiLogo'
 import LinkButton from './LinkButton'
 import Share from './Share'
 import ShiftBy from './ShiftBy'
-import Spacer from './Spacer'
+import Margin from './Margin'
 import { mq } from '../utils'
 
 export default function FinishedReading({ beardStrokeKey, slug, title }) {
@@ -55,7 +55,7 @@ function AfterOption({ children, label }) {
           fontWeight: 'bold',
         }}
       >
-        <Spacer bottom={0.25}>{label}</Spacer>
+        <Margin bottom={0.25}>{label}</Margin>
       </div>
       <div css={{ display: 'flex', alignItems: 'center' }}>{children}</div>
     </>
@@ -65,7 +65,7 @@ function AfterOption({ children, label }) {
 function Kofi() {
   return (
     <div css={{ textAlign: 'center', width: '100%' }}>
-      <Spacer bottom={0.25}>
+      <Margin bottom={0.25}>
         <div
           css={{
             fontFamily: 'var(--fonts-catamaran)',
@@ -73,7 +73,7 @@ function Kofi() {
         >
           Was this post valuable to you? Make a donation to show&nbsp;it
         </div>
-      </Spacer>
+      </Margin>
       <LinkButton
         href="https://ko-fi.com/kyleshevlin"
         overrideStyles={{
@@ -86,11 +86,11 @@ function Kofi() {
       >
         <span css={{ fontSize: shevy.h4.fontSize }}>Make a Donation</span>
         <div css={{ display: 'none', [mq.alpha]: { display: 'block' } }}>
-          <Spacer vert={0.25} left={0.5}>
+          <Margin vert={0.25} left={0.5}>
             <ShiftBy y={2}>
               <KofiLogo width={40} />
             </ShiftBy>
-          </Spacer>
+          </Margin>
         </div>
       </LinkButton>
     </div>

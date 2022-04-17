@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 import useForceUpdate from '../../../hooks/useForceUpdate'
 import { bs } from '../../../shevy'
 import { random255 } from '../../../utils'
@@ -27,7 +27,7 @@ export default function BackgroundCounter() {
   return (
     <div style={{ ...getColors(), padding: bs() }}>
       <div css={{ textAlign: 'center' }}>{counter.current}</div>
-      <Spacer top={0.5}>
+      <Margin top={0.5}>
         <div
           css={{
             display: 'flex',
@@ -38,7 +38,7 @@ export default function BackgroundCounter() {
           <Button onClick={forceUpdate}>Force Update</Button>
           <Button onClick={reset}>Reset</Button>
         </div>
-      </Spacer>
+      </Margin>
     </div>
   )
 }

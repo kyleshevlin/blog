@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import Flex from '../../../components/Flex'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 import { mq } from '../../../utils'
 
 const randomBool = () => Boolean(Math.round(Math.random()))
@@ -133,14 +133,14 @@ export default function GameOfLife() {
             </Flex>
           ))}
         </div>
-        <Spacer top={1}>
+        <Margin top={1}>
           <Flex justify="space-between">
             <Button onClick={handleGameToggle}>
               {gameState === 'paused' ? 'Start' : 'Stop'}
             </Button>
             <Button onClick={randomizeCells}>Randomize</Button>
           </Flex>
-        </Spacer>
+        </Margin>
       </div>
     </Flex>
   )

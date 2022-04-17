@@ -5,7 +5,7 @@ import { FootnoteDisplay } from './Footnotes'
 import Header from './Header'
 import AllGlobalStyles from '../styles/AllGlobalStyles'
 import Flex from './Flex'
-import Spacer from './Spacer'
+import Margin from './Margin'
 
 export default function Layout({ children }) {
   return (
@@ -19,9 +19,9 @@ export default function Layout({ children }) {
           <Container>{children}</Container>
         </div>
 
-        <Spacer top={2}>
+        <Margin top={2}>
           <Footer />
-        </Spacer>
+        </Margin>
       </Flex>
       <FootnoteDisplay />
     </>

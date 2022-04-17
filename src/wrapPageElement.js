@@ -5,7 +5,7 @@ import Flex from './components/Flex'
 import Gif from './components/Gif'
 import OffsetWrap from './components/OffsetWrap'
 import { FootnotesProvider, FootnoteMarker } from './components/Footnotes'
-import Spacer from './components/Spacer'
+import Margin from './components/Margin'
 import YoutubeEmbed from './components/YoutubeEmbed'
 import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
@@ -43,7 +43,7 @@ const wrapPageElement = ({ element, props }) => {
               h6: H6,
               Marker: FootnoteMarker,
               OffsetWrap,
-              Spacer,
+              Margin,
               YoutubeEmbed,
             }}
           >

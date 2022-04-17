@@ -7,7 +7,7 @@ import LinkedIn from './icons/LinkedIn'
 import Twitch from './icons/Twitch'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
-import Spacer from './Spacer'
+import Margin from './Margin'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
 import Flex from './Flex'
@@ -35,7 +35,7 @@ export default function Footer() {
       }}
     >
       <Container>
-        <Spacer bottom={2}>
+        <Margin bottom={2}>
           <div
             css={{
               marginLeft: 'auto',
@@ -45,9 +45,9 @@ export default function Footer() {
           >
             <Contributors />
           </div>
-        </Spacer>
+        </Margin>
 
-        <Spacer bottom={0.5}>
+        <Margin bottom={0.5}>
           <Flex align="center" justify="center">
             {links.map(({ href, icon: Icon, title }) => (
               <OutboundLink
@@ -69,7 +69,7 @@ export default function Footer() {
               </OutboundLink>
             ))}
           </Flex>
-        </Spacer>
+        </Margin>
 
         <div>
           &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.

@@ -18,9 +18,9 @@ When I discuss React with people, I often hear that others find `useRef` to be c
 
 Before we get into the specific differences, I want to share a realization I recently had. I realized that the standard React Hooks come in four categories:
 
-<Spacer vert={2}>
+<Margin vert={2}>
   <HookCategories />
-</Spacer>
+</Margin>
 
 Notice that I put `useRef` in _two_ categories. It doesn't fall neatly into one or the other. It holds a bit of state, whatever value is assigned to `ref.current`, making it a "State Manager". But it's also a "Stabilizer" because changing the value of `ref.current` **does not** cause a component to update.
 
@@ -75,9 +75,9 @@ function Box() {
 
 And let's see it in action.
 
-<Spacer vert={2}>
+<Margin vert={2}>
   <RandomBox />
-</Spacer>
+</Margin>
 
 Neat. Now, hopefully it's clear what causes a rerender with `useState`. The question we must now ask ourselves is, "How does this relate to `useRef`?". Let's try to make a similar box, but use `useRef` instead. We'll have to create our own state updater to do this since `useRef` doesn't give us one.
 
@@ -96,9 +96,9 @@ function RefBox() {
 }
 ```
 
-<Spacer vert={2}>
+<Margin vert={2}>
   <RefRandomBox />
-</Spacer>
+</Margin>
 
 I bet you just clicked that button repeatedly and wondered if it's actually doing anything. I assure you it is, check your console. I snuck a `console.log` into `flip` on you.
 
@@ -144,9 +144,9 @@ function BackgroundCounter() {
 
 And let's see how that works.
 
-<Spacer vert={2}>
+<Margin vert={2}>
   <BackgroundCounter />
-</Spacer>
+</Margin>
 
 Notice that the value displayed only updates when we force it to. It's been changing in the background this entire time, and yet, because it was a `ref`, the component never updates. It was probably a pretty big number the first time you updated it, too. It's been running since you started reading this article.
 

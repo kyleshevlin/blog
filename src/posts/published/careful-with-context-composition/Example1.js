@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 // These can be found on my snippets page
 import { randomRGB } from '../../../utils'
 import useForceUpdate from '../../../hooks/useForceUpdate'
@@ -23,9 +23,9 @@ export default function App() {
 
   return (
     <div>
-      <Spacer bottom={1}>
+      <Margin bottom={1}>
         <Button onClick={forceUpdate}>Force Update</Button>
-      </Spacer>
+      </Margin>
       <Box />
     </div>
   )

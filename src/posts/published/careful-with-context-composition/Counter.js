@@ -1,7 +1,7 @@
 import React from 'react'
 import generateContext from 'react-generate-context'
 import Button from '../../../components/Button'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 
 const useCounterValue = ({ startingCount = 0 }) => {
   const [state, setState] = React.useState(startingCount)
@@ -27,11 +27,11 @@ function Counter() {
 
   return (
     <div>
-      <Spacer bottom={0.5}>{count}</Spacer>
+      <Margin bottom={0.5}>{count}</Margin>
       <div css={{ display: 'flex' }}>
-        <Spacer right={0.5}>
+        <Margin right={0.5}>
           <Button onClick={inc}>+</Button>
-        </Spacer>
+        </Margin>
         <Button onClick={dec}>-</Button>
       </div>
     </div>

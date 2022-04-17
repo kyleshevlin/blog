@@ -2,7 +2,7 @@ import React from 'react'
 import shevy, { bs } from '../shevy'
 import Button from './Button'
 import ShiftBy from './ShiftBy'
-import Spacer from './Spacer'
+import Margin from './Margin'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>
@@ -23,7 +23,7 @@ export default function Share({ slug, title }) {
 
   return (
     <div css={{ width: '100%', textAlign: 'center' }}>
-      <Spacer bottom={0.25}>
+      <Margin bottom={0.25}>
         <div
           css={{
             fontFamily: 'var(--fonts-catamaran)',
@@ -32,7 +32,7 @@ export default function Share({ slug, title }) {
           Sharing this post on Twitter & elsewhere is a great way to
           help&nbsp;me&nbsp;out
         </div>
-      </Spacer>
+      </Margin>
       <Button
         css={{
           backgroundColor: 'var(--colors-contra)',

@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 import { bs } from '../../../shevy'
 
 const ITEMS = [
@@ -18,12 +18,12 @@ export default function ItemSelector() {
 
   return (
     <div>
-      <Spacer bottom={1}>
-        <Spacer bottom={0.25}>
+      <Margin bottom={1}>
+        <Margin bottom={0.25}>
           Current state: {JSON.stringify(state, null, 2)}
-        </Spacer>
+        </Margin>
         <Button onClick={unselectItem}>Clear selection</Button>
-      </Spacer>
+      </Margin>
       <div
         css={{
           display: 'grid',

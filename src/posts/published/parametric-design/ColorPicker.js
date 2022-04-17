@@ -1,6 +1,6 @@
 import React from 'react'
 import { bs } from '../../../shevy'
-import Spacer from '../../../components/Spacer'
+import Margin from '../../../components/Margin'
 
 const MAX_HEX = parseInt('ffffff', 16)
 
@@ -37,7 +37,7 @@ export default function ColorPicker() {
           alignItems: 'center',
         }}
       >
-        <Spacer bottom={0.5}>Choose a color</Spacer>
+        <Margin bottom={0.5}>Choose a color</Margin>
         <div>
           <input onChange={handleChange} type="color" value={backgroundColor} />
         </div>

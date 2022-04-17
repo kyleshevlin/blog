@@ -1,7 +1,7 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
 import { buttonStyles } from '../components/Button'
-import Spacer from '../components/Spacer'
+import Margin from '../components/Margin'
 import Beard from '../components/icons/Beard'
 import { getDb, getValueOnce, setValue } from '../firebase'
 
@@ -58,7 +58,7 @@ function BeardStrokes({ slug }) {
 
   return (
     <div css={{ width: '100%', textAlign: 'center' }}>
-      <Spacer bottom={0.25}>
+      <Margin bottom={0.25}>
         <div
           css={{
             fontFamily: 'var(--fonts-catamaran)',
@@ -66,7 +66,7 @@ function BeardStrokes({ slug }) {
         >
           Liked the post? Click the beard up to 50 times to show&nbsp;it
         </div>
-      </Spacer>
+      </Margin>
       <button
         css={{
           ...buttonStyles,
@@ -113,10 +113,10 @@ function BeardStrokes({ slug }) {
             alignItems: 'center',
           }}
         >
-          <Spacer right={0.25}>
+          <Margin right={0.25}>
             <Beard width={40} />
-          </Spacer>
-          <Spacer right={0.5}>+{count}</Spacer>
+          </Margin>
+          <Margin right={0.5}>+{count}</Margin>
         </div>
       </button>
     </div>
