@@ -27,8 +27,8 @@ const NotFoundPage = ({ data }) => (
           const { slug, title } = post.frontmatter
 
           return (
-            <Link css={linkStyles} key={slug} to={slug}>
-              {title}
+            <Link css={linkStyles} key={slug} to={`/${slug}`}>
+              <span dangerouslySetInnerHTML={{ __html: title }} />
             </Link>
           )
         })}
