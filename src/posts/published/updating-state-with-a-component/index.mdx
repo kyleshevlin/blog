@@ -1,12 +1,13 @@
 ---
-date: '2022-05-01'
+date: '2022-05-05'
 slug: 'updating-state-with-a-component'
 title: 'Updating State with a Component'
 subtitle: 'Not with a State Updater Function'
-description: ''
-excerpt: null
-tags: ['React']
-relatedPostsSlugs: []
+description: "Have you ever wanted to create a component like `Head` from `next/head` or `Helmet` from `react-helmet` that would update some state by using the `children` of a component? It's simpler than you might think."
+excerpt: "Have you ever wanted to create a component like <code>Head</code> from <code>next/head</code> or <code>Helmet</code> from <code>react-helmet</code> that would update some state by using the <code>children</code> of a component? It's simpler than you might think."
+tags: ['React', 'JavaScript']
+relatedPostsSlugs:
+  ['renderless-components', 'how-to-use-react-context-effectively']
 ---
 
 import Example from './Example'
@@ -19,7 +20,7 @@ A while back, I was working with a design that had an `h1` heading in the middle
   <Example />
 </OffsetWrap>
 
-It's a bit of an odd design, but it's what they wanted, so I gave it a shot.
+It's a bit of an odd design, but it's what they wanted. The challenge of the design is that the heading element has to live within the `<header>` of the app, but the component code we'll be writing is for the area labeled `Page Content`. There's a literal border (pun intended) between the content we're creating and the place we need to update the heading.
 
 Now, one way to solve this is to use a `Header` component with a prop for the heading, or potentially with `children` so you could compose `Header` with the correct page title. Perhaps like this:
 
@@ -61,30 +62,35 @@ function SomePage({ children }) {
 }
 ```
 
-The downside of this approach is that we would have to use `Header` in _every single page in the application_. That's not ideal. It would be preferable to have `Header` in a layout component higher up in the component hierarchy.
+The downside of this approach is that we would have to use `Header` in _every single page in the application_. That's not ideal. It would be preferable to have `Header` in a layout component higher up in the component hierarchy, used only a few times. It would be pretty easy to forget some important piece of the app layout on a page this way.
 
-While this might be the most common approach to solving the problem, there are alternatives. The next most common approach would be to use React Context and a custom hook. I cover this in my article [How to Use React Context Effectively](/how-to-use-react-context-effectively), so check it out when you have a chance.
+While this might be the most common approach to solving the problem, there are alternatives. The next approach to try would be to use React Context and a custom hook. I cover this in my article [How to Use React Context Effectively](/how-to-use-react-context-effectively), so check it out when you have a chance.
 
-In the hooks approach, we'd setup a context, and export a hook we could use to update that context. Let's do that briefly, since it will be useful for the next part of this post as well:
+In this approach, we'd setup a context and export a hook we can use to update that context. Let's do that briefly, since it will be useful for the next part of this post as well:
 
 ```javascript
 const HeadingContext = React.createContext()
 
 function HeadingProvider({ children }) {
   const [heading, setHeading] = React.useState('')
-  const value = { heading, setHeading }
 
   return (
-    <HeadingContext.Provider value={value}>{children}</HeadingContext.Provider>
+    <HeadingContext.Provider value={{ heading, setHeading }}>
+      {children}
+    </HeadingContext.Provider>
   )
 }
 
 const useHeadingContext = () => React.useContext(HeadingContext)
 
+const useUpdateHeading = value => {
+  const { setHeading } = useHeadingContext()
+  setHeading(value)
+}
+
 // And then it would be something like
 function SomePage({ children }) {
-  const { setHeading } = useHeadingContext()
-  setHeading("This page's title")
+  useUpdateHeading("This page's title")
 
   return (
     <div>
@@ -94,9 +100,9 @@ function SomePage({ children }) {
 }
 ```
 
-This is reasonable. I certainly wouldn't stop anyone from doing this approach, but you can see it might be a tedious to be grabbing the context everywhere and destructuring the setter, etc. Is there an alternative?
+This is reasonable. I certainly wouldn't stop anyone from doing this approach, but it feels off to me personally. I experience a bit of a disconnect here. This hook feels like an unrelated function, used arbitrarily and doesn't connect to the rest of the code in the component in a cohesive way. Admittedly, how I instinctively respond to some code is not a strong argument for anything, so as I said before, I wouldn't stop my team from doing this approach, but is there an alternative?
 
-There is. We can use our context and a component to create a composable state updater. All we need to do is sanitize `children`.
+There is. We can use that same context and a component to create a composable state updater. All we need to do is make use of `children`. Here's one way of doing that. <Marker content="There are quite a few ways you could manipulate <code>children</code> to suit your needs." />
 
 ```javascript
 const ACCEPTABLE_TYPES = ['string', 'number']
@@ -124,4 +130,6 @@ function SomePage({ children }) {
 }
 ```
 
-Now we don't have to import the context and destructure `setHeading` over and over. We use a [renderless component](/renderless-components) and an effect to keep the page title matching up _and_ we have a semantic component that we can use at the place where the context makes the most sense to (aka not as a prop to `Header` on every page).
+Now, we use a [renderless component](/renderless-components) and an effect to keep the page title synced up. We've also created a component that conveys some semantics to someone reading the code. In the case of the design, `Heading` _really is_ the heading for the page, it's just at a distance to us in the DOM. Using this semantic component let's our code feel cohesive without negatively impacting the actual layout of the app.
+
+You can experiment with other ways to utilize `children` to achieve this effect. Just be sure to sanitize `children` in some way. You may want to look into the `React.Children` API if you do. Otherwise, enjoy adding this little trick to your coding repertoire.
