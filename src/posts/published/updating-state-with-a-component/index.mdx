@@ -1,5 +1,5 @@
 ---
-date: '2021-11-02'
+date: '2022-05-01'
 slug: 'updating-state-with-a-component'
 title: 'Updating State with a Component'
 subtitle: 'Not with a State Updater Function'
@@ -9,37 +9,119 @@ tags: ['React']
 relatedPostsSlugs: []
 ---
 
-Have you ever wanted to create a component like `Head` from `next/head` or `Helmet` from `react-helmet` that would update some state by using the contents of a component? It's simpler than you might think.
+import Example from './Example'
 
-Recently I was working with a design that has an `h1` heading in the middle of the `header`. One way to solve this is to use a `Header` component with a prop, or preferably with `children` in a way that you could compose `Header` with the correct title. The downside of this is that we would have to use `Header` in _every single page in the application_. That seems like a lot of work.
+Have you ever wanted to create a component like `Head` from `next/head` or `Helmet` from `react-helmet` that would update some state by using the `children` of a component? It's simpler than you might think.
 
-Another option is to create a space in the `Header` component for the `h1` heading, and use Context to update the `value` rendered inside of the `h1`. This is what I ended up choosing.
+A while back, I was working with a design that had an `h1` heading in the middle of the `header`. Like this:
 
-Using [`react-generate-context`](https://github.com/kyleshevlin/react-generate-context), I quickly created a `HeaderTitle` context for my app.
+<OffsetWrap>
+  <Example />
+</OffsetWrap>
+
+It's a bit of an odd design, but it's what they wanted, so I gave it a shot.
+
+Now, one way to solve this is to use a `Header` component with a prop for the heading, or potentially with `children` so you could compose `Header` with the correct page title. Perhaps like this:
 
 ```javascript
-import generateContext from 'react-generate-context'
-
-function useHeaderTitleValue() {
-  const [state, setState] = React.useState('')
-  const handlers = React.useMemo(
-    () => ({
-      reset: () => {
-        setState('')
-      },
-      update: val => {
-        setState(val)
-      },
-    }),
-    []
+function Header({ children }) {
+  return (
+    <header
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        // In order to center the heading regardless of other items in the
+        // header, we'll need to absolutely position it
+        position: 'relative',
+      }}
+    >
+      <Logo />
+      <h1
+        style={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        {children}
+      </h1>
+      <Nav />
+    </header>
   )
-
-  return [state, handlers]
 }
 
-const [HeaderTitleProvider, useHeaderTitleContext] = generateContext(
-  useHeaderTitleValue
-)
-
-export { HeaderTitleProvider, useHeaderTitleContext }
+// Then used like so:
+function SomePage({ children }) {
+  return (
+    <div>
+      <Header>This page's title</Header>
+      <main>{children}</main>
+    </div>
+  )
+}
 ```
+
+The downside of this approach is that we would have to use `Header` in _every single page in the application_. That's not ideal. It would be preferable to have `Header` in a layout component higher up in the component hierarchy.
+
+While this might be the most common approach to solving the problem, there are alternatives. The next most common approach would be to use React Context and a custom hook. I cover this in my article [How to Use React Context Effectively](/how-to-use-react-context-effectively), so check it out when you have a chance.
+
+In the hooks approach, we'd setup a context, and export a hook we could use to update that context. Let's do that briefly, since it will be useful for the next part of this post as well:
+
+```javascript
+const HeadingContext = React.createContext()
+
+function HeadingProvider({ children }) {
+  const [heading, setHeading] = React.useState('')
+  const value = { heading, setHeading }
+
+  return (
+    <HeadingContext.Provider value={value}>{children}</HeadingContext.Provider>
+  )
+}
+
+const useHeadingContext = () => React.useContext(HeadingContext)
+
+// And then it would be something like
+function SomePage({ children }) {
+  const { setHeading } = useHeadingContext()
+  setHeading("This page's title")
+
+  return (
+    <div>
+      <main>{children}</main>
+    </div>
+  )
+}
+```
+
+This is reasonable. I certainly wouldn't stop anyone from doing this approach, but you can see it might be a tedious to be grabbing the context everywhere and destructuring the setter, etc. Is there an alternative?
+
+There is. We can use our context and a component to create a composable state updater. All we need to do is sanitize `children`.
+
+```javascript
+const ACCEPTABLE_TYPES = ['string', 'number']
+
+function Heading({ children }) {
+  const { setHeading } = useHeadingContext()
+
+  React.useEffect(() => {
+    if (ACCEPTABLE_TYPES.includes(typeof children)) {
+      setHeading(children)
+    }
+  }, [children, setHeading])
+
+  return null
+}
+
+// Now we can use that component _anywhere_ to update the heading
+function SomePage({ children }) {
+  return (
+    <main>
+      <Heading>This page's title</Heading>
+      {children}
+    </main>
+  )
+}
+```
+
+Now we don't have to import the context and destructure `setHeading` over and over. We use a [renderless component](/renderless-components) and an effect to keep the page title matching up _and_ we have a semantic component that we can use at the place where the context makes the most sense to (aka not as a prop to `Header` on every page).
