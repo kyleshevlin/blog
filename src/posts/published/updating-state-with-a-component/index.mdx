@@ -69,8 +69,10 @@ While this might be the most common approach to solving the problem, there are a
 In this approach, we'd setup a context and export a hook we can use to update that context. Let's do that briefly, since it will be useful for the next part of this post as well:
 
 ```javascript
+// Create the context
 const HeadingContext = React.createContext()
 
+// Create our provider
 function HeadingProvider({ children }) {
   const [heading, setHeading] = React.useState('')
 
@@ -81,14 +83,31 @@ function HeadingProvider({ children }) {
   )
 }
 
+// Custom hook for consuming the context
 const useHeadingContext = () => React.useContext(HeadingContext)
 
+// Hook specifically for updating the heading
+// Name provides a little more context where it gets used
 const useUpdateHeading = value => {
   const { setHeading } = useHeadingContext()
   setHeading(value)
 }
 
-// And then it would be something like
+// Now our header consumes the `heading` value (let's assume that
+// the `HeadingProvider` is higher in the tree)
+function Header() {
+  const { heading } = useHeadingContext()
+
+  return (
+    <header>
+      <Logo />
+      <h1>{heading}</h1>
+      <Nav />
+    </header>
+  )
+}
+
+// And then we would update that heading like so
 function SomePage({ children }) {
   useUpdateHeading("This page's title")
 
