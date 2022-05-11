@@ -1,5 +1,5 @@
 ---
-date: '2022-02-14'
+date: '2022-05-08'
 slug: 'why-use-use-reducer'
 title: 'Why Use <code>useReducer</code>?'
 subtitle: null
@@ -9,32 +9,18 @@ tags: ['React']
 relatedPostsSlugs: []
 ---
 
+import MikesTweet from './MikesTweet'
 import JumpingBall from './JumpingBall'
 
 Recently, my buddy [Mike Hartington](https://twitter.com/mhartington) asked this:
 
-<blockquote class="twitter-tweet">
-  <p lang="en" dir="ltr">
-    Random question for my react friends...
-    <br />
-    <br />
-    Is useReducer something folks use/like?
-  </p>
-  &mdash; Mike Hartington (@mhartington) <a href="https://twitter.com/mhartington/status/1492526006443335680?ref_src=twsrc%5Etfw">
-    February 12, 2022
-  </a>
-</blockquote>
-<script
-  async
-  src="https://platform.twitter.com/widgets.js"
-  charset="utf-8"
-></script>
+<MikesTweet />
 
 I gave a brief answer in the replies, but thought I'd write a bit more about it here. If you've come across my blog before, much of what I'm going to write in this post will relate to other posts of mine, such as [`useEncapsulation`](/use-encapsulation) and [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and more. There's a lot of overlap, so please check them out if you haven't. Forgive me if this all sounds familiar.
 
 ### Two state primitives
 
-React provides two state primitives, `useState` and `useReducer`. `useState` is hook that gives us a straightforward `[read, write]` tuple. Like so:
+React provides two state primitives, `useState` and `useReducer`. `useState` is a hook that gives us a straightforward `[read, write]` tuple. Like so:
 
 ```javascript
 const [count, setCount] = React.useState(0)
@@ -61,14 +47,15 @@ console.log(count) // "read" the value
 emitEvent('INCREMENT') // emit the event
 ```
 
-Now, more often you'll see `emitEvent` and `event` named `dispatch` and `action` respectively. I, too, often do this. However, I wanted to make it clear that what we're doing when we use `useReducer` is emitting and responding to events. Just because we use different variable names, doesn't mean we're doing something different. It's like "coriander" and "cilantro", or "typhoon" and "hurricane". Literally the same thing, different names.
+Now, more often you'll see `emitEvent` and `event` named `dispatch` and `action` respectively. I, too, often do this. However, I wanted to make it clear that what we're doing when we use `useReducer` is emitting and responding to events. Just because we use different variable names, doesn't mean we're doing something different. It's like "typhoon" and "hurricane". Literally the same thing, different names.
 
 ### Choosing one over the other
 
-In general, I treat `useState` as the default tool for the state management job. In many situations, I have a single state to manage and writing a few [declarative state updaters]() does the trick. But there are certain conditions that make `useReducer` a better choice. Here are the things I consider when making the choice:
+In general, I treat `useState` as the default tool for the state management job. In many situations, I have a single state to manage and writing a few [declarative state updaters](/prefer-declarative-state-updaters) does the trick. But there are certain conditions that make `useReducer` a better choice. Here are the things I consider when making the choice:
 
 - Does the next state frequently depend upon the current state?
-- Is there more than one state to manage? More importantly, _are there situations where we change multiple states at the same time_?
+- Is there more than one state to manage?
+- More importantly, _are there situations where we change multiple states at the same time_?
 - Are there situations where the same user event is responded to differently depending on the current state?
 - Far less common, is there a use case where a consumer of the component may need to hook into and respond to events, aka the state reducer pattern?
 
@@ -78,9 +65,9 @@ In general, I treat `useState` as the default tool for the state management job.
 
 Here I have a little jumping ball. Go ahead. Make it jump.
 
-<Spacer vert={2}>
+<Margin vert={2}>
   <JumpingBall />
-</Spacer>
+</Margin>
 
 Every time we click the button, the ball jumps. If we click it while the ball is already in the air, it does nothing. Let's look at our first iteration of code. I'll show the whole thing and then we'll focus on the key parts individually. It looks like this:
 
@@ -179,7 +166,7 @@ Ok, let's get some things out of the way. The `Canvas` and `Ball` components are
 
 The `Ball` receives a `position` prop to determine where to render it on the `Canvas` on any given `tick`. Which is a nice segue for discussing "the loop" I've implemented in our component.
 
-In digital games, it is common to have a running loop that fires a `tick` function for every frame (in our case, approximately 60 frames per second). In that `tick`, we need to create the next state of our game so it can be rendered the next frame.
+In digital games, it is common to have a running loop that fires a `tick` function for every frame (in our case, approximately 60 frames per second). In that `tick`, we need to create the next state of our game so it can be used to render the next frame.
 
 _Our_ `tick` function determines the next `position` of the ball based on its current position and the `delta`, that is the change resulting from the upward "force" of the ball when it jumps, the `JUMP_IMPULSE` that is added when `handleClick` is called, and the constant "downward" force of `GRAVITY`.
 
