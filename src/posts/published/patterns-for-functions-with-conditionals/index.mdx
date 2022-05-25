@@ -1,0 +1,132 @@
+---
+date: '2022-05-24'
+slug: 'patterns-for-functions-with-conditionals'
+title: 'Patterns for Functions with Conditionals'
+subtitle: null
+description: "Let's explore two common function patterns for managing the complexity of conditional code."
+excerpt: "Let's explore two common function patterns for managing the complexity of conditional code."
+tags: ['JavaScript', 'Software Engineering', 'Refactoring']
+relatedPostsSlugs: ['managing-cyclomatic-complexity']
+---
+
+Recently, a [tweet about wrapping `for` loops into functions](https://twitter.com/joelnet/status/1523710667424894977?s=20&t=51CDtjmt9M6z7GwvJtXvzA) <Marker content="And my consequent reply to it." /> inspired me to write a (hopefully) brief blog post on two common function patterns I use to handle conditional logic. Knowing how to write each pattern and knowing when to one or the other will help you wrangle complexity in your programs.
+
+In the past, I've written about [complexity](/managing-cyclomatic-complexity) and managing it, and one of the ways I believe we can do this effectively is through patterns. Now, I don't think these patterns are revolutionary. They've been around for a ages and I'm not trying to take credit for them. That said, no one taught me these patterns in clear and succinct terms when I was learning to program either. My hope is to do that for you.
+
+### The &ldquo;Single Mutable `result`&rdquo; pattern
+
+The first pattern we're going to cover I call the "single mutable result" pattern. This function establishes a `result` variable, conditionally mutates it, and returns it. The skeleton of it looks like this:
+
+```javascript
+function singleMutatedResult() {
+  let result // = some default value
+
+  if (condition1) {
+    // result = some transformation or replacement
+  }
+
+  if (condition2) {
+    // result = some other transformation or replacement
+  }
+
+  return result
+}
+```
+
+This pattern is most useful when writing algorithmic code with conditions that transform the result. I think of them as _additive_ requirements, as in, "If this condition exists, we make this _additional_ change". An example of this might be a function that calculates the total cost of an online purchase, like so:
+
+```javascript
+function getTotalCost(price, quantity, tax, shipping) {
+  let result = price * quantity
+
+  if (tax) {
+    result = result + result * tax
+  }
+
+  if (shipping) {
+    result = result + shipping
+  }
+
+  return result
+}
+```
+
+Notice that as we read the code, each condition leads to a transformation of the code, but we maintain the same `result` variable the whole time. At any place in the algorithm, we can log out `result` and get an idea of what we need to change to achieve the result we're looking for.
+
+### The &ldquo;Early Exit&rdquo; pattern
+
+This is essentially the opposite of the "single mutable result" pattern, but is very useful for code that has "short circuits". The "early exit" pattern uses guard clauses in order return as soon as possible from the function. Here is the skeleton of this pattern:
+
+```javascript
+function earlyExit(...args) {
+  if (condition1) return result1
+  if (condition2) return result2
+
+  // Do the work to calculate our final result and return it
+  return result3
+}
+```
+
+The "early exit" pattern is great for conditional code that may involve missing information or restricted access, situations where we can bail out of the function before doing other calculations. A practical example might be deriving a user's name from a user object.
+
+```javascript
+function getUserName(user) {
+  if (!user) return null
+  if (user.nickname) return user.nickname
+
+  const [firstName] = user.fullName.split(' ')
+
+  return firstName
+}
+```
+
+In this example, if the `user` doesn't exist, we can "short circuit" the function and exit early with a `null` value. The next condition we can use to exit early is if the `user.nickname` is set. Otherwise, we do the work of deriving the `firstName` from the user. The "early exit" pattern is great for code where we never want to do more work than absolutely necessary to get the desired result.
+
+I think there are some characteristics of this pattern that are worth taking notice of. First, the guard clauses tend to be so succinct that I like to write them on a single line. Second, I have learned that some people struggle with code with early returns. Some languages don't allow/recommend it, so be gentle with people who struggle with this pattern. Teach them the benefits of avoiding unnecessary calculations and they'll come around.
+
+### What If...
+
+Now, I want to be clear, both examples could be written with the other pattern, but they'd be awkward. I'm going to write them out, just to demonstrate. Let's get our total cost again, but with the "early exit" pattern.
+
+```javascript
+function getTotalCost(price, quantity, tax, shipping) {
+  const initialCost = price * quantity
+
+  if (!tax && !shipping) return initialCost
+  if (tax && !shipping) return initialCost + initialCost * tax
+  if (!tax && shipping) return initialCost + shipping
+
+  // Logically this is tax && shipping
+  return initialCost + initialCost * tax + shipping
+}
+```
+
+Using "early exit" with this code had us repeating ourselves _over and over_. We even had to add an additional condition since we couldn't just skip the algorithmic step if it didn't apply.
+
+Now, let's use "single mutable result" with our user's name.
+
+```javascript
+function getUserName(user) {
+  let result = null
+
+  if (user) {
+    result = user.fullName.split(' ')[0]
+  }
+
+  if (user?.nickname) {
+    result = user.nickname
+  }
+
+  return result
+}
+```
+
+Using the "single mutable result" pattern to get our user's name results in some very awkward transformations. Assuming we have a `user`, we _always_ have to calculate the `firstName` even if ultimately we don't use it. Why? Because the `nickname` supersedes the `firstName` and thus must overwrite the `result` value last. We also have to use the "optional chaining" operator, `?.`, because we _still_ can't be sure if we even have a `user` by the time we hit that condition. Lastly, it can be difficult to reason that between the setting of `result` to `null` and all those transformations that if `result` is _still_ `null`, it means we have no `user`. It's much clearer in the "early exit" example.
+
+### Summary
+
+Writing conditional code can be challenging. Using the right pattern for the right reasons can make that challenge a lot easier. Get comfortable writing code with both patterns and you'll see an improvement in the quality of your code.
+
+Remember, the "single mutable result" is great for algorithmic code with transformational requirements. "If this condition is true, transform `result` to this new value". The "early exit" pattern is great for code with short circuits. "If this condition is true, bail out with this value".
+
+Both are useful, and both have their place.
