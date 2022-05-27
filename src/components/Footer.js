@@ -3,8 +3,6 @@ import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { bs } from '../shevy'
 import Github from './icons/Github'
-import LinkedIn from './icons/LinkedIn'
-import Twitch from './icons/Twitch'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
 import Margin from './Margin'
@@ -15,12 +13,6 @@ import Flex from './Flex'
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
   { href: 'https://github.com/kyleshevlin', icon: Github, title: 'Github' },
-  {
-    href: 'https://linkedin.com/in/kyleshevlin',
-    icon: LinkedIn,
-    title: 'LinkedIn',
-  },
-  { href: 'https://twitch.tv/kyleshevlin', icon: Twitch, title: 'Twitch' },
 ]
 
 export default function Footer() {
