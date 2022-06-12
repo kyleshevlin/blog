@@ -1,18 +1,27 @@
 ---
-date: '2022-05-08'
+date: '2022-06-06'
 slug: 'why-use-use-reducer'
 title: 'Why Use <code>useReducer</code>?'
 subtitle: null
-description: ''
-excerpt: null
+description: 'Do you know why you might use `useReducer` instead of `useState`? There are a few key questions you can ask yourself to make that decision.'
+excerpt: 'Do you know why you might use <code>useReducer</code> instead of <code>useState</code>? There are a few key questions you can ask yourself to make that decision.'
 tags: ['React']
-relatedPostsSlugs: []
+relatedPostsSlugs:
+  [
+    'use-encapsulation',
+    'encapsulation',
+    'enumerate-dont-booleanate',
+    'prefer-declarative-state-updaters',
+    'comparing-use-ref-and-use-state',
+  ]
 ---
 
 import MikesTweet from './MikesTweet'
 import JumpingBall from './JumpingBall'
+import ReducerJumpingBall from './ReducerJumpingBall'
 
-Recently, my buddy [Mike Hartington](https://twitter.com/mhartington) asked this:
+A while back now, my buddy [Mike Hartington](https://twitter.com/mhartington)
+asked this:
 
 <MikesTweet />
 
@@ -20,7 +29,7 @@ I gave a brief answer in the replies, but thought I'd write a bit more about it 
 
 ### Two state primitives
 
-React provides two state primitives, `useState` and `useReducer`. `useState` is a hook that gives us a straightforward `[read, write]` tuple. Like so:
+React provides two state primitives, `useState` and `useReducer` for managing state for a component or custom hook. `useState` is a hook that gives us a straightforward `[read, write]` tuple. Like so:
 
 ```javascript
 const [count, setCount] = React.useState(0)
@@ -47,63 +56,133 @@ console.log(count) // "read" the value
 emitEvent('INCREMENT') // emit the event
 ```
 
-Now, more often you'll see `emitEvent` and `event` named `dispatch` and `action` respectively. I, too, often do this. However, I wanted to make it clear that what we're doing when we use `useReducer` is emitting and responding to events. Just because we use different variable names, doesn't mean we're doing something different. It's like "typhoon" and "hurricane". Literally the same thing, different names.
+Now, more often you'll see `emitEvent` and `event` named `dispatch` and `action` respectively. I, too, often do this. However, I wanted to make it clear that what we're doing when we use `useReducer` is emitting and responding to events.
 
 ### Choosing one over the other
 
-In general, I treat `useState` as the default tool for the state management job. In many situations, I have a single state to manage and writing a few [declarative state updaters](/prefer-declarative-state-updaters) does the trick. But there are certain conditions that make `useReducer` a better choice. Here are the things I consider when making the choice:
+In general, I treat `useState` as the default tool for the state management job. In many situations, I have a single state to manage and writing a few [declarative state updaters](/prefer-declarative-state-updaters) for that state does the trick. That said, there are certain conditions that make `useReducer` a better choice. Here are the things I consider when making the choice:
 
 - Does the next state frequently depend upon the current state?
 - Is there more than one state to manage?
-- More importantly, _are there situations where we change multiple states at the same time_?
-- Are there situations where the same user event is responded to differently depending on the current state?
+- More importantly, _are there situations where we change multiple states as a result of the same event_?
+- Are there times where the same user event is handled differently depending on the current state?
 - Far less common, is there a use case where a consumer of the component may need to hook into and respond to events, aka the state reducer pattern?
+
+If you answered "Yes" to any of these questions, then you might have a good use case for using `useReducer`. Let's work through an example to learn more.
 
 ---
 
 ### Our example
 
-Here I have a little jumping ball. Go ahead. Make it jump.
+Here I have a little jumping ball. Go ahead. Make it jump by clicking the button labeled "Jump".
 
 <Margin vert={2}>
   <JumpingBall />
 </Margin>
 
-Every time we click the button, the ball jumps. If we click it while the ball is already in the air, it does nothing. Let's look at our first iteration of code. I'll show the whole thing and then we'll focus on the key parts individually. It looks like this:
+Every time we click the button, the ball jumps. If we click it while the ball is already in the "air", it has no effect on the ball, which continues to fall due to "gravity". Try it. Click it as many times as you can while it's in the "air".
+
+Nothing, right?
+
+Let's focus in on some key parts of the code that represent what happens when we click the "Jump" button". First, we need to establish some states. We're going to use a combination of `useState` and `useRef`. We're going to use `useState` for states that we want the component to rerender when it changes, and refs for states that don't need to cause a rerender. I explain this more in depth in [Comparing `useRef` and `useState`](/comparing-use-ref-and-use-state).
 
 ```jsx
-import React from 'react'
-import Button from '../../../components/Button'
-import Flex from '../../../components/Flex'
-
-const GRAVITY = 0.5
-const JUMP_IMPULSE = 12
-const BALL_SIZE = 20
-const BALL_STATE = {
-  idle: 'idle',
-  jumping: 'jumping',
+function JumpingBall() {
+  // Y-position of the ball
+  const [position, setPosition] = React.useState(0)
+  // The amount of change the ball is experiencing for a given `tick`
+  const delta = React.useRef(0)
+  // The state of the ball, either 'idle' or 'jumping'
+  const ballState = React.useRef('idle')
 }
+```
 
-export default function JumpingBall() {
+Next, we're going to implement a `tick` function, which will attempt to update the ball's `position` with every "frame" of our component. This is a rudimentary example of a game loop, if you're familiar with video game development.
+
+```jsx
+const tick = React.useCallback(() => {
+  // If the ball is 'idle', then there is nothing to update
+  if (ballState.current === 'idle') return
+
+  // Otherwise, set the next position based on the current position
+  setPosition(currentPosition => {
+    // Every tick subtracts a constant of GRAVITY from the delta change
+    delta.current -= GRAVITY
+    // The nextPosition is the current position + this change. Rounding is just
+    // for making the ground check easier.
+    const nextPosition = Math.floor(currentPosition + delta.current)
+
+    // If the ball is on the ground (or below it), set the ball on the ground
+    // and update its state
+    if (nextPosition <= 0) {
+      delta.current = 0
+      ballState.current = 'idle'
+      return 0
+    }
+
+    // Otherwise, return the calculated next position
+    return nextPosition
+  })
+}, [])
+```
+
+Next, we need to handle our "Jump" button's click event.
+
+```jsx
+const handleClick = React.useCallback(() => {
+  // This is why clicking multiple times does nothing, if its 'jumping'
+  // do nothing
+  if (ballState.current === 'jumping') return
+
+  // Otherwise, add the force of the jump to the delta
+  delta.current += JUMP_IMPULSE
+  // and change the ball state
+  ballState.current = 'jumping'
+}, [])
+```
+
+Lastly, we need to set up an effect to run our loop at ~60fps.
+
+```jsx
+React.useEffect(() => {
+  // Call `tick` roughly 60 times a second
+  const id = setInterval(tick, 1000 / 60)
+
+  // Clean it up if `tick` changes or we unmount the component
+  return () => clearInterval(id)
+}, [tick])
+```
+
+Here is the component in its entirety now:
+
+```jsx
+function JumpingBall() {
   const [position, setPosition] = React.useState(0)
   const delta = React.useRef(0)
-  const ballState = React.useRef(BALL_STATE.idle)
+  const ballState = React.useRef('idle')
 
   const tick = React.useCallback(() => {
-    if (ballState.current === BALL_STATE.idle) return
+    if (ballState.current === 'idle') return
 
-    setPosition(pos => {
+    setPosition(currentPosition => {
       delta.current -= GRAVITY
-      const nextPos = Math.floor(pos + delta.current)
+      const nextPosition = Math.floor(currentPosition + delta.current)
 
-      if (nextPos <= 0) {
+      if (nextPosition <= 0) {
         delta.current = 0
-        ballState.current = BALL_STATE.idle
+        ballState.current = 'idle'
         return 0
       }
 
-      return nextPos
+      return nextPosition
     })
+  }, [])
+
+  const handleClick = React.useCallback(() => {
+    if (ballState.current === 'jumping') return
+
+    delta.current += JUMP_IMPULSE
+    ballState.current = 'jumping'
   }, [])
 
   React.useEffect(() => {
@@ -112,121 +191,221 @@ export default function JumpingBall() {
     return () => clearInterval(id)
   }, [tick])
 
-  const handleClick = React.useCallback(() => {
-    if (ballState.current === BALL_STATE.jumping) return
-
-    delta.current = JUMP_IMPULSE
-    ballState.current = BALL_STATE.jumping
-  }, [])
-
-  return (
-    <Flex direction="column" gap={1} align="center">
-      <Canvas>
-        <Ball position={position} />
-      </Canvas>
-      <Button onClick={handleClick}>Jump</Button>
-    </Flex>
-  )
-}
-
-function Canvas({ children }) {
-  return (
-    <div
-      css={{
-        border: '2px solid var(--colors-offsetMore)',
-        position: 'relative',
-        height: 300,
-        width: '100%',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-function Ball({ position }) {
-  return (
-    <div
-      style={{
-        backgroundColor: 'var(--colors-accent)',
-        height: BALL_SIZE,
-        width: BALL_SIZE,
-        borderRadius: '50%',
-        position: 'absolute',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        bottom: position,
-      }}
-    />
-  )
+  // ... and our UI is returned down here
 }
 ```
 
-Ok, let's get some things out of the way. The `Canvas` and `Ball` components are pretty self explanatory. The first is the "world" our `Ball` lives in, and well, the second is the `Ball`.
+### Sub-optimal elements of our code
 
-The `Ball` receives a `position` prop to determine where to render it on the `Canvas` on any given `tick`. Which is a nice segue for discussing "the loop" I've implemented in our component.
+Looking at this code, I see a few things that I think are sub-optimal, but very common in codebases, that we can improve.
 
-In digital games, it is common to have a running loop that fires a `tick` function for every frame (in our case, approximately 60 frames per second). In that `tick`, we need to create the next state of our game so it can be used to render the next frame.
-
-_Our_ `tick` function determines the next `position` of the ball based on its current position and the `delta`, that is the change resulting from the upward "force" of the ball when it jumps, the `JUMP_IMPULSE` that is added when `handleClick` is called, and the constant "downward" force of `GRAVITY`.
-
-Looking closely, you'll see I only maintain one state, the `position`, with a `useState` hook. The other states, `ballState` and `delta` are managed with `useRef`s. You might be asking, "Why?"
-
-I am storing state this way because we only need to rerender our component when the `position` changes. Since `position` is set in every call of `tick`, any changes to `ballState` or `delta` will be reflected in the next position. If you want to learn more about the differences between `useState` and `useRef`, check out my post [Comparing `useRef` and `useState`](/comparing-use-ref-and-use-state).
-
-Let's take a closer look at the `tick` function. I've added comments to explain what's happening.
+The primary issue I see is that we have code that manages the state in two different places, inside of `tick` and `handleClick`. In order to understand this code, we'd have to read through both of these functions and understand how they relate to one another. Most worrisome to me is having state modifying functionality directly in the event handler. As silly as it sounds, I'd prefer to see it separated into a state updater function called inside the event handler. Like so:
 
 ```javascript
-const tick = React.useCallback(() => {
-  // If the ball is idle, we don't need to calculate anything
-  if (ballState.current === BALL_STATE.idle) return
+const tryJump = () => {
+  if (ballState.current === 'jumping') return
 
-  // Otherwise
-  setPosition(pos => {
-    // At the start of the jump, delta is set to JUMP_IMPULSE
-    // With each tick, we want to subtract the force of gravity...
-    delta.current -= GRAVITY
+  delta.current += JUMP_IMPULSE
+  ballState.current = 'jumping'
+}
 
-    // ...and calculate the next position,
-    // rounding just makes it a touch nicer to deal with
-    const nextPos = Math.floor(pos + delta.current)
+const handleClick = () => {
+  tryJump()
+}
+```
 
-    // If that next position collides with the "ground", put the ball at rest
-    if (nextPos <= 0) {
-      delta.current = 0
-      ballState.current = BALL_STATE.idle
-      return 0
+That way if anything else needs to be called with the event handler, such as logging, we don't need to make any changes to the state updating code as well.
+
+If we look deeper and consider the questions I prompted before, we recognize that we answer in the affirmative for several of them. Our state updates depend on the current state and we're updating multiple states at the same time. Let's refactor our code with a `useReducer` pattern instead.
+
+### The refactor
+
+First, let's gather our states into an `initialState` object.
+
+```javascript
+const initialState = {
+  ballState: 'idle'
+  delta: 0,
+  position: 0,
+}
+```
+
+Next, let's write our `reducer`. I'll start with it essentially empty, and add our events one by one:
+
+```javascript
+const reducer = (state, event) => {
+  switch (event) {
+    default:
+      return state
+  }
+}
+```
+
+Let's add the `CLICK` event:
+
+```javascript
+const reducer = (state, event) => {
+  switch (event) {
+    case 'CLICK': {
+      if (state.ballState === 'jumping') return state
+
+      return {
+        ...state,
+        ballState: 'jumping'
+        delta: state.delta + JUMP_IMPULSE,
+      }
     }
 
-    // Otherwise, return the next position
-    return nextPos
-  })
-}, [])
+    default:
+      return state;
+  }
+}
 ```
 
-The ball only gains upward momentum through the `delta` and `ballState` being updated in the `handleClick` handler.
+Now let's add our `TICK` event:
 
 ```javascript
-const handleClick = React.useCallback(() => {
-  // If the ball is already jumping, don't jump again
-  if (ballState.current === BALL_STATE.jumping) return
+const reducer = (state, event) => {
+  switch (event) {
+    case 'CLICK': {
+      if (state.ballState === 'jumping') return state
 
-  // Otherwise, change the ball and the delta, our "loop" will render it
-  delta.current = JUMP_IMPULSE
-  ballState.current = BALL_STATE.jumping
-}, [])
+      return {
+        ...state,
+        ballState: 'jumping'
+        delta: state.delta + JUMP_IMPULSE,
+      }
+    }
+
+    case 'TICK': {
+      if (state.ballState === 'idle') return state
+
+      const nextDelta = state.delta - GRAVITY
+      const nextPosition = state.position + nextDelta
+
+      if (nextPosition <= 0) {
+        return initialState
+      }
+
+      return {
+        ballState: 'jumping'
+        delta: nextDelta,
+        position: nextPosition
+      }
+    }
+
+    default:
+      return state;
+  }
+}
 ```
 
-And then the "loop" is our `useEffect` utilizing `setInterval` to call our `tick` at roughly 60fps (`1000ms` divided by `60`).
+Now, let's use them in our component.
+
+```jsx
+function JumpingBall() {
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+
+  const tick = React.useCallback(() => {
+    dispatch('TICK')
+  }, [])
+
+  const handleClick = React.useCallback(() => {
+    dispatch('CLICK')
+  }, [])
+
+  React.useEffect(() => {
+    const id = setInterval(tick, 1000 / 60)
+
+    return () => clearInterval(id)
+  }, [tick])
+}
+```
+
+Notice how much _simpler_ our event handlers are. Heck, we even discovered we had an event that probably wasn't obvious to us before, `TICK`. Additionally, there's no logic in multiple functions we have to wrangle. It's all encapsulated within the `reducer`.
+
+### Adding a "double jump" to our ball
+
+A popular video game mechanic is to enable a "double jump", that is, a second upward impulse while the player is jumping. For our case, we want the user to be able to click "Jump" a second time, while the ball is in the "air" and have it jump again. But _only_ one additional time.
+
+If we were still using `useState`, we'd have to find a way to add this logic inside of the event handler. You can maybe see where this is going. We'd have to add another state to track, and an additional conditional inside of `handleClick`. It wouldn't be a very organized way to add functionality.
+
+By using `useReducer`, literally _nothing_ changes about `JumpingBall`. The event handlers still dispatch the same events. The only thing that changes is our `reducer`, so let's update it to handle a double jump.
+
+We're going to start by adding another state to track, `jumpsRemaining`. This way it will be trivial to add a "triple jump" or more if we ever want to in the future. <Marker content="Can you tell I used to be a Hunter main in Destiny?" /> Like so:
 
 ```javascript
-React.useEffect(() => {
-  const id = setInterval(tick, 1000 / 60)
-
-  // Always be sure to clean up calls to setTimeout or setInterval
-  // in your useEffects!
-  return () => clearInterval(id)
-}, [tick])
+const initialState = {
+  ballState: 'idle',
+  delta: 0,
+  jumpsRemaining: 2,
+  position: 0,
+}
 ```
 
-Now that we understand the code, let's start to modify it to reveal some weaknesses to our current approach.
+Next, we'll add a check for `jumpsRemaining` to our `CLICK` event:
+
+```javascript
+const reducer = (state, event) => {
+  switch (event) {
+    case 'CLICK': {
+      if (state.jumpsRemaining === 0) {
+        return state
+      }
+
+      return {
+        ...state,
+        ballState: 'jumping',
+        delta: state.delta + JUMP_IMPULSE,
+        jumpsRemaining: state.jumpsRemaining - 1,
+      }
+    }
+
+    // ...
+  }
+}
+```
+
+Lastly, we need to update our `TICK` event to update `jumpsRemaining` when we hit the "ground".
+
+```javascript
+const reducer = (state, event) => {
+  switch (event) {
+    //...
+
+    case 'TICK': {
+      if (state.ballState === 'idle') return state
+
+      const nextDelta = state.delta - GRAVITY
+      const nextPosition = state.position + nextDelta
+
+      if (nextPosition <= 0) {
+        return initialState
+      }
+
+      return {
+        ...state,
+        ballState: 'jumping',
+        delta: nextDelta,
+        position: nextPosition,
+      }
+    }
+
+    //...
+  }
+}
+```
+
+Now let's see how our ball jumps!
+
+<Margin vert={2}>
+  <ReducerJumpingBall />
+</Margin>
+
+If you time it right, you can send the ball flying off the canvas. Pretty cool how easy that change was to make.
+
+### Summary
+
+`useReducer` may seem like overkill, but is an absolutely great tool in the right situation. It can drastically reduce the complexity of our event handlers, while also organizing our state managing code into a single place. Hope this post helps you in choosing which state primitive to use in the future.
+
+As always, you can find the full code for the `JumpingBall` (with both state management patterns) by viewing the source code on Github. Look for the `why-use-use-reducer` directory under published posts.

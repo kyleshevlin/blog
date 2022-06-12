@@ -11,26 +11,60 @@ const BALL_STATE = {
   jumping: 'jumping',
 }
 
-export default function JumpingBall() {
-  const [position, setPosition] = React.useState(0)
-  const deltaRef = React.useRef(0)
-  const ballState = React.useRef(BALL_STATE.idle)
+const initialState = {
+  ballState: BALL_STATE.idle,
+  delta: 0,
+  jumpsRemaining: 2,
+  position: 0,
+}
 
-  const tick = React.useCallback(() => {
-    if (ballState.current === BALL_STATE.idle) return
-
-    setPosition(pos => {
-      deltaRef.current -= GRAVITY
-      const nextPos = Math.floor(pos + deltaRef.current)
-
-      if (nextPos <= 0) {
-        deltaRef.current = 0
-        ballState.current = BALL_STATE.idle
-        return 0
+const reducer = (state, event) => {
+  switch (event) {
+    case 'CLICK': {
+      if (state.jumpsRemaining === 0) {
+        return state
       }
 
-      return nextPos
-    })
+      return {
+        ...state,
+        ballState: 'jumping',
+        delta: state.delta + JUMP_IMPULSE,
+        jumpsRemaining: state.jumpsRemaining - 1,
+      }
+    }
+
+    case 'TICK': {
+      if (state.ballState === 'idle') return state
+
+      const nextDelta = state.delta - GRAVITY
+      const nextPosition = state.position + nextDelta
+
+      if (nextPosition <= 0) {
+        return initialState
+      }
+
+      return {
+        ...state,
+        ballState: 'jumping',
+        delta: nextDelta,
+        position: nextPosition,
+      }
+    }
+
+    default:
+      return state
+  }
+}
+
+export default function ReducerJumpingBall() {
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+
+  const tick = React.useCallback(() => {
+    dispatch('TICK')
+  }, [])
+
+  const handleClick = React.useCallback(() => {
+    dispatch('CLICK')
   }, [])
 
   React.useEffect(() => {
@@ -39,17 +73,10 @@ export default function JumpingBall() {
     return () => clearInterval(id)
   }, [tick])
 
-  const handleClick = React.useCallback(() => {
-    if (ballState.current === BALL_STATE.jumping) return
-
-    deltaRef.current += JUMP_IMPULSE
-    ballState.current = BALL_STATE.jumping
-  }, [])
-
   return (
     <Flex direction="column" gap={1} align="center">
       <Canvas>
-        <Ball position={position} />
+        <Ball position={state.position} />
       </Canvas>
       <Button onClick={handleClick}>Jump</Button>
     </Flex>
