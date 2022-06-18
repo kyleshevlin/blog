@@ -1,0 +1,65 @@
+---
+slug: 'use-async-safe-state'
+name: 'useAsyncSafeState()'
+description: 'Hook for async state that automatically prevents memory leaks'
+category: 'React Hooks'
+---
+
+If you ever find yourself calling a state setter in an async process, there's a reasonable chance that you may call it _after_ the component unmounts and therefore incur an error indicating a memory leak in you application.
+
+The way to solve for this is to prevent the `setState` call if the component has unmounted. We can track the `isMounted` state of a hook using a ref, and wrap the state setter to automatically check this value before making its update. Like so:
+
+```javascript
+function useAsyncSafeState(value) {
+  // Track the mounted state of the component using the hook
+  const isMounted = React.useRef(true)
+
+  // If the component unmounts, update the `isMounted` state
+  React.useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  const [state, setState] = React.useState(value)
+
+  // Prevent `setState` calls after the component unmounts
+  const safeSetState = React.useCallback(update => {
+    if (!isMounted) {
+      setState(update)
+    }
+  }, [])
+
+  return [state, safeSetState]
+}
+```
+
+Now you can make use of this in a situation where there's a chance that component unmounts before the state is set. Like fetching data:
+
+```javascript
+function MyComp() {
+  const [data, setData] = useAsyncSafeState(null)
+
+  React.useEffect(() => {
+    function getData() {
+      fetch('/path/to/data')
+        .then(result => {
+          setData(result)
+        })
+        .catch(console.error)
+    }
+
+    getData()
+  }, [setData]) // linter will not know that this is stable.
+
+  return (
+    data && (
+      <pre>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>
+    )
+  )
+}
+```
+
+If the user leaves the page with `MyComp` or its unmounted for some other reason, `setData` won't create an error.
