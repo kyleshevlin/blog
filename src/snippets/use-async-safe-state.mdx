@@ -25,7 +25,7 @@ function useAsyncSafeState(value) {
 
   // Prevent `setState` calls after the component unmounts
   const safeSetState = React.useCallback(update => {
-    if (!isMounted) {
+    if (isMounted) {
       setState(update)
     }
   }, [])
