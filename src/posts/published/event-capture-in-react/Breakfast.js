@@ -1,39 +1,27 @@
 import React from 'react'
+import Button from '../../../components/Button'
+import Flex from '../../../components/Flex'
 
 const FOODS = ['Eggs', 'Bacon', 'Pancakes', 'Toast']
 
 export default function Breakfast() {
-  const [useCapture, setUseCapture] = React.useState(false)
-  const parentEventType = useCapture ? 'onClickCapture' : 'onClick'
-  const parentProps = {
-    [parentEventType]: () => {
-      console.log('Parent event handled')
-    },
-  }
+  const [selected, setSelected] = React.useState(null)
+
+  const update = React.useCallback(e => {
+    setSelected(e.target.value)
+  }, [])
 
   return (
     <div>
-      <div>
-        <label>
-          Use capture?
-          <input
-            type="checkbox"
-            checked={useCapture}
-            onChange={e => setUseCapture(e.target.checked)}
-          />
-        </label>
-      </div>
-      <div {...parentProps}>
-        {FOODS.map(food => (
-          <button
-            key={food}
-            onClick={() => {
-              console.log(`You selected ${food}`)
-            }}
-          >
-            {food}
-          </button>
-        ))}
+      <p>Selected breakfast food: {String(selected)}</p>
+      <div onClickCapture={update}>
+        <Flex gap={0.25}>
+          {FOODS.map(food => (
+            <Button key={food} value={food}>
+              {food}
+            </Button>
+          ))}
+        </Flex>
       </div>
     </div>
   )

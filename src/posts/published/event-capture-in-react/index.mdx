@@ -1,10 +1,10 @@
 ---
-date: '2022-02-22'
-slug: 'event-capture-in-react'
-title: 'Event Capture In React'
+date: '2022-06-18'
+slug: 'capture-phase-event-handling-in-react'
+title: 'Capture Phase Event Handling in React'
 subtitle: null
-description: ''
-excerpt: null
+description: "Did you know you can declaratively handle events in the capture phase in React? I sure didn't until recently. Let's learn how."
+excerpt: "Did you know you can declaratively handle events in the capture phase in React? I sure didn't until recently. Let's learn how."
 tags: ['React']
 relatedPostsSlugs: []
 ---
@@ -12,7 +12,7 @@ relatedPostsSlugs: []
 import Breakfast from './Breakfast'
 import EventButton from './EventButton'
 
-So... as of the time I'm writing this, I've used React for 7 years and _today_ I learned something completely unbeknownst to me. **You can append** `Capture` **to an event name to have it handled in the "capture" phase of event delegation, instead of the "bubbling" phase**. Who knew?! It's [right here in the docs](https://reactjs.org/docs/events.html#supported-events).
+So... as of the time I'm writing this, I've used React for 7 years and **today** (February 22, 2022) I learned something completely unbeknownst to me. <Marker content="Yes, it took me 4 months to get back to this and write the last few paragragphs, lol." /> **You can append** `Capture` **to an event name to have it handled in the "capture" phase of event delegation, instead of the "bubbling" phase**. Who knew?! It's [right here in the docs](https://reactjs.org/docs/events.html#supported-events).
 
 So what is this and why is it useful? Let's explore.
 
@@ -85,10 +85,51 @@ button.addEventListener('click', () => { console.log('clicked') })
 <button onClick={() => { console.log('clicked') }}>Click me</button>
 ```
 
-`addEventListener` and `removeEventListener` receive an optional third argument of the type `boolean | Options`. I will ignore the `Options` argument as you can [look that up here](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) and instead focus on the `boolean` that represents the `useCapture` value. By passing `true` into this third argument, we indicate that this event handler should be used in the capture phase. But, if we're using React's abstractions, we have no place to pass in a `useCapture` argument, do we?
+`addEventListener` and `removeEventListener` receive an optional third argument of the type `boolean | Options`. I will ignore the `Options` object as you can [look that up here](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) and instead focus on the `boolean` that represents the `useCapture` value.
 
-This is where appending `Capture` comes in. If we want a click handler to be used in the capture phase, rather than the bubbling phase, we use `onClickCapture` instead. Let's make an example.
+By passing `true` into this third argument, we indicate that this event handler should be used in the capture phase. But, if we're using React's abstractions, we have no place to pass in a `useCapture` argument. Do we?
+
+_We do._
+
+This is where appending `Capture` to the event handler name comes in. If we want a click handler to be used in the capture phase, rather than the bubbling phase, we use `onClickCapture` instead. Let's make an example.
+
+Let's say we have a group of buttons and every button should use the exact same event handler. Rather than attach the same handler to each button, we can attach it to the parent element in the capture phase. I'm eating breakfast as I write this, so let's imagine a rudimentary menu for selecting a breakfast item.
+
+```jsx
+const ITEMS = ['Eggs', 'Bacon', 'Pancakes', 'Toast']
+
+function Breakfast() {
+  const [selected, setSelected] = React.useState(null)
+
+  const selectItem = e => {
+    setSelected(e.target.value)
+  }
+
+  return (
+    <div>
+      <div>Selected: {String(selected)}</div>
+      <div onClickCapture={selectItem}>
+        {ITEMS.map(item => (
+          <button key={item} value={item}>
+            {item}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+See it in action here:
 
 <OffsetWrap>
   <Breakfast />
 </OffsetWrap>
+
+Now, before you judge the example too harshly for being rudimentary, let me be abundantly clear: **This isn't the only way, or even the _recommended_ way, to accomplish this. It's just to teach the concept.** That said, I think it's kind of neat that we can do this _without_ `onClick` handlers on each button.
+
+### Additional thoughts
+
+This technique is a bit of a throwback. Back to a time where maybe you were using `<input type="button">` or inlining an `onclick` attribute on a parent. It's unlikely in React and other modern frontend frameworks that you'll ever have to use `*Capture` events.
+
+However, that doesn't mean it's not worth throwing this into your repertoire! You never know when you might run into a situation where _this_ little tid bit is the simplest and most elegant way to solve the problem.
