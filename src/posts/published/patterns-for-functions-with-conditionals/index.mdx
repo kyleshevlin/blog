@@ -55,7 +55,7 @@ Notice that as we read the code, each condition leads to a transformation of the
 
 ### The &ldquo;Early Exit&rdquo; pattern
 
-This is essentially the opposite of the "single mutable result" pattern, but is very useful for code that has "short circuits". The "early exit" pattern uses guard clauses in order return as soon as possible from the function. Here is the skeleton of this pattern:
+This is essentially the opposite of the "single mutable result" pattern, but is very useful for code that has "short circuits". The "early exit" pattern uses guard clauses in order to return as soon as possible from the function. Here is the skeleton of this pattern:
 
 ```javascript
 function earlyExit(...args) {
@@ -101,7 +101,7 @@ function getTotalCost(price, quantity, tax, shipping) {
 }
 ```
 
-Using "early exit" with this code had us repeating ourselves _over and over_. We even had to add an additional condition since we couldn't just skip the algorithmic step if it didn't apply.
+Using the "early exit" pattern with this code had us repeating ourselves _over and over_. We even had to add another conditional since we couldn't just skip the algorithmic step if it didn't apply.
 
 Now, let's use "single mutable result" with our user's name.
 
