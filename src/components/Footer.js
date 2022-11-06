@@ -9,10 +9,17 @@ import Margin from './Margin'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
 import Flex from './Flex'
+import Mastodon from './icons/Mastodon'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
   { href: 'https://github.com/kyleshevlin', icon: Github, title: 'Github' },
+  {
+    href: 'https://mastodon.social/@kyleshevlin',
+    icon: Mastodon,
+    rel: 'me',
+    title: 'Mastodon',
+  },
 ]
 
 export default function Footer() {
@@ -41,7 +48,7 @@ export default function Footer() {
 
         <Margin bottom={0.5}>
           <Flex align="center" justify="center">
-            {links.map(({ href, icon: Icon, title }) => (
+            {links.map(({ href, icon: Icon, rel, title }) => (
               <OutboundLink
                 css={{
                   display: 'inline-block',
@@ -55,9 +62,14 @@ export default function Footer() {
                 }}
                 key={title}
                 href={href}
+                rel={rel}
                 title={title}
               >
-                <Icon fill={'var(--components-button-background)'} width={30} />
+                <Icon
+                  antiFill={'var(--components-footer-background)'}
+                  fill={'var(--components-button-background)'}
+                  width={30}
+                />
               </OutboundLink>
             ))}
           </Flex>
