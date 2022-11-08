@@ -1,0 +1,130 @@
+---
+date: '2022-11-07'
+slug: 'jsx-was-a-mistake'
+title: 'JSX was a Mistake'
+subtitle: null
+description: 'JSX makes writing UIs feel really familiar for frontend devs, but it can obfuscate a key detail of which we should remain aware.'
+excerpt: 'JSX makes writing UIs feel really familiar for frontend devs, but it can obfuscate a key detail of which we should remain aware.'
+tags: ['React']
+relatedPostsSlugs: ['careful-with-context-composition']
+---
+
+import { Box, ChildrenExample, NoChildrenExample } from './Examples'
+
+**It wasn't**. I just wanted your attention. Thanks.
+
+And now while I have it, I do want to discuss a bit of common confusion caused by JSX.
+
+One of the most common misunderstandings I run into with people regarding React is this: If a component has a state change and rerenders, it _does not_ cause `children` to rerender. I think this is very obvious when we _remove_ JSX, and use `React.createChildren` instead. Let's have a look.
+
+Here we have some code that has a state change, but also renders `children`. We'll show those state changes by using a `Box` that changes its background color with every render.
+
+```jsx
+import { useForceUpdate } from './hooks'
+import { randomRGB } from './utils'
+
+function Box({ children }) {
+  return (
+    <div style={{ backgroundColor: randomRGB(), padding: '1rem' }}>
+      {children}
+    </div>
+  )
+}
+
+function Example() {
+  const forceUpdate = useForceUpdate()
+
+  return (
+    <Box>
+      <button type="button" onClick={forceUpdate}>
+        Update
+      </button>
+    </Box>
+  )
+}
+```
+
+<OffsetWrap>
+  <NoChildrenExample />
+</OffsetWrap>
+
+As you can see, clicking "Update" causes the `Box` to change colors. <Marker content="If you are visually impaired, I added a <code>data-background-color</code> attribute to the <code>div</code> that changes with it. I wasn't sure what else I could do, so I hope that helps. Please let me know if there's more I can do and I'll make an update." /> This is because `Box` is a _function_ that gets called when `Example` is called. This is obvious when instead of JSX, we use `React.createChildren` instead.
+
+```javascript
+function Box({ children }) {
+  return React.createElement('div', {
+    style: { backgroundColor: randomRGB(), padding: '1rem' },
+    children,
+  })
+}
+
+function Example() {
+  const forceUpdate = useForceUpdate()
+
+  return React.createElement(
+    Box,
+    null,
+    React.createElement('button', { type: 'button', onClick: forceUpdate })
+  )
+}
+```
+
+Notice that this time, we replaced `<div />` with `React.createElement('div')`. Then when we needed to render the `Box` in `Example`, we pass it to another call of `React.createElement`. Thus, each time `Example` rerenders, we call a function to render a `Box` and a function to render a `button`. Makes it pretty clear where functions are getting called.
+
+### How does this relate to `children`?
+
+Well, simply put, `children` is typically not a function call, it's just a value. <Marker content={`Yes, you can pass a function as <code>children</code> like the "render prop" pattern and that would be treated differently`} />
+
+What if I add a "slot" for `children` in our `Example` component like this:
+
+```javascript
+function Example({ children }) {
+  const forceUpdate = useForceUpdate()
+
+  return React.createElement(
+    Box,
+    null,
+    // createElement's third parameter is a rest parameter,
+    // so we can add more items by adding more arguments
+    React.createElement('button', { type: 'button', onClick: forceUpdate }),
+    // here's the slot, it'll come after our button
+    children
+  )
+}
+```
+
+Now, what happens if we pass `Box` as `children` of our `Example`?
+
+```jsx
+<Example>
+  <Box>I am a child</Box>
+<Example>
+```
+
+<OffsetWrap>
+  <ChildrenExample>
+    <Box>I am a child</Box>
+  </ChildrenExample>
+</OffsetWrap>
+
+Notice that our child `Box` doesn't rerender, while the parent `Box` still does. It remains the same background color it was when it initially rendered, because it's not getting called again when `Example` rerenders.
+
+Heck, let's have some fun and put `Example` into `Example`.
+
+<OffsetWrap>
+  <ChildrenExample>
+    <NoChildrenExample />
+  </ChildrenExample>
+</OffsetWrap>
+
+Kind of fun, isn't it?
+
+### When does this matter?
+
+In most cases, I wouldn't fret about rerendering a `Box` or whatever component you might be working with, but it's just good knowledge to have. You'll be better off having this concept etched into your brain than not.
+
+The place I'm most concerned about getting this right is the use of Context Providers. I wrote a very similar blog post [all about that](/careful-with-context-composition). Check it out if you're interested.
+
+In general, if you have a component with frequent state changes and it uses `children`, consider letting as much of the inner contents be composed via `children` as possible to avoid unnecessary rendering.
+
+You never know, you might just find your component is now a bit more reusable, too.

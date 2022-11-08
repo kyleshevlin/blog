@@ -45,12 +45,12 @@ export const makeHeadingId = heading => {
 
 export const random255 = () => Math.floor(Math.random() * 255)
 
-export const randomRGB = () => {
+export const randomRGB = (alpha = 1) => {
   const r = random255()
   const g = random255()
   const b = random255()
 
-  return `rgb(${r}, ${g}, ${b})`
+  return `rgb(${r}, ${g}, ${b}, ${alpha})`
 }
 
 /**
