@@ -17,7 +17,7 @@ And now while I have it, I do want to discuss a bit of common confusion caused b
 
 One of the most common misunderstandings I run into with people regarding React is this: If a component has a state change and rerenders, it _does not_ cause `children` to rerender. I think this is very obvious when we _remove_ JSX, and use `React.createChildren` instead. Let's have a look.
 
-Here we have some code that has a state change, but also renders `children`. We'll show those state changes by using a `Box` that changes its background color with every render.
+Here we have one of my favorite components to demonstrate rerenders, a `Box` that changes background color whenever it's rendered. This `Box` allows us to pass `children` through it. Thus, we'll make an `Example` where we force an update, which will cause `Box` to rerender.
 
 ```jsx
 import { useForceUpdate } from './hooks'
