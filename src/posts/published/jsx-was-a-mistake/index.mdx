@@ -15,7 +15,7 @@ import { Box, ChildrenExample, NoChildrenExample } from './Examples'
 
 And now while I have it, I do want to discuss a bit of common confusion caused by JSX.
 
-One of the most common misunderstandings I run into with people regarding React is this: If a component has a state change and rerenders, it _does not_ cause `children` to rerender. I think this is very obvious when we _remove_ JSX, and use `React.createChildren` instead. Let's have a look.
+One of the most common misunderstandings I run into with people regarding React is this: If a component has a state change and rerenders, it _does not_ cause `children` to rerender. I think this is very obvious when we _remove_ JSX, and use `React.createElement` instead. Let's have a look.
 
 Here we have one of my favorite components to demonstrate rerenders, a `Box` that changes background color whenever it's rendered. This `Box` allows us to pass `children` through it. Thus, we'll make an `Example` where we force an update, which will cause `Box` to rerender.
 
@@ -48,7 +48,7 @@ function Example() {
   <NoChildrenExample />
 </OffsetWrap>
 
-As you can see, clicking "Update" causes the `Box` to change colors. <Marker content="If you are visually impaired, I added a <code>data-background-color</code> attribute to the <code>div</code> that changes with it. I wasn't sure what else I could do, so I hope that helps. Please let me know if there's more I can do and I'll make an update." /> This is because `Box` is a _function_ that gets called when `Example` is called. This is obvious when instead of JSX, we use `React.createChildren` instead.
+As you can see, clicking "Update" causes the `Box` to change colors. <Marker content="If you are visually impaired, I added a <code>data-background-color</code> attribute to the <code>div</code> that changes with it. I wasn't sure what else I could do, so I hope that helps. Please let me know if there's more I can do and I'll make an update." /> This is because `Box` is a _function_ that gets called when `Example` is called. This is obvious when instead of JSX, we use `React.createElement` instead.
 
 ```javascript
 function Box({ children }) {
