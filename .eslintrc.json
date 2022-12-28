@@ -21,10 +21,11 @@
   },
   "plugins": ["react", "react-hooks", "jsx-a11y", "prettier"],
   "rules": {
-    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
-    "react/prop-types": "off",
+    "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {

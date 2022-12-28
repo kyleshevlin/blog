@@ -1,5 +1,5 @@
 import React from 'react'
-import { Machine } from 'xstate'
+import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy, { bs } from '../shevy'
 import { buttonStyles } from './Button'
@@ -76,7 +76,7 @@ const submitEvent = {
   ],
 }
 
-const signupMachine = Machine(
+const signupMachine = createMachine(
   {
     id: 'signup',
     initial: 'idle',

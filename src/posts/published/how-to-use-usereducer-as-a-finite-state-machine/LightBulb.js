@@ -1,7 +1,6 @@
 import React from 'react'
 import { bs } from '../../../shevy'
 import Button from '../../../components/Button'
-import OffsetWrap from '../../../components/OffsetWrap'
 
 const NEXT_STATE_GRAPH = {
   lit: {
@@ -30,7 +29,7 @@ export default function LightBulb() {
   const [state, send] = React.useReducer(reducer, initialState)
 
   return (
-    <OffsetWrap>
+    <div>
       State: {state}
       <div css={{ marginTop: bs(0.5) }}>
         <ButtonWrap>
@@ -43,7 +42,7 @@ export default function LightBulb() {
           <Button onClick={() => send('RESET')}>Reset</Button>
         </ButtonWrap>
       </div>
-    </OffsetWrap>
+    </div>
   )
 }
 

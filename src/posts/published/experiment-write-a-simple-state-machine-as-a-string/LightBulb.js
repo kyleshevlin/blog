@@ -1,5 +1,5 @@
 import React from 'react'
-import { Machine } from 'xstate'
+import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import statechart from './statechart'
 import Button from '../../../components/Button'
@@ -15,13 +15,13 @@ unlit broken BREAK
 broken unlit RESET
 `)
 
-const lightBulbMachine = Machine(chart)
+const lightBulbMachine = createMachine(chart)
 
 export default function LightBulb() {
   const [state, send] = useMachine(lightBulbMachine)
 
   return (
-    <>
+    <div>
       State: {state.value}
       <div
         css={{
@@ -35,6 +35,6 @@ export default function LightBulb() {
         <Button onClick={() => send('BREAK')}>Break</Button>
         <Button onClick={() => send('RESET')}>Reset</Button>
       </div>
-    </>
+    </div>
   )
 }

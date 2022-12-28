@@ -3,11 +3,11 @@ import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
-import { Machine } from 'xstate'
+import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import Content from '../components/Content'
 
-const sortsMachine = Machine({
+const sortsMachine = createMachine({
   id: 'sorts',
   initial: 'nameAsc',
   states: {
