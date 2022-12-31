@@ -1,5 +1,5 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
+import { Flex, Margin } from '@kyleshevlin/layout'
 import Container from './Container'
 import Footer from './Footer'
 import { FootnoteDisplay } from './Footnotes'
@@ -11,13 +11,7 @@ export default function Layout({ children }) {
     <>
       <AllGlobalStyles />
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-        }}
-      >
+      <Flex direction="column" style={{ minHeight: '100vh' }}>
         <Header />
 
         <div css={{ flexGrow: 1 }}>
@@ -27,7 +21,7 @@ export default function Layout({ children }) {
         <Margin top={2}>
           <Footer />
         </Margin>
-      </div>
+      </Flex>
       <FootnoteDisplay />
     </>
   )
