@@ -1,9 +1,9 @@
 import React from 'react'
+import { Flex } from '@kyleshevlin/layout'
 import { bs } from '../shevy'
 import { mq } from '../utils'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
-import Flex from './Flex'
 import NewsletterCTA from './NewsletterCTA'
 import ValueSell from './ValueSell'
 
@@ -37,7 +37,7 @@ export default function Content({
             },
           }}
         >
-          <Flex direction="column" gap={bs(2)}>
+          <Flex direction="column" gap={2}>
             {newsletter && <NewsletterCTA />}
             {valueSell && <ValueSell courseNickname={courseNickname} />}
           </Flex>

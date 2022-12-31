@@ -1,4 +1,5 @@
 import React from 'react'
+import { Flex } from '@kyleshevlin/layout'
 import { graphql, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 
@@ -63,41 +64,40 @@ export default function Contributors() {
       {contributors.length ? (
         <div
           css={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
             fontSize: '.75rem',
             fontStyle: 'normal',
           }}
         >
-          {contributors.map(contributor => {
-            const { avatarUrl, login, url } = contributor
+          <Flex justify="center" wrap="wrap">
+            {contributors.map(contributor => {
+              const { avatarUrl, login, url } = contributor
 
-            return (
-              <a
-                css={{
-                  display: 'inline-block',
-                  padding: bs(0.25),
-                  width: 50,
-                  opacity: 0.75,
-                  transition: 'opacity .3s ease',
+              return (
+                <a
+                  css={{
+                    display: 'inline-block',
+                    padding: bs(0.25),
+                    width: 50,
+                    opacity: 0.75,
+                    transition: 'opacity .3s ease',
 
-                  '&:hover': {
-                    opacity: 1,
-                  },
-                }}
-                key={login}
-                href={url}
-                title={`@${login}`}
-              >
-                <img
-                  css={{ display: 'block', width: '100%' }}
-                  alt={login}
-                  src={avatarUrl}
-                />
-              </a>
-            )
-          })}
+                    '&:hover': {
+                      opacity: 1,
+                    },
+                  }}
+                  key={login}
+                  href={url}
+                  title={`@${login}`}
+                >
+                  <img
+                    css={{ display: 'block', width: '100%' }}
+                    alt={login}
+                    src={avatarUrl}
+                  />
+                </a>
+              )
+            })}
+          </Flex>
         </div>
       ) : null}
     </div>

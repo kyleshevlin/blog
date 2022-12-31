@@ -1,9 +1,9 @@
 import React from 'react'
+import { Flex } from '@kyleshevlin/layout'
 import { graphql, Link, useStaticQuery } from 'gatsby'
 import { bs } from '../shevy'
 import Button from './Button'
 import Container from './Container'
-import Flex from './Flex'
 import Nav from './Nav'
 import { useTheme } from './ThemeProvider'
 import ShiftBy from './ShiftBy'
@@ -33,7 +33,7 @@ export default function Header() {
       }}
     >
       <Container>
-        <Flex align="center" justify="space-between" gap={bs()} wrap="wrap">
+        <Flex align="center" justify="space-between" gap={1} wrap="wrap">
           <Link
             css={{
               color: 'var(--colors-text)',

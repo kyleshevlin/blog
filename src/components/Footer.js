@@ -1,14 +1,13 @@
 import React from 'react'
+import { Flex, Margin } from '@kyleshevlin/layout'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { bs } from '../shevy'
 import Github from './icons/Github'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
-import Margin from './Margin'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
-import Flex from './Flex'
 import Mastodon from './icons/Mastodon'
 
 const links = [

@@ -1,11 +1,11 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
+import { Margin } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
 import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
-import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const query = graphql`

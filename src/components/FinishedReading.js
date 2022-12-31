@@ -2,7 +2,7 @@ import React from 'react'
 import shevy, { bs } from '../shevy'
 import BeardStrokes from './BeardStrokes'
 import Share from './Share'
-import Margin from './Margin'
+import { Flex, Margin } from '@kyleshevlin/layout'
 
 export default function FinishedReading({ beardStrokeKey, slug, title }) {
   return (
@@ -51,7 +51,7 @@ function AfterOption({ children, label }) {
       >
         <Margin bottom={0.25}>{label}</Margin>
       </div>
-      <div css={{ display: 'flex', alignItems: 'center' }}>{children}</div>
+      <Flex align="center">{children}</Flex>
     </>
   )
 }

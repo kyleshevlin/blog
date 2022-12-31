@@ -1,19 +1,18 @@
 import React from 'react'
-import Flex from '../../../components/Flex'
+import { Flex } from '@kyleshevlin/layout'
 import { bs } from '../../../shevy'
 
 export default function Example() {
   return (
-    <div>
-      <Flex
-        justify="space-between"
-        style={{
-          backgroundColor: 'var(--colors-background)',
-          borderBottom: '2px solid var(--colors-offsetMore)',
-          position: 'relative',
-          padding: bs(0.5),
-        }}
-      >
+    <div
+      css={{
+        backgroundColor: 'var(--colors-background)',
+        borderBottom: '2px solid var(--colors-offsetMore)',
+        position: 'relative',
+        padding: bs(0.5),
+      }}
+    >
+      <Flex justify="space-between">
         <div>Logo</div>
         <div
           css={{

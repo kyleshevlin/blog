@@ -1,6 +1,6 @@
 import React from 'react'
+import { Margin } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import Margin from '../../../components/Margin'
 // These can be found on my snippets page
 import { randomRGB } from '../../../utils'
 import useForceUpdate from '../../../hooks/useForceUpdate'

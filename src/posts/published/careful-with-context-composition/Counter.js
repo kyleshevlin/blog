@@ -1,7 +1,7 @@
+import { Flex } from '@kyleshevlin/layout'
 import React from 'react'
 import generateContext from 'react-generate-context'
 import Button from '../../../components/Button'
-import Margin from '../../../components/Margin'
 
 const useCounterValue = ({ startingCount = 0 }) => {
   const [state, setState] = React.useState(startingCount)
@@ -26,15 +26,13 @@ function Counter() {
   const [count, { inc, dec }] = useCounter()
 
   return (
-    <div>
-      <Margin bottom={0.5}>{count}</Margin>
-      <div css={{ display: 'flex' }}>
-        <Margin right={0.5}>
-          <Button onClick={inc}>+</Button>
-        </Margin>
+    <Flex direction="column" gap={0.5}>
+      <div>{count}</div>
+      <Flex gap={0.5}>
+        <Button onClick={inc}>+</Button>
         <Button onClick={dec}>-</Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
 

@@ -1,15 +1,13 @@
 import React from 'react'
+import { Flex } from '@kyleshevlin/layout'
 import NewsletterCTA from './NewsletterCTA'
-import Margin from './Margin'
 import ValueSell from './ValueSell'
 
 export default function AddedValue({ courseNickname }) {
   return (
-    <div>
-      <Margin bottom={2}>
-        <NewsletterCTA />
-      </Margin>
+    <Flex direction="column" gap={2}>
+      <NewsletterCTA />
       <ValueSell courseNickname={courseNickname} />
-    </div>
+    </Flex>
   )
 }

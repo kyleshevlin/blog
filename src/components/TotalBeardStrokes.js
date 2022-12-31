@@ -3,6 +3,7 @@ import { getValueRealtime } from '../firebase'
 import Beard from './icons/Beard'
 import { inflect } from '../utils'
 import { bs } from '../shevy'
+import { Flex } from '@kyleshevlin/layout'
 
 export default function TotalBeardStrokes({ slug }) {
   const [count, setCount] = React.useState(0)
@@ -26,8 +27,6 @@ export default function TotalBeardStrokes({ slug }) {
   return (
     <div
       css={{
-        display: 'flex',
-        alignItems: 'center',
         fontFamily: 'var(--fonts-catamaran)',
         fontSize: '0.75em',
         marginLeft: bs(-0.25),
@@ -44,10 +43,12 @@ export default function TotalBeardStrokes({ slug }) {
         },
       }}
     >
-      <Beard width={20} />
-      <div>
-        {count} {inflect('stroke')(count)} bestowed
-      </div>
+      <Flex align="center">
+        <Beard width={20} />
+        <div>
+          {count} {inflect('stroke')(count)} bestowed
+        </div>
+      </Flex>
     </div>
   )
 }

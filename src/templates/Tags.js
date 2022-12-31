@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
+import { Margin } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
-import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const Tags = ({ data, ...props }) => {

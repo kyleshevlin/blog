@@ -1,6 +1,6 @@
 import React from 'react'
+import { Margin } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import Margin from '../../../components/Margin'
 import { bs } from '../../../shevy'
 
 const ITEMS = [

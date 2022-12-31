@@ -1,6 +1,6 @@
 import React from 'react'
+import { Flex } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import Flex from '../../../components/Flex'
 
 const FOODS = ['Eggs', 'Bacon', 'Pancakes', 'Toast']
 

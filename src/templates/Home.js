@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
+import { Margin } from '@kyleshevlin/layout'
 import { buttonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
@@ -7,7 +8,6 @@ import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import Content from '../components/Content'
 import LinkButton from '../components/LinkButton'
-import Margin from '../components/Margin'
 
 export default function Home({ data }) {
   const recentPosts = getNodes(data.recent)

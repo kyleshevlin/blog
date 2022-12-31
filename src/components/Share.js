@@ -1,8 +1,8 @@
 import React from 'react'
+import { Margin } from '@kyleshevlin/layout'
 import shevy, { bs } from '../shevy'
 import Button from './Button'
 import ShiftBy from './ShiftBy'
-import Margin from './Margin'
 
 const generateText = title => encodeURIComponent(`Check out "${title}"`)
 const generateUrl = slug =>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import { Margin } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
 import Tag from '../components/icons/Tag'
 import { bs } from '../shevy'
 import { getNodes } from '../utils'
-import Margin from '../components/Margin'
 import Content from '../components/Content'
 
 const AllPosts = ({ data }) => {

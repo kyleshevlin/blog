@@ -3,19 +3,13 @@ import { Link } from 'gatsby'
 import shevy, { bs } from '../shevy'
 import { formatStrForPath } from '../utils'
 import Tag from './icons/Tag'
+import { Flex } from '@kyleshevlin/layout'
 
 const formatItemPath = item => `/tags/${formatStrForPath(item)}`
 
 export default function PostTags({ items }) {
   return items && items.length ? (
-    <div
-      css={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'baseline',
-        gap: bs(0.5),
-      }}
-    >
+    <Flex align="baseline" gap={0.5} wrap="wrap">
       <div>
         <span
           css={{
@@ -50,6 +44,6 @@ export default function PostTags({ items }) {
           {item}
         </Link>
       ))}
-    </div>
+    </Flex>
   ) : null
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import generateContext from 'react-generate-context'
-import Flex from '../../../components/Flex'
+import { Flex } from '@kyleshevlin/layout'
 import { Input, useNumberInput } from '../../../components/Inputs'
 
 const [SpiroProvider, useSpiro] = generateContext(() => {
@@ -138,16 +138,12 @@ function Spirograph() {
 export default function FullSpiro() {
   return (
     <SpiroProvider>
-      <Flex
-        align="center"
-        justify="center"
-        gap={1}
-        style={{ fontFamily: 'var(--fonts-catamaran)' }}
-        wrap="wrap"
-      >
-        <Spirograph />
-        <Controls />
-      </Flex>
+      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>
+        <Flex align="center" justify="center" gap={1} wrap="wrap">
+          <Spirograph />
+          <Controls />
+        </Flex>
+      </div>
     </SpiroProvider>
   )
 }

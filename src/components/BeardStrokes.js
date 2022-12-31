@@ -1,7 +1,7 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
+import { Flex } from '@kyleshevlin/layout'
 import { buttonStyles } from '../components/Button'
-import Margin from '../components/Margin'
 import Beard from '../components/icons/Beard'
 import { getDb, getValueOnce, setValue } from '../firebase'
 
@@ -58,7 +58,7 @@ function BeardStrokes({ slug }) {
 
   return (
     <div css={{ width: '100%', textAlign: 'center' }}>
-      <Margin bottom={0.25}>
+      <Flex direction="column" gap={0.25}>
         <div
           css={{
             fontFamily: 'var(--fonts-catamaran)',
@@ -66,59 +66,53 @@ function BeardStrokes({ slug }) {
         >
           Liked the post? Click the beard up to 50 times to show&nbsp;it
         </div>
-      </Margin>
-      <button
-        css={{
-          ...buttonStyles,
-          appearance: 'none',
-          backgroundColor: 'var(--components-beard-strokes-button-bg)',
-          touchAction: 'manipulation',
-          width: '100%',
-          height: 56,
 
-          '&:hover': {
-            backgroundColor: 'var(--components-beard-strokes-button-bg-hover)',
-          },
-
-          '& svg': {
-            fill:
-              count === 0
-                ? 'var(--components-beard-strokes-fill-default)'
-                : 'var(--components-beard-strokes-fill-nonzero)',
-            transform: 'scale(.95)',
-            transition: 'fill 0.3s ease, transform .15s ease',
-          },
-
-          '&:active svg': {
-            transform: 'scale(1)',
-          },
-
-          '&:hover svg': {
-            fill: 'var(--components-beard-strokes-fill-hover)',
-          },
-
-          '&:disabled svg': {
-            fill: 'var(--components-beard-strokes-fill-disabled)',
-            transform: 'scale(1)',
-          },
-        }}
-        onClick={handleBeardClick}
-        disabled={maximumStrokesApplied}
-        type="button"
-      >
-        <div
+        <button
           css={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            ...buttonStyles,
+            appearance: 'none',
+            backgroundColor: 'var(--components-beard-strokes-button-bg)',
+            touchAction: 'manipulation',
+            width: '100%',
+            height: 56,
+
+            '&:hover': {
+              backgroundColor:
+                'var(--components-beard-strokes-button-bg-hover)',
+            },
+
+            '& svg': {
+              fill:
+                count === 0
+                  ? 'var(--components-beard-strokes-fill-default)'
+                  : 'var(--components-beard-strokes-fill-nonzero)',
+              transform: 'scale(.95)',
+              transition: 'fill 0.3s ease, transform .15s ease',
+            },
+
+            '&:active svg': {
+              transform: 'scale(1)',
+            },
+
+            '&:hover svg': {
+              fill: 'var(--components-beard-strokes-fill-hover)',
+            },
+
+            '&:disabled svg': {
+              fill: 'var(--components-beard-strokes-fill-disabled)',
+              transform: 'scale(1)',
+            },
           }}
+          onClick={handleBeardClick}
+          disabled={maximumStrokesApplied}
+          type="button"
         >
-          <Margin right={0.25}>
+          <Flex justify="center" align="center" gap={0.25}>
             <Beard width={40} />
-          </Margin>
-          <Margin right={0.5}>+{count}</Margin>
-        </div>
-      </button>
+            <span>+{count}</span>
+          </Flex>
+        </button>
+      </Flex>
     </div>
   )
 }

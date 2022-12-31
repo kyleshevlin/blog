@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Flex, Margin } from '@kyleshevlin/layout'
 import { bs } from '../shevy'
 import Container from './Container'
 
@@ -47,21 +48,23 @@ export default function Modal({
       tabIndex={-1}
     >
       <Container>
-        <div css={{ display: 'flex', marginBottom: bs() }}>
-          <button
-            aria-label="Close Modal"
-            css={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              fontFamily: 'var(--fonts-catamaran)',
-              marginLeft: 'auto',
-            }}
-            onClick={onClick}
-            ref={closeButtonRef}
-          >
-            {closeButtonText}
-          </button>
-        </div>
+        <Margin bottom={1}>
+          <Flex>
+            <button
+              aria-label="Close Modal"
+              css={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                fontFamily: 'var(--fonts-catamaran)',
+                marginLeft: 'auto',
+              }}
+              onClick={onClick}
+              ref={closeButtonRef}
+            >
+              {closeButtonText}
+            </button>
+          </Flex>
+        </Margin>
       </Container>
       {children}
     </div>

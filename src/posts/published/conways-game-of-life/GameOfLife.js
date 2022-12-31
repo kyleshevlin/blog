@@ -1,7 +1,6 @@
 import React from 'react'
+import { Flex, Margin } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import Flex from '../../../components/Flex'
-import Margin from '../../../components/Margin'
 import { mq } from '../../../utils'
 
 const randomBool = () => Boolean(Math.round(Math.random()))

@@ -1,6 +1,6 @@
 import React from 'react'
+import { Margin } from '@kyleshevlin/layout'
 import { bs } from '../../../shevy'
-import Margin from '../../../components/Margin'
 
 const MAX_HEX = parseInt('ffffff', 16)
 

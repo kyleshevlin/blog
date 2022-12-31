@@ -11,6 +11,7 @@ module.exports = {
     author: 'Kyle Shevlin',
     siteUrl: 'https://kyleshevlin.com',
   },
+  flags: { PRESERVE_WEBPACK_CACHE: true },
   plugins: [
     {
       resolve: 'gatsby-plugin-mdx',
