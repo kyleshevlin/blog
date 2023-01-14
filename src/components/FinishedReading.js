@@ -2,7 +2,7 @@ import React from 'react'
 import shevy, { bs } from '../shevy'
 import BeardStrokes from './BeardStrokes'
 import Share from './Share'
-import { Flex, Margin } from '@kyleshevlin/layout'
+import { Flex, Grid, Margin } from '@kyleshevlin/layout'
 
 export default function FinishedReading({ beardStrokeKey, slug, title }) {
   return (
@@ -10,7 +10,9 @@ export default function FinishedReading({ beardStrokeKey, slug, title }) {
       <h3 css={{ fontWeight: 'bold', marginBottom: bs(0.25) }}>
         Finished reading?
       </h3>
+
       <p>Here are a few options for what to do next.</p>
+
       <AfterOptionWrap>
         <AfterOption label="Like">
           <BeardStrokes slug={beardStrokeKey} />
@@ -26,16 +28,9 @@ export default function FinishedReading({ beardStrokeKey, slug, title }) {
 
 function AfterOptionWrap({ children }) {
   return (
-    <div
-      css={{
-        display: 'grid',
-        gridTemplateColumns: 'auto auto',
-        gap: bs(),
-        alignItems: 'end',
-      }}
-    >
+    <Grid templateColumns="auto auto" gap={1} style={{ alignItems: 'end' }}>
       {children}
-    </div>
+    </Grid>
   )
 }
 

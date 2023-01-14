@@ -1,15 +1,15 @@
+import { Grid } from '@kyleshevlin/layout'
 import React from 'react'
 import { bs } from '../../../shevy'
 import { mq } from '../../../utils'
 
 export default function HookCategories() {
   return (
-    <div
-      css={{
+    <Grid
+      gap="1px"
+      templateColumns="1fr 1fr"
+      style={{
         backgroundColor: 'var(--colors-text)',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 1,
       }}
     >
       <Category
@@ -25,7 +25,7 @@ export default function HookCategories() {
         title="Miscellaneous"
         items={['useImperativeHandle', 'useDebugValue']}
       />
-    </div>
+    </Grid>
   )
 }
 
