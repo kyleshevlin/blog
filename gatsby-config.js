@@ -7,7 +7,7 @@ module.exports = {
     title: 'Kyle Shevlin',
     subTitle: 'Software Engineer',
     description:
-      'Kyle Shevlin is a software engineer who specializes in JavaScript, React and front end web development.',
+      'Kyle Shevlin is a software engineer who specializes in JavaScript, TypeScript, React and frontend web development.',
     author: 'Kyle Shevlin',
     siteUrl: 'https://kyleshevlin.com',
   },

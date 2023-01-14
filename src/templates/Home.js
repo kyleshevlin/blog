@@ -14,7 +14,10 @@ export default function Home({ data }) {
 
   return (
     <>
-      <Seo title="Home" keywords={['Kyle Shevlin', 'React', 'JavaScript']} />
+      <Seo
+        title="Home"
+        keywords={['Kyle Shevlin', 'React', 'JavaScript', 'TypeScript']}
+      />
 
       <Content>
         <Welcome />

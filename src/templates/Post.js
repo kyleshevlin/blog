@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import BannerImage from '../components/BannerImage'
 import EditLink from '../components/EditLink'
+import LinkButton from '../components/LinkButton'
 import PostAuthor from '../components/PostAuthor'
 import PostDate from '../components/PostDate'
 import PostHeader from '../components/PostHeader'
@@ -10,10 +11,11 @@ import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import { bs } from '../shevy'
+import shevy, { bs } from '../shevy'
 import { mq, stripElementTags } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
+import { Flex, Margin } from '@kyleshevlin/layout'
 
 const Post = ({
   data,
@@ -73,7 +75,9 @@ const Post = ({
 
           <MDXRenderer>{file.body}</MDXRenderer>
 
-          <hr />
+          <Margin vertical={3}>
+            <TrainingPitch />
+          </Margin>
 
           <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
 
@@ -181,6 +185,58 @@ function AdditionalPost({ heading, slug, title }) {
       </span>
       {': '}
       <Link to={slug} dangerouslySetInnerHTML={{ __html: title }} />
+    </div>
+  )
+}
+
+function TrainingPitch() {
+  return (
+    <div
+      css={{
+        backgroundColor: 'var(--components-newsletterCTA-background)',
+        color: 'var(--components-newsletterCTA-text)',
+        fontFamily: 'var(--fonts-catamaran)',
+        padding: bs(2),
+      }}
+    >
+      <Flex direction="column" gap={1}>
+        <div
+          css={{
+            fontSize: shevy.h2.fontSize,
+            lineHeight: shevy.h2.lineHeight,
+          }}
+        >
+          Are you, or the company you work for, struggling with something
+          mentioned in this&nbsp;article?
+        </div>
+
+        <div
+          css={{ fontSize: shevy.h4.fontSize, lineHeight: shevy.h4.lineHeight }}
+        >
+          Would you benefit from a live training session?
+        </div>
+
+        <div>
+          <LinkButton
+            variant="bigWide"
+            overrideStyles={{
+              backgroundColor:
+                'var(--components-newsletterCTA-submitButton-background)',
+              color: 'var(--components-newsletterCTA-submitButton-text)',
+
+              '&:hover': {
+                backgroundColor:
+                  'var(--components-newsletterCTA-submitButton-hover-background)',
+                color:
+                  'var(--components-newsletterCTA-submitButton-hover-text)',
+              },
+            }}
+            href="mailto:kyle@kyleshevlin.com"
+          >
+            Let's Talk
+          </LinkButton>
+        </div>
+      </Flex>
     </div>
   )
 }

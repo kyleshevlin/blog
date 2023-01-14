@@ -16,7 +16,7 @@ export default function NewsletterCTA() {
     >
       <div>
         <h3>
-          Let's talk some more about JavaScript, React, and software
+          Let's talk some more about JavaScript, TypeScript, React, and software
           engineering.
         </h3>
         <p>
