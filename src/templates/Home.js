@@ -83,8 +83,8 @@ function Welcome() {
       </p>
       <p>
         If you need to reach out to me,{' '}
-        <a href="mailto:kyle.a.shevlin@gmail.com">email</a> is the best way to
-        do so.
+        <a href="mailto:kyle@kyleshevlin.com">email</a> is the best way to do
+        so.
       </p>
       <p>Enjoy your time here and thank you.</p>
     </section>
