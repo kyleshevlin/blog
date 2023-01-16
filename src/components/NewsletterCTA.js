@@ -160,7 +160,7 @@ function SignupForm() {
             'var(--components-newsletterCTA-successBox-background)',
           borderRadius: 4,
           color: 'var(--components-newsletterCTA-successBox-text)',
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           padding: bs(),
         }}
       >
@@ -273,7 +273,7 @@ function ErrorWrap({ children }) {
         backgroundColor: 'var(--components-newsletterCTA-errorBox-background)',
         borderRadius: 4,
         color: 'var(--components-newsletterCTA-errorBox-text)',
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         padding: bs(0.5),
         marginBottom: bs(0.5),
       }}
@@ -292,7 +292,7 @@ function ControlledInputBox({
   value,
 }) {
   return (
-    <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>
+    <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
       <label htmlFor={name}>
         <div
           css={{

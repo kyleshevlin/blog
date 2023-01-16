@@ -61,7 +61,7 @@ function BeardStrokes({ slug }) {
       <Flex direction="column" gap={0.25}>
         <div
           css={{
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
           }}
         >
           Liked the post? Click the beard up to 50 times to show&nbsp;it

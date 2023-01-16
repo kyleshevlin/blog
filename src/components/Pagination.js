@@ -36,7 +36,7 @@ export default function Pagination({ index: currentPageIndex, totalPages }) {
   return (
     <div
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         marginBottom: bs(2),
       }}
     >

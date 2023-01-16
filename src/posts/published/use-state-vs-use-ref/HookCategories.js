@@ -42,7 +42,7 @@ function Category({ title, items }) {
     >
       <div
         css={{
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           fontWeight: 'bold',
           lineHeight: 1.2,
           textAlign: 'center',

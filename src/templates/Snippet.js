@@ -5,9 +5,10 @@ import Seo from '../components/Seo'
 import FinishedReading from '../components/FinishedReading'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import EditLink from '../components/EditLink'
-import { bs } from '../shevy'
 import Content from '../components/Content'
 import PostAuthor from '../components/PostAuthor'
+import { Flex, Margin } from '@kyleshevlin/layout'
+import { TrainingPitch } from '../components/TrainingPitch'
 
 const modifySnippetSlugForDB = slug => `snippets---${slug}`
 
@@ -22,28 +23,32 @@ export default function Snippet({ data }) {
 
       <Content>
         <h4 css={{ fontWeight: 700, marginBottom: 0 }}>Snippet</h4>
-        <div
-          css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            marginBottom: bs(),
-          }}
-        >
+
+        <Flex align="baseline" justify="space-between">
           <h2 css={{ marginBottom: 0 }}>{name}</h2>
           <EditLink fileAbsolutePath={fileAbsolutePath} />
-        </div>
-        <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
+        </Flex>
+
+        <Margin top={0.75}>
+          <TotalBeardStrokes slug={modifySnippetSlugForDB(slug)} />
+        </Margin>
+
         <div>
           <MDXRenderer>{snippet.body}</MDXRenderer>
         </div>
-        <hr />
+
+        <Margin vertical={3}>
+          <TrainingPitch />
+        </Margin>
+
         <FinishedReading
           beardStrokeKey={modifySnippetSlugForDB(slug)}
           slug={`snippets/${slug}`}
           title={name}
         />
+
         <hr />
+
         <PostAuthor />
       </Content>
     </>

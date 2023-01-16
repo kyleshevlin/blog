@@ -214,7 +214,7 @@ function HeadingCell({ children, onClick }) {
   return (
     <th
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         fontWeight: 'bold',
         cursor: onClick ? 'pointer' : 'default',
 
@@ -235,7 +235,7 @@ function Label({ children }) {
   return (
     <span
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         fontWeight: 'bold',
         [mq.bravo]: {
           display: 'none',

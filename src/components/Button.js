@@ -7,7 +7,7 @@ export const buttonStyles = {
   borderRadius: bs(1 / 8),
   color: 'var(--components-button-text)',
   display: 'inline-block',
-  fontFamily: 'var(--fonts-catamaran)',
+  fontFamily: 'var(--fonts-secondary)',
   fontSize: '0.85rem',
   lineHeight: 1,
   padding: `${bs(0.25)} ${bs(0.5)} ${bs(0.35)}`,

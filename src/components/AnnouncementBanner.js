@@ -8,7 +8,7 @@ export default function AnnouncementBanner() {
       css={{
         backgroundColor: 'var(--components-announcementBanner-background)',
         color: 'var(--components-announcementBanner-text)',
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         paddingTop: bs(0.5),
         paddingBottom: bs(0.5),
       }}

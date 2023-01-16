@@ -55,7 +55,7 @@ export default function Modal({
               css={{
                 backgroundColor: 'transparent',
                 border: 'none',
-                fontFamily: 'var(--fonts-catamaran)',
+                fontFamily: 'var(--fonts-secondary)',
                 marginLeft: 'auto',
               }}
               onClick={onClick}

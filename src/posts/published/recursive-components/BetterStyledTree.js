@@ -46,7 +46,7 @@ export default function BetterStyledTree({ items, depth = 0 }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
             paddingLeft: depth * 15,
           }}
         >

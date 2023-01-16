@@ -27,7 +27,7 @@ export default function TotalBeardStrokes({ slug }) {
   return (
     <div
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         fontSize: '0.75em',
         marginLeft: bs(-0.25),
         marginTop: bs(-0.25),

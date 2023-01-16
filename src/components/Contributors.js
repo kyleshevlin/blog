@@ -48,7 +48,7 @@ export default function Contributors() {
   return (
     <div
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         textAlign: 'center',
       }}
     >

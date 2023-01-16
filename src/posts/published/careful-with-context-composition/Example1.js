@@ -23,7 +23,9 @@ export default function App() {
 
   return (
     <Flex direction="column" gap={1}>
-      <Button onClick={forceUpdate}>Force Update</Button>
+      <div>
+        <Button onClick={forceUpdate}>Force Update</Button>
+      </div>
       <Box />
     </Flex>
   )

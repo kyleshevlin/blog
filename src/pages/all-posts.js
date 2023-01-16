@@ -78,7 +78,7 @@ const AllPosts = ({ data }) => {
                       <div
                         css={{
                           color: 'var(--colors-text)',
-                          fontFamily: 'var(--fonts-catamaran)',
+                          fontFamily: 'var(--fonts-secondary)',
                           fontSize: '.85rem',
                         }}
                         key={tag}

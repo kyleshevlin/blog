@@ -7,7 +7,7 @@ const RelatedPosts = ({ posts }) => (
   <div>
     <div
       css={{
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         fontWeight: 'bold',
         marginBottom: bs(0.5),
       }}

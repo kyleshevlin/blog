@@ -21,7 +21,7 @@ export default function Podcast() {
         <div
           css={{
             backgroundColor: 'var(--colors-offset)',
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
             padding: bs(),
             marginTop: bs(2),
             marginBottom: bs(2),

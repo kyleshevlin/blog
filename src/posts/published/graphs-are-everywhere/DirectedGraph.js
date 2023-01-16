@@ -169,7 +169,7 @@ export default function DirectedGraph({
         <div
           css={{
             backgroundColor: 'var(--colors-offset)',
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
             fontStyle: 'italic',
             padding: `${bs(0.5)} ${bs()}`,
             textAlign: 'center',

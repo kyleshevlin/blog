@@ -100,7 +100,7 @@ export default function Game() {
     <>
       <div
         style={{
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           fontWeight: 'bold',
           marginBottom: bs(),
           textTransform: 'uppercase',

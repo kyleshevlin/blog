@@ -92,7 +92,6 @@ function makeDefaultCSSVars(colors) {
     '--colors-offsetMore': colors.offsetMore,
     '--colors-error': colors.error,
     '--colors-text-on-accent': 'var(--colors-background)',
-    '--fonts-catamaran': 'Catamaran, sans-serif',
     '--components-announcementBanner-background': 'var(--colors-accent)',
     '--components-announcementBanner-text': 'var(--colors-background)',
     '--components-announcementBanner-links-text': '#f2f2f2',

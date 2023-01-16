@@ -24,7 +24,7 @@ export default function ColorPicker() {
         backgroundColor,
         color: textColor,
         display: 'flex',
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         height: bs(8),
         justifyContent: 'center',
         transform: 'all .1s ease',

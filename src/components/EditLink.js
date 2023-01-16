@@ -25,7 +25,7 @@ export default function EditLink({ fileAbsolutePath }) {
       <a
         css={{
           display: 'inline-block',
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           fontStyle: 'italic',
           paddingLeft: bs(0.5),
           paddingRight: bs(0.5),

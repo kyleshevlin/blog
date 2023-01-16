@@ -96,7 +96,7 @@ export default function ValueSell({ courseNickname }) {
             <div
               css={{
                 fontSize: publicURL ? 'inherit' : shevy.h2.fontSize,
-                fontFamily: 'var(--fonts-catamaran)',
+                fontFamily: 'var(--fonts-secondary)',
               }}
             >
               {title}
@@ -114,7 +114,7 @@ export default function ValueSell({ courseNickname }) {
           <h2>Check out my courses!</h2>
           <div
             css={{
-              fontFamily: 'var(--fonts-catamaran)',
+              fontFamily: 'var(--fonts-secondary)',
               marginBottom: bs(1),
             }}
           >

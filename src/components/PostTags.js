@@ -27,7 +27,7 @@ export default function PostTags({ items }) {
         </span>
         <span
           css={{
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
             fontSize: '0.75em',
             lineHeight: shevy.baseLineHeight,
           }}
@@ -37,7 +37,7 @@ export default function PostTags({ items }) {
       </div>
       {items.map(item => (
         <Link
-          css={{ fontFamily: 'var(--fonts-catamaran)' }}
+          css={{ fontFamily: 'var(--fonts-secondary)' }}
           key={item}
           to={formatItemPath(item)}
         >

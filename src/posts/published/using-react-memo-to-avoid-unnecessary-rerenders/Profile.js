@@ -12,7 +12,7 @@ export function Profile({ name, location }) {
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-secondary)' }}>{location}</div>
     </div>
   )
 }
@@ -38,7 +38,7 @@ function RandomProfile({ name, location }) {
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-secondary)' }}>{location}</div>
     </div>
   )
 }
@@ -79,7 +79,7 @@ function ObjectProfile({ person }) {
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
-      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>{location}</div>
+      <div css={{ fontFamily: 'var(--fonts-secondary)' }}>{location}</div>
     </div>
   )
 }

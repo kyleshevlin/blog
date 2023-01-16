@@ -5,10 +5,18 @@ category: 'JavaScript'
 slug: 'compose-and-pipe'
 ---
 
-```javascript
-const compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
+I go over [function composition in this blog post](/just-enough-fp-composition), so please read the post for a more detailed explanation.
 
-const pipe = (...fns) => x => fns.reduce((acc, fn) => fn(acc), x)
+```javascript
+const compose =
+  (...fns) =>
+  x =>
+    fns.reduceRight((acc, fn) => fn(acc), x)
+
+const pipe =
+  (...fns) =>
+  x =>
+    fns.reduce((acc, fn) => fn(acc), x)
 ```
 
 If you want to get real fancy, you can split out and share the reducer.
@@ -16,7 +24,13 @@ If you want to get real fancy, you can split out and share the reducer.
 ```javascript
 const apply = (value, fn) => fn(value)
 
-const compose = (...fns) => x => fns.reduceRight(apply, x)
+const compose =
+  (...fns) =>
+  x =>
+    fns.reduceRight(apply, x)
 
-const pipe = (...fns) => x => fns.reduce(apply, x)
+const pipe =
+  (...fns) =>
+  x =>
+    fns.reduce(apply, x)
 ```

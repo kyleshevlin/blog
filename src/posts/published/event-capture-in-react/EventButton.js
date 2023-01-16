@@ -52,7 +52,7 @@ export default function EventButton() {
 
       <p
         css={{
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           width: '75%',
           marginBottom: 0,
         }}

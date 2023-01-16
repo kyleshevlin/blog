@@ -51,7 +51,7 @@ export default function Header() {
             </h1>
             <div
               css={{
-                fontFamily: 'var(--fonts-catamaran)',
+                fontFamily: 'var(--fonts-secondary)',
                 fontSize: '1rem',
                 marginBottom: 0,
               }}

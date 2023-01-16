@@ -10,7 +10,7 @@ export default function ResizableBox() {
     <div
       css={{
         backgroundColor: 'var(--colors-offset)',
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         padding: bs(),
       }}
     >

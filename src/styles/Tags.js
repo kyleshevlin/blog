@@ -7,6 +7,11 @@ export default function Tags() {
   return (
     <Global
       styles={css`
+        :root {
+          --fonts-primary: 'Droid Serif', serif;
+          --fonts-secondary: 'Catamaran', sans-serif;
+        }
+
         *,
         *:before,
         *:after {
@@ -15,7 +20,7 @@ export default function Tags() {
 
         html {
           box-sizing: border-box;
-          font-family: 'Droid Serif', serif;
+          font-family: var(--fonts-primary);
           font-size: 85%;
           line-height: ${shevy.baseLineHeight};
 
@@ -105,7 +110,7 @@ export default function Tags() {
         blockquote {
           background: var(--colors-offset);
           color: var(--colors-accent);
-          font-family: 'Catamaran', sans-serif;
+          font-family: var(--fonts-secondary);
           font-size: 1.9531rem;
           line-height: 1.2;
           font-weight: 100;
@@ -153,7 +158,7 @@ export default function Tags() {
           background-color: var(--colors-offset);
           border: 4px solid var(--colors-offset);
           color: var(--colors-text);
-          font-family: var(--fonts-catamaran);
+          font-family: var(--fonts-secondary);
           font-weight: bold;
           padding: ${bs(0.25)} ${bs(0.5)};
         }

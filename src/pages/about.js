@@ -90,7 +90,7 @@ const About = ({ data }) => {
           <div
             css={{
               backgroundColor: 'var(--colors-offset)',
-              fontFamily: 'var(--fonts-catamaran)',
+              fontFamily: 'var(--fonts-secondary)',
               fontStyle: 'italic',
               lineHeight: 1.5,
               padding: `${bs(0.5)} ${bs()}`,

@@ -13,7 +13,7 @@ const LINKS = [
 
 const linkStyles = {
   display: 'inline-block',
-  fontFamily: 'var(--fonts-catamaran)',
+  fontFamily: 'var(--fonts-secondary)',
   color: 'var(--colors-text)',
   padding: bs(0.5),
 }

@@ -6,10 +6,12 @@ category: 'JavaScript'
 ---
 
 ```javascript
-const clamp = (min, max) => number => Math.min(Math.max(min, number), max)
+function clamp(min, max) {
+  return num => Math.min(Math.max(min, num), max)
+}
 ```
 
-I have found this function useful again and again in my career, often serving as a way to prevent broken number values from getting somewhere without being to obtrusive to the user.
+I have found this function useful again and again in my career, often serving as a way to prevent invalid number values where using HTML attributes of `min` and `max` are not sufficient.
 
 It can take a moment to understand how `clamp` works because it's a bit counterintuitive. We make use of `Math.min` and `Math.max` to accomplish `clamp`.
 

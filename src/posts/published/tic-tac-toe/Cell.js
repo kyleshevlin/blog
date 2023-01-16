@@ -13,7 +13,7 @@ export function FirstCell({ cell }) {
 const buttonStyle = {
   backgroundColor: 'transparent',
   border: 'none',
-  fontFamily: 'var(--fonts-catamaran)',
+  fontFamily: 'var(--fonts-secondary)',
   fontSize: '2em',
   height: '100%',
   width: '100%',

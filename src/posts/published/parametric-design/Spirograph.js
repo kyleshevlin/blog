@@ -138,7 +138,7 @@ function Spirograph() {
 export default function FullSpiro() {
   return (
     <SpiroProvider>
-      <div css={{ fontFamily: 'var(--fonts-catamaran)' }}>
+      <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
         <Flex align="center" justify="center" gap={1} wrap="wrap">
           <Spirograph />
           <Controls />

@@ -129,7 +129,7 @@ function CollectionItem({ label, to }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: 'var(--fonts-catamaran)',
+        fontFamily: 'var(--fonts-secondary)',
         fontSize: shevy.h4.fontSize,
         padding: bs(),
       }}

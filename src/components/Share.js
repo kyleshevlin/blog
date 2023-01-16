@@ -26,7 +26,7 @@ export default function Share({ slug, title }) {
       <Margin bottom={0.25}>
         <div
           css={{
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
           }}
         >
           Sharing this post on Twitter & elsewhere is a great way to

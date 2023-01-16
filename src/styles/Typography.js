@@ -12,7 +12,7 @@ export default function Typography() {
         h4,
         h5,
         h6 {
-          font-family: var(--fonts-catamaran);
+          font-family: var(--fonts-secondary);
           font-weight: 400;
           text-rendering: optimizeLegibility;
         }

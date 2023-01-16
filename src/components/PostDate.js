@@ -7,7 +7,7 @@ export default function PostDate({ date }) {
       <div
         css={{
           display: 'inline-block',
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           fontSize: '0.75187rem',
           lineHeight: 1.8,
           paddingLeft: '2px',

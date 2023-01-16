@@ -39,7 +39,7 @@ function AfterOption({ children, label }) {
     <>
       <div
         css={{
-          fontFamily: 'var(--fonts-catamaran)',
+          fontFamily: 'var(--fonts-secondary)',
           fontSize: shevy.h4.fontSize,
           fontWeight: 'bold',
         }}

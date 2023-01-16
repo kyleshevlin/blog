@@ -16,7 +16,7 @@ export default function Example() {
         <div>Logo</div>
         <div
           css={{
-            fontFamily: 'var(--fonts-catamaran)',
+            fontFamily: 'var(--fonts-secondary)',
             fontWeight: 'bold',
             position: 'absolute',
             left: '50%',
