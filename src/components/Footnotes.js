@@ -196,7 +196,7 @@ export function FootnoteDisplay() {
     >
       <Container>
         <Margin bottom={1}>
-          <Flex justify="center">
+          <Flex align="center" justify="space-between">
             <div css={displayMarkerStyles}>
               <span css={{ position: 'relative', top: 2 }}>{index}</span>
             </div>
