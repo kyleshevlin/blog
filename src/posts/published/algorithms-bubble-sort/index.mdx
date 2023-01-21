@@ -1,0 +1,115 @@
+---
+date: '2023-01-18'
+slug: 'algorithms-bubble-sort'
+title: 'Algorithms: Bubble Sort'
+subtitle: null
+description: 'Learn the bubble sort algorithm in JavaScript, and why it is such a bad way to sort items'
+excerpt: "Sorting algorithms can be a lot of fun to learn, so let's learn and visualize the bubble sort algorithm in JavaScript."
+tags: ['Data Structures and Algorithms']
+relatedPostsSlugs: []
+relevantCourseNickname: 'dsa'
+---
+
+import EggheadEmbed from '../../../components/EggheadEmbed'
+import { BubbleSortVisual } from './BubbleSortVisual'
+
+### Preface
+
+I've had the itch recently to write articles for all the algorithms and data structures I covered in my original [Data Structures & Algorithms course](https://egghead.io/courses/data-structures-and-algorithms-in-javascript) and maybe a few others. <Marker content="Who knows? Maybe start working on another course." /> There's just something that tickles the pleasure centers of my brain to learn a new algorithm or review an old one. They might not always be useful in a practical sense, <Marker content="You will literally never use bubble sort at work, except as a joke." /> but I think practicing data structures & algorithms can help your brain improve its abilities to model problems well, and well-modeled problems are easier to solve.
+
+I also wanted to play around with visualizing the algorithms with some React components, so double the fun for me, and hopefully for you, too.
+
+### A few words on algorithms, in general
+
+Algorithms get an undeservedly bad rap these days because the word has been appropriated to describe the manipulations of social media companies to show us more ads. Let's not allow that negative connotation to stop us from learning them.
+
+An algorithm is simply a set of instructions to perform a task, to get a desired outcome. A recipe is an algorithm. How you tie your shoes is an algorithm. The way you brush your teeth, an algorithm. Algorithms are everywhere and unavoidable.
+
+When we examine algorithms and enjoy the intricacies that make one slightly better than another, they might teach us a thing or two. Perhaps about the world around us, perhaps about ourselves.
+
+So don't let "algorithm" be a scary word for you just because of the media or the fact that it ends in a strange combination of consonants. Embrace them.
+
+### The bubble sort algorithm
+
+We're going to start by learning the "bubble sort" algorithm. Its typically the first sorting algorithm people learn because it's a naive approach that's remarkably similar to how one might _actually_ sort a collection of items in real life. The algorithm, goes like this:
+
+- Given a list of items, begin looping through the them one at a time
+- For each item, compare it to the next item in the array
+  - If they are out of order, swap them in place and track that a swap occurred
+- When the loop is complete:
+  - If any swaps occurred, repeat the previous steps
+  - else, the array is sorted
+
+Simple, right? But simple, can be _extremely_ inefficient! The bubble sort algorithm has a Big O of `O(n^2)`, otherwise known as [quadratic time](https://en.wikipedia.org/wiki/Time_complexity). It's not the absolute worst score you can get for an algorithm, but it's pretty darn bad!
+
+For those unfamiliar with Big O notation, let me break it down for this particular case quickly. <Marker content="I know better than to promise a separate blog post on a topic, but this is by no means an exhaustive explanation of Big O." /> Big O is how computer scientists describe the **worst case performance** of an algorithm. In the case of bubble sort, `n` represents the number of items we are sorting. Our algorithm requires that we loop through every item in the list. If we only had to do that, our Big O would be `O(n)`, indicating that as `n` increases, the time it takes to sort them grows at the same rate.
+
+However, in bubble sort, inside of our first loop we have an inner loop that compares each item with _every other item_. This results in doing `n * n` operations, or `n^2`. Think about this for a moment. This means that as `n` increases, the time to sort them _quadratically_ increases. For example, if we have to sort 5x more items than a previous `n`, it will perform 25x worse!
+
+### Coding it up
+
+Let's write the code for this algorithm piece by piece. Now, it might seem odd, but I think it might be a bit easier to write if consider what we would have to do if we were given a **perfectly sorted list**. How would we know that the list is sorted?
+
+In the case of bubble sort, we know a list is sorted when a loop through its items is completed without swapping any of them. Thus, even for a perfectly sorted array, we still have to make _at least_ one loop all the items. If we have to do something at least once, but conditionally after that first loop, does that conjure up a particularly rare looping mechanism for you?
+
+I hope you came up with the `do..while` loop.
+
+So _rarely_ do we get to use this looping mechanism but it's quite useful for the right situation. We want to `do` at least one loop through the array, and continue looping through it `while` there were swaps in the previous loop. Let's write that code.
+
+```javascript
+function bubbleSort(items) {
+  let swapped = false
+
+  do {
+    // Gotta reset `swapped` with every outer loop
+    swapped = false
+
+    // TODO: Our inner loop will go here
+  } while (swapped)
+
+  return items
+}
+```
+
+Now, let's add our inner loop. We need to take each `item` and check if it should swap with the `nextItem`. We'll need the `index` of our item to get the next item and to do swaps, and I like to do that with a combo of `for..of` and `Array.prototype.entries()`, like so: <Marker content="For this algorithm, because there is no need to <code>break</code> or <code>continue</code>, you could also use <code>Array.prototype.forEach</code> with a callback that made use of both the <code>item</code> and the <code>index</code> instead." />
+
+```javascript
+function bubbleSort(items) {
+  let swapped = false
+
+  do {
+    swapped = false
+
+    for (const [idx, item] of items.entries()) {
+      const nextItem = items[idx + 1]
+
+      if (item > nextItem) {
+        items[idx] = nextItem
+        items[idx + 1] = item
+        swapped = true
+      }
+    }
+  } while (swapped)
+
+  return items
+}
+```
+
+We can see how the algorithm works with a visual. This visual sorts 50 lines from shortest to tallest. It has two additional features not found in the code block above: it highlights the `item` currently being sorted, and it tracks the number of comparisons made by the algorithm. You can run the visual several times to see how close it gets to that `n^2` performance number. <Marker content="If you have the time. Each run will take a little over a minute because this algorithm is so inefficient." />
+
+<Margin vertical={2}>
+  <BubbleSortVisual />
+</Margin>
+
+You can see that sorting items with bubble sort is agonizingly slow. We will discuss much faster and more efficient sorting algorithms, but it's useful to learn bubble sort all the same. Knowing poor performing algorithms can help us identify inefficient ones in our programs and guide us towards better solutions.
+
+### For egghead subscribers
+
+If you enjoy learning from video content and have an egghead account, you can watch this lesson in the embed below or at [https://egghead.io/lessons/javascript-sort-an-array-with-a-javascript-do-while-loop-using-bubble-sort](https://egghead.io/lessons/javascript-sort-an-array-with-a-javascript-do-while-loop-using-bubble-sort).
+
+<Margin vertical={2}>
+  <EggheadEmbed
+    src="https://egghead.io/lessons/javascript-sort-an-array-with-a-javascript-do-while-loop-using-bubble-sort/embed"
+    title="Bubble Sort"
+  />
+</Margin>
