@@ -3,7 +3,7 @@ import { Flex } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
 
-const NUMBERS = Array(49)
+const NUMBERS = Array(50)
   .fill(1)
   .map((x, i) => x + i)
 
@@ -39,23 +39,24 @@ export function BubbleSortVisual() {
   }
 
   React.useEffect(() => {
+    function iterate() {
+      const { done, value } = generator.current.next()
+
+      if (done) {
+        setPlayState('complete')
+        return
+      }
+
+      if (value) {
+        idx.current = value[1]
+        count.current = value[2]
+        forceUpdate()
+      }
+    }
+
     let id
-
     if (playState === 'sorting') {
-      id = setInterval(() => {
-        const { done, value } = generator.current.next()
-        count.current++
-
-        if (done) {
-          setPlayState('complete')
-          return
-        }
-
-        if (value) {
-          idx.current = value[1]
-          forceUpdate()
-        }
-      }, 1000 / 30)
+      id = setInterval(iterate, 1000 / 30)
     }
 
     return () => {
@@ -125,17 +126,18 @@ function* bubbleSort(items) {
   do {
     swapped = false
 
-    for (const [idx, item] of items.entries()) {
+    for (let i = 0; i < items.length; i++) {
       count++
-      const nextItem = items[idx + 1]
+      const item = items[i]
+      const nextItem = items[i + 1]
 
       if (item > nextItem) {
-        items[idx] = nextItem
-        items[idx + 1] = item
+        items[i] = nextItem
+        items[i + 1] = item
         swapped = true
       }
 
-      yield [items, idx, count]
+      yield [items, i, count]
     }
   } while (swapped)
 
