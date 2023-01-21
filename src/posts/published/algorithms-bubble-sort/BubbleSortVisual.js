@@ -2,6 +2,7 @@ import React from 'react'
 import { Flex } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
+import shevy, { bs } from '../../../shevy'
 
 const NUMBERS = Array(50)
   .fill(1)
@@ -67,28 +68,57 @@ export function BubbleSortVisual() {
   }, [forceUpdate, playState])
 
   return (
-    <Flex direction="column" gap={1}>
-      <Flex gap={0.5} align="baseline" justify="space-between">
-        <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
-          Comparisons: {count.current}
+    <div css={{ position: 'relative' }}>
+      <div
+        css={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 0, 0, 0.5)',
+          zIndex: 1,
+        }}
+      >
+        <div
+          css={{
+            backgroundColor: 'var(--colors-background)',
+            fontFamily: 'var(--fonts-secondary)',
+            fontSize: shevy.h3.fontSize,
+            lineHeight: 1,
+            color: 'var(--colors-contra)',
+            padding: bs(0.5),
+          }}
+        >
+          Broken in prod, sorry! Will fix soon.
         </div>
+      </div>
+      <Flex direction="column" gap={1}>
+        <Flex gap={0.5} align="baseline" justify="space-between">
+          <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
+            Comparisons: {count.current}
+          </div>
 
-        <Flex gap={0.5}>
-          <Button disabled={playState === 'sorting'} onClick={handleShuffle}>
-            Shuffle
-          </Button>
-          <Button disabled={playState === 'complete'} onClick={handleSort}>
-            {playState === 'sorting' ? 'Pause' : 'Start'}
-          </Button>
+          <Flex gap={0.5}>
+            <Button disabled={playState === 'sorting'} onClick={handleShuffle}>
+              Shuffle
+            </Button>
+            <Button disabled={playState === 'complete'} onClick={handleSort}>
+              {playState === 'sorting' ? 'Pause' : 'Start'}
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Flex align="flex-end" justify="space-between">
+          {items.current.map((num, i) => (
+            <Item key={num} num={num} isHighlighted={idx.current === i} />
+          ))}
         </Flex>
       </Flex>
-
-      <Flex align="flex-end" justify="space-between">
-        {items.current.map((num, i) => (
-          <Item key={num} num={num} isHighlighted={idx.current === i} />
-        ))}
-      </Flex>
-    </Flex>
+    </div>
   )
 }
 
