@@ -85,22 +85,26 @@ export function BubbleSortVisual() {
 
       <Flex align="flex-end" justify="space-between">
         {items.current.map((num, i) => (
-          <div
-            key={num}
-            style={{
-              backgroundColor:
-                idx.current === i
-                  ? 'var(--colors-contra)'
-                  : 'var(--colors-offsetMore)',
-              width: 4,
-              height: num * 1,
-            }}
-          />
+          <Item key={num} num={num} isHighlighted={idx.current === i} />
         ))}
       </Flex>
     </Flex>
   )
 }
+
+const Item = React.memo(function Item({ num, isHighlighted }) {
+  return (
+    <div
+      style={{
+        backgroundColor: isHighlighted
+          ? 'var(--colors-contra)'
+          : 'var(--colors-offsetMore)',
+        width: 4,
+        height: num * 1,
+      }}
+    />
+  )
+})
 
 // Uses the Fisher-Yates algorithm
 function shuffle(array) {
