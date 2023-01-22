@@ -21,18 +21,8 @@ const getInitialState = () => {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'SHUFFLE': {
-      const nextItems = shuffle(NUMBERS)
-      const nextGenerator = bubbleSort(nextItems)
-
-      return {
-        ...state,
-        count: 0,
-        generator: nextGenerator,
-        idx: -1,
-        items: nextItems,
-      }
-    }
+    case 'SHUFFLE':
+      return getInitialState()
 
     case 'TOGGLE_SORTING': {
       switch (state.playState) {
@@ -87,7 +77,7 @@ export function BubbleSortVisual() {
     let id
 
     if (playState === 'sorting') {
-      id = setInterval(tick, 1000 / 15)
+      id = setInterval(tick, 1000 / 20)
     }
 
     return () => clearInterval(id)
