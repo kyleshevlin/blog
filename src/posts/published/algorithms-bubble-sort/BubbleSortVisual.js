@@ -77,7 +77,7 @@ export function BubbleSortVisual() {
     let id
 
     if (playState === 'sorting') {
-      id = setInterval(tick, 1000 / 20)
+      id = setInterval(tick, 1000 / 15)
     }
 
     return () => clearInterval(id)
@@ -102,7 +102,7 @@ export function BubbleSortVisual() {
 
       <Flex align="flex-end" justify="space-between">
         {items.map((num, i) => (
-          <Item key={num} num={num} isHighlighted={idx === i} />
+          <Item key={`${num}-${i}`} num={num} isHighlighted={idx === i} />
         ))}
       </Flex>
     </Flex>
