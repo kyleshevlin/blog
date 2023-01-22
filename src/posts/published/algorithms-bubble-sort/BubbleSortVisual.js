@@ -1,128 +1,125 @@
 import React from 'react'
 import { Flex } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import useForceUpdate from '../../../hooks/useForceUpdate'
-import shevy, { bs } from '../../../shevy'
 
 const NUMBERS = Array(50)
   .fill(1)
   .map((x, i) => x + i)
 
-export function BubbleSortVisual() {
-  const forceUpdate = useForceUpdate()
-  const items = React.useRef(shuffle(NUMBERS))
-  const generator = React.useRef(bubbleSort(items.current))
-  const idx = React.useRef(-1)
-  const count = React.useRef(0)
-  const [playState, setPlayState] = React.useState('paused')
+const getInitialState = () => {
+  const items = shuffle(NUMBERS)
+  const generator = bubbleSort(items)
 
-  const handleShuffle = () => {
-    items.current = shuffle(NUMBERS)
-    generator.current = bubbleSort(items.current)
-    idx.current = -1
-    count.current = 0
-    // We have to reset the state to `paused`, but this won't always trigger an
-    // update (if the user shuffles while the deck is paused), so we still need
-    // to forceUpdate for all the ref changes
-    setPlayState('paused')
-    forceUpdate()
+  return {
+    count: 0,
+    generator,
+    idx: -1,
+    items,
+    playState: 'paused',
   }
+}
 
-  const handleSort = () => {
-    setPlayState(s => {
-      switch (s) {
-        case 'paused':
-          return 'sorting'
-        case 'sorting':
-          return 'paused'
+function reducer(state, action) {
+  switch (action.type) {
+    case 'SHUFFLE': {
+      const nextItems = shuffle(NUMBERS)
+      const nextGenerator = bubbleSort(nextItems)
+
+      return {
+        ...state,
+        count: 0,
+        generator: nextGenerator,
+        idx: -1,
+        items: nextItems,
       }
-    })
+    }
+
+    case 'TOGGLE_SORTING': {
+      switch (state.playState) {
+        case 'paused':
+          return { ...state, playState: 'sorting' }
+
+        case 'sorting':
+          return { ...state, playState: 'paused' }
+
+        default:
+          return state
+      }
+    }
+
+    case 'TICK': {
+      const { done, value } = state.generator.next()
+
+      if (done) return { ...state, playState: 'complete' }
+
+      const [nextItems, nextIdx, nextCount] = value
+
+      return {
+        ...state,
+        items: nextItems,
+        idx: nextIdx,
+        count: nextCount,
+      }
+    }
+
+    default:
+      return state
   }
+}
+
+export function BubbleSortVisual() {
+  const [state, dispatch] = React.useReducer(reducer, getInitialState())
+  const { count, idx, items, playState } = state
+
+  const handleShuffle = React.useCallback(() => {
+    dispatch({ type: 'SHUFFLE' })
+  }, [])
+
+  const handleSort = React.useCallback(() => {
+    dispatch({ type: 'TOGGLE_SORTING' })
+  }, [])
+
+  const tick = React.useCallback(() => {
+    dispatch({ type: 'TICK' })
+  }, [])
 
   React.useEffect(() => {
-    function iterate() {
-      const { done, value } = generator.current.next()
-
-      if (done) {
-        setPlayState('complete')
-        return
-      }
-
-      if (value) {
-        idx.current = value[1]
-        count.current = value[2]
-        forceUpdate()
-      }
-    }
-
     let id
+
     if (playState === 'sorting') {
-      id = setInterval(iterate, 1000 / 30)
+      id = setInterval(tick, 1000 / 15)
     }
 
-    return () => {
-      if (id) {
-        clearInterval(id)
-      }
-    }
-  }, [forceUpdate, playState])
+    return () => clearInterval(id)
+  }, [playState, tick])
 
   return (
-    <div css={{ position: 'relative' }}>
-      <div
-        css={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(255, 0, 0, 0.5)',
-          zIndex: 1,
-        }}
-      >
-        <div
-          css={{
-            backgroundColor: 'var(--colors-background)',
-            fontFamily: 'var(--fonts-secondary)',
-            fontSize: shevy.h3.fontSize,
-            lineHeight: 1,
-            color: 'var(--colors-contra)',
-            padding: bs(0.5),
-          }}
-        >
-          Broken in prod, sorry! Will fix soon.
+    <Flex direction="column" gap={1}>
+      <Flex align="baseline" justify="space-between">
+        <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
+          Comparisons: {count}
         </div>
-      </div>
-      <Flex direction="column" gap={1}>
-        <Flex gap={0.5} align="baseline" justify="space-between">
-          <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
-            Comparisons: {count.current}
-          </div>
 
-          <Flex gap={0.5}>
-            <Button disabled={playState === 'sorting'} onClick={handleShuffle}>
-              Shuffle
-            </Button>
-            <Button disabled={playState === 'complete'} onClick={handleSort}>
-              {playState === 'sorting' ? 'Pause' : 'Start'}
-            </Button>
-          </Flex>
-        </Flex>
-
-        <Flex align="flex-end" justify="space-between">
-          {items.current.map((num, i) => (
-            <Item key={num} num={num} isHighlighted={idx.current === i} />
-          ))}
+        <Flex gap={0.5}>
+          <Button disabled={playState === 'sorting'} onClick={handleShuffle}>
+            Shuffle
+          </Button>
+          <Button disabled={playState === 'complete'} onClick={handleSort}>
+            {playState === 'sorting' ? 'Pause' : 'Sort'}
+          </Button>
         </Flex>
       </Flex>
-    </div>
+
+      <Flex align="flex-end" justify="space-between">
+        {items.map((num, i) => (
+          <Item key={num} num={num} isHighlighted={idx === i} />
+        ))}
+      </Flex>
+    </Flex>
   )
 }
 
-const Item = React.memo(function Item({ num, isHighlighted }) {
+function Item({ num, isHighlighted }) {
   return (
     <div
       style={{
@@ -134,7 +131,7 @@ const Item = React.memo(function Item({ num, isHighlighted }) {
       }}
     />
   )
-})
+}
 
 // Uses the Fisher-Yates algorithm
 function shuffle(array) {
