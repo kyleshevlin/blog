@@ -1,5 +1,6 @@
 import React from 'react'
 import { Flex, Margin } from '@kyleshevlin/layout'
+import EggheadEmbed from './components/EggheadEmbed'
 import Layout from './components/Layout'
 import CoursesProvider from './components/CoursesProvider'
 import Gif from './components/Gif'
@@ -32,27 +33,28 @@ const spacing = x => {
   return typeof x === 'number' ? bs(x) : x
 }
 
+const COMPONENTS = {
+  EggheadEmbed,
+  Flex,
+  Gif,
+  h2: H2,
+  h3: H3,
+  h4: H4,
+  h5: H5,
+  h6: H6,
+  Marker: FootnoteMarker,
+  OffsetWrap,
+  Margin,
+  YoutubeEmbed,
+}
+
 const wrapPageElement = ({ element, props }) => {
   return (
     <ThemeProvider>
       <SpacingProvider spacing={spacing}>
         <CoursesProvider>
           <FootnotesProvider>
-            <MDXProvider
-              components={{
-                Flex,
-                Gif,
-                h2: H2,
-                h3: H3,
-                h4: H4,
-                h5: H5,
-                h6: H6,
-                Marker: FootnoteMarker,
-                OffsetWrap,
-                Margin,
-                YoutubeEmbed,
-              }}
-            >
+            <MDXProvider components={COMPONENTS}>
               <Layout {...props}>{element}</Layout>
             </MDXProvider>
           </FootnotesProvider>

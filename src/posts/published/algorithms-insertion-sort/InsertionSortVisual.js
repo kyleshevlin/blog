@@ -8,12 +8,13 @@ const NUMBERS = Array(50)
 
 const getInitialState = () => {
   const items = shuffle(NUMBERS)
-  const generator = bubbleSort(items)
+  const generator = insertionSort(items)
 
   return {
     count: 0,
     generator,
-    idx: -1,
+    outerIdx: -1,
+    innerIdx: -1,
     items,
     playState: 'paused',
   }
@@ -42,12 +43,13 @@ function reducer(state, action) {
 
       if (done) return { ...state, playState: 'complete' }
 
-      const [nextItems, nextIdx, nextCount] = value
+      const [nextItems, nextOuterIndex, nextInnerIdx, nextCount] = value
 
       return {
         ...state,
         items: nextItems,
-        idx: nextIdx,
+        outerIdx: nextOuterIndex,
+        innerIdx: nextInnerIdx,
         count: nextCount,
       }
     }
@@ -57,9 +59,9 @@ function reducer(state, action) {
   }
 }
 
-export function BubbleSortVisual({ fps = 15 }) {
+export function InsertionSortVisual({ fps = 15 }) {
   const [state, dispatch] = React.useReducer(reducer, getInitialState())
-  const { count, idx, items, playState } = state
+  const { count, outerIdx, innerIdx, items, playState } = state
 
   const handleShuffle = React.useCallback(() => {
     dispatch({ type: 'SHUFFLE' })
@@ -102,18 +104,25 @@ export function BubbleSortVisual({ fps = 15 }) {
 
       <Flex align="flex-end" justify="space-between">
         {items.map((num, i) => (
-          <Item key={`${num}-${i}`} num={num} isHighlighted={idx === i} />
+          <Item
+            key={`${num}-${i}`}
+            num={num}
+            isOuterItem={outerIdx === i}
+            isInnerItem={innerIdx === i}
+          />
         ))}
       </Flex>
     </Flex>
   )
 }
 
-function Item({ num, isHighlighted }) {
+function Item({ num, isOuterItem, isInnerItem }) {
   return (
     <div
       style={{
-        backgroundColor: isHighlighted
+        backgroundColor: isOuterItem
+          ? 'var(--colors-accent)'
+          : isInnerItem
           ? 'var(--colors-contra)'
           : 'var(--colors-offsetMore)',
         width: 4,
@@ -138,29 +147,25 @@ function shuffle(array) {
   return result
 }
 
-function* bubbleSort(items) {
+function* insertionSort(items) {
   let count = 0
-  let swapped = false
+  let i
+  let j
 
-  // A perfectly sorted list needs to be looped through once
-  // to verify it's sorted
-  do {
-    swapped = false
-
-    for (let i = 0; i < items.length; i++) {
+  // Loop from the 2nd item on
+  for (i = 1; i < items.length; i++) {
+    // Loop from the first item to the outer item
+    for (j = 0; j < i; j++) {
       count++
-      const item = items[i]
-      const nextItem = items[i + 1]
 
-      if (item > nextItem) {
-        items[i] = nextItem
-        items[i + 1] = item
-        swapped = true
+      if (items[i] < items[j]) {
+        const [item] = items.splice(i, 1) // Remove the `outerItem`
+        items.splice(j, 0, item) // Splice it in at `j`
       }
 
-      yield [items, i, count]
+      yield [items, i, j, count]
     }
-  } while (swapped)
+  }
 
-  return [items, -1, count]
+  return [items, -1, -1, count]
 }
