@@ -39,11 +39,7 @@ export default function Snippet({ data }) {
 
         <hr />
 
-        <FinishedReading
-          beardStrokeKey={modifySnippetSlugForDB(slug)}
-          slug={`snippets/${slug}`}
-          title={name}
-        />
+        <FinishedReading beardStrokeKey={modifySnippetSlugForDB(slug)} />
 
         <hr />
 

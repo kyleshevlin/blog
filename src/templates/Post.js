@@ -77,9 +77,9 @@ const Post = ({
 
           <hr />
 
-          <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
+          <FinishedReading beardStrokeKey={slug} />
 
-          <Margin vertical={3}>
+          <Margin vertical={2}>
             <div
               css={{
                 display: 'grid',

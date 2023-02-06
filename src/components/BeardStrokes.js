@@ -57,63 +57,50 @@ function BeardStrokes({ slug }) {
     useBeardStrokes(slug)
 
   return (
-    <div css={{ width: '100%', textAlign: 'center' }}>
-      <Flex direction="column" gap={0.25}>
-        <div
-          css={{
-            fontFamily: 'var(--fonts-secondary)',
-          }}
-        >
-          Liked the post? Click the beard up to 50 times to show&nbsp;it
-        </div>
+    <button
+      css={{
+        ...buttonStyles,
+        appearance: 'none',
+        backgroundColor: 'var(--components-beard-strokes-button-bg)',
+        touchAction: 'manipulation',
+        width: '100%',
+        height: 56,
 
-        <button
-          css={{
-            ...buttonStyles,
-            appearance: 'none',
-            backgroundColor: 'var(--components-beard-strokes-button-bg)',
-            touchAction: 'manipulation',
-            width: '100%',
-            height: 56,
+        '&:hover': {
+          backgroundColor: 'var(--components-beard-strokes-button-bg-hover)',
+        },
 
-            '&:hover': {
-              backgroundColor:
-                'var(--components-beard-strokes-button-bg-hover)',
-            },
+        '& svg': {
+          fill:
+            count === 0
+              ? 'var(--components-beard-strokes-fill-default)'
+              : 'var(--components-beard-strokes-fill-nonzero)',
+          transform: 'scale(.95)',
+          transition: 'fill 0.3s ease, transform .15s ease',
+        },
 
-            '& svg': {
-              fill:
-                count === 0
-                  ? 'var(--components-beard-strokes-fill-default)'
-                  : 'var(--components-beard-strokes-fill-nonzero)',
-              transform: 'scale(.95)',
-              transition: 'fill 0.3s ease, transform .15s ease',
-            },
+        '&:active svg': {
+          transform: 'scale(1)',
+        },
 
-            '&:active svg': {
-              transform: 'scale(1)',
-            },
+        '&:hover svg': {
+          fill: 'var(--components-beard-strokes-fill-hover)',
+        },
 
-            '&:hover svg': {
-              fill: 'var(--components-beard-strokes-fill-hover)',
-            },
-
-            '&:disabled svg': {
-              fill: 'var(--components-beard-strokes-fill-disabled)',
-              transform: 'scale(1)',
-            },
-          }}
-          onClick={handleBeardClick}
-          disabled={maximumStrokesApplied}
-          type="button"
-        >
-          <Flex justify="center" align="center" gap={0.25}>
-            <Beard width={40} />
-            <span>+{count}</span>
-          </Flex>
-        </button>
+        '&:disabled svg': {
+          fill: 'var(--components-beard-strokes-fill-disabled)',
+          transform: 'scale(1)',
+        },
+      }}
+      onClick={handleBeardClick}
+      disabled={maximumStrokesApplied}
+      type="button"
+    >
+      <Flex justify="center" align="center" gap={0.25}>
+        <Beard width={40} />
+        <span>+{count}</span>
       </Flex>
-    </div>
+    </button>
   )
 }
 
