@@ -75,40 +75,42 @@ const Post = ({
 
           <MDXRenderer>{file.body}</MDXRenderer>
 
-          <Margin vertical={3}>
-            <TrainingPitch />
-          </Margin>
+          <hr />
 
           <FinishedReading beardStrokeKey={slug} slug={slug} title={title} />
 
-          <hr />
+          <Margin vertical={3}>
+            <div
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gap: bs(),
 
-          <div
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: bs(),
-
-              [mq.bravo]: {
-                gridTemplateColumns: '1fr 1fr',
-              },
-            }}
-          >
-            <div>
-              <AdditionalPosts
-                newerPost={newerPost}
-                olderPost={olderPost}
-                relatedPosts={relatedPosts}
-              />
-            </div>
-            {tags && (
+                [mq.bravo]: {
+                  gridTemplateColumns: '1fr 1fr',
+                },
+              }}
+            >
               <div>
-                <PostTags items={tags} />
+                <AdditionalPosts
+                  newerPost={newerPost}
+                  olderPost={olderPost}
+                  relatedPosts={relatedPosts}
+                />
               </div>
-            )}
-          </div>
+              {tags && (
+                <div>
+                  <PostTags items={tags} />
+                </div>
+              )}
+            </div>
+          </Margin>
 
           <hr />
+
+          <Margin vertical={2}>
+            <TrainingPitch />
+          </Margin>
 
           <PostAuthor />
         </div>

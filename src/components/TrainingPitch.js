@@ -8,8 +8,8 @@ export function TrainingPitch() {
   return (
     <div
       css={{
-        backgroundColor: 'var(--components-newsletterCTA-background)',
-        color: 'var(--components-newsletterCTA-text)',
+        backgroundColor: 'var(--components-trainingPitch-background)',
+        color: 'var(--components-trainingPitch-text)',
         fontFamily: 'var(--fonts-secondary)',
         padding: bs(2),
       }}
@@ -36,14 +36,14 @@ export function TrainingPitch() {
             variant="bigWide"
             overrideStyles={{
               backgroundColor:
-                'var(--components-newsletterCTA-submitButton-background)',
-              color: 'var(--components-newsletterCTA-submitButton-text)',
+                'var(--components-trainingPitch-submitButton-background)',
+              color: 'var(--components-trainingPitch-submitButton-text)',
 
               '&:hover': {
                 backgroundColor:
-                  'var(--components-newsletterCTA-submitButton-hover-background)',
+                  'var(--components-trainingPitch-submitButton-hover-background)',
                 color:
-                  'var(--components-newsletterCTA-submitButton-hover-text)',
+                  'var(--components-trainingPitch-submitButton-hover-text)',
               },
             }}
             href="mailto:kyle@kyleshevlin.com"

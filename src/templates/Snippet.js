@@ -37,9 +37,7 @@ export default function Snippet({ data }) {
           <MDXRenderer>{snippet.body}</MDXRenderer>
         </div>
 
-        <Margin vertical={3}>
-          <TrainingPitch />
-        </Margin>
+        <hr />
 
         <FinishedReading
           beardStrokeKey={modifySnippetSlugForDB(slug)}
@@ -48,6 +46,10 @@ export default function Snippet({ data }) {
         />
 
         <hr />
+
+        <Margin vertical={2}>
+          <TrainingPitch />
+        </Margin>
 
         <PostAuthor />
       </Content>

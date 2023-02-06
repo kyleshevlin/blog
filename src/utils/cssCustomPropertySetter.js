@@ -58,6 +58,11 @@ const DARK_VARS = {
     'var(--colors-text)',
   '--components-pagination-normal-text': 'var(--colors-text)',
   '--components-pagination-active-text': 'var(--colors-text)',
+  '--components-trainingPitch-submitButton-background': 'var(--colors-accent)',
+  '--components-trainingPitch-submitButton-hover-background':
+    'var(--colors-accentLight)',
+  '--components-trainingPitch-submitButton-text': 'var(--colors-text)',
+  '--components-trainingPitch-submitButton-hover-text': 'var(--colors-text)',
 }
 
 const THEME_TO_CSS_VARS = {
@@ -139,6 +144,15 @@ function makeDefaultCSSVars(colors) {
     '--components-share-background': 'var(--colors-offset)',
     '--components-share-highlight': 'var(--colors-accent)',
     '--components-share-hover-background': 'var(--colors-offsetMore)',
+    '--components-trainingPitch-background': 'var(--colors-offset)',
+    '--components-trainingPitch-text': 'var(--colors-text)',
+    '--components-trainingPitch-submitButton-background':
+      'var(--colors-contra)',
+    '--components-trainingPitch-submitButton-hover-background':
+      'var(--colors-contraLight)',
+    '--components-trainingPitch-submitButton-text': 'var(--colors-background)',
+    '--components-trainingPitch-submitButton-hover-text':
+      'var(--colors-background)',
     '--tags-code': 'var(--colors-offset)',
   }
 }
