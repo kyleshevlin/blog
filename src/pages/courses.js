@@ -7,6 +7,7 @@ import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 const query = graphql`
   {
@@ -36,7 +37,7 @@ export default function Courses() {
   const courses = getNodes(data.allCoursesJson)
 
   return (
-    <>
+    <Layout>
       <Seo title="Courses" keywords={['Courses', 'Kyle Shevlin']} />
 
       <Content valueSell={false}>
@@ -56,7 +57,7 @@ export default function Courses() {
           ))}
         </Margin>
       </Content>
-    </>
+    </Layout>
   )
 }
 

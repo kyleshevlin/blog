@@ -6,10 +6,9 @@
 
 // You can delete this file if you're not using it
 import React from 'react'
-import CustomLayout from './src/wrapPageElement'
 import { headScript } from './src/utils/cssCustomPropertySetter'
 
-export const wrapPageElement = CustomLayout
+export { wrapRootElement } from './src/wrapRootElement'
 
 const CssCustomPropertySetter = React.createElement('script', {
   key: 'CssCustomPropertySetter',

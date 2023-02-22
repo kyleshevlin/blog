@@ -6,12 +6,13 @@ import Tag from '../components/icons/Tag'
 import { bs } from '../shevy'
 import { getNodes } from '../utils'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 const AllPosts = ({ data }) => {
   const allPosts = getNodes(data.allPosts)
 
   return (
-    <>
+    <Layout>
       <Seo title="All Posts" keywords={['All Posts', 'Kyle Shevlin']} />
 
       <Content>
@@ -93,7 +94,7 @@ const AllPosts = ({ data }) => {
           })}
         </Margin>
       </Content>
-    </>
+    </Layout>
   )
 }
 

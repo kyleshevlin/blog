@@ -2,6 +2,7 @@ import React from 'react'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 function SCDLink({ children }) {
   return <a href="https://secondcareerdevs.com">{children}</a>
@@ -9,7 +10,7 @@ function SCDLink({ children }) {
 
 export default function Podcast() {
   return (
-    <>
+    <Layout>
       <Seo
         title="Podcast"
         keywords={['Podcast', 'Second Career Devs', 'Kyle Shevlin']}
@@ -53,6 +54,6 @@ export default function Podcast() {
           subscribe and listen to podcasts!
         </p>
       </Content>
-    </>
+    </Layout>
   )
 }

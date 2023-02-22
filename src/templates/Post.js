@@ -16,6 +16,7 @@ import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
 import { Margin } from '@kyleshevlin/layout'
 import { TrainingPitch } from '../components/TrainingPitch'
+import Layout from '../components/Layout'
 
 const Post = ({
   data,
@@ -38,7 +39,7 @@ const Post = ({
   } = file
 
   return (
-    <>
+    <Layout>
       <Seo
         title={stripElementTags(title)}
         description={description}
@@ -115,7 +116,7 @@ const Post = ({
           <PostAuthor />
         </div>
       </Content>
-    </>
+    </Layout>
   )
 }
 

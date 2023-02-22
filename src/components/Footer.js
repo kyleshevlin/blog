@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Margin } from '@kyleshevlin/layout'
+import { Flex, FlexItem, Margin } from '@kyleshevlin/layout'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { bs } from '../shevy'
@@ -9,6 +9,7 @@ import Contributors from './Contributors'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
 import Mastodon from './icons/Mastodon'
+import { Link } from 'gatsby'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -21,12 +22,19 @@ const links = [
   },
 ]
 
+const additionalLinks = [
+  { to: '/newsletter', text: 'Newsletter' },
+  { to: '/contact', text: 'Contact' },
+  { to: '/raw', text: 'Raw' },
+]
+
 export default function Footer() {
   return (
     <footer
       css={{
         backgroundColor: 'var(--components-footer-background)',
         color: 'var(--components-footer-text)',
+        fontFamily: 'var(--fonts-secondary)',
         paddingTop: bs(2),
         paddingBottom: bs(2),
         textAlign: 'center',
@@ -43,6 +51,20 @@ export default function Footer() {
           >
             <Contributors />
           </div>
+        </Margin>
+
+        <Margin vertical={2}>
+          <Flex direction="column" gap={0.5}>
+            <div>Additional Links</div>
+
+            <Flex justify="center" gap={2} wrap="wrap">
+              {additionalLinks.map(({ to, text }) => (
+                <FlexItem basis={125} key={to}>
+                  <Link to={to}>{text}</Link>
+                </FlexItem>
+              ))}
+            </Flex>
+          </Flex>
         </Margin>
 
         <Margin bottom={0.5}>

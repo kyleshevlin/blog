@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby'
 import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 const linkStyles = {
   display: 'block',
@@ -10,7 +11,7 @@ const linkStyles = {
 }
 
 const NotFoundPage = ({ data }) => (
-  <>
+  <Layout>
     <Seo title="404: Not found" />
 
     <Content>
@@ -33,7 +34,7 @@ const NotFoundPage = ({ data }) => (
           )
         })}
     </Content>
-  </>
+  </Layout>
 )
 
 export default NotFoundPage

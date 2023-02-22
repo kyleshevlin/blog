@@ -15,13 +15,14 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const homeTemplate = path.resolve('src/templates/Home.js')
     const postTemplate = path.resolve('src/templates/Post.js')
+    const rawPostTemplate = path.resolve('src/templates/RawPost.js')
     const snippetTemplate = path.resolve('src/templates/Snippet.js')
     const allTags = path.resolve('src/templates/AllTags.js')
     const tagsTemplate = path.resolve('src/templates/Tags.js')
     const query = graphql(`
       {
         posts: allMdx(
-          filter: { fileAbsolutePath: { regex: "/posts/" } }
+          filter: { fileAbsolutePath: { regex: "/posts/published/" } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
           edges {
@@ -30,6 +31,20 @@ exports.createPages = ({ graphql, actions }) => {
                 relatedPostsSlugs
                 slug
                 tags
+                title
+              }
+            }
+          }
+        }
+
+        rawPosts: allMdx(
+          filter: { fileAbsolutePath: { regex: "/posts/raw/" } }
+          sort: { fields: [frontmatter___date], order: DESC }
+        ) {
+          edges {
+            node {
+              frontmatter {
+                slug
                 title
               }
             }
@@ -98,6 +113,19 @@ exports.createPages = ({ graphql, actions }) => {
               olderPost: older ? older.node : null,
               newerPost: newer ? newer.node : null,
               relatedPosts,
+              slug,
+            },
+          })
+        })
+
+        const rawPosts = result.data.rawPosts.edges.map(edge => edge.node)
+        rawPosts.forEach(post => {
+          const { slug } = post.frontmatter
+
+          createPage({
+            path: `raw/${slug}`,
+            component: rawPostTemplate,
+            context: {
               slug,
             },
           })

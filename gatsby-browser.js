@@ -5,8 +5,7 @@
  */
 
 // You can delete this file if you're not using it
-import CustomLayout from './src/wrapPageElement'
 import 'prism-theme-night-owl/build/no-italics.css'
 import './src/styles/fontFaces.css'
 
-export const wrapPageElement = CustomLayout
+export { wrapRootElement } from './src/wrapRootElement'

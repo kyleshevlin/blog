@@ -3,13 +3,14 @@ import { graphql, Link } from 'gatsby'
 import { Margin } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 const Tags = ({ data, ...props }) => {
   const posts = data.allMdx.edges.map(edge => edge.node)
   const { tag } = props.pageContext
 
   return (
-    <>
+    <Layout>
       <Seo title={`${tag} | Tags`} />
 
       <Content>
@@ -30,7 +31,7 @@ const Tags = ({ data, ...props }) => {
           })}
         </div>
       </Content>
-    </>
+    </Layout>
   )
 }
 

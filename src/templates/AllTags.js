@@ -4,6 +4,7 @@ import Seo from '../components/Seo'
 import { bs } from '../shevy'
 import { formatStrForPath, inflect } from '../utils'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 export default function AllTags({ pageContext }) {
   const { counts, tags } = pageContext
@@ -19,7 +20,7 @@ export default function AllTags({ pageContext }) {
   }, [counts, tags])
 
   return (
-    <>
+    <Layout>
       <Seo title={title} />
 
       <Content>
@@ -48,7 +49,7 @@ export default function AllTags({ pageContext }) {
           ))}
         </div>
       </Content>
-    </>
+    </Layout>
   )
 }
 

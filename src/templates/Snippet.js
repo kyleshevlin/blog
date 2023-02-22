@@ -9,6 +9,7 @@ import Content from '../components/Content'
 import PostAuthor from '../components/PostAuthor'
 import { Flex, Margin } from '@kyleshevlin/layout'
 import { TrainingPitch } from '../components/TrainingPitch'
+import Layout from '../components/Layout'
 
 const modifySnippetSlugForDB = slug => `snippets---${slug}`
 
@@ -18,7 +19,7 @@ export default function Snippet({ data }) {
   const { name, slug } = frontmatter
 
   return (
-    <>
+    <Layout>
       <Seo title={`${name} | Snippets`} />
 
       <Content>
@@ -49,7 +50,7 @@ export default function Snippet({ data }) {
 
         <PostAuthor />
       </Content>
-    </>
+    </Layout>
   )
 }
 

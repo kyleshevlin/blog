@@ -6,6 +6,7 @@ import { mq, getNodes } from '../utils'
 import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import Content from '../components/Content'
+import Layout from '../components/Layout'
 
 const sortsMachine = createMachine({
   id: 'sorts',
@@ -88,7 +89,7 @@ export default function Snippets({ data }) {
   const sortedSnippets = safeSort(comparator)(snippets)
 
   return (
-    <>
+    <Layout>
       <Seo title="Snippets" keywords={['Snippets', 'Kyle Shevlin']} />
 
       <Content>
@@ -164,7 +165,7 @@ export default function Snippets({ data }) {
           <div>No snippets yet! Working on collecting them!</div>
         )}
       </Content>
-    </>
+    </Layout>
   )
 }
 

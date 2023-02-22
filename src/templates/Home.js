@@ -8,12 +8,13 @@ import shevy, { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import Content from '../components/Content'
 import LinkButton from '../components/LinkButton'
+import Layout from '../components/Layout'
 
 export default function Home({ data }) {
   const recentPosts = getNodes(data.recent)
 
   return (
-    <>
+    <Layout>
       <Seo
         title="Home"
         keywords={['Kyle Shevlin', 'React', 'JavaScript', 'TypeScript']}
@@ -38,14 +39,14 @@ export default function Home({ data }) {
           </LinkButton>
         </div>
       </Content>
-    </>
+    </Layout>
   )
 }
 
 export const query = graphql`
   query HomeQuery($skip: Int!, $limit: Int!) {
     recent: allMdx(
-      filter: { fileAbsolutePath: { regex: "/posts/" } }
+      filter: { fileAbsolutePath: { regex: "/posts/published/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
       limit: $limit

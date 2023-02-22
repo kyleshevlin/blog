@@ -1,7 +1,6 @@
 import React from 'react'
 import { Flex, Margin } from '@kyleshevlin/layout'
 import EggheadEmbed from './components/EggheadEmbed'
-import Layout from './components/Layout'
 import CoursesProvider from './components/CoursesProvider'
 import Gif from './components/Gif'
 import OffsetWrap from './components/OffsetWrap'
@@ -48,20 +47,16 @@ const COMPONENTS = {
   YoutubeEmbed,
 }
 
-const wrapPageElement = ({ element, props }) => {
+export function wrapRootElement({ element }) {
   return (
     <ThemeProvider>
       <SpacingProvider spacing={spacing}>
         <CoursesProvider>
           <FootnotesProvider>
-            <MDXProvider components={COMPONENTS}>
-              <Layout {...props}>{element}</Layout>
-            </MDXProvider>
+            <MDXProvider components={COMPONENTS}>{element}</MDXProvider>
           </FootnotesProvider>
         </CoursesProvider>
       </SpacingProvider>
     </ThemeProvider>
   )
 }
-
-export default wrapPageElement
