@@ -1,13 +1,11 @@
 import React from 'react'
-import { Flex, FlexItem, Margin } from '@kyleshevlin/layout'
+import { Flex } from '@kyleshevlin/layout'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import { bs } from '../shevy'
 import Github from './icons/Github'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
-import { formatLength } from '../utils/length'
-import { CONTENT_WIDTH } from '../constants'
 import Mastodon from './icons/Mastodon'
 import { Link } from 'gatsby'
 
@@ -20,12 +18,6 @@ const links = [
     rel: 'me',
     title: 'Mastodon',
   },
-]
-
-const additionalLinks = [
-  { to: '/newsletter', text: 'Newsletter' },
-  { to: '/contact', text: 'Contact' },
-  { to: '/raw', text: 'Raw' },
 ]
 
 export default function Footer() {
@@ -41,33 +33,17 @@ export default function Footer() {
       }}
     >
       <Container>
-        <Margin bottom={2}>
-          <div
-            css={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              maxWidth: formatLength(CONTENT_WIDTH),
-            }}
-          >
-            <Contributors />
-          </div>
-        </Margin>
+        <Flex direction="column" gap={1}>
+          <Contributors />
 
-        <Margin vertical={2}>
-          <Flex direction="column" gap={0.5}>
-            <div>Additional Links</div>
+          <Flex gap={2} justify="center">
+            <Link to="/raw">Looking for something more raw?</Link>
 
-            <Flex justify="center" gap={2} wrap="wrap">
-              {additionalLinks.map(({ to, text }) => (
-                <FlexItem basis={125} key={to}>
-                  <Link to={to}>{text}</Link>
-                </FlexItem>
-              ))}
-            </Flex>
+            <OutboundLink href="https://kyleshevlingolf.com">
+              Or golf content?
+            </OutboundLink>
           </Flex>
-        </Margin>
 
-        <Margin bottom={0.5}>
           <Flex align="center" justify="center">
             {links.map(({ href, icon: Icon, rel, title }) => (
               <OutboundLink
@@ -94,11 +70,11 @@ export default function Footer() {
               </OutboundLink>
             ))}
           </Flex>
-        </Margin>
 
-        <div>
-          &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
-        </div>
+          <div>
+            &copy;{new Date().getFullYear()} Kyle Shevlin. All Rights Reserved.
+          </div>
+        </Flex>
       </Container>
     </footer>
   )

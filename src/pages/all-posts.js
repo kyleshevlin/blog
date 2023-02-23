@@ -103,7 +103,7 @@ export default AllPosts
 export const query = graphql`
   query AllPosts {
     allPosts: allMdx(
-      filter: { fileAbsolutePath: { regex: "/posts/" } }
+      filter: { fileAbsolutePath: { regex: "/posts/published/" } }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {
