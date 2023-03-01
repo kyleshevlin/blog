@@ -131,7 +131,7 @@ module.exports = {
             query: `
               query {
                 allMdx(
-                  filter: {fileAbsolutePath: {regex: "/posts/"}}
+                  filter: {fileAbsolutePath: {regex: "/posts/published/"}}
                   limit: 1000
                   sort: {fields: [frontmatter___date], order: DESC}
                 ) {
