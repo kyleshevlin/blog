@@ -148,7 +148,7 @@ You see, we've started YAP-ing. We're adding "yet another prop" to adjust our co
 
 Which prop should we map a single action to? `actionLeft`? `actionRight`? I don't know, and neither will the other people using `Card`.
 
-What happens if the designer requests a third button? Do we add an `actionMiddle` prop? What happens if the user provides `actionMiddle` and `actionRight`, but know `actionLeft`, does `actionMiddle` _become_ an `actionLeft`, or should there be an empty space to the left?
+What happens if the designer requests a third button? Do we add an `actionMiddle` prop? What happens if the user provides `actionMiddle` and `actionRight` but no `actionLeft`? Does `actionMiddle` _become_ an `actionLeft`, or should there be an empty space to the left?
 
 What happens if they ask for only a single button, but it should only span half the width of the `Card`'s footer? Which prop is that now? If we have three different action slots, how do we do _half_ of the width of the card?
 
