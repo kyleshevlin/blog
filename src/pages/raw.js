@@ -14,7 +14,7 @@ export default function Raw({ data }) {
       <h2>Raw</h2>
 
       <ul css={{ paddingLeft: 0 }}>
-        <Flex direction="column" gap={2}>
+        <Flex direction="column" gap={1.5}>
           {posts.map(post => {
             const { slug, subtitle, title } = post.frontmatter
 
@@ -22,7 +22,7 @@ export default function Raw({ data }) {
               <li key={slug}>
                 <Link to={`/raw/${slug}`}>
                   <Flex direction="column" gap={0.25}>
-                    <h3 style={{ marginBottom: 0 }}>{title}</h3>
+                    <h3 style={{ margin: 0 }}>{title}</h3>
                     {subtitle && <span>{subtitle}</span>}
                   </Flex>
                 </Link>
