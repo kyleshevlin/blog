@@ -1,9 +1,10 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
 import { randomRGB } from '../../../utils'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function RandomBox() {
+  const bs = useSpacing()
   const ref = React.useRef(true)
   const flip = React.useCallback(() => {
     ref.current = !ref.current
@@ -14,7 +15,7 @@ export default function RandomBox() {
     <div
       css={{
         backgroundColor: randomRGB(),
-        padding: bs(),
+        padding: bs(1),
         display: 'flex',
         justifyContent: 'center',
       }}

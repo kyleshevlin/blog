@@ -3,7 +3,7 @@ import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import statechart from './statechart'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const chart = statechart(`
 lightBulb
@@ -18,6 +18,7 @@ broken unlit RESET
 const lightBulbMachine = createMachine(chart)
 
 export default function LightBulb() {
+  const bs = useSpacing()
   const [state, send] = useMachine(lightBulbMachine)
 
   return (

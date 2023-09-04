@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 function useBooleanAPI(initialState = false) {
   const [state, setState] = React.useState(Boolean(initialState))
@@ -26,6 +26,7 @@ function useBooleanAPI(initialState = false) {
 }
 
 function TogglingItem() {
+  const bs = useSpacing()
   const { state: isSelected, toggle: toggleSelection } = useBooleanAPI()
 
   return (
@@ -39,6 +40,7 @@ function TogglingItem() {
 }
 
 function ExplicitItem() {
+  const bs = useSpacing()
   const {
     state: isSelected,
     setFalse: unselect,
@@ -59,9 +61,11 @@ function ExplicitItem() {
 }
 
 export default function ItemsUsingCustomHook() {
+  const bs = useSpacing()
+
   return (
     <>
-      <div css={{ marginBottom: bs() }}>
+      <div css={{ marginBottom: bs(1) }}>
         <TogglingItem />
       </div>
       <ExplicitItem />

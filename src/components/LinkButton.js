@@ -1,17 +1,18 @@
 import React from 'react'
-import shevy, { bs } from '../shevy'
-import { buttonStyles } from './Button'
+import shevy from '../shevy'
+import { getButtonStyles } from './Button'
+import { useSpacing } from '@kyleshevlin/layout'
 
 // TODO: Variants should live on the button itself
 const VARIANTS = {
-  default: buttonStyles,
-  bigWide: {
-    ...buttonStyles,
+  default: spacing => getButtonStyles(spacing),
+  bigWide: spacing => ({
+    ...getButtonStyles(spacing),
     fontSize: shevy.h4.fontSize,
-    padding: bs(0.65),
+    padding: spacing(0.65),
     width: '100%',
-  },
-  wide: { ...buttonStyles, width: '100%' },
+  }),
+  wide: spacing => ({ ...getButtonStyles(spacing), width: '100%' }),
 }
 
 export default function LinkButton({
@@ -20,7 +21,8 @@ export default function LinkButton({
   overrideStyles = {},
   variant = 'default',
 }) {
-  const styles = VARIANTS[variant]
+  const bs = useSpacing()
+  const styles = React.useMemo(() => VARIANTS[variant](bs), [bs, variant])
 
   return (
     <a css={{ ...styles, ...overrideStyles }} href={href}>

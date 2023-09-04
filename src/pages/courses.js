@@ -1,9 +1,8 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
-import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import LinkButton from '../components/LinkButton'
 import Content from '../components/Content'
@@ -82,6 +81,8 @@ function getCourseTypeValues(url) {
 }
 
 function CourseItem({ description, logo, title, url }) {
+  const bs = useSpacing()
+
   const course = getCourseTypeValues(url)
   const imgSrc = logo?.childImageSharp?.original?.src
 
@@ -93,7 +94,7 @@ function CourseItem({ description, logo, title, url }) {
         [mq.alpha]: {
           display: 'grid',
           gridTemplateColumns: '1fr 3fr',
-          gridGap: bs(),
+          gridGap: bs(1),
           alignItems: 'center',
         },
       }}
@@ -102,7 +103,7 @@ function CourseItem({ description, logo, title, url }) {
         css={{
           display: 'block',
           padding: bs(0.5),
-          marginBottom: bs(),
+          marginBottom: bs(1),
 
           [mq.alpha]: {
             marginBottom: 0,
@@ -114,7 +115,7 @@ function CourseItem({ description, logo, title, url }) {
       <div>
         <h3>{title}</h3>
         <p
-          css={{ marginBottom: bs() }}
+          css={{ marginBottom: bs(1) }}
           dangerouslySetInnerHTML={{ __html: description }}
         />
         {url && (

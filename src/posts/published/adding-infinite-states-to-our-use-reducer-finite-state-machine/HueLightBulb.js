@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
 import { mq } from '../../../utils'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const toEventObject = event => {
   if (typeof event === 'string') {
@@ -76,6 +76,7 @@ const COLOR_MAP = {
 }
 
 export default function HueLightBulb() {
+  const bs = useSpacing()
   const [state, send] = React.useReducer(reducer, initialState)
   const { current, data } = state
 
@@ -87,14 +88,14 @@ export default function HueLightBulb() {
         borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
-        marginBottom: bs(),
-        marginTop: bs(),
-        padding: bs(),
+        marginBottom: bs(1),
+        marginTop: bs(1),
+        padding: bs(1),
         textAlign: 'center',
 
         [mq.bravo]: {
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: 'auto 150px',
           gridTemplateAreas: `
             'events bulb'
@@ -113,7 +114,7 @@ export default function HueLightBulb() {
       <div
         css={{
           gridArea: 'bulb',
-          marginTop: bs(),
+          marginTop: bs(1),
           marginBottom: bs(0.5),
           [mq.bravo]: {
             marginTop: 0,
@@ -142,9 +143,9 @@ export default function HueLightBulb() {
       <pre
         css={{
           background: 'var(--colors-offset)',
-          marginBottom: bs(),
+          marginBottom: bs(1),
           marginTop: 0,
-          padding: `%{bs(.5)} ${bs()}`,
+          padding: `%{bs(.5)} ${bs(1)}`,
           textAlign: 'left',
           gridArea: 'code',
 
@@ -157,7 +158,7 @@ export default function HueLightBulb() {
       </pre>
       <div
         css={{
-          marginBottom: bs(),
+          marginBottom: bs(1),
           gridArea: 'events',
           [mq.bravo]: {
             marginBottom: 0,
@@ -176,7 +177,7 @@ export default function HueLightBulb() {
 
       <div
         css={{
-          marginBottom: bs(),
+          marginBottom: bs(1),
           gridArea: 'colors',
           [mq.bravo]: {
             marginBottom: 0,

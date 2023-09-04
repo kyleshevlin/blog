@@ -1,10 +1,12 @@
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 
 import LinkButton from './LinkButton'
 
 export function TrainingPitch() {
+  const bs = useSpacing()
+
   return (
     <div
       css={{

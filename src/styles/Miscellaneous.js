@@ -1,8 +1,10 @@
 import React from 'react'
 import { Global } from '@emotion/core'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function Miscellaneous() {
+  const bs = useSpacing()
+
   return (
     <Global
       styles={{

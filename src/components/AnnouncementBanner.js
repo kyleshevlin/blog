@@ -1,8 +1,10 @@
 import React from 'react'
+import { useSpacing } from '@kyleshevlin/layout'
 import Container from './Container'
-import { bs } from '../shevy'
 
 export default function AnnouncementBanner() {
+  const bs = useSpacing()
+
   return (
     <div
       css={{

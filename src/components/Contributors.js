@@ -1,9 +1,10 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import { graphql, useStaticQuery } from 'gatsby'
-import { bs } from '../shevy'
 
 export default function Contributors() {
+  const bs = useSpacing()
+
   const data = useStaticQuery(graphql`
     query ContributorsInTheLast100PullRequests {
       github {

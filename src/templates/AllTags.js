@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import Seo from '../components/Seo'
-import { bs } from '../shevy'
 import { formatStrForPath, inflect } from '../utils'
 import Content from '../components/Content'
 import Layout from '../components/Layout'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function AllTags({ pageContext }) {
+  const bs = useSpacing()
   const { counts, tags } = pageContext
   const title = 'Tags'
 

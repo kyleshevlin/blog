@@ -1,5 +1,5 @@
+import { useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-import { bs } from '../../../shevy'
 
 function ClosedFolder() {
   return (
@@ -30,6 +30,8 @@ function OpenFolder() {
 }
 
 export default function BetterStyledTree({ items, depth = 0 }) {
+  const bs = useSpacing()
+
   if (!items || !items.length) {
     return null
   }

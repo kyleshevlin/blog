@@ -1,10 +1,10 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
-import { bs } from '../../../shevy'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 
 const MAX_HEX = parseInt('ffffff', 16)
 
 export default function ColorPicker() {
+  const bs = useSpacing()
   const [backgroundColor, setBackgroundColor] = React.useState('#ff6347')
   // Very imperfect way to try and keep the label text legible as the
   // background color changes

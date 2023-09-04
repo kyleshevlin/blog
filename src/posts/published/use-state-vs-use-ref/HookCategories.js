@@ -1,6 +1,5 @@
-import { Grid } from '@kyleshevlin/layout'
+import { Grid, useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-import { bs } from '../../../shevy'
 import { mq } from '../../../utils'
 
 export default function HookCategories() {
@@ -30,13 +29,15 @@ export default function HookCategories() {
 }
 
 function Category({ title, items }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
         backgroundColor: 'var(--colors-background)',
         padding: bs(0.5),
         [mq.charlie]: {
-          padding: bs(),
+          padding: bs(1),
         },
       }}
     >

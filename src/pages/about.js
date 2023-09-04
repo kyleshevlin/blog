@@ -1,12 +1,14 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { bs } from '../shevy'
 import Seo from '../components/Seo'
 import Content from '../components/Content'
 import Layout from '../components/Layout'
 import { FootnoteMarker as Marker } from '../components/Footnotes'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const About = ({ data }) => {
+  const bs = useSpacing()
+
   const imgSrc = data.allImageSharp.edges[0].node.original.src
 
   return (
@@ -81,7 +83,7 @@ const About = ({ data }) => {
               fontFamily: 'var(--fonts-secondary)',
               fontStyle: 'italic',
               lineHeight: 1.5,
-              padding: `${bs(0.5)} ${bs()}`,
+              padding: `${bs(0.5)} ${bs(1)}`,
             }}
           >
             My wife trying to take a bite out of me with one of those hats that

@@ -1,6 +1,6 @@
 import React from 'react'
-import { bs } from '../../../shevy'
 import Button from '../../../components/Button'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const NEXT_STATE_GRAPH = {
   lit: {
@@ -26,6 +26,7 @@ const reducer = (state, event) => {
 }
 
 export default function LightBulb() {
+  const bs = useSpacing()
   const [state, send] = React.useReducer(reducer, initialState)
 
   return (
@@ -47,5 +48,7 @@ export default function LightBulb() {
 }
 
 function ButtonWrap({ children }) {
+  const bs = useSpacing()
+
   return <span css={{ marginRight: bs(0.5) }}>{children}</span>
 }

@@ -1,16 +1,18 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import { Margin } from '@kyleshevlin/layout'
-import { buttonStyles } from '../components/Button'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
+import { getButtonStyles } from '../components/Button'
 import ExcerptList from '../components/ExcerptList'
 import Seo from '../components/Seo'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 import { mq, getNodes } from '../utils'
 import Content from '../components/Content'
 import LinkButton from '../components/LinkButton'
 import Layout from '../components/Layout'
 
 export default function Home({ data }) {
+  const bs = useSpacing()
+
   const recentPosts = getNodes(data.recent)
 
   return (
@@ -28,7 +30,7 @@ export default function Home({ data }) {
         <h3>Recent Posts</h3>
         <ExcerptList posts={recentPosts} />
 
-        <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
+        <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs(1) }}>
           <h3>Looking for more posts?</h3>
           <Margin bottom={1}>
             If you're looking for more posts, visit the{' '}
@@ -69,6 +71,8 @@ export const query = graphql`
 `
 
 function Welcome() {
+  const bs = useSpacing()
+
   return (
     <section css={{ marginBottom: bs(2) }}>
       <h2>Welcome!</h2>
@@ -100,6 +104,8 @@ const TAGS = [
 ]
 
 function SelectedTags() {
+  const bs = useSpacing()
+
   return (
     <section>
       <h3>Unsure Where to Start?</h3>
@@ -107,7 +113,7 @@ function SelectedTags() {
       <div
         css={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
 
           [mq.alpha]: {
             gridTemplateColumns: 'repeat(2, 1fr)',
@@ -123,19 +129,22 @@ function SelectedTags() {
 }
 
 function CollectionItem({ label, to }) {
+  const bs = useSpacing()
+  const styles = React.useMemo(
+    () => ({
+      ...getButtonStyles(bs),
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontFamily: 'var(--fonts-secondary)',
+      fontSize: shevy.h4.fontSize,
+      padding: bs(1),
+    }),
+    [bs]
+  )
+
   return (
-    <Link
-      css={{
-        ...buttonStyles,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'var(--fonts-secondary)',
-        fontSize: shevy.h4.fontSize,
-        padding: bs(),
-      }}
-      to={`/tags/${to}`}
-    >
+    <Link css={styles} to={`/tags/${to}`}>
       <span>{label}</span>
     </Link>
   )

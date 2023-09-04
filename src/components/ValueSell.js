@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const BUTTON_TEXT_BY_URL_TYPE = {
   default: 'View the course',
@@ -30,6 +31,8 @@ function formatUrl(url, urlType) {
 }
 
 export default function ValueSell({ courseNickname }) {
+  const bs = useSpacing()
+
   const { getCourseByNickname, getRandomCourse } = useCoursesContext()
 
   let course
@@ -75,7 +78,7 @@ export default function ValueSell({ courseNickname }) {
       >
         <div
           css={{
-            marginBottom: bs(),
+            marginBottom: bs(1),
             [mq.alpha]: {
               marginBottom: 0,
             },

@@ -12,7 +12,6 @@ relatedPostsSlugs: []
 import LocalCounter from './LocalCounter'
 import ParentalCounter from './ParentalCounter'
 import { CounterProvider, RemoteCounter } from './RemoteCounter'
-import { bs } from '../../../shevy'
 
 No matter what it is you're building with React, when you boil it down, there are only _three_ ways you can manage data <Marker content={`More often called "state", but I don't want to conflate React "state" with "states" in state machines which I write about often. They aren't exactly the same thing.`} /> in a React app: [locally](#locally), [parentally](#parentally), and [remotely](#remotely).
 
@@ -171,10 +170,10 @@ What is interesting about our `RemoteCounter` example is that because it consume
 
 <OffsetWrap>
   <CounterProvider>
-    <div style={{ marginBottom: bs(0.5) }}>
+    <Flex direction="column" gap={0.5}>
       <RemoteCounter />
-    </div>
-    <RemoteCounter />
+      <RemoteCounter />
+    </Flex>
   </CounterProvider>
 </OffsetWrap>
 

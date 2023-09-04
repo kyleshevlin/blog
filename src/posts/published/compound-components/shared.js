@@ -1,6 +1,5 @@
+import { useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-
-import { bs } from '../../../shevy'
 
 export const ITEMS = [
   { value: 'Tab 1', content: 'Hello there' },
@@ -15,6 +14,8 @@ export function TabsWrap({ children }) {
 }
 
 export function TabsTriggerInner({ children, isSelected }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
@@ -32,11 +33,13 @@ export function TabsTriggerInner({ children, isSelected }) {
 }
 
 export function TabsContentWrap({ children }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
         border: SHARED_BORDER,
-        padding: bs(),
+        padding: bs(1),
         flexGrow: 1,
       }}
     >

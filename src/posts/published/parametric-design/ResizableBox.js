@@ -1,8 +1,8 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
-import { bs } from '../../../shevy'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 export default function ResizableBox() {
+  const bs = useSpacing()
   const [width, setWidth] = React.useState(50)
   const [height, setHeight] = React.useState(50)
 
@@ -11,7 +11,7 @@ export default function ResizableBox() {
       css={{
         backgroundColor: 'var(--colors-offset)',
         fontFamily: 'var(--fonts-secondary)',
-        padding: bs(),
+        padding: bs(1),
       }}
     >
       <Flex direction="column" gap={1}>

@@ -1,9 +1,12 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 import { mq } from '../utils'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function Tags() {
+  const bs = useSpacing()
+
   return (
     <Global
       styles={css`
@@ -57,14 +60,14 @@ export default function Tags() {
         ul,
         ol {
           list-style-position: outside;
-          margin-bottom: ${bs()};
+          margin-bottom: ${bs(1)};
         }
 
         ul ul,
         ul ol,
         ol ul,
         ol ol {
-          margin-left: ${bs()};
+          margin-left: ${bs(1)};
           margin-bottom: 0;
         }
 
@@ -116,7 +119,7 @@ export default function Tags() {
           font-weight: 100;
           font-style: italic;
           padding: ${bs(1.5)};
-          margin-bottom: ${bs()};
+          margin-bottom: ${bs(1)};
           border-left: 4px solid var(--colors-accent);
 
           ${mq.alpha} {
@@ -130,7 +133,7 @@ export default function Tags() {
           }
 
           p + p {
-            margin-top: ${bs()};
+            margin-top: ${bs(1)};
           }
         }
 
@@ -150,7 +153,7 @@ export default function Tags() {
         table {
           border: 4px solid var(--colors-offset);
           border-collapse: collapse;
-          margin-bottom: ${bs()};
+          margin-bottom: ${bs(1)};
           width: 100%;
         }
 

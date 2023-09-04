@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const BUTTON_BGS = {
   default: null,
@@ -14,10 +14,11 @@ export default function BetterButton({
   onClick = () => {},
   variant = 'default',
 }) {
+  const bs = useSpacing()
   let backgroundColor = BUTTON_BGS[variant] || BUTTON_BGS.default
 
   const styles = {
-    marginRight: bs(),
+    marginRight: bs(1),
   }
 
   if (backgroundColor) {

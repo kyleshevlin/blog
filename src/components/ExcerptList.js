@@ -1,8 +1,10 @@
 import React from 'react'
 import ExcerptedPost from '../components/ExcerptedPost'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function ExcerptList({ posts }) {
+  const bs = useSpacing()
+
   return (
     <ul
       css={{

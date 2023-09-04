@@ -1,12 +1,13 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 // These can be found on my snippets page
 import { randomRGB } from '../../../utils'
 import useForceUpdate from '../../../hooks/useForceUpdate'
-import { bs } from '../../../shevy'
 
 function Box() {
+  const bs = useSpacing()
+
   return (
     <div
       style={{

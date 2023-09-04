@@ -1,8 +1,10 @@
 import React from 'react'
-import { bs } from '../shevy'
 import { EGGHEAD_AFFILIATE_QUERY_PARAM } from '../constants'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function EggheadEmbed({ src, title = '' }) {
+  const bs = useSpacing()
+
   return (
     <div
       style={{

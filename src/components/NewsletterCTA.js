@@ -1,11 +1,14 @@
 import React from 'react'
 import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
-import shevy, { bs } from '../shevy'
-import { buttonStyles } from './Button'
+import shevy from '../shevy'
+import { getButtonStyles } from './Button'
 import { mq, isEmail } from '../utils'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function NewsletterCTA() {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
@@ -126,6 +129,8 @@ const signupMachine = createMachine(
 )
 
 function SignupForm() {
+  const bs = useSpacing()
+
   const { onChange: nameChange, value: name } = useInput()
   const { onChange: emailChange, value: email } = useInput()
   const [state, send] = useMachine(signupMachine)
@@ -161,7 +166,7 @@ function SignupForm() {
           borderRadius: 4,
           color: 'var(--components-newsletterCTA-successBox-text)',
           fontFamily: 'var(--fonts-secondary)',
-          padding: bs(),
+          padding: bs(1),
         }}
       >
         Thank you for subscribing to the newslettter. I appreciate it. Please
@@ -187,11 +192,11 @@ function SignupForm() {
           css={{
             display: 'grid',
             gridGap: bs(0.5),
-            marginBottom: bs(),
+            marginBottom: bs(1),
 
             [mq.charlie]: {
               gridTemplateColumns: '1fr 1fr',
-              gridGap: bs(),
+              gridGap: bs(1),
             },
           }}
         >
@@ -213,7 +218,7 @@ function SignupForm() {
 
         <button
           css={{
-            ...buttonStyles,
+            ...getButtonStyles(bs),
             backgroundColor:
               'var(--components-newsletterCTA-submitButton-background)',
             color: 'var(--components-newsletterCTA-submitButton-text)',
@@ -267,6 +272,8 @@ function Dots() {
 }
 
 function ErrorWrap({ children }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
@@ -291,6 +298,8 @@ function ControlledInputBox({
   type = 'text',
   value,
 }) {
+  const bs = useSpacing()
+
   return (
     <div css={{ fontFamily: 'var(--fonts-secondary)' }}>
       <label htmlFor={name}>

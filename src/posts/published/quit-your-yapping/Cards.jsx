@@ -1,7 +1,6 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
 
 const noop = () => {}
 
@@ -68,6 +67,8 @@ function Wrap({ children }) {
 }
 
 function Section({ children }) {
+  const bs = useSpacing()
+
   return (
     <div css={{ padding: bs(0.75) }}>
       <Flex direction="column">{children}</Flex>

@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useNumberInput } from '../../../components/Inputs'
-import { bs } from '../../../shevy'
 import memoize from './memoize'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const AdderContext = React.createContext()
 
@@ -46,6 +46,7 @@ function AdderContainer() {
 }
 
 function AdderForm({ add }) {
+  const bs = useSpacing()
   const { cacheHit } = useAdderContext()
   const [xValue, xOnChange] = useNumberInput(0)
   const [yValue, yOnChange] = useNumberInput(0)

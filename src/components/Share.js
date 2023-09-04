@@ -1,6 +1,6 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
-import shevy, { bs } from '../shevy'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
+import shevy from '../shevy'
 import Button from './Button'
 import ShiftBy from './ShiftBy'
 
@@ -9,6 +9,8 @@ const generateUrl = slug =>
   encodeURIComponent(`https://kyleshevlin.com/${slug}`)
 
 export default function Share({ slug, title }) {
+  const bs = useSpacing()
+
   const handleClick = React.useCallback(() => {
     popupWindow(
       `https://twitter.com/intent/tweet?text=${generateText(

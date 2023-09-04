@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function TogglingItem() {
+  const bs = useSpacing()
   const [isSelected, setSelected] = React.useState(false)
 
   const toggleSelection = () => {

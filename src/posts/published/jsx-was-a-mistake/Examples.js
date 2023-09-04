@@ -1,17 +1,17 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
-import { bs } from '../../../shevy'
 import { randomRGB } from '../../../utils'
 
 export function Box({ children }) {
+  const bs = useSpacing()
   const backgroundColor = randomRGB()
 
   return (
     <div
       data-background-color={backgroundColor}
-      style={{ backgroundColor, padding: bs() }}
+      style={{ backgroundColor, padding: bs(1) }}
     >
       {children}
     </div>

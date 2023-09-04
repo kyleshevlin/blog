@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export const baseItemStyles = {
   display: 'inline-block',
@@ -29,6 +29,8 @@ export const nonLinkItemStyles = {
 }
 
 export default function Pagination({ index: currentPageIndex, totalPages }) {
+  const bs = useSpacing()
+
   const currentPageNumber = currentPageIndex + 1
   const prevPageNumber = currentPageNumber - 1
   const nextPageNumber = currentPageNumber + 1
