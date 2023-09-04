@@ -271,7 +271,7 @@ const Hits = connectHits(({ hits }) => (
             fontFamily: FONTS.catamaran,
             fontSize: '.85rem',
             fontStyle: 'italic',
-            marginBottom: bs(),
+            marginBottom: bs(1),
             maxWidth: '30rem',
           }}
         >
@@ -283,7 +283,7 @@ const Hits = connectHits(({ hits }) => (
         {/* Here is the crux of the component */}
         {hits.map(hit => {
           return (
-            <div css={{ marginBottom: bs() }} key={hit.objectID}>
+            <div css={{ marginBottom: bs(1) }} key={hit.objectID}>
               <Link
                 css={{ display: 'block', marginBottom: bs(0.5) }}
                 to={hit.slug}

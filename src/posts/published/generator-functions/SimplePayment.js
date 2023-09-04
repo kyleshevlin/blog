@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useInput } from '../../../components/Inputs'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const compound = (amount, rate) => amount + amount * rate
 
@@ -62,6 +62,7 @@ const getNewPaymentGenerator = (principal, rate, payment) =>
   makePayment(principal, rate, payment)
 
 export default function SimplePayment() {
+  const bs = useSpacing()
   const [principal, onPrincipalChange] = useInput(46000)
   const [rate, onRateChange] = useInput(0.05)
   const [payment, onPaymentChange] = useInput(1500)

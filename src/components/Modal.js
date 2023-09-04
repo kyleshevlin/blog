@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Flex, Margin } from '@kyleshevlin/layout'
-import { bs } from '../shevy'
+import { Flex, Margin, useSpacing } from '@kyleshevlin/layout'
 import Container from './Container'
 
 export default function Modal({
@@ -11,6 +10,7 @@ export default function Modal({
   closeButtonText,
   onClick,
 }) {
+  const bs = useSpacing()
   const el = React.useRef(document.createElement('div'))
 
   React.useEffect(() => {
@@ -41,8 +41,8 @@ export default function Modal({
         right: 0,
         bottom: 0,
         left: 0,
-        paddingTop: bs(),
-        paddingBottom: bs(),
+        paddingTop: bs(1),
+        paddingBottom: bs(1),
       }}
       role="dialog"
       tabIndex={-1}

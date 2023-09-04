@@ -1,7 +1,6 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import { graphql, Link, useStaticQuery } from 'gatsby'
-import { bs } from '../shevy'
 import Button from './Button'
 import Container from './Container'
 import Nav from './Nav'
@@ -22,14 +21,15 @@ const query = graphql`
 `
 
 export default function Header() {
+  const bs = useSpacing()
   const data = useStaticQuery(query)
   const { subTitle, title } = data.site.siteMetadata
 
   return (
     <header
       css={{
-        paddingTop: bs(),
-        paddingBottom: bs(),
+        paddingTop: bs(1),
+        paddingBottom: bs(1),
       }}
     >
       <Container>

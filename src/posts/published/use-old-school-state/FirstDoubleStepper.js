@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 function useOldSchoolState(initialState) {
   const [state, setState] = React.useState(initialState)
@@ -25,6 +25,7 @@ function useOldSchoolState(initialState) {
 }
 
 export default function FirstDoubleStepper() {
+  const bs = useSpacing()
   const [state, setState] = useOldSchoolState(0)
 
   const step = () => {

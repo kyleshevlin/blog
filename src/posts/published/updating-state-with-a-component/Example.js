@@ -1,8 +1,9 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
-import { bs } from '../../../shevy'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 export default function Example() {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
@@ -30,7 +31,7 @@ export default function Example() {
       <div
         css={{
           backgroundColor: 'var(--colors-background)',
-          padding: bs(),
+          padding: bs(1),
           textAlign: 'center',
         }}
       >

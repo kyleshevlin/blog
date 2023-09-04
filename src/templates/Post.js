@@ -10,11 +10,10 @@ import PostTags from '../components/PostTags'
 import RelatedPosts from '../components/RelatedPosts'
 import Seo from '../components/Seo'
 import TotalBeardStrokes from '../components/TotalBeardStrokes'
-import { bs } from '../shevy'
 import { mq, stripElementTags } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import { TrainingPitch } from '../components/TrainingPitch'
 import Layout from '../components/Layout'
 
@@ -22,6 +21,8 @@ const Post = ({
   data,
   pageContext: { olderPost, newerPost, relatedPosts },
 }) => {
+  const bs = useSpacing()
+
   const file = data.mdx
   const {
     fileAbsolutePath,
@@ -67,7 +68,7 @@ const Post = ({
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-end',
-              marginBottom: bs(),
+              marginBottom: bs(1),
             }}
           >
             <PostHeader {...{ subtitle, title }} />
@@ -85,7 +86,7 @@ const Post = ({
               css={{
                 display: 'grid',
                 gridTemplateColumns: '1fr',
-                gap: bs(),
+                gap: bs(1),
 
                 [mq.bravo]: {
                   gridTemplateColumns: '1fr 1fr',
@@ -152,25 +153,29 @@ export const pageQuery = graphql`
 `
 
 function AdditionalPosts({ newerPost, olderPost, relatedPosts }) {
-  return relatedPosts && relatedPosts.length ? (
-    <RelatedPosts posts={relatedPosts} />
-  ) : (
+  const bs = useSpacing()
+
+  if (relatedPosts?.length) {
+    return <RelatedPosts posts={relatedPosts} />
+  }
+
+  return (
     <div css={{ display: 'grid', gridTemplateColumns: '1fr', gap: bs(0.5) }}>
-      {newerPost ? (
+      {newerPost && (
         <AdditionalPost
           heading="Newer Post"
           slug={`/${newerPost.frontmatter.slug}`}
           title={newerPost.frontmatter.title}
         />
-      ) : null}
+      )}
 
-      {olderPost ? (
+      {olderPost && (
         <AdditionalPost
           heading="Older Post"
           slug={`/${olderPost.frontmatter.slug}`}
           title={olderPost.frontmatter.title}
         />
-      ) : null}
+      )}
     </div>
   )
 }

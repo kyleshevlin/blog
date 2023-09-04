@@ -1,26 +1,20 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
-import { bs } from '../shevy'
 import Github from './icons/Github'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
-import Mastodon from './icons/Mastodon'
 import { Link } from 'gatsby'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
   { href: 'https://github.com/kyleshevlin', icon: Github, title: 'Github' },
-  {
-    href: 'https://mastodon.social/@kyleshevlin',
-    icon: Mastodon,
-    rel: 'me',
-    title: 'Mastodon',
-  },
 ]
 
 export default function Footer() {
+  const bs = useSpacing()
+
   return (
     <footer
       css={{

@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import shevy, { bs } from '../shevy'
+import shevy from '../shevy'
 import { formatStrForPath } from '../utils'
 import Tag from './icons/Tag'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 const formatItemPath = item => `/tags/${formatStrForPath(item)}`
 
 export default function PostTags({ items }) {
+  const bs = useSpacing()
+
   return items && items.length ? (
     <Flex align="baseline" gap={0.5} wrap="wrap">
       <div>

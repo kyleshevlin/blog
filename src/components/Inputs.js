@@ -1,17 +1,19 @@
 import React from 'react'
-import { bs } from '../shevy'
-
-function getPaddingForType(type) {
-  switch (type) {
-    case 'range':
-      return 0
-
-    default:
-      return `${bs(0.25)} ${bs(0.5)}`
-  }
-}
+import { useSpacing } from '@kyleshevlin/layout'
 
 export function Input({ label, value, onChange, type = 'text', ...rest }) {
+  const bs = useSpacing()
+
+  const paddingType = React.useMemo(() => {
+    switch (type) {
+      case 'range':
+        return 0
+
+      default:
+        return `${bs(0.25)} ${bs(0.5)}`
+    }
+  }, [bs, type])
+
   return (
     <div>
       <label htmlFor={label}>
@@ -21,7 +23,7 @@ export function Input({ label, value, onChange, type = 'text', ...rest }) {
             backgroundColor: 'var(--components-inputs-background)',
             border: 'none',
             color: 'var(--components-inputs-text)',
-            padding: getPaddingForType(type),
+            padding: paddingType,
           }}
           id={label}
           type={type}

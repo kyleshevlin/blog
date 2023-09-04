@@ -1,10 +1,9 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
 // These can be found on my snippets page
 import { randomRGB } from '../../../utils'
 import useForceUpdate from '../../../hooks/useForceUpdate'
-import { bs } from '../../../shevy'
 
 const MyContext = React.createContext()
 const useMyContext = () => React.useContext(MyContext)
@@ -16,6 +15,8 @@ function MyProvider({ children }) {
 }
 
 function Box() {
+  const bs = useSpacing()
+
   return (
     <div
       style={{

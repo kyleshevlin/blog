@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Seo from '../components/Seo'
-import { bs } from '../shevy'
 import { mq, getNodes } from '../utils'
 import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import Content from '../components/Content'
 import Layout from '../components/Layout'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const sortsMachine = createMachine({
   id: 'sorts',
@@ -83,6 +83,7 @@ function JoshLink() {
 }
 
 export default function Snippets({ data }) {
+  const bs = useSpacing()
   const [state, send] = useMachine(sortsMachine)
   const comparator = comparators[state.value]
   const snippets = getNodes(data.snippets)
@@ -170,6 +171,8 @@ export default function Snippets({ data }) {
 }
 
 function Row({ children }) {
+  const bs = useSpacing()
+
   return (
     <tr
       css={{
@@ -188,6 +191,8 @@ function Row({ children }) {
 }
 
 function Cell({ children }) {
+  const bs = useSpacing()
+
   return (
     <td
       css={{
@@ -210,6 +215,7 @@ function Cell({ children }) {
 }
 
 function HeadingCell({ children, onClick }) {
+  const bs = useSpacing()
   const clickableProps = onClick ? { onClick, role: 'button' } : {}
 
   return (
@@ -249,6 +255,7 @@ function Label({ children }) {
 }
 
 function Arrow({ width = 8, flip = false }) {
+  const bs = useSpacing()
   const height = width
 
   const path = flip ? 'M0,15 15,15 8,0Z' : 'M0,0, 15,0, 8,15Z'

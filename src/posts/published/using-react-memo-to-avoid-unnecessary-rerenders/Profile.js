@@ -1,14 +1,16 @@
 import React from 'react'
-import { bs } from '../../../shevy'
 import Button from '../../../components/Button'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export function Profile({ name, location }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
         backgroundColor: 'var(--colors-background)',
         borderRadius: 8,
-        padding: bs(),
+        padding: bs(1),
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
@@ -29,12 +31,14 @@ const randomRGBA = () => {
 }
 
 function RandomProfile({ name, location }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{
         backgroundColor: randomRGBA(),
         borderRadius: 8,
-        padding: bs(),
+        padding: bs(1),
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
@@ -46,6 +50,8 @@ function RandomProfile({ name, location }) {
 const MemoizedRandomProfile = React.memo(RandomProfile)
 
 export function Parent() {
+  const bs = useSpacing()
+
   const [, setState] = React.useState(false)
   const forceUpdate = () => setState(x => !x)
 
@@ -55,7 +61,7 @@ export function Parent() {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}
@@ -68,6 +74,8 @@ export function Parent() {
 }
 
 function ObjectProfile({ person }) {
+  const bs = useSpacing()
+
   const { name, location } = person
 
   return (
@@ -75,7 +83,7 @@ function ObjectProfile({ person }) {
       css={{
         backgroundColor: randomRGBA(),
         borderRadius: 8,
-        padding: bs(),
+        padding: bs(1),
       }}
     >
       <div css={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{name}</div>
@@ -87,6 +95,8 @@ function ObjectProfile({ person }) {
 const MemoizedObjectProfile = React.memo(ObjectProfile)
 
 export function ObjectParent() {
+  const bs = useSpacing()
+
   const [, setState] = React.useState(false)
   const forceUpdate = () => setState(x => !x)
 
@@ -96,7 +106,7 @@ export function ObjectParent() {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}
@@ -113,6 +123,8 @@ export function ObjectParent() {
 }
 
 export function RefParent() {
+  const bs = useSpacing()
+
   const [, setState] = React.useState(false)
   const forceUpdate = () => setState(x => !x)
   const personRef = React.useRef({
@@ -126,7 +138,7 @@ export function RefParent() {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}
@@ -149,6 +161,8 @@ const OtherMemoizedObjectProfile = React.memo(
 )
 
 export function OtherObjectParent() {
+  const bs = useSpacing()
+
   const [, setState] = React.useState(false)
   const forceUpdate = () => setState(x => !x)
 
@@ -158,7 +172,7 @@ export function OtherObjectParent() {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}

@@ -15,9 +15,8 @@ import {
   Parent,
   ObjectParent,
   RefParent,
-  OtherObjectParent
+  OtherObjectParent,
 } from './Profile'
-import { bs } from '../../../shevy'
 
 In my last post, I talked about the concept of [memoization](/memoization) and how the technique is used to avoid calculating a previously calculated result of a function. I also made mention of the two memoization functions in React. This post is going to focus on `React.memo` and how to use it to avoid unnecessary rerenders of React components.
 
@@ -41,14 +40,14 @@ const MemoizedProfile = React.memo(Profile)
 If I add a few styles, give each component the same props, and render both of these components side by side, they will look perfectly identical.
 
 <OffsetWrap>
-  <div style={{
-    display: 'grid',
-    gridGap: bs(),
-    gridTemplateColumns: '1fr 1fr'
-  }}>
-    <Profile name="Kyle Shevlin" location="Portland, OR" />
-    <MemoizedProfile name="Kyle Shevlin" location="Portland, OR" />
-  </div>
+  <Flex gap={1}>
+    <div style={{ flex: '1 1 auto' }}>
+      <Profile name="Kyle Shevlin" location="Portland, OR" />
+    </div>
+    <div style={{ flex: '1 1 auto' }}>
+      <MemoizedProfile name="Kyle Shevlin" location="Portland, OR" />
+    </div>
+  </Flex>
 </OffsetWrap>
 
 Great. That's what we expect. There's nothing fancy about the initial render of a component with props. We give it a set of values, we expect the output to be the correct result.
@@ -94,7 +93,7 @@ function Parent({ children }) {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}
@@ -144,21 +143,21 @@ function Parent({ children }) {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}
       >
         <Profile
           person={{
-            name: "Kyle Shevlin",
-            location: "Portland, OR"
+            name: 'Kyle Shevlin',
+            location: 'Portland, OR',
           }}
         />
         <MemoizedProfile
           person={{
-            name: "Kyle Shevlin",
-            location: "Portland, OR"
+            name: 'Kyle Shevlin',
+            location: 'Portland, OR',
           }}
         />
       </div>
@@ -191,7 +190,7 @@ function Parent({ children }) {
   const forceUpdate = () => setState(x => !x)
   const personRef = React.useRef({
     name: 'Kyle Shevlin',
-    location: 'Portland, OR'
+    location: 'Portland, OR',
   })
 
   return (
@@ -200,7 +199,7 @@ function Parent({ children }) {
       <div
         style={{
           display: 'grid',
-          gridGap: bs(),
+          gridGap: bs(1),
           gridTemplateColumns: '1fr 1fr',
           marginTop: bs(0.5),
         }}

@@ -1,7 +1,9 @@
 import React from 'react'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function PostDate({ date }) {
+  const bs = useSpacing()
+
   return (
     <div css={{ marginBottom: bs(0.75) }}>
       <div

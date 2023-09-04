@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import { Input, useNumberInput } from '../../../components/Inputs'
-import { bs } from '../../../shevy'
 import memoize from './memoize'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const FactorializerContext = React.createContext()
 
@@ -46,6 +46,7 @@ function Container() {
 }
 
 function Child({ resetCache, updateCache }) {
+  const bs = useSpacing()
   const { cache } = useFactorializerContext()
   const [result, setResult] = React.useState(0)
   const [value, onChange] = useNumberInput(0)

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
-import { bs } from '../../../shevy'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 const OurInputStyleContext = React.createContext('none')
 
@@ -15,6 +14,7 @@ export function OurInputStyleProvider({ children, variant = 'none' }) {
 const useInputStyle = () => React.useContext(OurInputStyleContext)
 
 export function OurInput({ id, label, required = false }) {
+  const bs = useSpacing()
   const inputStyle = useInputStyle()
 
   const getHelperText = () => {
@@ -25,7 +25,7 @@ export function OurInput({ id, label, required = false }) {
   }
 
   return (
-    <div style={{ backgroundColor: 'var(--colors-offset)', padding: bs() }}>
+    <div style={{ backgroundColor: 'var(--colors-offset)', padding: bs(1) }}>
       <Flex direction="column" gap={0.25}>
         <label htmlFor={id} style={{ fontFamily: 'var(--fonts-secondary)' }}>
           <span style={{ fontWeight: 'bold' }}>{label}</span>

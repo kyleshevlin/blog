@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function CommonButton({
   children,
@@ -9,13 +9,15 @@ export default function CommonButton({
   warning,
   danger,
 }) {
+  const bs = useSpacing()
+
   let backgroundColor = null
   if (primary) backgroundColor = '#17B890'
   if (warning) backgroundColor = '#FFD166'
   if (danger) backgroundColor = '#F0544F'
 
   const styles = {
-    marginRight: bs(),
+    marginRight: bs(1),
   }
 
   if (backgroundColor) {

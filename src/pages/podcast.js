@@ -1,14 +1,16 @@
 import React from 'react'
 import Seo from '../components/Seo'
-import { bs } from '../shevy'
 import Content from '../components/Content'
 import Layout from '../components/Layout'
+import { useSpacing } from '@kyleshevlin/layout'
 
 function SCDLink({ children }) {
   return <a href="https://secondcareerdevs.com">{children}</a>
 }
 
 export default function Podcast() {
+  const bs = useSpacing()
+
   return (
     <Layout>
       <Seo
@@ -23,7 +25,7 @@ export default function Podcast() {
           css={{
             backgroundColor: 'var(--colors-offset)',
             fontFamily: 'var(--fonts-secondary)',
-            padding: bs(),
+            padding: bs(1),
             marginTop: bs(2),
             marginBottom: bs(2),
           }}

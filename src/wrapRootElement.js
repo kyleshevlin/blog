@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Margin } from '@kyleshevlin/layout'
+import { Flex, Margin, SpacingProvider } from '@kyleshevlin/layout'
 import EggheadEmbed from './components/EggheadEmbed'
 import CoursesProvider from './components/CoursesProvider'
 import Gif from './components/Gif'
@@ -9,7 +9,6 @@ import YoutubeEmbed from './components/YoutubeEmbed'
 import { ThemeProvider } from './components/ThemeProvider'
 import { MDXProvider } from '@mdx-js/react'
 import { makeHeadingId } from './utils'
-import { SpacingProvider } from '@kyleshevlin/layout'
 import { bs } from './shevy'
 
 const makeHeading =

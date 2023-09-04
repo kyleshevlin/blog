@@ -1,7 +1,6 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
 
 const ITEMS = [
   { id: 1, label: 'One' },
@@ -10,6 +9,7 @@ const ITEMS = [
 ]
 
 export default function ItemSelector() {
+  const bs = useSpacing()
   const [state, { smartSelectItem, unselectItem }] = useItemSelection()
 
   const handleItemClick = item => () => {
@@ -28,7 +28,7 @@ export default function ItemSelector() {
         css={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: bs(),
+          gap: bs(1),
         }}
       >
         {ITEMS.map(item => (

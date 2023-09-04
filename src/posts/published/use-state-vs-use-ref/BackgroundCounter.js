@@ -1,11 +1,11 @@
 import React from 'react'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Button from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
-import { bs } from '../../../shevy'
 import { random255 } from '../../../utils'
 
 export default function BackgroundCounter() {
+  const bs = useSpacing()
   const counter = React.useRef(0)
   const forceUpdate = useForceUpdate()
 
@@ -25,7 +25,7 @@ export default function BackgroundCounter() {
   }
 
   return (
-    <div style={{ ...getColors(), padding: bs() }}>
+    <div style={{ ...getColors(), padding: bs(1) }}>
       <div css={{ textAlign: 'center' }}>{counter.current}</div>
       <Margin top={0.5}>
         <div

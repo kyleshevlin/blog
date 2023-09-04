@@ -2,10 +2,10 @@ import React from 'react'
 import { getValueRealtime } from '../firebase'
 import Beard from './icons/Beard'
 import { inflect } from '../utils'
-import { bs } from '../shevy'
-import { Flex } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 export default function TotalBeardStrokes({ slug }) {
+  const bs = useSpacing()
   const [count, setCount] = React.useState(0)
   const [hasFetchedOnce, setHasFetchedOnce] = React.useState(false)
 
@@ -31,7 +31,7 @@ export default function TotalBeardStrokes({ slug }) {
         fontSize: '0.75em',
         marginLeft: bs(-0.25),
         marginTop: bs(-0.25),
-        marginBottom: bs(),
+        marginBottom: bs(1),
         opacity: hasFetchedOnce ? 1 : 0,
         transition: 'opacity .3s ease',
 

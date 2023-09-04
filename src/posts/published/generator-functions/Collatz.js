@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import { Input } from '../../../components/Inputs'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const isOdd = n => Boolean(n % 2)
 
@@ -28,6 +28,7 @@ function* collatzSequence(n) {
 const initialValue = 17
 
 export default function Collatz() {
+  const bs = useSpacing()
   const [value, setValue] = React.useState(initialValue)
   const [sequence, setSequence] = React.useState([])
   const [done, setDone] = React.useState(false)

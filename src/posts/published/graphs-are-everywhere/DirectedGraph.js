@@ -1,5 +1,5 @@
+import { useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-import { bs } from '../../../shevy'
 
 // The absurd width is partnered with negative margins to create an svg that almost
 // is guaranteed to take up the full width on any gargantuan sized screen. It also
@@ -28,6 +28,7 @@ export default function DirectedGraph({
   options = {},
 }) {
   options = { ...defaultOptions, ...options }
+  const bs = useSpacing()
   const svgRef = React.useRef(null)
   const isReady = useScript(
     'https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js'
@@ -171,7 +172,7 @@ export default function DirectedGraph({
             backgroundColor: 'var(--colors-offset)',
             fontFamily: 'var(--fonts-secondary)',
             fontStyle: 'italic',
-            padding: `${bs(0.5)} ${bs()}`,
+            padding: `${bs(0.5)} ${bs(1)}`,
             textAlign: 'center',
           }}
         >

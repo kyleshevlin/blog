@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
-import Button, { buttonStyles } from './Button'
+import Button, { getButtonStyles } from './Button'
 import Container from './Container'
-import { bs } from '../shevy'
-import { Flex, Margin } from '@kyleshevlin/layout'
+import { Flex, Margin, useSpacing } from '@kyleshevlin/layout'
 
 const initialState = {
   content: null,
@@ -106,8 +105,8 @@ export function FootnotesProvider({ children }) {
   )
 }
 
-const markerStyles = {
-  ...buttonStyles,
+const getMarkerStyles = spacing => ({
+  ...getButtonStyles(spacing),
   boxShadow: 'none',
   width: 20,
   height: 20,
@@ -124,9 +123,10 @@ const markerStyles = {
     outline: 'none',
     boxShadow: '0 0 3px 1px var(--colors-accentDark)',
   },
-}
+})
 
 export function FootnoteMarker({ content }) {
+  const bs = useSpacing()
   const {
     addMarker,
     index: contextIndex,
@@ -149,9 +149,11 @@ export function FootnoteMarker({ content }) {
     }
   }, [addMarker, content, removeMarker])
 
+  const buttonStyles = React.useMemo(() => getMarkerStyles(bs), [bs])
+
   return (
     <button
-      css={markerStyles}
+      css={buttonStyles}
       onClick={() => {
         updateFootnote({
           content,
@@ -166,18 +168,22 @@ export function FootnoteMarker({ content }) {
   )
 }
 
-const displayMarkerStyles = {
-  ...markerStyles,
+const getDisplayMarkerStyles = spacing => ({
+  ...getMarkerStyles(spacing),
   lineHeight: 1,
   textAlign: 'center',
   '&:hover': null,
-}
+})
 
 export function FootnoteDisplay() {
+  const bs = useSpacing()
+
   const displayElement = useRef(null)
   const { content, hideFootnote, index, isVisible } =
     useContext(FootnotesContext)
   useFootnoteDisplayEvents(displayElement)
+
+  const markerStyles = React.useMemo(() => getDisplayMarkerStyles(bs), [bs])
 
   return isVisible ? (
     <div
@@ -189,7 +195,7 @@ export function FootnoteDisplay() {
         bottom: 0,
         borderTop: '4px solid var(--colors-accent)',
         boxShadow: '0 -4px 6px rgba(0, 0, 0, .15)',
-        paddingTop: bs(),
+        paddingTop: bs(1),
         paddingBottom: bs(2),
         zIndex: 1,
       }}
@@ -197,7 +203,7 @@ export function FootnoteDisplay() {
       <Container>
         <Margin bottom={1}>
           <Flex align="center" justify="space-between">
-            <div css={displayMarkerStyles}>
+            <div css={markerStyles}>
               <span css={{ position: 'relative', top: 2 }}>{index}</span>
             </div>
             <Button onClick={hideFootnote}>Close</Button>

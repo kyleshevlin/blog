@@ -1,17 +1,18 @@
 import React from 'react'
 import Button from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
-import { bs } from '../../../shevy'
 import { randomRGB } from '../../../utils'
+import { useSpacing } from '@kyleshevlin/layout'
 
 export default function RandomBox() {
+  const bs = useSpacing()
   const forceUpdate = useForceUpdate()
 
   return (
     <div
       css={{
         backgroundColor: randomRGB(),
-        padding: bs(),
+        padding: bs(1),
         display: 'flex',
         justifyContent: 'center',
       }}

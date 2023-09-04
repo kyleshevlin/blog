@@ -1,5 +1,5 @@
 import React from 'react'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const getEditLink = fileAbsolutePath => {
   const [, filePath] = fileAbsolutePath.split('src')
@@ -20,6 +20,8 @@ function EditSVG({ fill = '#000', width }) {
 }
 
 export default function EditLink({ fileAbsolutePath }) {
+  const bs = useSpacing()
+
   return (
     <div css={{ textAlign: 'right' }}>
       <a

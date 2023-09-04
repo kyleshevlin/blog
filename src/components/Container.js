@@ -1,35 +1,39 @@
 import React from 'react'
 import { CONTENT_WIDTH } from '../constants'
-import { bs } from '../shevy'
 import { mq } from '../utils'
 import { formatLength, modifyLength } from '../utils/length'
+import { useSpacing } from '@kyleshevlin/layout'
 
-const Container = ({ children }) => (
-  <div
-    css={{
-      paddingLeft: bs(1.5),
-      paddingRight: bs(1.5),
+const Container = ({ children }) => {
+  const bs = useSpacing()
 
-      [mq.bravo]: {
-        paddingLeft: bs(3),
-        paddingRight: bs(3),
-      },
-    }}
-  >
+  return (
     <div
       css={{
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        maxWidth: formatLength(CONTENT_WIDTH),
+        paddingLeft: bs(1.5),
+        paddingRight: bs(1.5),
 
-        [mq.epsilon]: {
-          maxWidth: formatLength(modifyLength(v => v * 2, CONTENT_WIDTH)),
+        [mq.bravo]: {
+          paddingLeft: bs(3),
+          paddingRight: bs(3),
         },
       }}
     >
-      {children}
+      <div
+        css={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: formatLength(CONTENT_WIDTH),
+
+          [mq.epsilon]: {
+            maxWidth: formatLength(modifyLength(v => v * 2, CONTENT_WIDTH)),
+          },
+        }}
+      >
+        {children}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default Container

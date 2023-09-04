@@ -1,7 +1,9 @@
+import { useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
-import { bs } from '../../../shevy'
 
 export default function Grid({ Cell, grid, handleClick = () => {} }) {
+  const bs = useSpacing()
+
   return (
     // Wrapping the grid with a div of inline-block means that the grid
     // takes up only the space defined by the size of the cells, while
@@ -18,7 +20,7 @@ export default function Grid({ Cell, grid, handleClick = () => {} }) {
           // Our columns are equal to the length of a row
           gridTemplateColumns: `repeat(${grid[0].length}, 1fr)`,
           gridGap: 2,
-          margin: bs(),
+          margin: bs(1),
         }}
       >
         {grid.map((row, rowIdx) =>

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Flex } from '@kyleshevlin/layout'
-import { bs } from '../shevy'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 import { mq } from '../utils'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
@@ -13,6 +12,8 @@ export default function Content({
   newsletter = true,
   valueSell = true,
 }) {
+  const bs = useSpacing()
+
   return (
     <div
       css={{

@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import { Margin } from '@kyleshevlin/layout'
+import { Margin, useSpacing } from '@kyleshevlin/layout'
 import Seo from '../components/Seo'
 import Tag from '../components/icons/Tag'
-import { bs } from '../shevy'
 import { getNodes } from '../utils'
 import Content from '../components/Content'
 import Layout from '../components/Layout'
 
 const AllPosts = ({ data }) => {
+  const bs = useSpacing()
+
   const allPosts = getNodes(data.allPosts)
 
   return (

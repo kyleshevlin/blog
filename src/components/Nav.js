@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { bs } from '../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const LINKS = [
   { to: '/', title: 'Home' },
@@ -11,14 +11,17 @@ const LINKS = [
   { to: '/about', title: 'About' },
 ]
 
-const linkStyles = {
+const getLinkStyles = spacing => ({
   display: 'inline-block',
   fontFamily: 'var(--fonts-secondary)',
   color: 'var(--colors-text)',
-  padding: bs(0.5),
-}
+  padding: spacing(0.5),
+})
 
 export default function Nav() {
+  const bs = useSpacing()
+  const linkStyles = React.useMemo(() => getLinkStyles(bs), [bs])
+
   return (
     <nav css={{ marginLeft: bs(-0.5) }}>
       {LINKS.map(link => {

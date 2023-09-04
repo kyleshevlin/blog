@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../components/Button'
-import { bs } from '../../../shevy'
+import { useSpacing } from '@kyleshevlin/layout'
 
 const rng = () => Math.trunc(Math.random() * 100)
 
@@ -16,6 +16,7 @@ export default function ChangeExample() {
 }
 
 function Display(props) {
+  const bs = useSpacing()
   useChangeDebugger(props)
 
   return (
