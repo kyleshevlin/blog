@@ -1,5 +1,5 @@
+import { Flex } from '@kyleshevlin/layout'
 import React from 'react'
-import { useSpacing } from '@kyleshevlin/layout'
 
 const getEditLink = fileAbsolutePath => {
   const [, filePath] = fileAbsolutePath.split('src')
@@ -20,22 +20,19 @@ function EditSVG({ fill = '#000', width }) {
 }
 
 export default function EditLink({ fileAbsolutePath }) {
-  const bs = useSpacing()
-
   return (
-    <div css={{ textAlign: 'right' }}>
-      <a
-        css={{
-          display: 'inline-block',
-          fontFamily: 'var(--fonts-secondary)',
-          fontStyle: 'italic',
-          paddingLeft: bs(0.5),
-          paddingRight: bs(0.5),
-        }}
-        href={getEditLink(fileAbsolutePath)}
-      >
-        edit <EditSVG fill="var(--colors-accent)" width={18} />
-      </a>
-    </div>
+    <a
+      css={{
+        display: 'block',
+        fontFamily: 'var(--fonts-secondary)',
+        fontStyle: 'italic',
+      }}
+      href={getEditLink(fileAbsolutePath)}
+    >
+      <Flex gap={0.25}>
+        <span>edit</span>
+        <EditSVG fill="var(--colors-accent)" width={18} />
+      </Flex>
+    </a>
   )
 }
