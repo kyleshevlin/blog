@@ -13,7 +13,7 @@ import TotalBeardStrokes from '../components/TotalBeardStrokes'
 import { mq, stripElementTags } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
-import { Margin, useSpacing } from '@kyleshevlin/layout'
+import { Flex, FlexItem, Margin, useSpacing } from '@kyleshevlin/layout'
 import { TrainingPitch } from '../components/TrainingPitch'
 import Layout from '../components/Layout'
 
@@ -63,17 +63,15 @@ const Post = ({
           )}
           <PostDate date={date} />
           <TotalBeardStrokes slug={slug} />
-          <div
-            css={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: bs(1),
-            }}
-          >
-            <PostHeader {...{ subtitle, title }} />
-            <EditLink fileAbsolutePath={fileAbsolutePath} />
-          </div>
+
+          <Margin bottom={1}>
+            <Flex align="flex-end" gap={1} justify="space-between">
+              <FlexItem grow={1} shrink={1}>
+                <PostHeader {...{ subtitle, title }} />
+              </FlexItem>
+              <EditLink fileAbsolutePath={fileAbsolutePath} />
+            </Flex>
+          </Margin>
 
           <MDXRenderer>{file.body}</MDXRenderer>
 
