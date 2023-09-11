@@ -69,7 +69,7 @@ Here's what I wanted to accomplish with my lib:
 - It would be nice if those cases could be values or a predicate function that received the input
 - It must be able to return a default value
 
-I wrote my first pass in plain JavaScript in ~5 minutes. It looked something like this:
+I wrote my first pass in plain JavaScript in ~5 minutes. It looked something like this: <Marker content="It should go without saying, the following code could be written as a class or use the <code>this</code> keyword. I don't want to hear it. I <em>know</em> how to do that. I just <em>happen</em> to enjoy writing functions and closures instead. If I do see you complain about it on Twitter, I'll know you never read these footnotes when you really should." />
 
 ```javascript
 /**
@@ -159,7 +159,11 @@ We're going to try and add types to this. Here's what we need to accomplish (and
 
 If you want to follow along and try to work it out on your own, you can use this [TypeScript Playground](https://www.typescriptlang.org/play?#code/PQKhCgAIUghBTAxgQwK4Gd6QC7oLQAOy228ATgHaQbzqQC2xiAFsAO4CW2zANJAJKQ2yCqQAmOAPaQx09JPrxuHCgHMoMdABsOq5ti0BPGRwBmp8vFEA6ATKQcx8Cdmk1IAJVQAjQwHI6FEx2Zis+b1RsSHQVRHgNSAAiIPhEyA46ZC0yeGQxY2RIAGt4QzZJMgkVSAApZAA3ZABlRDIOAmw+fj96aIJ4LR01dKjEouRMRI1gcFNUCkRsDkkqccwAChUCSIBKSABvKEhgYEgAeXryHA5FLr9L+0utSX6JQtMVsQpaOg+yITaS2GMXoBC0WEQz3QqBy6COJ0gIgk8kRkEhkmhOXSdGYkjYQiwjAoyFUWG4WHQ2GIWEkpkgkhhkCIJHIVEY2BY5CO4KiGQAskxQhIALyQUxZTDcpSQWGoLRRUXzJymFTOcDw06CCXSAg5Cz-VyI+qSRzUGLDAAGynQFvSdMEKAoGsgAHUISIZNJrZBcjEjJBfOkKJSREtiCpVDhQvTvAArJDYZ1ImXwfVtYaGrhHRArSmIggcSCi-YAX3VkGOpzOjN1N2QZGMwmMtJwtCBkeZpEomVUyBUefJQe2iYrCP4dLYWFJUUK7JYfEHsvl2Oi0sNi6UMKoLcHKEG3mQiCKRzmCyWKyEoQo607rL4e60B6Pe0OFYrZkgm3QAo5Qr2OWwLd8w4cs3wRAAVZgMkRQY8ToDApCZCY6EaLRUFoel-kKXVnA4FBSDFeZFmWJ03zRXMohwsQ8OpIsjjI7BDH6Ftb0oIthVFPxT2IlY-HosjIAAfk-PZhQAPiQllKE2Chhx2fiyIALhEosJNYqgONFLZIlA986RvHJqPw+B1h2F8FOxH9ORFHAyHQiylwVNEskfQ8ihkuT+LLfiAKA5ACyObzR1OAARVM0GXFJIGYJEhnUCtuPPbdyTITgNgfJ8inMsiPy-Ky-xTQC2Mc3TCqAjK3I83ZAtAsc6QoaRlQiqIoug3VJHqRxnD4SdIG+ZxUSbRDpyjLASoSoikp9CgxFMg4fM3YraDlEdICC4DrDYK8i0vKwjn8jhrEkFK0qwUVjtCVKMniCsDusKwbIe0DfLYg7wBLIA) to interact with the code and try and fix the type errors.
 
-The very first error we see is: `Parameter 'input' implicitly has an 'any' type`. We can knock this one out easily. We don't want to specify a type of `input`, we simply want whatever the user passes in to be the type throughout the function. This is exactly what a generic is for, so let's add one:
+The very first error we see is:
+
+`Parameter 'input' implicitly has an 'any' type`
+
+We can knock this one out easily. We don't want to specify a type of `input`, we simply want whatever the user passes in to be the type throughout the function. This is exactly what a generic is for, so let's add one:
 
 ```typescript
 function kase<Input>(input: Input) {
@@ -376,7 +380,7 @@ function kaseFactory<Input>(input: Input) {
 }
 ```
 
-Next, we're going to make our factory stateless. We're going to pass in the "state" of the `api` and the initial states are `isMatched` set to `false` and `result` set to `undefined`, like so:
+Next, we're going to make our factory stateless. Instead of holding `isMatched` and `result` in closure, we're going to passe them in as arguments to the factory. The "state" of the `api` is static, and to change the state, we'll just return a new `api` with the next state. Thus, our initial state has `isMatched` set to `false` and `result` set to `undefined`, like so:
 
 ```typescript
 function kase<Input>(input: Input) {
@@ -388,7 +392,10 @@ function kaseFactory<Input, Result>(
   isMatched: boolean,
   result: Result
 ) {
-  //...
+  // And we delete the following commented out lines
+  // let isMatched = false
+  // let result: unknown = undefined.
+  // The rest is the same
 }
 ```
 
@@ -530,6 +537,6 @@ Programming _is_ communication. The inherent difficulty of all communication, pr
 
 When it comes to programming in TypeScript, at least for me, the effort to express functionality and the effort to express the types for that functionality can be _wildly_ different. This example I shared took ~5 minutes to write the functionality and _several days and attempts_ for me to get the types right. That's... not awesome.
 
-I hope it's clear, I'm _not_ arguing we should stop using TypeScript. But I am arguing that we should be mature enough to acknowledge how challenging it can be to write type safe code in it. That sometimes we give up having some "good things" for the sake of avoiding many "bad things".
+I hope it's clear, I'm _not_ arguing we should stop using TypeScript. But I am arguing that we should be mature enough to acknowledge how challenging it can be to write type safe code sometimes. That sometimes we give up having some "good things" for the sake of avoiding many "bad things".
 
 Also, we should probably just add pattern matching on types like OCaml to TypeScript already. <Marker content="🙃" />
