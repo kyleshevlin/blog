@@ -380,7 +380,7 @@ function kaseFactory<Input>(input: Input) {
 }
 ```
 
-Next, we're going to make our factory stateless. Instead of holding `isMatched` and `result` in closure, we're going to passe them in as arguments to the factory. The "state" of the `api` is static, and to change the state, we'll just return a new `api` with the next state. Thus, our initial state has `isMatched` set to `false` and `result` set to `undefined`, like so:
+Next, we're going to make our factory stateless. Instead of holding `isMatched` and `result` in closure, we're going to pass them in as arguments to the factory. The "state" of the `api` is static, and to change the state, we'll just return a new `api` with the next state. Thus, our initial state has `isMatched` set to `false` and `result` set to `undefined`, like so:
 
 ```typescript
 function kase<Input>(input: Input) {
