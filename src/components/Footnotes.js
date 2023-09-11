@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import Button, { getButtonStyles } from './Button'
 import Container from './Container'
-import { Flex, Margin, useSpacing } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 const initialState = {
   content: null,
@@ -201,15 +201,19 @@ export function FootnoteDisplay() {
       }}
     >
       <Container>
-        <Margin bottom={1}>
+        <Flex direction="column" gap={1}>
           <Flex align="center" justify="space-between">
             <div css={markerStyles}>
               <span css={{ position: 'relative', top: 2 }}>{index}</span>
             </div>
             <Button onClick={hideFootnote}>Close</Button>
           </Flex>
-        </Margin>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+
+          <p
+            css={{ marginBottom: 0 }}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </Flex>
       </Container>
     </div>
   ) : null
