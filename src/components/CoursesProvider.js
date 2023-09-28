@@ -20,7 +20,10 @@ export default function CoursesProvider({ children }) {
       }
     }
   `)
-  const courses = data.allCoursesJson.edges.map(edge => edge.node)
+  const courses = React.useMemo(
+    () => data.allCoursesJson.edges.map(edge => edge.node),
+    [data.allCoursesJson.edges]
+  )
 
   const getRandomCourse = React.useCallback(() => {
     const index = Math.floor(Math.random() * courses.length)
@@ -32,11 +35,14 @@ export default function CoursesProvider({ children }) {
     [courses]
   )
 
-  const value = {
-    courses,
-    getCourseByNickname,
-    getRandomCourse,
-  }
+  const value = React.useMemo(
+    () => ({
+      courses,
+      getCourseByNickname,
+      getRandomCourse,
+    }),
+    [courses, getCourseByNickname, getRandomCourse]
+  )
 
   return (
     <CoursesContext.Provider value={value}>{children}</CoursesContext.Provider>

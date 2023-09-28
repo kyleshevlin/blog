@@ -65,6 +65,12 @@ export default function ValueSell({ courseNickname }) {
         backgroundColor: 'var(--colors-offset)',
         padding: bs(2),
       }}
+      /**
+       * Adding a key so that any time the course changes, the entire component
+       * rerenders. There have been bugs where the wrong link and logo are present
+       * for a different course
+       */
+      key={title}
     >
       <div
         css={{
