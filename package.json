@@ -6,7 +6,7 @@
   "author": "Kyle Shevlin <kyle.a.shevlin@gmail.com>",
   "dependencies": {
     "@emotion/core": "^10.1.1",
-    "@kyleshevlin/layout": "^0.5.0",
+    "@kyleshevlin/layout": "^0.6.0",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@mdx-js/tag": "^0.20.3",
