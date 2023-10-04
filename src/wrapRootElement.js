@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Margin, SpacingProvider } from '@kyleshevlin/layout'
+import { Flex, Margin, Row, Stack, SpacingProvider } from '@kyleshevlin/layout'
 import EggheadEmbed from './components/EggheadEmbed'
 import CoursesProvider from './components/CoursesProvider'
 import Gif from './components/Gif'
@@ -43,6 +43,8 @@ const COMPONENTS = {
   Marker: FootnoteMarker,
   OffsetWrap,
   Margin,
+  Row,
+  Stack,
   YoutubeEmbed,
 }
 

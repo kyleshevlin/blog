@@ -1,0 +1,223 @@
+---
+date: '2023-10-03'
+slug: 'ui-composition'
+title: 'UI Composition'
+subtitle: 'AKA taking a step back to take a step forward'
+description: 'Often we run into tricky UI situations as a result of overloading an element with styling responsibilities. We can solve this problem by separating the responsibilities and re-composing the individual components.'
+excerpt: 'Often we run into tricky UI situations as a result of overloading an element with styling responsibilities. We can solve this problem by separating the responsibilities and re-composing the individual components.'
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import { Card } from './components'
+
+I frequently come across components with either egregious conditionals, bizarre CSS, or both, to solve problems that can be easily solved with composition. It just takes some practice to recognize what responsibilities a particular part of a component should have, and how to properly separate and apply those responsibilities. Let's make an example.
+
+Let's say you have a `Card` component. A `Card` should have a border and the content inside should be padded from this border. Let's also give it a `box-shadow` for some fun. It'll look like this:
+
+<Margin vertical={2}>
+  <Row justify="center">
+    <Card>
+      <Stack gap={0.5}>
+        <h3 style={{ margin: 0 }}>This is a Card</h3>
+        <p style={{ margin: 0 }}>
+          This is the Card's content. Notice it is padded from the border.
+        </p>
+      </Stack>
+    </Card>
+  </Row>
+</Margin>
+
+Cool, looks great! But soon you learn that the design team wants to be able to have "sections" in the `Card`, divided by what is essentially an `hr` tag. What happens if we do that without making any changes?
+
+<Margin vertical={2}>
+  <Row justify="center">
+    <Card>
+      <Stack gap={0.5}>
+        <h3 style={{ margin: 0 }}>This is Section 1</h3>
+        <p style={{ margin: 0 }}>
+          This is the content of Section 1. Isn't it great?!
+        </p>
+      </Stack>
+      <hr style={{ backgroundColor: 'var(--colors-offsetMore)', margin: 0 }} />
+      <Stack gap={0.5}>
+        <h3 style={{ margin: 0 }}>This is Section 2</h3>
+        <p style={{ margin: 0 }}>
+          This is the content of Section 2. Isn't it <em>also</em> great?!
+        </p>
+      </Stack>
+    </Card>
+  </Row>
+</Margin>
+
+That's probably not what we want. We want the divider to be able to go the full width of the card, and we want each section to be padded the same. We could try and do some hacky CSS. If I were working in a codebase with this component, I would not be shocked to see something like:
+
+```css
+.card hr {
+  /* This matches the vertical padding of the wrap */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  /* negative margin moves the `hr` to the left side of the box */
+  margin-left: -1rem;
+  /* 2rem accounts for left and right padding */
+  width: calc(100% + 2rem);
+}
+```
+
+This might work, but it's not the most robust solution we can come up with. Rather than write some hacky CSS, we need to take a step back in order to make forward progress again. Composition is going to help us do that.
+
+You see, it might not be obvious, but `Card` has **too many responsibilities**. Just like classes, objects and functions can do too much, so can elements with their styling.
+
+When we look closely, we can see `Card` is doing two separate jobs. First, it's wrapping all of the children in a border and box shadow. Second, it's applying a padding between that wrapping border and the children. In order to solve our problem, we need to separate these responsibilities into multiple components.
+
+Let's break `Card` into a compound component, with `Wrap`, `Section`, and `Divider` components.
+
+```jsx
+Card.Wrap = function Wrap({ children }) {
+  return (
+    <div
+      style={{
+        // these are the literal CSS vars in my site
+        border: '2px solid var(--colors-offsetMore)',
+        borderRadius: 4,
+        boxShadow: '8px 8px var(--colors-accent)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+Card.Section = function Section({ children }) {
+  return <div style={{ padding: '1rem' }}>{children}</div>
+}
+
+Card.Divider = function Divider() {
+  return <hr />
+}
+```
+
+Now we can compose our pieces together correctly.
+
+```jsx
+<Card.Wrap>
+  <Card.Section>
+    <Stack gap={1}>
+      <h3>This is Section 1</h3>
+      <p>This is the content for Section 1</p>
+    </Stack>
+  </Card.Section>
+
+  <Card.Divider />
+
+  <Card.Section>
+    <p>
+      This is an entirely different section. Notice the padding works correctly!
+    </p>
+  </Card.Section>
+</Card.Wrap>
+```
+
+<Margin vertical={2}>
+  <Row justify="center">
+    <Card.Wrap>
+      <Card.Section>
+        <Stack gap={0.5}>
+          <h3 style={{ margin: 0 }}>This is Section 1</h3>
+          <p style={{ margin: 0 }}>This is the content for Section 1</p>
+        </Stack>
+      </Card.Section>
+      <Card.Divider />
+      <Card.Section>
+        <p style={{ margin: 0 }}>
+          This is an entirely different section. Notice the padding and divider
+          work correctly!
+        </p>
+      </Card.Section>
+    </Card.Wrap>
+  </Row>
+</Margin>
+
+This right here, the act of recognizing `Card` was overloaded with responsibilities and breaking them apart, is the work of building component-based design systems. This is how we make these components robust and flexible.
+
+We can take two steps to make this a bit better. Let's make the original `Card` component a sane default composition of the compound components:
+
+```jsx
+function Card({ children }) {
+  return (
+    <Card.Wrap>
+      <Card.Section>{children}</Card.Section>
+    </Card.Wrap>
+  )
+}
+```
+
+This way, when someone needs the simplest `Card`, they can just use it.
+
+The second way we can improve this is to make it an error to use `Card.Section` or `Card.Divider` outside of `Card.Wrap` using a Context.
+
+```jsx
+// Setting the default to false will let us trigger our Error if necessary
+const CardContext = React.useContext(false)
+
+const useCardContext = () => {
+  const context = React.useContext(CardContext)
+
+  // We'll set context to true in our Provider, which will avoid this condition
+  // We don't even need to return anything from this hook because we're not
+  // using the context value anyways.
+  if (!context) {
+    throw new Error(
+      'You may only use Card compound components inside of a `Card.Wrap` component'
+    )
+  }
+}
+
+Card.Wrap = function Wrap({ children }) {
+  return (
+    // By setting the value to true, we enable our
+    // compound components to work safely
+    <CardContext.Provider value={true}>
+      <div
+        style={{
+          border: '2px solid var(--colors-offsetMore)',
+          borderRadius: 4,
+          boxShadow: '8px 8px var(--colors-accent)',
+        }}
+      >
+        {children}
+      </div>
+    </CardContext.Provider>
+  )
+}
+
+Card.Section = function Section({ children }) {
+  useCardContext()
+
+  return <div style={{ padding: '1rem' }}>{children}</div>
+}
+
+Card.Divider = function Divider() {
+  useCardContext()
+
+  return <hr />
+}
+```
+
+We can take this a step even further and prevent nesting `Section`s or passing a `Divider` into a `Section`, by adding another layer of our context provider in there.
+
+```jsx
+Card.Section = function Section({ children }) {
+  useCardContext()
+
+  return (
+    <CardContext.Provider value={false}>
+      <div style={{ padding: '1rem' }}>{children}</div>
+    </CardContext.Provider>
+  )
+}
+```
+
+I hope your imagination helps you see that this problem affects more than our simple `Card` component; that there are other offenses of having too many styling responsibilities. One of the most common ones is [exporting margins](https://mxstbr.com/thoughts/margin/), but I'll save writing about that for another day.
+
+When you're struggling to get some UI to work the way you want, try to take a step back to make a step forward. Examine if some part of your component is overloaded, and if separating those responsibilities might not solve the problem.
