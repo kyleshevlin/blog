@@ -42,6 +42,6 @@ Card.Section = function Section({ children }) {
 
 Card.Divider = function Divider() {
   return (
-    <hr style={{ backgroundColor: 'var(--colors-offsetMore', margin: 0 }} />
+    <hr style={{ backgroundColor: 'var(--colors-offsetMore)', margin: 0 }} />
   )
 }
