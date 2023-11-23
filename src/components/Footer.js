@@ -1,11 +1,10 @@
 import React from 'react'
-import { Flex, useSpacing } from '@kyleshevlin/layout'
+import { Flex, Row, useSpacing } from '@kyleshevlin/layout'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Container from './Container'
 import Github from './icons/Github'
 import Twitter from './icons/Twitter'
 import Contributors from './Contributors'
-import { Link } from 'gatsby'
 
 const links = [
   { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
@@ -28,13 +27,15 @@ export default function Footer() {
     >
       <Container>
         <Flex direction="column" gap={1}>
-          <Contributors />
+          <Row justify="center">
+            <div style={{ maxWidth: '80ch' }}>
+              <Contributors />
+            </div>
+          </Row>
 
           <Flex gap={2} justify="center">
-            <Link to="/raw">Looking for something more raw?</Link>
-
             <OutboundLink href="https://kyleshevlingolf.com">
-              Or golf content?
+              Looking for my golf content instead?
             </OutboundLink>
           </Flex>
 
