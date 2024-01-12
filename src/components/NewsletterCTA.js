@@ -3,7 +3,7 @@ import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy from '../shevy'
 import { getButtonStyles } from './Button'
-import { isEmail } from '../utils'
+import { isEmail, mq } from '../utils'
 import { Flex, FlexItem, useSpacing } from '@kyleshevlin/layout'
 
 export default function NewsletterCTA() {
@@ -15,19 +15,31 @@ export default function NewsletterCTA() {
         backgroundColor: 'var(--components-newsletterCTA-background)',
         borderRadius: 8,
         color: 'var(--components-newsletterCTA-text)',
-        padding: bs(2),
+        padding: bs(1),
+
+        [mq.bravo]: {
+          padding: bs(2),
+        },
       }}
     >
-      <div>
-        <h3>Sign up for my Newsletter</h3>
+      <Flex direction="column" gap={1}>
+        <div
+          css={{
+            ...shevy.h2,
+            fontFamily: 'var(--fonts-secondary)',
+            marginBottom: 0,
+          }}
+        >
+          Sign up for my newsletter
+        </div>
 
-        <p>
+        <div>
           Let's chat more about TypeScript, React, and more. Unsubscribe at
           any&nbsp;time.
-        </p>
+        </div>
 
         <SignupForm />
-      </div>
+      </Flex>
     </div>
   )
 }

@@ -5,7 +5,7 @@ import shevy from '../shevy'
 import { mq } from '../utils'
 import { useCoursesContext } from './CoursesProvider'
 import LinkButton from './LinkButton'
-import { useSpacing } from '@kyleshevlin/layout'
+import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 const BUTTON_TEXT_BY_URL_TYPE = {
   default: 'View the course',
@@ -64,7 +64,11 @@ export default function ValueSell({ courseNickname }) {
       css={{
         backgroundColor: 'var(--colors-offset)',
         borderRadius: 8,
-        padding: bs(2),
+        padding: bs(1),
+
+        [mq.bravo]: {
+          padding: bs(2),
+        },
       }}
       /**
        * Adding a key so that any time the course changes, the entire component
@@ -121,22 +125,33 @@ export default function ValueSell({ courseNickname }) {
             },
           }}
         >
-          <h2>Check out my courses!</h2>
-          <div
-            css={{
-              fontFamily: 'var(--fonts-secondary)',
-              marginBottom: bs(1),
-            }}
-          >
-            Liked the post? You might like my courses, too. Click the button to
-            view this course or go to <Link to="/courses">Courses</Link> for
-            more information.
-          </div>
-          <div css={{ a: { marginTop: bs(0.5), marginRight: bs(0.5) } }}>
-            <LinkButton href={formattedUrl}>
-              {BUTTON_TEXT_BY_URL_TYPE[urlType]}
-            </LinkButton>
-          </div>
+          <Flex direction="column" gap={1}>
+            <div
+              css={{
+                ...shevy.h3,
+                fontFamily: 'var(--fonts-secondary)',
+                marginBottom: 0,
+              }}
+            >
+              Check out my courses!
+            </div>
+
+            <div
+              css={{
+                fontFamily: 'var(--fonts-secondary)',
+              }}
+            >
+              Liked the post? You might like my courses, too. Click the button
+              to view this course or go to <Link to="/courses">Courses</Link>{' '}
+              for more information.
+            </div>
+
+            <div css={{ a: { marginRight: bs(0.5) } }}>
+              <LinkButton href={formattedUrl}>
+                {BUTTON_TEXT_BY_URL_TYPE[urlType]}
+              </LinkButton>
+            </div>
+          </Flex>
         </div>
       </div>
     </div>
