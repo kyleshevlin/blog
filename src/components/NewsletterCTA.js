@@ -3,8 +3,8 @@ import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 import shevy from '../shevy'
 import { getButtonStyles } from './Button'
-import { mq, isEmail } from '../utils'
-import { useSpacing } from '@kyleshevlin/layout'
+import { isEmail } from '../utils'
+import { Flex, FlexItem, useSpacing } from '@kyleshevlin/layout'
 
 export default function NewsletterCTA() {
   const bs = useSpacing()
@@ -13,19 +13,17 @@ export default function NewsletterCTA() {
     <div
       css={{
         backgroundColor: 'var(--components-newsletterCTA-background)',
+        borderRadius: 8,
         color: 'var(--components-newsletterCTA-text)',
         padding: bs(2),
       }}
     >
       <div>
-        <h3>
-          Let's talk some more about JavaScript, TypeScript, React, and software
-          engineering.
-        </h3>
+        <h3>Sign up for my Newsletter</h3>
+
         <p>
-          I write a newsletter to share my thoughts and the projects I'm working
-          on. I would love for you to join the conversation. You can unsubscribe
-          at any time.
+          Let's chat more about TypeScript, React, and more. Unsubscribe at
+          any&nbsp;time.
         </p>
 
         <SignupForm />
@@ -131,8 +129,8 @@ const signupMachine = createMachine(
 function SignupForm() {
   const bs = useSpacing()
 
-  const { onChange: nameChange, value: name } = useInput()
-  const { onChange: emailChange, value: email } = useInput()
+  const [nameChange, name] = useInput()
+  const [emailChange, email] = useInput()
   const [state, send] = useMachine(signupMachine)
 
   const handleSubmit = e => {
@@ -176,7 +174,7 @@ function SignupForm() {
   }
 
   return (
-    <>
+    <Flex direction="column" gap={1}>
       {state.matches('error') && (
         <ErrorWrap>Invalid name or email. Please try again.</ErrorWrap>
       )}
@@ -188,55 +186,53 @@ function SignupForm() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div
-          css={{
-            display: 'grid',
-            gridGap: bs(0.5),
-            marginBottom: bs(1),
+        <Flex direction="column" gap={1}>
+          <Flex gap={1}>
+            <FlexItem grow={1} shrink={1}>
+              <ControlledInputBox
+                label="First Name"
+                name="firstName"
+                onChange={nameChange}
+                placeholder="You"
+                value={name}
+              />
+            </FlexItem>
 
-            [mq.charlie]: {
-              gridTemplateColumns: '1fr 1fr',
-              gridGap: bs(1),
-            },
-          }}
-        >
-          <ControlledInputBox
-            label="First Name"
-            name="firstName"
-            onChange={nameChange}
-            placeholder="You"
-            value={name}
-          />
-          <ControlledInputBox
-            label="Email Address"
-            name="email"
-            onChange={emailChange}
-            placeholder="you@example.com"
-            value={email}
-          />
-        </div>
+            <FlexItem grow={1} shrink={1}>
+              <ControlledInputBox
+                label="Email Address"
+                name="email"
+                onChange={emailChange}
+                placeholder="you@example.com"
+                value={email}
+              />
+            </FlexItem>
+          </Flex>
 
-        <button
-          css={{
-            ...getButtonStyles(bs),
-            backgroundColor:
-              'var(--components-newsletterCTA-submitButton-background)',
-            color: 'var(--components-newsletterCTA-submitButton-text)',
-            fontSize: '1.25rem',
-            padding: `${bs(0.5)} ${bs(0.75)}`,
-
-            '&:hover': {
+          <button
+            css={{
+              ...getButtonStyles(bs),
               backgroundColor:
-                'var(--components-newsletterCTA-submitButton-hover-background)',
-              color: 'var(--components-newsletterCTA-submitButton-hover-text)',
-            },
-          }}
-          type="submit"
-        >
-          {getSubmitButtonText()}
-        </button>
+                'var(--components-newsletterCTA-submitButton-background)',
+              color: 'var(--components-newsletterCTA-submitButton-text)',
+              fontSize: '1.25rem',
+              padding: `${bs(0.5)} ${bs(0.75)}`,
+              width: '100%',
+
+              '&:hover': {
+                backgroundColor:
+                  'var(--components-newsletterCTA-submitButton-hover-background)',
+                color:
+                  'var(--components-newsletterCTA-submitButton-hover-text)',
+              },
+            }}
+            type="submit"
+          >
+            {getSubmitButtonText()}
+          </button>
+        </Flex>
       </form>
-    </>
+    </Flex>
   )
 }
 
@@ -282,7 +278,6 @@ function ErrorWrap({ children }) {
         color: 'var(--components-newsletterCTA-errorBox-text)',
         fontFamily: 'var(--fonts-secondary)',
         padding: bs(0.5),
-        marginBottom: bs(0.5),
       }}
     >
       {children}
@@ -344,8 +339,5 @@ function useInput() {
     setValue(e.target.value)
   }
 
-  return {
-    onChange,
-    value,
-  }
+  return [onChange, value]
 }

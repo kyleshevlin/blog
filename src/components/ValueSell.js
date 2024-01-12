@@ -63,6 +63,7 @@ export default function ValueSell({ courseNickname }) {
     <div
       css={{
         backgroundColor: 'var(--colors-offset)',
+        borderRadius: 8,
         padding: bs(2),
       }}
       /**

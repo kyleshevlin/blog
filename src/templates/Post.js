@@ -14,7 +14,6 @@ import { mq, stripElementTags } from '../utils'
 import FinishedReading from '../components/FinishedReading'
 import Content from '../components/Content'
 import { Flex, FlexItem, Margin, useSpacing } from '@kyleshevlin/layout'
-import { TrainingPitch } from '../components/TrainingPitch'
 import Layout from '../components/Layout'
 
 const Post = ({
@@ -107,10 +106,6 @@ const Post = ({
           </Margin>
 
           <hr />
-
-          <Margin vertical={2}>
-            <TrainingPitch />
-          </Margin>
 
           <PostAuthor />
         </div>

@@ -32,10 +32,12 @@ export default function Home({ data }) {
 
         <div css={{ backgroundColor: 'var(--colors-offset)', padding: bs(1) }}>
           <h3>Looking for more posts?</h3>
+
           <Margin bottom={1}>
             If you're looking for more posts, visit the{' '}
             <Link to="/all-posts">All Posts</Link> page.
           </Margin>
+
           <LinkButton href="/all-posts" variant="bigWide">
             All Posts
           </LinkButton>

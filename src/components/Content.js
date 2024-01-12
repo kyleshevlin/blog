@@ -3,6 +3,7 @@ import { Flex, useSpacing } from '@kyleshevlin/layout'
 import { mq } from '../utils'
 import { formatLength } from '../utils/length'
 import { CONTENT_WIDTH } from '../constants'
+import { Agathist } from './Agathist'
 import NewsletterCTA from './NewsletterCTA'
 import ValueSell from './ValueSell'
 
@@ -29,7 +30,8 @@ export default function Content({
       }}
     >
       <main>{children}</main>
-      <div>
+
+      <div css={{ minWidth: 0 }}>
         <div
           css={{
             [mq.epsilon]: {
@@ -39,6 +41,7 @@ export default function Content({
           }}
         >
           <Flex direction="column" gap={2}>
+            <Agathist />
             {newsletter && <NewsletterCTA />}
             {valueSell && <ValueSell courseNickname={courseNickname} />}
           </Flex>

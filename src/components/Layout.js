@@ -22,6 +22,7 @@ export default function Layout({ children }) {
           <Footer />
         </Margin>
       </Flex>
+
       <FootnoteDisplay />
     </>
   )
