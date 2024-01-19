@@ -111,7 +111,7 @@ export function InsertionSortVisual({ fps = 15 }: { fps?: number }) {
             </div>
             <div className="flex items-baseline gap-2">
               <div>j</div>
-              <div className="bg-contra h-3 w-3 rounded-sm" />
+              <div className="h-3 w-3 rounded-sm bg-contra" />
             </div>
           </div>
         </div>
