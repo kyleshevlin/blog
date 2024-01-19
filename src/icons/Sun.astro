@@ -1,0 +1,80 @@
+---
+interface Props {
+  size?: number
+}
+
+const SIZE = 18
+const RAY_SIZE = SIZE / 6
+
+const { size = SIZE } = Astro.props
+---
+
+<svg viewBox={`0 0 ${SIZE} ${SIZE}`} height={size} width={size}>
+  <circle
+    cx={SIZE / 2}
+    cy={SIZE / 2}
+    r={SIZE / 3 - 1}
+    fill="none"
+    stroke="currentColor"
+    stroke-width={2}></circle>
+  <g>
+    <line
+      x1={SIZE / 2}
+      y1="0"
+      x2={SIZE / 2}
+      y2={RAY_SIZE}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1="0"
+      y1={SIZE / 2}
+      x2={RAY_SIZE}
+      y2={SIZE / 2}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1={SIZE / 2}
+      y1={SIZE}
+      x2={SIZE / 2}
+      y2={SIZE - RAY_SIZE}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1={SIZE}
+      y1={SIZE / 2}
+      x2={SIZE - RAY_SIZE}
+      y2={SIZE / 2}
+      stroke="currentColor"
+      stroke-width={2}></line>
+  </g>
+  <g style={{ transform: 'rotate(45deg)', transformOrigin: 'center' }}>
+    <line
+      x1={SIZE / 2}
+      y1="0"
+      x2={SIZE / 2}
+      y2={RAY_SIZE}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1="0"
+      y1={SIZE / 2}
+      x2={RAY_SIZE}
+      y2={SIZE / 2}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1={SIZE / 2}
+      y1={SIZE}
+      x2={SIZE / 2}
+      y2={SIZE - RAY_SIZE}
+      stroke="currentColor"
+      stroke-width={2}></line>
+    <line
+      x1={SIZE}
+      y1={SIZE / 2}
+      x2={SIZE - RAY_SIZE}
+      y2={SIZE / 2}
+      stroke="currentColor"
+      stroke-width={2}></line>
+  </g>
+</svg>

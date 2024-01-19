@@ -1,0 +1,253 @@
+---
+date: '2020-05-27'
+slug: 'adding-guards-to-a-use-reducer-finite-state-machine'
+title: 'Adding Guards to a `useReducer` Finite State Machine'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React', 'React Hooks', 'State Machines']
+relatedPostsSlugs:
+  [
+    'how-to-use-usereducer-as-a-finite-state-machine',
+    'adding-infinite-states-to-a-use-reducer-finite-state-machine',
+  ]
+---
+
+import LightBulbWithFuse from './_LightBulbWithFuse'
+import IndestructableBulb from './_IndestructableBulb'
+
+The next part in our `useReducer` finite state machine journey is adding "guards". If you haven't read the previous posts in this collection, I encourage you to do so before reading ahead. Those posts are:
+
+- [How to Use `useReducer` as a Finite State Machine](/how-to-use-usereducer-as-a-finite-state-machine)
+- [Adding Infinite States to a `useReducer` Finite State Machine](/adding-infinite-states-to-a-use-reducer-finite-state-machine)
+
+A "guard" is a predicate function <Marker content="A function that returns a boolean." /> used to conditionally determine if a state transition should happen. In simpler terms, if the guard function returns `true`, take the transition, otherwise do not.
+
+Guards can be used to prevent _any_ transition from taking place. For example, a trying to push open a locked door won't do anything at all. Or they can be used to take one transition instead of another. The "happy path" leads to one state, the "sad path" to another.
+
+In order to support guards, we're going to need to be able to indicate that a transition has a guard. This means that we're going to have to make a change to the `state` an `event` is targeting.
+
+Thus far, we've only had simple transitions. For example, the event `BREAK` has the value `broken`, indicating that this event transitions to the `broken` state. I would like this string to be a shorthand for an object, where the string points to the event's `target`.
+
+```javascript
+// This...
+const BREAK_EVENT = { BREAK: 'broken' }
+
+// is equivalent to this
+const BREAK_EVENT = { BREAK: { target: 'broken' } }
+```
+
+To accomplish this, we need another function, similar to `toEventObject` in the previous post. We can call this one `toTransitionObject`. It'll basically be the same.
+
+```javascript
+const toTransitionObject = transition =>
+  typeof transition === 'string' ? { target: transition } : transition
+```
+
+This normalizes the shape of our transitions. Let's make use of this inside of our `stateReducer`. There will be bigger changes later, but it'll be good to start with this one while it's a simple change.
+
+```javascript
+const stateReducer = (state, event) => {
+  const nextState = NEXT_STATE_GRAPH[state.current][event.type]
+
+  // We don't want to use `toTransitionObject` on undefined, so guard & early
+  // return here if there's no transition
+  if (!nextState) return
+
+  const { target } = toTransitionObject(nextState)
+
+  return target
+}
+```
+
+Now that our finite state machine utilizes `target`, we can add new properties to this object and utilize them in determining if a transition should be taken. This is how we're going to start utilizing guards.
+
+Let's add a `cond` property whose value is a predicate function. When the predicate returns `true`, we'll return the `target`, otherwise no transition will be taken.
+
+To implement this, let's imagine briefly that our light bulb is indestructable. We're going to give our `BREAK` event a transition whose `cond` property always returns `false`, and therefore is never taken.
+
+```javascript
+const BREAK_EVENT = {
+  BREAK: {
+    target: 'broken',
+    cond: () => false,
+  },
+}
+```
+
+Now, let's write the code necessary to respect this `cond`ition and not take this transition. This will involve modifying the `stateReducer` further.
+
+```javascript
+const stateReducer = (state, event) => {
+  const nextState = NEXT_STATE_GRAPH[state.current][event.type]
+
+  if (!nextState) return
+
+  const possibleTransition = toTransitionObject(nextState)
+  // Use default assignment to guarantee that `cond`
+  // is a function and returns true if it's undefined
+  const { target, cond = () => true } = possibleTransition
+
+  if (cond()) {
+    return target
+  }
+
+  return
+}
+```
+
+With that in place, our light bulb should be currently indestructable. Try it out here.
+
+<IndestructableBulb client:load />
+
+No matter how many times you click that `BREAK` button, it's not going to break. While an indestructable bulb is awesome, <Marker content="There's a bulb that's been on practically non-stop for over 100 years. Check it out <a href='https://99percentinvisible.org/episode/there-is-a-light-that-never-goes-out/\'>There Is a Light That Never Goes Out</a>." /> it's pretty unlikely. One thing we can do is add a fuse before our light bulb that might prevent it from breaking.
+
+In this case, we can add a `hasFuse` value to our `data` and check it's value as our `cond` predicate function. If our light bulb happens to have a fuse, we're going to transition to a new state, `brokenFuse`, instead of `broken`. Also, we'll rename `broken` to `brokenBulb` to be slightly more accurate.
+
+```javascript
+const initialState = {
+  current: 'unlit',
+  data: {
+    color: 'white',
+    hasFuse: true,
+  },
+}
+
+const BREAK_EVENT = {
+  BREAK: {
+    target: 'brokenFuse',
+    cond: data => data.hasFuse,
+  },
+}
+```
+
+But wait! Didn't I say we want to transition to `brokenBulb` in the case where there isn't a fuse? <Marker content="I did." /> We need a way to have _multiple targets_ for an event.
+
+The most obvious data structure for this is an array of transition objects. Let's write that, and make our code use it next.
+
+```javascript
+const BREAK_EVENT = {
+  BREAK: [{ target: 'brokenFuse', cond: data => data.hasFuse }, 'brokenBulb'],
+}
+```
+
+Now our `BREAK_EVENT` has two `target`s. If our bulb has a fuse, the machine will transition to `brokenFuse`, otherwise it'll transition to `brokenBulb`. But our machine doesn't know how to handle an array of transition objects yet. How do we adjust our code so that it can handle either an array or an object?
+
+We could write the code with a condition that checks for the type and acts accordingly, but a simpler solution is to normalize all of our transitions into an array of transition objects. This means that we want these two structures to essentially be equivalent:
+
+```javascript
+// This
+const RESET_EVENT = {
+  RESET: 'unlit',
+}
+
+// is equivalent to this
+const RESET_EVENT = {
+  RESET: ['unlit'],
+}
+
+// which is equivalent to this
+const RESET_EVENT = {
+  RESET: [{ target: 'unlit' }],
+}
+```
+
+In order to achieve this, we're going to make yet another normalizing function, `toArray`:
+
+```javascript
+const toArray = value => (Array.isArray(value) ? value : [value])
+```
+
+This simple function ensures that we're always dealing with an array of transitions. Now we need to add it to our `stateReducer`
+
+```javascript
+// Notice we now need to pass our data into the reducer
+const stateReducer = (state, event, data) => {
+  const transitionValue = NEXT_STATE_GRAPH[state.current][event.type]
+
+  // There is no transition to make
+  if (!transitionValue) return
+
+  const possibleTransitions = toArray(transitionValue).map(toTransitionObject)
+
+  // We're going to use for..of so we can return as
+  // early as possible
+  for (const transition of possibleTransitions) {
+    const { target, cond = () => true } = transition
+
+    // We know we need the `data` for our predicate function
+    // We also may want information on the event object as well
+    if (cond(data, event)) {
+      return target
+    }
+  }
+
+  // No `cond` succeeded
+  return
+}
+```
+
+We're not quite done, we need to update our parent `reducer` function to pass `data` into our `stateReducer` function.
+
+```javascript
+const reducer = (state, event) => {
+  const eventObj = toEventObject(event)
+  const nextData = dataReducer(state.data, eventObj)
+  const nextState = stateReducer(state, eventObj, nextData)
+
+  if (!nextState) return state
+
+  return {
+    current: nextState,
+    data: nextData,
+  }
+}
+```
+
+We moved the calculation of any new `data` up in the `reducer` so that we can use the latest `data` in our `nextState` calculation and pass it in to be used by our guards.
+
+We can do one more "optimization" if we'd like. Just like we have a `DATA_UPDATERS` map, we can make one for our guards as well. Then we can use a string identifier and retrieve our guard. This will make guards reusable in multiple states.
+
+```javascript
+const GUARDS = {
+  hasFuse: data => data.hasFuse,
+}
+
+//... our break event
+
+const BREAK_EVENT = {
+  BREAK: [
+    {
+      target: 'brokenFuse',
+      cond: 'hasFuse',
+    },
+    'brokenBulb',
+  ],
+}
+
+//... and in our stateReducer
+for (const transition of possibleTransitions) {
+  const { target, cond = () => true } = transition
+  const condFn = typeof cond === 'string' ? GUARDS[cond] : cond
+
+  if (condFn(data, event)) {
+    return target
+  }
+}
+```
+
+And with that, we've successfully added guards to our `useReducer` finite state machine. Pretty impressive what we can do with a little effort. You can try out our light bulb with a fuse in the component below.
+
+<LightBulbWithFuse client:load />
+
+### Summary
+
+Adding guards allows us to conditionally transition states. This enables us to create powerful state machines that handle logic flows for us with the structure of the data, **not with a bunch of conditionals in our event handling code**. This is one of the key insights of state machines. The structure _is_ the logic, and we don't have to accommodate further for it.
+
+In order to enable guards, we had to do the following:
+
+- Normalize transition objects
+- Introduce the `cond` property, a predicate function for conditional transitions
+- Normalize `possibleTransitions` as an array to simplify our `reducer`
+
+In the next post in this collection, we'll either try and clean this up a bit so we can make a package of it to pass around our application, or we'll swap out `useReducer` for [`useEffectReducer`](https://github.com/davidkpiano/useEffectReducer) so that we can properly have actions. I haven't decided yet.

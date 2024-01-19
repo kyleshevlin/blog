@@ -1,0 +1,94 @@
+---
+import Container from '../components/Container.astro'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+import '../styles/globals.css'
+import '../styles/fonts.css'
+import FootnoteDisplay from '../components/FootnoteDisplay.astro'
+
+interface Props {
+  /**
+   * The meta description for the page
+   */
+  description?: string
+  /**
+   * The meta keywords for the page
+   */
+  keywords?: string[]
+  /**
+   * The title of the page
+   */
+  title: string
+}
+
+const { description, keywords, title } = Astro.props
+---
+
+<html
+  class="h-full font-serif text-[85%] xs:text-[100%] lg:text-[115%]"
+  lang="en"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/beard-favicon.png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="twitter:title" content={title} />
+    <meta name="apple-mobile-web-app-title" content="Kyle Shevlin's Blog" />
+    <meta property="og:site_name" content="Kyle Shevlin's Blog" />
+    <meta name="author" content="Kyle Shevlin" />
+    {
+      description && (
+        <>
+          <meta
+            name="description"
+            property="og:description"
+            content={description}
+          />
+          <meta name="twitter:description" content={description} />
+        </>
+      )
+    }
+    {keywords && <meta name="keywords" content={keywords.join(', ')} />}
+    <meta
+      property="og:image"
+      content="https://kyleshevlin.com/images/beard-og-image.jpg"
+    />
+    <meta
+      name="twitter:image:src"
+      content="https://kyleshevlin.com/images/beard-og-image.jpg"
+    />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script is:inline>
+      const THEME_STORAGE_KEY = 'kyleshevlin:theme'
+      const theme = localStorage.getItem(THEME_STORAGE_KEY)
+
+      if (theme) {
+        document.documentElement.classList.add(theme)
+      }
+    </script>
+  </head>
+
+  <body
+    class="relative flex min-h-full flex-col leading-chill dark:bg-gray-900 dark:text-white"
+  >
+    <div class="flex min-h-full grow flex-col">
+      <Header />
+
+      <div class="grow">
+        <Container>
+          <slot />
+        </Container>
+      </div>
+
+      <Footer />
+    </div>
+
+    <FootnoteDisplay />
+  </body>
+</html>

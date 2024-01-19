@@ -1,0 +1,33 @@
+---
+const { pathname } = new URL(Astro.request.url)
+
+const LINKS = [
+  { href: '/', title: 'Home' },
+  { href: '/all-posts', title: 'All Posts' },
+  { href: '/tags', title: 'Tags' },
+  { href: '/courses', title: 'Courses' },
+  { href: '/snippets', title: 'Snippets' },
+  { href: '/about', title: 'About' },
+].map(link => ({
+  ...link,
+  isCurrentPage: link.href === pathname,
+}))
+---
+
+<nav class="-ml-4 font-sans">
+  {
+    LINKS.map(link => {
+      const { href, isCurrentPage, title } = link
+
+      return (
+        <a
+          class={`inline-block p-4 ${isCurrentPage && 'text-accent'} transition-colors hover:text-accent`}
+          title={title}
+          href={href}
+        >
+          {title}
+        </a>
+      )
+    })
+  }
+</nav>

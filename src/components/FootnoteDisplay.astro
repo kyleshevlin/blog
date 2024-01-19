@@ -1,0 +1,34 @@
+---
+import Container from './Container.astro'
+---
+
+<div id="footnote-display" class="fixed bottom-0 left-0 right-0 z-10 hidden">
+  <div
+    class="border-t-4 border-t-accent bg-white p-8 shadow-[0px_-4px_6px_1px] shadow-[rgba(0,0,0,0.1)] dark:bg-gray-800"
+  >
+    <Container>
+      <div class="flex flex-col items-start gap-4">
+        <div class="font-sans font-bold">Footnote</div>
+
+        <div id="footnote-display-content"></div>
+
+        <button
+          id="close-footnote"
+          class="rounded bg-accent px-4 py-2 font-sans text-sm leading-none text-white shadow-md transition-all hover:bg-accent-dark active:top-1"
+        >
+          Close
+        </button>
+      </div>
+    </Container>
+  </div>
+</div>
+
+<script>
+  const closeBtn = document.getElementById('close-footnote')
+
+  const handleClose = () => {
+    document.getElementById('footnote-display')?.classList.add('hidden')
+  }
+
+  closeBtn?.addEventListener('click', handleClose)
+</script>

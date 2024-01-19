@@ -1,0 +1,260 @@
+---
+date: '2023-05-27'
+slug: 'compound-components'
+title: 'Compound Components'
+subtitle: 'Keep it flexible, keep it working'
+description: "Ever been given a requirement to keep all the existing functionality of a component working, but allow for arbitrarily different layouts? Here's how to handle that."
+excerpt: "Compound components are nothing new in React, but it's an advanced pattern that not everyone takes the time to learn. I want to break down how I build compound components, and make it easy for you to do the same."
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import { Custom1 } from './_Custom1'
+import { Custom2 } from './_Custom2'
+import { Custom3 } from './_Custom3'
+import { Tabs } from './_Tabs'
+import { ITEMS } from './_shared'
+
+Compound components are nothing new in React, but it's an advanced pattern that not everyone takes the time to learn. I want to break down how I build compound components, and make it easy for you to do the same.
+
+For a working example, we're going to build a `Tabs` component.
+
+<div class="my-8">
+  <Tabs client:only="react" items={ITEMS} />
+</div>
+
+The code for that might look something like this: <Marker content="Styling details omitted." />
+
+```jsx
+function Tabs({ items = [] }) {
+  const [selectedValue, setSelectedValue] = React.useState(items.at(0)?.value)
+
+  // There are plenty of better ways to do this
+  // I'm keeping it simple for the example
+  const [selectedItem] = items.filter(item => item.value === selectedValue)
+
+  return (
+    <div>
+      <div>
+        {items.map(item => (
+          <button
+            key={item.value}
+            onClick={() => {
+              setSelectedValue(item.value)
+            }}
+          >
+            {item.value}
+          </button>
+        ))}
+      </div>
+
+      {selectedItem && <div>{selectedItem.content}</div>}
+    </div>
+  )
+}
+```
+
+Now, to transform this into a compound component, we're going to start by creating a `TabsContext`, like so:
+
+```javascript
+const TabsContext = React.createContext()
+
+const useTabsContext = () => React.useContext(TabsContext)
+```
+
+Our `useTabsContext` hook will only make sense if we add a `TabsContext.Provider` somewhere. For compound components, I like to create a `Root` component that renders this `Provider`.
+
+```jsx
+Tabs.Root = function TabsRoot({ children }) {
+  return (
+    <TabsContext.Provider value={undefined}>{children}</TabsContext.Provider>
+  )
+}
+```
+
+The job of the `Root` component is to receive all of the props that `Tabs` would accept and utilize the context's `value` to distribute them to the compound components we will create. For now, we're passing `undefined` because we haven't determined all that we need to store in the context just yet.
+
+I would also like to point out that we attach `Root` as a property of the `Tabs` component. I do this primarily as a convenience. We could export a `TabsRoot` component, but I find it easier to import the main component, and then use the properties (the other sub-components) to create whatever composition I need.
+
+We can add our `Tabs.Root` component to what will be our default `Tabs` composition without disrupting any functionality, like so:
+
+```jsx
+return (
+  <Tabs.Root>
+    <div>
+      <div>
+        {items.map(item => (
+          <button
+            key={item.value}
+            onClick={() => {
+              setSelectedValue(item.value)
+            }}
+          >
+            {item.value}
+          </button>
+        ))}
+      </div>
+
+      {selectedItem && <div>{selectedItem.content}</div>}
+    </div>
+  </Tabs.Root>
+)
+```
+
+Now that we have our `Tabs.Root` in place and can make use of the `TabsContext`, what state do we need to manage with the it?
+
+We need to be able to get the `selectedValue` and set it from anywhere within `Tabs.Root` using the `useTabsContext` hook. Let's start by duplicating the state in `Tabs.Root` to pass to the `Provider`.
+
+```jsx
+// Notice we've added an `initialValue` prop
+Tabs.Root = function TabsRoot({ children, initialValue }) {
+  const [selectedValue, setSelectedValue] = React.useState(initialValue)
+
+  return (
+    <TabsContext.Provider value={{ selectedValue, setSelectedValue }}>
+      {children}
+    </TabsContext.Provider>
+  )
+}
+```
+
+And then in `Tabs`:
+
+```jsx
+// we'll need an initialValue, we can default it to the first item if it exists
+const initialValue = items[0]?.value
+
+return (
+  <Tabs.Root initialValue={initialValue}>
+    <div>{/* the rest... */}</div>
+  </Tabs.Root>
+)
+```
+
+Now, we're at a place where we can start to migrate some of the sub-components of `Tabs` into compound components. Let's start with the `Tabs.Trigger`, the button we use to select a tab:
+
+```jsx
+Tabs.Trigger = function TabsTrigger({ children, value }) {
+  const { setSelectedValue } = useTabsContext()
+
+  return <button onClick={() => setSelectedValue(value)}>{children}</button>
+}
+```
+
+Notice we pass a `value` to the `Tabs.Trigger`. This is what we use to update the `selectedValue` state in our Context. Clicking the `Tabs.Trigger` updates the state of the `TabsContext`.
+
+We can do something similar with the `Tabs.Content` component:
+
+```jsx
+Tabs.Content = function TabsContent({ children, value }) {
+  const { selectedValue } = useTabsContext()
+
+  if (value !== selectedValue) return null
+
+  return <div>{children}</div>
+}
+```
+
+Notice with `Tabs.Content` that we control whether it renders or not thru the context. This is fundamentally different than before where we essentially filtered our list of `items`. Now, we will map over all the `items` and let `Tabs.Content` determine whether it should return some UI or `null`.
+
+With our sub-components built, we can update `Tabs` to use them. Pay attention to how we have to map over `items` twice, once for the `Trigger` components and another time for the `Content` components.
+
+```jsx
+function Tabs({ items = [] }) {
+  const initialValue = items[0]?.value
+
+  return (
+    <Tabs.Root initialValue={initialValue}>
+      <div>
+        <div>
+          {items.map(({ value }) => (
+            <Tabs.Trigger key={value} value={value}>
+              {value}
+            </Tabs.Trigger>
+          ))}
+        </div>
+
+        {items.map(({ content, value }) => (
+          <Tabs.Content key={value} value={value}>
+            {content}
+          </Tabs.Content>
+        ))}
+      </div>
+    </Tabs.Root>
+  )
+}
+```
+
+Now, we did all that work and component hasn't changed. Still looks and works great. But don't be fooled. Just because the functionality hasn't changed at all, doesn't mean making it slightly more complicated wasn't worth it. What we've actually done is separate the functionality of the `Tabs` from whatever user interface we decide to create with it. We can move the `Trigger`s anywhere we want in relation to the `Content` and as long as we pass in the correct `value`, it will continue to work flawlessly.
+
+For example, perhaps the `Tab.Trigger`s should go on the bottom:
+
+<div class="my-8">
+  <Custom1 client:only="react" />
+</div>
+
+```jsx
+function TabsBottom({ items = [] }) {
+  return (
+    <Tabs.Root initialValue={items[0]?.value}>
+      <div>
+        {items.map(({ content, value }) => (
+          <Tabs.Content key={value} value={value}>
+            {content}
+          </Tabs.Content>
+        ))}
+      </div>
+
+      <Flex>
+        {items.map(({ value }) => (
+          <Tabs.Trigger key={value} value={value}>
+            {value}
+          </Tabs.Trigger>
+        ))}
+      </Flex>
+    </Tabs.Root>
+  )
+}
+```
+
+Or perhaps on the side:
+
+<div class="my-8">
+  <Custom2 client:only="react" />
+</div>
+
+```jsx
+function TabsSide({ items = [] }) {
+  return (
+    <Tabs.Root initialValue={items[0]?.value}>
+      <Flex>
+        <Flex direction="column">
+          {items.map(({ value }) => (
+            <Tabs.Trigger key={value} value={value}>
+              {value}
+            </Tabs.Trigger>
+          ))}
+        </Flex>
+
+        <FlexItem grow={1}>
+          {items.map(({ content, value }) => (
+            <Tabs.Content key={value} value={value}>
+              {content}
+            </Tabs.Content>
+          ))}
+        </FlexItem>
+      </Flex>
+    </Tabs.Root>
+  )
+}
+```
+
+Or perhaps we should have **all** the `Tab.Trigger`s you can think of:
+
+<div class="my-8">
+  <Custom3 client:only="react" />
+</div>
+
+Now, we're able to create any composition for `Tabs` that we might need, while still having a great default composition for normal usage. Need icons in the `Trigger`s? No problem. Need different colors for each `Content`? No problem. There is almost no limit to what you can do with this pattern.
+
+Hope this helps you understand compound components a little better, and that you gain some benefit from adopting it in your projects. Let me know if it does!

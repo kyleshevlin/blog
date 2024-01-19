@@ -1,0 +1,17 @@
+---
+import Beard from '../icons/Beard.astro'
+import { TotalBeardStrokes } from './TotalBeardStrokes'
+
+interface Props {
+  slug: string
+}
+
+const { slug } = Astro.props
+---
+
+<div class="flex items-center gap-2">
+  <span class="text-accent">
+    <Beard width={20} />
+  </span>
+  <TotalBeardStrokes client:only="react" slug={slug} />
+</div>

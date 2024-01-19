@@ -1,0 +1,64 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import Standard from '../../layouts/Standard.astro'
+import Content from '../../components/Content.astro'
+import Prose from '../../components/Prose.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import { toSlug } from '../../utils'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postsEntries = await getCollection('posts')
+  const byTag = postsEntries.reduce(
+    (acc, entry) => {
+      const tags = entry.data.tags ?? []
+
+      tags.forEach(tag => {
+        if (!acc[tag]) {
+          acc[tag] = []
+        }
+
+        acc[tag].push(entry)
+      })
+
+      return acc
+    },
+    {} as Record<string, CollectionEntry<'posts'>[]>,
+  )
+
+  return Object.entries(byTag).map(([key, entries]) => ({
+    params: { slug: toSlug(key) },
+    props: { title: key, entries },
+  }))
+}
+
+interface Props {
+  entries: CollectionEntry<'posts'>[]
+  title: string
+}
+
+const { entries, title } = Astro.props
+---
+
+<Standard title={`${title} | Tags | Kyle Shevlin`}>
+  <Content>
+    <Prose>
+      <PageHeading>{title}</PageHeading>
+
+      <ul class="flex flex-col gap-2">
+        {
+          entries.map(entry => (
+            <li>
+              <a
+                class="text-accent hover:text-accent-dark"
+                href={`/${entry.slug}`}
+              >
+                <span set:html={entry.data.title} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </Prose>
+  </Content>
+</Standard>

@@ -1,0 +1,10 @@
+<span>&copy;<span id="copyright-year"></span></span>
+
+<script>
+  const span = document.getElementById('copyright-year')
+  const year = new Date().getFullYear()
+
+  if (span) {
+    span.innerText = String(year)
+  }
+</script>

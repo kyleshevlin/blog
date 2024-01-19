@@ -1,0 +1,262 @@
+---
+date: '2023-08-14'
+slug: 'quit-your-yapping'
+title: 'Quit Your YAP-ing'
+subtitle: null
+description: 'Learn when adding yet another prop to a React component becomes a problem and how to fix it with composition.'
+excerpt: "A couple years back, I came up with what I hope is a clever name to a common problem I see in React components, but I never took the time to write about it. I call it YAP (Yet Another Prop) Syndrome, and once you recognize it, you'll see it every where."
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import { Button } from '../../../components/Button'
+import { Card1, Card2, CardWithChildren, CardWithSlotsExample } from './_Cards'
+
+A couple years back, I came up with what I hope is a clever name to a common problem I see in React components, but I never took the time to write about it. I call it YAP (Yet Another Prop) Syndrome, and once you recognize it, you'll see it every where.
+
+YAP occurs when we add props to a component that would be better handled by composition. Simple definition, but I'll be the first to admit that it's challenging to develop the intuition to recognize this, but I'll do my best to give you a few examples.
+
+Most components require _some_ props in order to work, this is simply how functions work. Most accept inputs to be used in the output. YAP occurs when we add _excessive_ props that could be handled better by making a new composition. This is often the result of requirements changing as time goes by without giving alternative solutions much thought.
+
+Let's consider a simple `Card` component with a button in the `Card`'s footer.
+
+<div class="my-8 flex justify-center">
+  <Card1 client:load />
+</div>
+
+Now, it's completely possible that the first time you're given this design, you bake the `button` in because there's only going to be one. A simplistic approach might look like this:
+
+```tsx
+type CardProps = {
+  action?: {
+    onClick: () => void
+    text: string
+  }
+  body?: string
+  title?: string
+}
+
+/**
+ * All the code samples in this post are rudimentary and omit styles. I trust
+ * you can figure out what markup you would need to get the result you want.
+ */
+function Card({ action, body, title }: CardProps) {
+  return (
+    <div>
+      <div>
+        {title && <h4>{title}</h4>}
+        {body && <div>{body}</div>}
+      </div>
+
+      {action && (
+        <div>
+          <button onClick={action.onClick} type="button">
+            {action.text}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+This is probably fine.
+
+<div class="my-8 flex justify-center">
+  <Gif
+    alt="Cartoon dog sits at a table sipping coffee while the entire room is on fire and filling with smoke, calmly saying, 'This is fine.'"
+    gifSrc="/images/this-is-fine-fire.gif"
+    staticSrc="/images/this-is-fine-fire.jpg"
+  />
+</div>
+
+That is until a few months go by, and someone decides that maybe a card can have two buttons, a left and a right one. Something like this:
+
+<div class="my-8 flex justify-center">
+  <Card2 />
+</div>
+
+Now, a really bad approach would be `left` and `right` props, like so:
+
+```tsx
+type Action = {
+  onClick: () => void
+  text: string
+}
+
+/**
+ * Bonus tip: I prefer to write keys with adjectives
+ * in noun-adjective order. That way, all the like keys
+ * are grouped together when I sort them alphabetically
+ */
+type CardProps = {
+  actionLeft?: Action
+  actionRight?: Action
+  body?: string
+  title?: string
+}
+
+function Card({ actionLeft, actionRight, body, title }: CardProps) {
+  const hasAction = actionLeft || actionRight
+
+  return (
+    <div>
+      <div>
+        {title && <h4>{title}</h4>}
+        {body && <div>{body}</div>}
+      </div>
+
+      {hasAction && (
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          {actionLeft && <CardAction action={actionLeft} />}
+          {actionRight && <CardAction action={actionRight} />}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function CardAction({ action }: { action: Action }) {
+  return (
+    <button
+      onClick={action.onClick}
+      type="button"
+      style={{
+        flex: '1 1 auto',
+      }}
+    >
+      {action.text}
+    </button>
+  )
+}
+```
+
+"But Kyle, why is this bad? It works, doesn't it?"
+
+Sort of. It sort of works.
+
+You see, we've started YAP-ing. We're adding "yet another prop" to adjust our component, but once we start down this path, there's no good way to stop going further.
+
+Which prop should we map a single action to? `actionLeft`? `actionRight`? I don't know, and neither will the other people using `Card`.
+
+What happens if the designer requests a third button? Do we add an `actionMiddle` prop? What happens if the user provides `actionMiddle` and `actionRight` but no `actionLeft`? Does `actionMiddle` _become_ an `actionLeft`, or should there be an empty space to the left?
+
+What happens if they ask for only a single button, but it should only span half the width of the `Card`'s footer? Which prop is that now? If we have three different action slots, how do we do _half_ of the width of the card?
+
+As I've already said, the better solution is composition. Give the consumer (the one using the component in their code) the ability to create _any_ composition they need. 1 button, 2 buttons, 3 buttons, no buttons. It doesn't matter.
+
+We can take a few approaches to this. Let's explore them.
+
+### Using `children`
+
+First, we could use `children` and let the consumer make whatever they need there.
+
+```tsx
+function Card({ body, children, title }) {
+  return (
+    <div>
+      <div>
+        {title && <h4>{title}</h4>}
+        {body && <div>{body}</div>}
+      </div>
+
+      {children && <div>{children}</div>}
+    </div>
+  )
+}
+
+function ExampleWithChildren() {
+  return (
+    <Card body="Here is an example body text." title="Example Title">
+      <Flex justify="space-between">
+        <button onClick={() => {}} type="button">
+          Click me
+        </button>
+
+        <button onClick={() => {}} type="button">
+          Click me, too
+        </button>
+      </Flex>
+    </Card>
+  )
+}
+```
+
+<div class="my-8 flex justify-center">
+  <CardWithChildren
+    client:load
+    body="Here is an example body text."
+    title="Example Title"
+  >
+    <div style={{ minWidth: '30ch' }}>
+      <div class="flex justify-between">
+        <Button onClick={() => {}}>Click Me</Button>
+        <Button onClick={() => {}}>Click Me, too</Button>
+      </div>
+    </div>
+  </CardWithChildren>
+</div>
+
+This approach works well. We're able to control the layout of the buttons however we would like. We can layout any number of buttons or no buttons at all. We can even add other elements we might need: text, images, etc.
+
+The downside of this approach is `children` feels a touch odd when there are other elements rendered from props. It's unclear where this will render without looking at the implementation of the component. We can maybe make this a little bit clearer with "slots".
+
+### Using slots
+
+Slots is not a common term in React, but they've been there since the beginning. You'll more commonly hear the word "slots" in regards to other frameworks such as Vue and Astro, but in React, it's simply a prop that accepts a JSX element and renders it in a location in the component.
+
+Let's say we're asked to make it possible for `Card` to have some content above and below the main body of content. We can't use `children` without giving the consumer a way of rendering the body. We could do this with compound components, but let's focus on a different approach. We're going to name two props: `header` and `footer`, and if the consumer passes in something to that prop, it'll get rendered in the appropriate slot. Like so:
+
+```jsx
+function Card({ body, footer, header, title }) {
+  return (
+    <div>
+      {header && <div>{header}</div>}
+
+      <div>
+        {title && <h4>{title}</h4>}
+        {body && <div>{body}</div>}
+      </div>
+
+      {footer && <div>{footer}</div>}
+    </div>
+  )
+}
+
+function ExampleWithSlots() {
+  const header = <Flex justify="center">EXAMPLE</Flex>
+
+  const footer = (
+    <Flex justify="space-between">
+      <button onClick={() => {}} type="button">
+        Click me
+      </button>
+
+      <button onClick={() => {}} type="button">
+        Click me, too
+      </button>
+    </Flex>
+  )
+
+  return (
+    <Card
+      body="Here is an example body text."
+      header={header}
+      footer={footer}
+      title="Example Title"
+    />
+  )
+}
+```
+
+<div class="my-8 flex justify-center">
+  <CardWithSlotsExample client:load />
+</div>
+
+### Summary
+
+It's tempting to handle conditional React code with yet another prop, but it's often a bad solution and makes our code more complex than necessary. Make sure you're not adding excessive props in a situation that could be better handled with composition.
+
+If you determine composition is a better answer, you have several options at your disposal. You might even be able to combine [compound components](/compound-components) and composition to help you quit your YAP-ing.
+
+Good luck and let me know if you need any help with this.

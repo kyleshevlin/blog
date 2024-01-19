@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import PostTags from './PostTags.astro'
+import PostBeardStrokes from './PostBeardStrokes.astro'
+
+interface Props {
+  post: CollectionEntry<'posts'>
+}
+
+const { post } = Astro.props
+---
+
+<article class="flex flex-col gap-8">
+  <div class="flex flex-col gap-4">
+    <a
+      class="font-sans text-3xl text-inherit transition-all hover:text-accent"
+      href={`/${post.slug}`}
+    >
+      <span class="leading-none" set:html={post.data.title} />
+    </a>
+
+    <PostBeardStrokes slug={post.slug} />
+
+    <div set:html={post.data.excerpt || post.data.description} />
+  </div>
+
+  <div class="flex gap-8">
+    <a
+      class="inline-block rounded bg-accent px-4 py-2 font-sans leading-none text-white shadow-md transition-colors hover:bg-accent-dark"
+      href={`/${post.slug}`}
+    >
+      Read more
+    </a>
+
+    {post.data.tags?.length && <PostTags tags={post.data.tags} />}
+  </div>
+</article>

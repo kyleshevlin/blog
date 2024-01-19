@@ -9,7 +9,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const SNIPPETS_PATH = path.resolve('./src/snippets')
+const SNIPPETS_PATH = path.resolve('./src/content/snippets')
 
 function makeSnippet(fileName) {
   if (!fileName) {

@@ -1,0 +1,43 @@
+---
+const CATEGORIES = [
+  {
+    title: 'State Managers',
+    items: ['useState', 'useReducer', 'useContext', 'useRef'],
+  },
+  {
+    title: 'Effects',
+    items: ['useEffect', 'useLayoutEffect'],
+  },
+  {
+    title: 'Stabilizers',
+    items: ['useCallback', 'useMemo', 'useRef'],
+  },
+  {
+    title: 'Miscellaneous',
+    items: ['useImperativeHandle', 'useDebugValue'],
+  },
+]
+---
+
+<div class="grid grid-cols-2 grid-rows-2 gap-1">
+  {
+    CATEGORIES.map(cat => {
+      const { items, title } = cat
+
+      return (
+        <div class="bg-white p-2 dark:bg-gray-800 md:p-4">
+          <div class="mb-2 text-center font-sans font-bold leading-snug">
+            {title}
+          </div>
+          <ul class="p-4">
+            {items.map(item => (
+              <li>
+                <code>{item}</code>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    })
+  }
+</div>

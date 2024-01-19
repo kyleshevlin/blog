@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :not(pre) > code {
+    @apply inline-block bg-gray-100 px-1 dark:bg-gray-700;
+  }
+
+  pre {
+    @apply p-4;
+  }
+
+  .post ol {
+    @apply list-decimal;
+  }
+
+  .post ul {
+    @apply list-disc;
+  }
+
+  .post ol ol,
+  .post ol ul,
+  .post ul ul,
+  .post ul ol {
+    @apply pl-6;
+  }
+
+  .post li {
+    @apply my-2;
+  }
+}

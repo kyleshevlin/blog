@@ -1,0 +1,20 @@
+---
+import Content from '../components/Content.astro'
+import Hr from '../components/Hr.astro'
+import RecentPosts from '../components/RecentPosts.astro'
+import SelectedTags from '../components/SelectedTags.astro'
+import Welcome from '../components/Welcome.astro'
+import Standard from '../layouts/Standard.astro'
+---
+
+<Standard title="Home | Kyle Shevlin">
+  <Content>
+    <div class="flex flex-col gap-8">
+      <Welcome />
+      <Hr />
+      <SelectedTags />
+      <Hr />
+      <RecentPosts />
+    </div>
+  </Content>
+</Standard>

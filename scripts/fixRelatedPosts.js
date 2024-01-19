@@ -14,7 +14,7 @@ const fs = require('fs')
 const path = require('path')
 const { fromDir } = require('./utils')
 
-const POSTS_PATH = path.resolve('./src/posts/published')
+const POSTS_PATH = path.resolve('./src/content/posts')
 
 const SLUG_PATTERN = /(?<=slug: )'.*?'/g
 const RELATED_POSTS_PATTERN = /(?<=relatedPostsSlugs.*?)\[.*?\]/gms

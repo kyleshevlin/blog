@@ -1,0 +1,27 @@
+---
+interface Props {
+  filePath: string
+}
+
+const { filePath } = Astro.props
+const href = `https://github.com/kyleshevlin/blog/edit/main/src${filePath}`
+---
+
+<a
+  class="block font-sans italic text-accent hover:text-accent-dark"
+  href={href}
+  rel="noreferrer"
+  target="_blank"
+>
+  <div class="flex gap-1">
+    <span>edit</span>
+    <svg
+      width={18}
+      viewBox="0 0 31 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.5 23H0L4 14L25 0L30.5 8.5L9.5 23Z" fill="currentColor"></path>
+    </svg>
+  </div>
+</a>

@@ -1,0 +1,47 @@
+---
+date: '2019-12-27'
+slug: 'how-to-render-an-object-in-react'
+title: 'How to Render an Object in React'
+subtitle: 'Building a `Log` Component'
+description: 'Learn how to render an object in React by using JSON.stringify'
+tags: ['React']
+---
+
+import Log from './_Log'
+
+<EggheadEmbed
+  src="https://egghead.io/lessons/react-render-an-object-with-json-stringify-in-react/embed"
+  title="Render an Object with JSON.stringify in React"
+/>
+
+The trick I'm about to show you I learned so early on in my days of learning React that it didn't dawn on me that others still don't know it. My apologies, let's fix that right now.
+
+Have you ever made the mistake of trying to display an object in a React component?
+
+```jsx
+const Component = ({ obj }) => <div>{obj}</div>
+```
+
+And been met with this?
+
+![Error message from attempting to render an object](/images/RenderObjectError.jpg)
+
+Classic mistake. Don't worry, we've all made it a time or two. We can't render an object, but we can render strings. What if we turn the object into a string and render it then?
+
+We can do that with `JSON.stringify` ([docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)). `JSON.stringify` takes an object and turns it into a JSON string. We can make a component that does this for us.
+
+```jsx
+// I encourage you to look at the JSON.stringify docs to understand the
+// `replacer` and `space` arguments
+const Log = ({ value, replacer = null, space = 2 }) => (
+  <pre>
+    <code>{JSON.stringify(value, replacer, space)}</code>
+  </pre>
+)
+```
+
+We can now use this component anywhere we would like to display an object in our app. This is very useful for debugging apps.
+
+<Log value={{ name: 'Kyle Shevlin', age: 34, location: 'Portland, OR' }} />
+
+Use this whenever you'd like to display your object in the browser instead of looking at the object value in the console or the devtools.

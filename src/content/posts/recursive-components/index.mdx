@@ -1,0 +1,212 @@
+---
+date: '2020-02-20'
+slug: 'recursive-react-components'
+title: 'Recursive React Components'
+description: "React components are _just_ functions. We can use the same patterns on components that we do on other functions, including recursion. Let's make some recursive components."
+tags: ['React', 'Computer Science', 'Data Structures and Algorithms']
+---
+
+import BetterStyledTree from './_BetterStyledTree'
+import StyledTree from './_StyledTree'
+import UnstyledTree from './_UnstyledTree'
+
+It can be easy to forget that React components are _just_ functions. They receive inputs, they give us an output, and they might trigger some side effects in the process. Because they are simply functions, we can use patterns with them that we use with other functions. Like **recursion**.
+
+### What is recursion?
+
+Recursion is the pattern of a function calling itself. A very common example of a recursive function is calculating a _factorial_ of a number. <Marker content="A factorial is a positive number multiplied by every number between itself and 1. So <code>6!</code> is <code>6 * 5 * 4 * 3 * 2 * 1</code>." /> Consider the following function:
+
+```javascript
+function factorial(number) {
+  // This is the base case. I'll explain this shortly
+  if (number <= 1) {
+    return 1
+  }
+
+  return number * factorial(number - 1)
+}
+```
+
+Our function receives a number to factorialize, but rather than use an iterative loop, such as a `for` or `while` loop, we take advantage of the fact that we can calculate the final result by utilizing the results of calling `factorial` on smaller numbers. That is, we recognize the pattern:
+
+```javascript
+factorial(4) === 4 * factorial(3)
+factorial(3) === 3 * factorial(2)
+factorial(2) === 2 * factorial(1)
+factorial(1) === 1
+```
+
+If we take this list of equal values and reverse the order of the functions we see called, we can derive the function call stack of `factorial(4)`.
+
+`factorial(4)` leads to `factorial(3)` getting called, which leads to `factorial(2)` getting called, which leads to `factorial(1)` getting called, which returns the value of `1`, which is fed back into `factorial(2)` which returns the value of `2`, which is fed back into `factorial(3)` which returns the value of `6`, which is fed back into `factorial(4)`, which returns the value of `24`.
+
+Easy, right?! <Marker content="It is. It just takes practice." />
+
+### Base Cases
+
+Consider for a moment if we commented out the following bit of code from our `factorial` function:
+
+```javascript
+function factorial(number) {
+  // if (number <= 1) {
+  //   return 1
+  // }
+
+  return number * factorial(number - 1)
+}
+```
+
+What would happen? Well, we'd never get an answer. We'd never get a call to `factorial` that returned a value. We would continue to add `factorial` calls to the call stack until we exceeded the maximum number of calls allowed on the stack. We would have a "stack overflow" (and yes, that is where the name comes from).
+
+Every recursive function needs to have a **base case** that ends the recursion. In the case of `factorial`, it's when we have a number less than or equal to 1 passed in for `number`. This base case ends the chain of recursive calls, and starts the process of returning values up the stack to get the final result.
+
+### Recursion applied to components
+
+Now that we understand recursive functions, let's apply this knowledge to components. A recursive component is a component that renders itself as one of its children. Let me give you an example.
+
+Consider a directory of folders. It might look something like this:
+
+```
+src
+  |- css
+  |- js
+    |- utils
+    |- components
+public
+  |- images
+```
+
+How can we represent this as data to pass to a recursive component? Pretty simply actually, we can use a **tree**. A tree is a graph data structure where each child node has a single parent. For example, the HTML structure of a website is a tree. No element on a page has more than one parent (all they way up to the `<html>` tag). We can make a tree structure for our `folders` like this:
+
+```javascript
+const folders = [
+  { name: 'src', children: [
+    { name: 'css', children: [] }
+    { name: 'js', children: [
+      { name: 'utils', children: [] },
+      { name: 'components', children: [] }
+    ]}
+  ]},
+  { name: 'public', children: [
+    { name: 'images', children: [] }
+  ]}
+]
+```
+
+We have a top level of folders, and folders nested up those are on a `children` property. Now that we have our data, how do we make use of it in a recursive component?
+
+Similar to how we recognized that `factorial` can be solved by using the result of `factorial` called on smaller numbers, we can recognize that a tree is the result of combining smaller trees. <Marker content="One might think of it as a fractal." /> Understanding this, we can make a `Tree` component that will call itself to render smaller `Tree`s.
+
+```jsx
+function Tree({ items }) {
+  // our base case, if we have no items, render nothing.
+  if (!items || !items.length) {
+    return null
+  }
+
+  return items.map(item => (
+    <React.Fragment key={item.name}>
+      <div>{item.name}</div>
+      {/* And here's the recursion! */}
+      <Tree items={item.children} />
+    </React.Fragment>
+  ))
+}
+```
+
+If we were to pass the folder data we created earlier to the component, that will look like this:
+
+<OffsetWrap>
+  <UnstyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
+
+**Wait!** That's not what we want to represent. That's just a flat list. What happened?
+
+Well, we forgot to style it. Let's track the `depth` of the folder with each level and update the `padding-left` CSS property accordingly.
+
+```jsx
+// We add a `depth` property with a default value of 0
+// That way we don't have to pass it to the top level of the tree
+function Tree({ items, depth = 0 }) {
+  if (!items || !items.length) {
+    return null
+  }
+
+  return items.map(item => (
+    <React.Fragment key={item.name}>
+      {/* Multiply the depth by a constant to create consistent spacing */}
+      <div style={{ paddingLeft: depth * 15 }}>{item.name}</div>
+      <Tree items={item.children} depth={depth + 1} />
+    </React.Fragment>
+  ))
+}
+```
+
+Notice how simple it is to increment the `depth` prop with recursion. Each layer deeper we go in the tree, the value is increased by 1. Let's take a look at our recursive component now:
+
+<OffsetWrap>
+  <StyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
+
+That looks a bit more like the folder structure we all know and love. Let's add a few more touches to make it a bit nicer.
+
+<OffsetWrap>
+  <BetterStyledTree
+    items={[
+      {
+        name: 'src',
+        children: [
+          { name: 'css', children: [] },
+          {
+            name: 'js',
+            children: [
+              { name: 'utils', children: [] },
+              { name: 'components', children: [] },
+            ],
+          },
+        ],
+      },
+      { name: 'public', children: [{ name: 'images', children: [] }] },
+    ]}
+  />
+</OffsetWrap>
+
+That's starting to look like something you could use in a real UI. A little interactivity, displaying of files, and we'd really have something.
+
+### Conclusion
+
+I encourage you to get comfortable with recursion. It doesn't have to be scary. Often, it's the simplest and most elegant solution to a problem. Who knows, it might even help you pass a job interview one day. Don't be afraid to experiment with it in your React work, you may discover some interesting UIs because of it.

@@ -1,0 +1,65 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import Standard from '../../layouts/Standard.astro'
+import Content from '../../components/Content.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import Prose from '../../components/Prose.astro'
+import FinishedReading from '../../components/FinishedReading.astro'
+import Hr from '../../components/Hr.astro'
+import PostAuthor from '../../components/PostAuthor.astro'
+import EditLink from '../../components/EditLink.astro'
+import PostBeardStrokes from '../../components/PostBeardStrokes.astro'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const snippetEntries = await getCollection('snippets')
+
+  return snippetEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+interface Props {
+  entry: CollectionEntry<'snippets'>
+}
+
+const { entry } = Astro.props
+const { name } = entry.data
+const { Content: PostContent } = await entry.render()
+
+const formattedSlug = `snippets---${entry.slug}`
+---
+
+<Standard title={`${name} | Snippets | Kyle Shevlin`}>
+  <Content>
+    <article>
+      <Prose>
+        <div>
+          <div class="font-sans text-xl font-bold">Snippet</div>
+
+          <div class="flex flex-wrap items-baseline justify-between gap-4">
+            <PageHeading>{name}</PageHeading>
+            <EditLink filePath={`/snippets/${entry.id}`} />
+          </div>
+
+          <PostBeardStrokes slug={formattedSlug} />
+        </div>
+
+        <PostContent />
+
+        <div class="my-8">
+          <Hr />
+        </div>
+
+        <FinishedReading slug={formattedSlug} />
+
+        <div class="my-8">
+          <Hr />
+        </div>
+
+        <PostAuthor />
+      </Prose>
+    </article>
+  </Content>
+</Standard>

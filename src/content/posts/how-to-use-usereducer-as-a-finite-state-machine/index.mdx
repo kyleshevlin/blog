@@ -1,0 +1,129 @@
+---
+date: '2020-05-04'
+slug: 'how-to-use-usereducer-as-a-finite-state-machine'
+title: 'How to Use `useReducer` as a Finite State Machine'
+description: "In this post, Kyle Shevlin demonstrates a way to make React's `useReducer` hook behave like a finite state machine."
+tags: ['React', 'React Hooks', 'State Machines']
+relatedPostsSlugs:
+  [
+    'adding-guards-to-a-use-reducer-finite-state-machine',
+    'adding-infinite-states-to-a-use-reducer-finite-state-machine',
+    'can-a-state-machine-be-a-string',
+    'guidelines-for-state-machines-and-xstate',
+    'enumerate-dont-booleanate',
+    'what-are-state-machines',
+    'our-first-xstate-machine',
+    'xstate-visualizer',
+  ]
+relevantCourseNickname: 'xstate'
+---
+
+import LightBulb from './_LightBulb'
+
+I recently attempted to get XState into the Webflow codebase to manage some challenging and complex UIs but was met with resistance. No big deal, this is a part of work, consensus driving, disagreeing and committing, etc. If it hasn't happened to you yet, it will.
+
+One of the things you need when that happens is a good imagination. How do we make the tools we already have do the things we want in a reasonable way? I'm going to help you with that today by showing you a way to make `useReducer` behave like a simple finite state machine in React.
+
+I've started using the following pattern in some of my work and I think it will help you. <Marker content="A few caveats up front. You won't have access to hierarchical state machines with this approach. You also will not have the ability to trigger side effects from state changes. I will discuss this briefly here, but plan to cover it in another blog post." /> If we look at the `reducer` of `useReducer` and a state machine, we can see that they are quite similar. They both take a current `state` and an `event` (Redux calls this an `action`, but I will use `event` throughout this post), and return the next state. The differences are:
+
+- A `reducer` does not restrict itself to a set of finite states
+- A `reducer` has no mechanism for calling side effects from state transitions
+
+We can't do anything about the second point, and I will cover that in a future post on [`useEffectReducer`](https://github.com/davidkpiano/useEffectReducer), but we can do something about the first. We can create a graph of states that our `reducer` will use to transition to the next state. I'll demonstrate how I approach this.
+
+I'm going to use the example of a light bulb like I do in my [XState course](https://kyleshevl.in/xstate). A bulb has three states: `lit`, `unlit`, and `broken`. Let's make a `NEXT_STATE_GRAPH` object starting with these states.
+
+```javascript
+const NEXT_STATE_GRAPH = {
+  lit: {},
+  unlit: {},
+  broken: {},
+}
+```
+
+Next, let's define the `events` that will transition each `state` to their next state.
+
+```javascript
+const NEXT_STATE_GRAPH = {
+  lit: {
+    TOGGLE: 'unlit',
+    BREAK: 'broken',
+  },
+  unlit: {
+    TOGGLE: 'lit',
+    BREAK: 'broken',
+  },
+  broken: {},
+}
+```
+
+Now, we're going to use this in the `reducer` we will pass to `useReducer` to get our next state.
+
+```javascript
+const reducer = (state, event) => {
+  const nextState = NEXT_STATE_GRAPH[state][event]
+  return nextState !== undefined ? nextState : state
+}
+```
+
+That's it! A `reducer` doesn't need to be complicated or use a `switch` statement. It just has to deterministically give you the next state. Let's apply this to a simple component.
+
+```jsx
+function LightBulb() {
+  // we can change `dispatch` to `send` to look more like using XState
+  const [state, send] = useReducer(reducer, 'unlit')
+
+  return (
+    <div>
+      State: {state}
+      <button type="button" onClick={() => send('TOGGLE')}>
+        Toggle
+      </button>
+      <button type="button" onClick={() => send('BREAK')}>
+        Break
+      </button>
+    </div>
+  )
+}
+```
+
+You can see it in action right here. Be sure to click buttons a state _shouldn't_ respond to as well! <Marker content="You can check out my blog repo for more details on how I implemented <code>reset</code> in my reducer here." />
+
+<OffsetWrap>
+  <LightBulb client:load />
+</OffsetWrap>
+
+### Types
+
+One small issue I ran into while implementing this was that our type system, Flow, was not happy that I was using the failure of finding a key on an object to return `undefined` on purpose. Type systems hate when you use a language feature like that. No problem, I made a simple fix by adjusting our `NEXT_STATE_GRAPH` slightly.
+
+```javascript
+// Let's make an object of all our events with an undefined next state
+const NON_RESPONSIVE_EVENTS = {
+  BREAK: undefined,
+  TOGGLE: undefined,
+}
+
+// Now let's spread that object into all our states
+const NEXT_STATE_GRAPH = {
+  lit: {
+    ...NON_RESPONSIVE_EVENTS,
+    BREAK: 'broken',
+    TOGGLE: 'unlit',
+  },
+  unlit: {
+    ...NON_RESPONSIVE_EVENTS,
+    BREAK: 'broken',
+    TOGGLE: 'lit',
+  },
+  broken: {
+    ...NON_RESPONSIVE_EVENTS,
+  },
+}
+```
+
+Now each state node will have a key for any `event` and explicitly returns `undefined` in those situations where we do not want to make a state transition. We simply override the non-responsive `events` with responsive ones below, taking advantage of how object spreading works. <Marker content="Key/value pairs that have the same key as a previous one will overwrite the previous value with the new one." /> This will appease any exhaustive check a type system demands.
+
+### Conclusion
+
+There you have it, a simple finite state machine using `useReducer`. I'll make another post soon on how to handle infinite state data alongside finite states with `useReducer`, but this should be enough to get your brain juices flowing and experimenting with this approach.

@@ -1,0 +1,91 @@
+---
+date: '2023-01-22'
+slug: 'algorithms-insertion-sort'
+title: 'Algorithms: Insertion Sort'
+subtitle: null
+description: 'Learn the insertion sort algorithm in JavaScript and why it is slightly better than bubble sort'
+excerpt: "Let's improve upon our bubble sort algorithm with insertion sort and learn how to reduce unnecessary comparisons."
+tags: ['Data Structures and Algorithms']
+relatedPostsSlugs: ['algorithms-bubble-sort']
+relevantCourseNickname: 'dsa'
+---
+
+import { InsertionSortVisual } from './_InsertionSortVisual'
+
+Let me start this post with a question. Is an array of a single item a sorted array?
+
+**Not a trick question**! It is, and we use this fact with insertion sort.
+
+In the previous post on [bubble sort](/algorithms-bubble-sort), our algorithm spent a lot of time comparing items that were already sorted, especially near the end of the sort. That's really inefficient. How might we be able to avoid making these unnecessary comparisons?
+
+If we were able to track an array that we _knew_ to be sorted, we could stop looping past this array and instead _insert_ items, one by one, into their correct position. Doing so, would save us a few unnecessary comparisons.
+
+To accomplish this, we treat the first item in the array as a sorted list of a single item. Then, we compare the rest of the items to the items in this sorted list. When we find a spot for our item, we insert it into the sorted portion. By the time we finish looping through each item, our list will be sorted. No need for a final loop to verify nothing changed.
+
+### The details
+
+The insertion sort algorithm goes like this:
+
+- Treat the first item as a sorted
+- Thus, starting from the 2nd item in the array, loop through each item
+- For each item:
+  - Loop through the sorted portion of our array
+  - Compare each item in the sorted portion to the item in the outer loop
+  - If the outer item is less than the inner item
+    - Remove the outer item from its current position
+    - Splice it into the inner position
+
+```javascript
+function insertionSort(items) {
+  let i
+  let j
+
+  /**
+   * Loop from the start of the unsorted portion of our array
+   * aka the second item
+   */
+  for (i = 1; i < items.length; i++) {
+    /**
+     * Loop thru the sorted portion of our array
+     * aka from the first item to our outer item
+     */
+    for (j = 0; j < i; j++) {
+      /**
+       * Compare the item at `i` with `j`
+       */
+      if (items[i] < items[j]) {
+        /**
+         * We can remove the item at `i` out and destructure it
+         */
+        const [item] = items.splice(i, 1)
+
+        /**
+         * And splice the item back in at `j`
+         */
+        items.splice(j, 0, item)
+      }
+    }
+  }
+
+  return items
+}
+```
+
+We can see it in action here:
+
+<div class="my-8">
+  <InsertionSortVisual client:load />
+</div>
+
+Take notice that while we still do a lot of comparisons, we do quite a bit fewer than we did with bubble sort. In running the component above a few times in testing, I noticed it was about 1/2 as many as the bubble sort on average. That's a pretty good improvement. But we can still do better, and we'll learn how soon.
+
+### For egghead subscribers
+
+If you enjoy learning from video content and have an egghead account, you can watch this lesson in the embed below or at [https://egghead.io/lessons/javascript-sort-an-array-with-a-nested-for-loop-using-insertion-sort-in-javascript](https://egghead.io/lessons/javascript-sort-an-array-with-a-nested-for-loop-using-insertion-sort-in-javascript).
+
+<div class="my-8">
+  <EggheadEmbed
+    src="https://egghead.io/lessons/javascript-sort-an-array-with-a-nested-for-loop-using-insertion-sort-in-javascript/embed"
+    title="Insertion Sort"
+  />
+</div>

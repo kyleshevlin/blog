@@ -1,0 +1,307 @@
+---
+date: '2021-08-07'
+slug: 'prefer-declarative-state-updaters'
+title: 'Prefer Declarative State Updaters'
+subtitle: "or Don't Pass Around Naked State Setters, Please"
+description: "Learn how declarative state updaters improve the quality of your component's code."
+excerpt: "Since the advent of React hooks, I have seen a pattern emerge that I think is <em>less than ideal</em>. I've started calling it the &ldquo;naked state setter&rdquo; pattern. Let's find out what it is and how to avoid it."
+tags: ['React']
+relatedPostsSlugs: ['prefer-function-updaters-in-state-setters']
+---
+
+Since the advent of React hooks, I have seen a pattern emerge that I think is _less than ideal_. I've started calling it the "naked state setter" pattern.
+
+Before I explain it, I want to be clear: it's not an anti-pattern. You're not in any danger if you use it, but I don't think it's the _best_ pattern. I also think the growing use of types, eg. TypeScript or Flow, has obscured this less-then-ideal pattern, so recognizing it can be even trickier.
+
+Let me break down what I'm seeing with some code. I'm going to use a rudimentary example, so I'm going to ask you to use some imagination throughout this post. Let's build a simple counter: <Marker content="Big surprise, right?" />
+
+```jsx
+function Counter() {
+  const [count, setCount] = React.useState(0)
+  return <div>{count}</div>
+}
+```
+
+Before you get distracted wondering why I have state when I have nothing changing the state, I want to point out what the "naked state setter" _is_. It's the `setCount` in this example. It's bare. It's **naked**. It's not wrapped in anything. Get it?
+
+Let's finish our component (for now).
+
+```jsx
+import { Button } from './components/Button'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <div>
+      <div>{count}</div>
+      <div>
+        <Button
+          onClick={() => {
+            setCount(s => s + 1)
+          }}
+        >
+          +
+        </Button>
+        <Button
+          onClick={() => {
+            setCount(s => s - 1)
+          }}
+        >
+          -
+        </Button>
+        <Button
+          onClick={() => {
+            setCount(0)
+          }}
+        >
+          reset
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+We've written all of our state updater functions inline. This isn't that uncommon, and honestly, there are many situations where this is fine. But just because it's fine, doesn't mean it can't be better.
+
+So what is the problem with these state updater functions?
+
+They don't tell you what they do! You have to read the body of the function to get that information. They barely wrap our naked state setter in anything. Just a pair of `{}`. It's like wrapping our callback function in a toga. We are _very_ close to the bare skin.
+
+What if, instead, we made declarative state updater functions?
+
+```jsx
+import { Button } from './components/Button'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  const incrementCount = React.useCallback(() => {
+    setCount(s => s + 1)
+  }, [])
+
+  const decrementCount = React.useCallback(() => {
+    setCount(s => s - 1)
+  }, [])
+
+  const resetCount = React.useCallback(() => {
+    setCount(0)
+  }, [])
+
+  return (
+    <div>
+      <div>{count}</div>
+      <div>
+        <Button onClick={incrementCount}>+</Button>
+        <Button onClick={decrementCount}>-</Button>
+        <Button onClick={resetCount}>reset</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+Now, we have three declarative state updaters. They describe what they do. They're wrapped in more than just `{}`. They have a **name**. As I'm reading the UI, it's very clear what action will be taken for each `onClick` event.
+
+"But why does this matter, Kyle? It's all in the same component. It's simple. I can understand it!"
+
+Ok. I hear you. You're right that in this contrived example, it's understandable. But what about when we have to pass those state updaters down to some children components?
+
+Let's say this component looked like this:
+
+```jsx
+import CounterActions from './CounterActions'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  // What props should CounterActions get?
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions />
+    </div>
+  )
+}
+```
+
+In this case, I've got another component that renders the actions of the `Counter`. `CounterActions` has the UI responsible for updating the state in `Counter`. In order to do that, we have a few choices in what we pass to `CounterActions`.
+
+Naively, we could just give it `setCount`.
+
+```jsx
+<CounterActions setCount={setCount} />
+```
+
+This works, right? I can write all those updaters in the `CounterActions` component. But what if I don't control `CounterActions`? Maybe I'm giving them a little too much leeway by giving them the naked state setter. What if `CounterActions` arbitrarily decides to increment and decrement by values other than `1`? What if I'm giving them a little too much control? Nothing stops someone from writing `CounterActions` like this:
+
+```jsx
+import { Button } from './components/Button'
+
+function CounterActions({ setCount }) {
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setCount(false)
+        }}
+      >
+        +
+      </Button>
+      <Button
+        onClick={() => {
+          setCount({})
+        }}
+      >
+        -
+      </Button>
+      <Button
+        onClick={() => {
+          setCount(null)
+        }}
+      >
+        reset
+      </Button>
+    </div>
+  )
+}
+```
+
+It's chaos! Mayhem! `CounterActions` can run amuck with all the power of that naked state setter getting passed down as a prop. We gotta stop that!
+
+"Ok, just add some types. That'll prevent the misuse," you say.
+
+Sure, let's try it.
+
+```tsx
+import { Button } from './components/Button'
+
+function Counter() {
+  const [count, setCount] = React.useState<number>(0)
+
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions setCount={setCount} />
+    </div>
+  )
+}
+
+function CounterActions({ setCount }) {
+  const incrementCount = React.useCallback(() => {
+    setCount(s => s * 3)
+  }, [])
+
+  const decrementCount = React.useCallback(() => {
+    setCount(s => s / 2)
+  }, [])
+
+  const resetCount = React.useCallback(() => {
+    setCount(1000)
+  }, [])
+
+  return (
+    <div>
+      <Button onClick={incrementCount}>+</Button>
+      <Button onClick={decrementCount}>-</Button>
+      <Button onClick={resetCount}>reset</Button>
+    </div>
+  )
+}
+```
+
+Ahhhh! Even types haven't saved us from this mess. It's even worse. Passing the naked state setter means that now the logic of my `count` state exists somewhere _else_ and I can't restrict how it's used.
+
+**This is where declarative state updaters really shine.**
+
+Instead, let's define the API that we want `CounterActions` to use. We don't care _how_ `CounterActions` or any further children use it, but we know they can't misuse it. <Marker content="Too badly." />
+
+```jsx
+import CounterActions from './CounterActions'
+
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  const incrementCount = React.useCallback(() => {
+    setCount(s => s + 1)
+  }, [])
+
+  const decrementCount = React.useCallback(() => {
+    setCount(s => s - 1)
+  }, [])
+
+  const resetCount = React.useCallback(() => {
+    setCount(0)
+  }, [])
+
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions
+        incrementCount={incrementCount}
+        decrementCount={decrementCount}
+        resetCount={resetCount}
+      />
+    </div>
+  )
+}
+```
+
+Now, I don't have to worry about how `CounterActions` uses my updaters. They can't really screw it up. They may make a broken, less than optimal `Counter`, but it won't be because they can arbitrarily update state. They can only use what I allow them to use. It's the perfect amount of power to pass to another component.
+
+### A step further
+
+What makes declarative state updaters even more powerful is how easily they can be refactored into a good custom hook. I'm actually going to do _two_ refactors here at once: first, move the logic into a custom hook, and second, swap three `useCallback`s for a single `useMemo`.
+
+```jsx
+import CounterActions from './CounterActions'
+
+function useCounter() {
+  const [count, setCount] = React.useState(0)
+
+  const handlers = React.useMemo(
+    () => ({
+      increment: () => {
+        setCount(s => s + 1)
+      },
+      decrement: () => {
+        setCount(s => s - 1)
+      },
+      reset: () => {
+        setCount(0)
+      },
+    }),
+    [],
+  )
+
+  return [count, handlers]
+}
+
+function Counter() {
+  const [count, { increment, decrement, reset }] = useCounter()
+
+  return (
+    <div>
+      <div>{count}</div>
+      <CounterActions
+        incrementCount={increment}
+        decrementCount={decrement}
+        resetCount={reset}
+      />
+    </div>
+  )
+}
+```
+
+Hopefully you can see how nice it is to wrap our naked state setters to create quality declarative state updaters.
+
+### Time for you to use your imagination
+
+This is the part where I need you to think about how you're writing your code right now and apply the concepts here to the more important and likely complex work you are doing. Here's what I hope you take away.
+
+- Passing a naked state setter to children might be dangerous, even with types
+- Declarative state updaters put you in control and prevent misuse
+- Declarative state updaters are easy to refactor into custom hooks
+
+So go on, wrap those naked state setters up with some thing.

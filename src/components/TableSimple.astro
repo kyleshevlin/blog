@@ -1,0 +1,37 @@
+---
+type Props = {
+  headings: string[]
+  items: unknown[][]
+}
+
+const { headings, items } = Astro.props
+---
+
+<table class="border-collapse">
+  <thead
+    class="bg-gray-200 text-left font-sans text-lg font-bold dark:bg-gray-700"
+  >
+    <tr>
+      {
+        headings.map(text => (
+          <th class="px-4 py-2">
+            <span set:html={text} />
+          </th>
+        ))
+      }
+    </tr>
+  </thead>
+  <tbody>
+    {
+      items.map(item => (
+        <tr>
+          {item.map(datum => (
+            <td class="border-2 border-gray-200 px-4 py-2 dark:border-gray-700">
+              <span set:html={datum} />
+            </td>
+          ))}
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

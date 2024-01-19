@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url('/fonts/DroidSerif-Regular-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: bold;
+  font-display: swap;
+  src: url('/fonts/DroidSerif-Bold-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src:
+    url('/fonts/catamaran-regular-webfont.woff2') format('woff2'),
+    url('/fonts/catamaran-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src:
+    url('/fonts/catamaran-thin-webfont.woff2') format('woff2'),
+    url('/fonts/catamaran-thin-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url('/fonts/catamaran-bold-webfont.woff2') format('woff2'),
+    url('/fonts/catamaran-bold-webfont.woff') format('woff');
+}

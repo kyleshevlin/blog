@@ -1,0 +1,17 @@
+---
+interface Props {
+  src: string
+}
+
+const { src } = Astro.props
+---
+
+<div class="relative overflow-hidden pt-[56.25%]">
+  <iframe
+    src={src}
+    frameborder="0"
+    class="absolute left-0 top-0 h-full w-full border-0"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>

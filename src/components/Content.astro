@@ -1,0 +1,30 @@
+---
+import Agathist from './Agathist.astro'
+import CourseAds from './CourseAds.astro'
+import { NewsletterSignup } from './NewsletterSignup'
+
+interface Props {
+  courseNickname?: string
+  showCourseAds?: boolean
+}
+
+const { courseNickname, showCourseAds = true } = Astro.props
+---
+
+<div class="flex flex-col gap-12 2xl:grid 2xl:grid-cols-2 2xl:gap-24">
+  <main class="">
+    <slot />
+  </main>
+
+  <div class="min-w-0">
+    <div class="top-8 2xl:sticky">
+      <div class="flex flex-col gap-12">
+        <Agathist />
+
+        <NewsletterSignup client:visible />
+
+        {showCourseAds && <CourseAds courseNickname={courseNickname} />}
+      </div>
+    </div>
+  </div>
+</div>

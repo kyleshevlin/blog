@@ -1,0 +1,16 @@
+---
+interface Props {
+  src: string
+  title?: string
+}
+
+const EGGHEAD_AFFILIATE_QUERY_PARAM = '?af=8u8eik'
+const { src, title = '' } = Astro.props
+---
+
+<div class="relative overflow-hidden pt-[56.25%]">
+  <iframe
+    class="absolute left-0 top-0 h-full w-full border-0"
+    src={src + EGGHEAD_AFFILIATE_QUERY_PARAM}
+    title={title}></iframe>
+</div>

@@ -1,0 +1,32 @@
+---
+import Tag from '../icons/Tag.astro'
+import { toSlug } from '../utils'
+
+interface Props {
+  tags: string[]
+}
+
+const { tags } = Astro.props
+---
+
+<div class="flex items-center gap-4 font-sans">
+  <div class="flex items-center gap-2">
+    <span class="text-gray-300">
+      <Tag />
+    </span>
+    <span class="text-sm">Tags</span>
+  </div>
+
+  <div class="flex flex-wrap gap-4">
+    {
+      tags.map(tag => (
+        <a
+          class="text-accent hover:text-accent-dark"
+          href={`/tags/${toSlug(tag)}`}
+        >
+          {tag}
+        </a>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content'
+import Content from '../../components/Content.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import Standard from '../../layouts/Standard.astro'
+import Prose from '../../components/Prose.astro'
+import Link from '../../components/Link.astro'
+
+const snippetEntries = await getCollection('snippets')
+
+const HEADINGS = ['Name', 'Description', 'Category']
+---
+
+<Standard title="Snippets | Kyle Shevlin">
+  <Content>
+    <Prose>
+      <PageHeading>Snippets</PageHeading>
+
+      <p>
+        Inspired by <Link external href="https://www.joshwcomeau.com/snippets/">
+          {"Josh W. Comeau's snippets"}
+        </Link>, this is a collection of code snippets I've made over the years
+        that you can look at for inspiration or copy/paste at will.
+      </p>
+
+      <table
+        class="block border-collapse md:table md:border-4 md:border-gray-100 dark:md:border-gray-800"
+      >
+        <thead
+          class="hidden bg-gray-100 md:table-header-group dark:bg-gray-800"
+        >
+          <tr class="block md:table-row">
+            {
+              HEADINGS.map(heading => (
+                <th class="p-4 font-sans text-lg">{heading}</th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody class="flex flex-col gap-8 md:table-row-group">
+          {
+            snippetEntries.map(entry => {
+              const { category, description, name } = entry.data
+
+              return (
+                <tr class="block md:table-row">
+                  <td class="block border-gray-100 md:table-cell md:border-4 md:p-4 dark:md:border-gray-800">
+                    <a class="text-accent" href={`/snippets/${entry.slug}`}>
+                      {name}
+                    </a>
+                  </td>
+
+                  <td class="block border-gray-100 md:table-cell md:border-4 md:p-4 dark:md:border-gray-800">
+                    <span class="font-sans text-lg font-bold md:hidden">
+                      Description:
+                    </span>
+                    <span set:html={description} />
+                  </td>
+
+                  <td class="block border-gray-100 md:table-cell md:border-4 md:p-4 dark:md:border-gray-800">
+                    <span class="font-sans text-lg font-bold md:hidden">
+                      Category:
+                    </span>
+                    <span set:html={category} />
+                  </td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
+      </table>
+    </Prose>
+  </Content>
+</Standard>

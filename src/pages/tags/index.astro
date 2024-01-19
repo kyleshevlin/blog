@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content'
+import Content from '../../components/Content.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import Standard from '../../layouts/Standard.astro'
+import { toSlug } from '../../utils'
+
+const posts = await getCollection('posts')
+const tagCounts = posts
+  .flatMap(entry => entry.data.tags ?? [])
+  .reduce(
+    (acc, cur) => {
+      if (!acc[cur]) acc[cur] = 0
+      acc[cur]++
+      return acc
+    },
+    {} as Record<string, number>,
+  )
+const tags = Object.entries(tagCounts).toSorted((a, b) => b[1] - a[1])
+---
+
+<Standard title="Tags | Kyle Shevlin">
+  <Content>
+    <div class="flex flex-col gap-8">
+      <PageHeading>Tags</PageHeading>
+
+      <ol class="flex flex-col gap-2">
+        {
+          tags.map(([key, value]) => (
+            <li>
+              <a
+                class="text-accent hover:text-accent-dark"
+                href={`/tags/${toSlug(key)}`}
+              >
+                {key}
+              </a>{' '}
+              - {value} {value === 1 ? 'post' : 'posts'}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </Content>
+</Standard>

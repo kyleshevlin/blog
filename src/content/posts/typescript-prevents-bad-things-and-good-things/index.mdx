@@ -1,0 +1,542 @@
+---
+date: '2023-09-08'
+slug: 'typescript-prevents-bad-things-and-good-things'
+title: 'Typescript Prevents Bad Things... and Good Things'
+subtitle: ''
+description: 'TypeScript is great at preventing bad things from happening, but it can prevent us from having some good things, too. When writing the types for functionality is onerously more difficult than writing the functionality itself, we might miss out on the good things that could have been.'
+excerpt: 'TypeScript is great at preventing bad things from happening, but it can prevent us from having some good things, too. When writing the types for functionality is onerously more difficult than writing the functionality itself, we might miss out on the good things that could have been.'
+tags: ['React', 'JavaScript', 'TypeScript']
+relatedPostsSlugs: []
+---
+
+import { RandomNumber } from './_components'
+
+A few days ago, TypeScript was the main topic of discussion on tech Twitter. <Marker content="I will never call it that other name." /> The reasons why aren't worth giving any more time or energy. But I do wish to discuss some thoughts _I_ have regarding working with TypeScript.
+
+Let me state up front, my experience with TypeScript has been largely a net positive. But being a net positive is not the same thing as being _entirely_ positive. I have had negative experiences with TypeScript and I have some criticisms I will address in this post.
+
+### TL;DR;
+
+TypeScript prevents many bad things: bugs, errors, bad assumptions and more. The type system can give you a lot of confidence in your programs. This is overwhelmingly positive.
+
+I also think TypeScript prevents good things, too. It is often far easier to express _functionality_ than it is to express the _types_ required for that functionality. This can stifle creativity and innovation. It's very easy to build something undeniably useful in the realm of JavaScript, that turns out to be extremely difficult to express type-wise in TypeScript.
+
+I think it's ok to admit this. I posit it is more difficult to learn the type system deeply and intuitively than the rest of programming language. Thus, most of us working in TypeScript who are not experts in the type system are making a tradeoff where we limit our programmatic expressiveness for the sake of type safety. I think it's ok to have nostalgia for how easy it was to express ourselves when it was just JavaScript.
+
+### In plain terms
+
+I feel very confident in my JavaScript abilities. In my ability to _express_ the functionality I desire with the language. Because TypeScript is a superset of JavaScript, I maintain this ability to express the functionality I desire.
+
+That said, my ability to express the type correctness of my functionality is far more limited. I don't think I'm alone in this limitation. In fact, it makes me wonder if it's a limitation of the type system itself! I say "wonder" purposefully. Someone far better at using the type system could likely prove me wrong.
+
+In fact, I would love it if they would. Guide me, teach me to be better, because I think it is far harder to gain fluency in TypeScript's type system than it is to write programs. It's esoteric, algebraic, <Marker content={`I am pretty darn good at math, as I'll describe soon, so please don't come at me with "Get gud!"`} /> and there are far fewer resources on deciphering and unlocking its nuances than there are of the rest of the language.
+
+I think because because of this gap between the ease of expressing the functionality and the difficulty of expressing the type correctness for that functionality, we often have to forego otherwise "good things" because we cannot guarantee thorough type safety in order to so. On occasion, we get _worse_ APIs because they are easier to express type-wise, even when doing so hampers and limits functionality and expressiveness.
+
+Shortly, I will demonstrate this challenge with a bit of code I wrote for fun, that in a world of just JavaScript, it would be fine to use. But despite my best efforts--asking a TS expert on Twitter, consulting Chat-GPT for hours, reading docs, and even trying to decipher the types in another library--I have been unsuccessful in getting the types right and have to abandon this "good thing". Without the type safety, it's not usable by others in the community.
+
+### My background with types
+
+I do not have an extensive background with typed programming languages. My experience is primarily with forms of typed JavaScript. Starting in 2019, I spent just over 2 years working with [Flow](https://flow.org/). <Marker content="I still prefer Flow's error messages if I'm being honest." /> I have essentially written TypeScript every day since that time.
+
+I have dabbled in some strongly typed languages, with ReasonML and ReScript being the ones I have used most seriously. I have finished a few small projects with these languages and have also contributed to an open source project that used these languages.
+
+I am by no means an expert in types or TypeScript, but I'm not uncomfortable with them either.
+
+In university, I double majored in Philosophy and Mathematics. These areas of study are useful for understanding a type system. Just look at some of my blog posts. I enjoy a little [set theory](/set-theory) and [symbolic logic](/symbolic-logic) here and there.
+
+What I am trying to say is I believe I am capable of learning a type system well. I have the tools and skills. But I will admit up front, there are parts of TypeScript for which I have struggled to develop any intuition, which we will discuss in more detail later.
+
+### That time I couldn't use state machines at work because they weren't type safe yet
+
+I couldn't find a better place to add this anecdote, but I need to share it with this post because it's a "good thing" that was prevented by the lack of complete type safety.
+
+I tried to introduce state machines to a work place to manage a very complicated bit of UI. Most people saw the value of the state machine for this particular situation and appreciated the run time guarantee of never getting into impossible states.
+
+The problem was I couldn't get the correct types for the state of the machine. It was a combo of Flow and the existing types for the library. It just couldn't be done.
+
+I was _required_ by a staff engineer to abandon the use of state machines and told if I wanted that kind of run-time safety, I would have to also make it compile-time safe, aka type safe. I ended up writing a reducer that acted like a state machine. There are some posts about it around here. It was ~3x the code to express the same functionality. But hey, types!
+
+### A recent struggle as an example
+
+I really enjoy learning about how things work on a fundamental level. I also enjoy solving puzzles. <Marker content="Probably why I enjoy Advent of Code as much as I do." /> In order to experience these two joys at once, I will occasionally attempt to rebuild a small library (or a stripped down version of one) from scratch, so I can both test myself and see what I learn in the process.
+
+Recently, I decided to try and write a small pattern matching library, similar to [ts-pattern](https://github.com/gvergnaud/ts-pattern). I enjoy [pattern matching](/pattern-matching), but it's not built into JavaScript, so if we want to experience the expressiveness of using it, we have to implement it ourselves.
+
+Here's what I wanted to accomplish with my lib:
+
+- Our function must receive an input that can be matched against an arbitrary number of cases
+- It would be nice if those cases could be values or a predicate function that received the input
+- It must be able to return a default value
+
+I wrote my first pass in plain JavaScript in ~5 minutes. It looked something like this: <Marker content="It should go without saying, the following code could be written as a class or use the <code>this</code> keyword. I don't want to hear it. I <em>know</em> how to do that. I just <em>happen</em> to enjoy writing functions and closures instead. If I do see you complain about it on Twitter, I'll know you never read these footnotes when you really should." />
+
+```javascript
+/**
+ * Because ts-pattern uses match/with, I wanted to do something
+ * slightly different. I decided to use Ruby's case/when, but since
+ * "case" is already a keyword in JavaScript, I'm spelling it "kase"
+ */
+function kase(input) {
+  // Over time, I've developed a fondness for writing simple closures
+  // and so a closure is how we manage the state of our pattern matcher
+  let isMatched = false
+  let result = undefined
+
+  // I also prefer to avoid using `this` if I can
+  // We can do this easily by instantiating the object
+  // and referring to it
+  const api = {}
+
+  // Our primary way of testing patterns against the input
+  // If we get a match, the result is set to the return of the callback
+  function when(pattern, callback) {
+    if (isMatched) return api
+
+    // This allows us to pass values or a predicate function
+    const predicate =
+      typeof pattern === 'function'
+        ? () => pattern(input)
+        : () => pattern === input
+
+    if (predicate()) {
+      isMatched = true
+      result = callback(input)
+    }
+
+    return api
+  }
+
+  // Default case handling
+  function otherwise(callback) {
+    if (isMatched) return result
+
+    return callback(input)
+  }
+
+  // If no default case is provided, we need a way to get the result
+  function end() {
+    return result
+  }
+
+  api.when = when
+  api.otherwise = otherwise
+  api.end = end
+
+  return api
+}
+```
+
+This simple function works great. We can use it like so:
+
+```javascript
+const result = kase(Math.round(Math.random() * 100))
+  .when(
+    x => x <= 33,
+    () => 'Low',
+  )
+  .when(
+    x => x <= 67,
+    () => 'Mid',
+  )
+  .when(69, () => 'Nice!')
+  .otherwise(() => 'High')
+```
+
+And check it out in action: <Marker content={`Sorry if it takes you forever to get a "Nice!" response.`} />
+
+<OffsetWrap>
+  <RandomNumber client:load />
+</OffsetWrap>
+
+Now, let the trouble begin.
+
+We're going to try and add types to this. Here's what we need to accomplish (and I have thus far been unable):
+
+- `kase` needs to be typed such that it returns an object with `when`, `otherwise`, and `end` typed correctly
+- The functions passed to `when` and `otherwise` need to infer the correct type of the `input`
+- `result` needs to be a union of the types returned by the `callback`s provided to `when`s and `otherwise` and returned from `otherwise` and `end`
+
+If you want to follow along and try to work it out on your own, you can use this [TypeScript Playground](https://www.typescriptlang.org/play?#code/PQKhCgAIUghBTAxgQwK4Gd6QC7oLQAOy228ATgHaQbzqQC2xiAFsAO4CW2zANJAJKQ2yCqQAmOAPaQx09JPrxuHCgHMoMdABsOq5ti0BPGRwBmp8vFEA6ATKQcx8Cdmk1IAJVQAjQwHI6FEx2Zis+b1RsSHQVRHgNSAAiIPhEyA46ZC0yeGQxY2RIAGt4QzZJMgkVSAApZAA3ZABlRDIOAmw+fj96aIJ4LR01dKjEouRMRI1gcFNUCkRsDkkqccwAChUCSIBKSABvKEhgYEgAeXryHA5FLr9L+0utSX6JQtMVsQpaOg+yITaS2GMXoBC0WEQz3QqBy6COJ0gIgk8kRkEhkmhOXSdGYkjYQiwjAoyFUWG4WHQ2GIWEkpkgkhhkCIJHIVEY2BY5CO4KiGQAskxQhIALyQUxZTDcpSQWGoLRRUXzJymFTOcDw06CCXSAg5Cz-VyI+qSRzUGLDAAGynQFvSdMEKAoGsgAHUISIZNJrZBcjEjJBfOkKJSREtiCpVDhQvTvAArJDYZ1ImXwfVtYaGrhHRArSmIggcSCi-YAX3VkGOpzOjN1N2QZGMwmMtJwtCBkeZpEomVUyBUefJQe2iYrCP4dLYWFJUUK7JYfEHsvl2Oi0sNi6UMKoLcHKEG3mQiCKRzmCyWKyEoQo607rL4e60B6Pe0OFYrZkgm3QAo5Qr2OWwLd8w4cs3wRAAVZgMkRQY8ToDApCZCY6EaLRUFoel-kKXVnA4FBSDFeZFmWJ03zRXMohwsQ8OpIsjjI7BDH6Ftb0oIthVFPxT2IlY-HosjIAAfk-PZhQAPiQllKE2Chhx2fiyIALhEosJNYqgONFLZIlA986RvHJqPw+B1h2F8FOxH9ORFHAyHQiylwVNEskfQ8ihkuT+LLfiAKA5ACyObzR1OAARVM0GXFJIGYJEhnUCtuPPbdyTITgNgfJ8inMsiPy-Ky-xTQC2Mc3TCqAjK3I83ZAtAsc6QoaRlQiqIoug3VJHqRxnD4SdIG+ZxUSbRDpyjLASoSoikp9CgxFMg4fM3YraDlEdICC4DrDYK8i0vKwjn8jhrEkFK0qwUVjtCVKMniCsDusKwbIe0DfLYg7wBLIA) to interact with the code and try and fix the type errors.
+
+The very first error we see is:
+
+`Parameter 'input' implicitly has an 'any' type`
+
+We can knock this one out easily. We don't want to specify a type of `input`, we simply want whatever the user passes in to be the type throughout the function. This is exactly what a generic is for, so let's add one:
+
+```typescript
+function kase<Input>(input: Input) {
+  // ... the rest
+}
+```
+
+That was easy. The next error we have is:
+
+`Variable 'result' implicitly has type 'any' in some locations where its type cannot be determined.`
+
+We get this error because we set `result` as the return of our `callback`s but we don't know that type yet. Let's add an `unknown` and come back to it. There are other errors we can solve before that one:
+
+```typescript
+let result: unknown = undefined
+```
+
+Now, the next error we have is:
+
+`Parameter 'pattern' implicitly has an 'any' type.`
+
+So let's give it a type. A `pattern` is either an `unknown` value <Marker content="We will revisit this later, too." /> or it's a function that receives the `input` and returns a `boolean`. That looks like this:
+
+```typescript
+function when(pattern: ((input: Input) => boolean) | unknown, callback) {
+  //...
+}
+```
+
+Our next two errors are actually of the same variety:
+
+`Parameter 'callback' implicitly has an 'any' type.`
+
+Let's make ourselves a little helper type to handle this.
+
+```typescript
+type Callback<Input> = (input: Input) => unknown
+
+function kase<Input>(input: Input) {
+  // ...
+  function when(
+    pattern: ((input: Input) => boolean) | unknown,
+    callback: Callback<Input>,
+  ) {
+    // ...
+  }
+
+  function otherwise(callback: Callback<Input>) {
+    //...
+  }
+}
+```
+
+So far, this has been pretty easy. Our remaining errors are all related. I'll combine them into one: `Properties 'when', 'otherwise' and 'end' do not exist on type '{}'`. We instantiated `api` as an empty object and thus, TypeScript doesn't know what properties should eventually exist on `api`. We need to either change our code or cast the type of `api`. Let's try casting it. I'm going to create another helper type to do so:
+
+```typescript
+// ...
+type API<Input> = {
+  when: (
+    pattern: ((input: Input) => boolean) | unknown,
+    callback: Callback<Input>,
+  ) => API<Input>
+
+  otherwise: (callback: Callback<Input>) => unknown
+
+  end: () => unknown
+}
+
+function kase<Input>(input: Input) {
+  // ...
+  const api = {} as API<Input>
+  //...
+}
+```
+
+Great! Now all our errors are gone. Or are they?
+
+While we have no errors in our function, we don't have type safety. We actually have to try and call this function and see what happens. So let's use it below where we define it, like so:
+
+```typescript
+const result = kase(Math.random())
+  .when(
+    x => x < 0.33,
+    () => 'low',
+  )
+  .when(
+    x => x < 0.67,
+    () => 'mid',
+  )
+  .otherwise(() => 'high')
+```
+
+What do you know? We have errors. `Parameter 'x' implicitly has an 'any' type.` Why is this the case? We indicated that `pattern` should return the type of the `input`, so TypeScript should already know the type of `x`. What gives?
+
+Well, it turns out there are two problems with our types so far.
+
+First, if we examine the resulting type of `when`, it turns out `pattern` is actually `unknown`. Our union isn't working the way we expected.
+
+Second, when we check if `pattern` is a function, it doesn't narrow it to our predicate type, it narrows it only to `Function`. There is no way for TypeScript to determine that when `pattern` is a function, it's specifically our predicate function, at this moment. To fix this, takes a bit of work.
+
+We're going to make a few more helper types, _change_ one of our original type decisions, and use a [type predicate function](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates) for our pattern predicate function. So much predication! Here we go:
+
+```typescript
+// ...
+type Predicate<Input> = (input: Input) => boolean
+
+// Here we make an "API" change, instead of `unknown`
+// we narrow it to only types that match the Input generic
+type Pattern<Input> = Predicate<Input> | Input
+
+type API<Input> = {
+  when: (pattern: Pattern<Input>, callback: Callback<Input>) => API<Input>
+  // ...
+}
+
+// This is a type predicate, a function that returns a boolean
+// where we indicate to TypeScript the type `pattern` is
+// when this function returns true
+function isPredicate<Input>(
+  pattern: Pattern<Input>,
+): pattern is Predicate<Input> {
+  return typeof pattern === 'function'
+}
+
+function kase<Input>(input: Input) {
+  //...
+  function when(pattern: Pattern<Input>, callback: Callback<Input>) {
+    //...
+    const predicate = isPredicate<Input>(pattern)
+      ? () => pattern(input)
+      : () => pattern === input
+    // ...
+  }
+  //...
+}
+```
+
+Awesome! There are no errors. If you're following along, your playground [should look like this](https://www.typescriptlang.org/play?#code/C4TwDgpgBAwghgGwQIzgYwNYB4CSA7MAV2AD4oBeKACgEsDiAuKfI4ASgrMLwzwHsA7ngDcAKFGhIUAAoAnCABMaaOMAi56pCtTqsmLYh3JlkfPgghw84ydGmq1svBtZlKcxctXqDWgD7Mmjbg0ACC0jguxG5QAN6iUFACABYQeExUYA4QTkz2wI7OviQANFAqSKiYTPCV6NjFRmThkcUJUHzAqbICNADOEBkVKPU1iCOYUaRNUNy8gtaJaQoZM3P8QmIAvuIAZtxowDR8eFD9HkoqalMkmdm5MvdFmiRsTFkFOaf9MvKX3jc4u15MBCE4oLY+LsoB9ChRyJQAOT7PCHY54RGiHaiAD0ACo8Qk8VAAEIQFSEAYQvoAWlhX1mAz6UAAtqo0Mkcb0umUcEkrGoFBC+FAFCK+nwWRAunQAOZEqB9BA0WXJYAIECimi7XY5NLAAB0zFF5JoCkUwsZ0AASoRkCBEcyVAMuak8GVkMRFXQ0BAFQAiZ0Qf1nZmIeRwBSauBQDAQEACPiyIV0KAAKTgADc4ABlNCyGhgYC8xEsxWQJBys7AKD+jBwAb+ok40QotEnWMNnwvWiafSaDjxRI4nFQADymZyEJoUpLk5Nk4QfEgQpjuxOCjwED6zPXsiSBaOeFl3pZYAs5SXfTB2-aI6gViFEofl741-koagyUESWgbLwcCytAXTQH0wDeB00J8GCMJPKy7LdO0Fg1v0ACyCEWpQuyIAMSHSlA8jXggwBMOsCzaNw5q7HQijiMOo58jhIpgPIur7sAIpZnwZqMlWAAGMp9HxZzQnyKiLFA94AOrQOJooioJUCWH0NAalA9pnHgYECjQqhViBHTIAAVuSwB3qOj4ERAbEFselo0GZiRoCcYEPmANDaLEWwPsyLQ3HRkmjmOMEsTOcCyJqAhwJqUIQtuR4nvSThhrKcB0K5Bm6MQ5nMNCAjQEBNYxmywAcmUBmEYQxGfgMNYcRCqRWaC4KxQZwxVBg7RtkcHYpGkdyfA8+SFDcZTtaMsDjB1NyDu0iTajofToaVqQKBwIJgqccDuQF9FQAAKskPzjIIzKUpaWQ7lA2YIIQ24dPuMYsZ4VzQN16JzeULk1s9-xqNo5x-F41zFANhRsJ9iSJAA-NQMxJXgvasBDUOo1AqycLBg2nAilBZWZn0LZkQOvVQbCzWjobLRymEQrId2Q1ZRE1pQ42YEjhifdiqMbeC200O03OBVAAAi1lwFVNZBl+j7KseXUHD1pydN0vQDFQbMYGMdSTI0QKo0TaEYWtTWbUzku7ab4Kaxz7CCwF944NC-AmthkvlF2n4sXwmZmooZT5VAW4WjGUWavVhUNdAlXEQrqJK0peAKGT+tQ7zpwx45UBC-zBp9TjSRuu0ucqzkavQJQpc9P0fqJLnyzaMsAXp25AvYs5Wk1pn2j1ury3JAasiPpKZMo1AedulQn0AB6Y7PWBQAADAaADMK8lJ9KfGFAiJLgImKJGPE-9TPc9QAvy8AGwAOwb6jW9kKWZoH1AR9V+XVAPzvR2qoibBAA).
+
+But!!! Do we have full type safety? No, we don't. Hover over the type of `result`. It's still `unknown`, which makes sense, we said we'd come back to that later, and now _is_ later.
+
+#### A brief aside
+
+Getting to this point, where we have everything typed correctly except for `result`, didn't take me long, but it took me a lot longer than writing the functionality. The first few steps were pretty easy, maybe taking 20 minutes or so. But once I got to the point where `pattern` wasn't typed correctly, where `x` was implicitly `any`, I started to lose time quickly.
+
+I explained it to you simply here, but that's only because I tried and failed a few ways before figuring it all out. I went down the road of [function overloads](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads), casting, all sorts of other attempts. I tried rewriting it as a `class` to see if it was easier to type. I tried a lot of things until I got to this point. Probably took anywhere from 1-4 hours. Not really sure because it's mixed in with other experiments and attempts.
+
+But that's exactly what I'm getting at. Functionality was exponentially easier to express than the type correctness of that functionality. ~5 minutes compared to hours.
+
+The next step we're about to do, at the moment I write this, I _still_ haven't solved. I have probably put 8-12 hours into this. I've tried rewriting the entire API to make it better, but I haven't cracked it yet. _This_ is where productivity is lost. It's at this point where if this wasn't solely for my own edification, I'd just go back to a `switch (true)` pattern and move on. It's not worth me making this helpful function anymore.
+
+### Damn it!!!
+
+So... I stepped away after writing that previous paragraph. It was entirely true at that point in time. But after I ate some lunch and did some chores, I came back and gave it one more try (probably about my 10th try) and wouldn't you know, **I finally got it**.
+
+I still stand by what I've posited so far in this post. Getting the types correct can be onerous and burdensome. It certainly has been for me in this specific example, and situations like this very one have happened to me dozens of times before. TS can stand for TimeSuck sometimes. <Marker content="I call dibs if no one has ever said that before." />
+
+That said, let's get this nut cracked. Let's figure out how to get `result` typed correctly.
+
+To figure this out, let's consider what `result` should be. It begins as `undefined`, and then it should be the return type of any `callback` passed to `when` or `otherwise`. So if all those `callback`s return `string`, I would expect `result` to be the type `string | undefined`.
+
+So far, we have the return of a `Callback` as `unknown`. It's true that we don't know what that value is, but we can pass a second generic to `Callback` to at least give it a name, like so:
+
+```typescript
+type Callback<Input, Return> = (input: Input) => Return
+```
+
+This should break a _lot_ of things. Everywhere we've used `Callback` now expects a second type passed to it. So how do we do this?
+
+Let's start by adding a `Return` generic to `when` and `otherwise`.
+
+```typescript
+type API<Input> = {
+  when: <Return>(
+    pattern: Pattern<Input>,
+    callback: Callback<Input, Return>,
+  ) => API<Input>
+
+  otherwise: <Return>(callback: Callback<Input, Return>) => unknown
+  //...
+}
+
+function kase<Input>(input: Input) {
+  //...
+  function when<Return>(
+    pattern: Pattern<Input>,
+    callback: Callback<Input, Return>,
+  ) {
+    //...
+  }
+
+  function otherwise<Return>(callback: Callback<Input, Return>) {
+    //...
+  }
+  //...
+}
+```
+
+Ok, but `result` is still `unknown`. Why? Because the return types for `when`, `otherwise` and `end` don't track the `result`. How can we do this? We need to change those `unknown`s into a `Result` somehow.
+
+I'm not going to lie, this next part is not very intuitive, especially if you don't have any functional programming experience.
+
+Right now, our `api` mutates and returns the `result` because it's held in a closure. In JavaScript, this is fine and used to be a far more common pattern than it is now. But what if instead of mutating `result`, we make our `api` stateless, and return a new `api` with the correct state baked in instead? What if we make our `api` immutable? Then we'd be able to identify what type of `Result` we have when we return the new `api`. How do we do this?
+
+First, we're going to start with a "factory function". We're going to take _everything_ inside of `kase` and move it inside a `kaseFactory`:
+
+```typescript
+function kase<Input>(input: Input) {
+  return kaseFactory<Input>(input)
+}
+
+function kaseFactory<Input>(input: Input) {
+  // literally everything we had to this point
+}
+```
+
+Next, we're going to make our factory stateless. Instead of holding `isMatched` and `result` in closure, we're going to pass them in as arguments to the factory. The "state" of the `api` is static, and to change the state, we'll just return a new `api` with the next state. Thus, our initial state has `isMatched` set to `false` and `result` set to `undefined`, like so:
+
+```typescript
+function kase<Input>(input: Input) {
+  return kaseFactory<Input, undefined>(input, false, undefined)
+}
+
+function kaseFactory<Input, Result>(
+  input: Input,
+  isMatched: boolean,
+  result: Result,
+) {
+  // And we delete the following commented out lines
+  // let isMatched = false
+  // let result: unknown = undefined.
+  // The rest is the same
+}
+```
+
+Notice two things: First, that we added a `Result` generic to `kaseFactory` and pass in `undefined` as our initial type when we call it in `kase`. Second, that we're currently in a broken state. We need to fix a few things, but I wanted to explain what we're about to do first.
+
+Up til now, when we got a match, that is when `predicate()` returned `true`, we mutated the `isMatched` and `result` values. This mutation prevented us from being able to type `result` properly.
+
+Going forward, when we have a match, we're going to create and return a new `api` by calling `kaseFactory` with new arguments. We'll pass in the same `input`, `true` for the `isMatched` parameter, and then the result of calling the `callback`. We'll also be able to pass the `Input` generic along, as well as the `typeof result` from the callback, like so:
+
+```typescript
+function when<Return>(
+  pattern: Pattern<Input>,
+  callback: Callback<Input, Return>,
+) {
+  if (isMatched) return api
+
+  const predicate = isPredicate<Input>(pattern)
+    ? () => pattern(input)
+    : () => pattern === input
+
+  if (predicate()) {
+    // Here's the change
+    const result = callback(input)
+
+    return kaseFactory<Input, typeof result>(input, true, result)
+  }
+
+  return api
+}
+```
+
+Now we're returning a whole new `api` with the correct types baked in! This means we now know the type of `Result` no matter where we are in the chain.
+
+We're almost finished. We just need to add a `Result` generic to our `API` type so that we correctly describe the return types of our methods.
+
+```typescript
+type API<Input, Result> = {
+  when: <Return>(
+    pattern: Pattern<Input>,
+    callback: Callback<Input, Return>,
+    // Notice the union passed in the `Result` generic slot
+  ) => API<Input, Result | Return>
+
+  // Same union is now returned here as well
+  otherwise: <Return>(callback: Callback<Input, Return>) => Result | Return
+
+  // End is guaranteed to be the `Result`
+  end: () => Result
+}
+```
+
+Now... now, we've truly done it. Our `result` will be typed correctly when we use `kase()`. If you've been following along, this is what your code should look like at this time:
+
+```typescript
+type Callback<Input, Return> = (input: Input) => Return
+
+type Predicate<Input> = (input: Input) => boolean
+
+type Pattern<Input> = Predicate<Input> | Input
+
+type API<Input, Result> = {
+  when: <Return>(
+    pattern: Pattern<Input>,
+    callback: Callback<Input, Return>,
+  ) => API<Input, Result | Return>
+
+  otherwise: <Return>(callback: Callback<Input, Return>) => Result | Return
+
+  end: () => Result
+}
+
+function isPredicate<Input>(
+  pattern: Pattern<Input>,
+): pattern is Predicate<Input> {
+  return typeof pattern === 'function'
+}
+
+function kase<Input>(input: Input) {
+  return kaseFactory<Input, undefined>(input, false, undefined)
+}
+
+function kaseFactory<Input, Result>(
+  input: Input,
+  isMatched: boolean,
+  result: Result,
+) {
+  const api = {} as API<Input, Result>
+
+  function when<Return>(
+    pattern: Pattern<Input>,
+    callback: Callback<Input, Return>,
+  ) {
+    if (isMatched) return api
+
+    const predicate = isPredicate<Input>(pattern)
+      ? () => pattern(input)
+      : () => pattern === input
+
+    if (predicate()) {
+      const result = callback(input)
+
+      return kaseFactory<Input, typeof result>(input, true, result)
+    }
+
+    return api
+  }
+
+  function otherwise<Return>(callback: Callback<Input, Return>) {
+    if (isMatched) return result
+
+    return callback(input)
+  }
+
+  function end() {
+    return result
+  }
+
+  api.when = when
+  api.otherwise = otherwise
+  api.end = end
+
+  return api
+}
+```
+
+### Let's take a moment
+
+Can we just take a moment to appreciate just how challenging this was?
+
+It required wiring three different generics through our types, which frankly, I could have made a _whole_ lot harder to read. <Marker content="Like so many types I read that only use <code>T</code> and <code>U</code>, etc." />
+
+It required a type predicate in order to properly narrow our `pattern`. Admittedly, a type predicate is not difficult to use, but does require knowing about this uncommon feature.
+
+Finally, it required **adding an entire layer of indirection** in order to be able to type our end `result` correctly! How many people are going to think about adding "yet another function" to solve this problem? <Marker content={`I'm not going to lie, I frequently say, "You can solve any problem with enough wrapping functions." I've also been known to say the CSS equivalent, "You can solve any layout problem with enough wrapping <code>div</code>s."`} /> Maybe a bunch of you, but I'd bet just as many give up entirely. I almost did. <Marker content="And there ain't no shame in it!" />
+
+### Wrap up
+
+Programming _is_ communication. The inherent difficulty of all communication, programming, linguistic, or otherwise, is that we can only communicate what we are capable of expressing. <Marker content="There's also the whole issue of the receiver of the communication, but I'm going to ignore that at the moment." />
+
+When it comes to programming in TypeScript, at least for me, the effort to express functionality and the effort to express the types for that functionality can be _wildly_ different. This example I shared took ~5 minutes to write the functionality and _several days and attempts_ for me to get the types right. That's... not awesome.
+
+I hope it's clear, I'm _not_ arguing we should stop using TypeScript. But I am arguing that we should be mature enough to acknowledge how challenging it can be to write type safe code sometimes. That sometimes we give up having some "good things" for the sake of avoiding many "bad things".
+
+Also, we should probably just add pattern matching on types like OCaml to TypeScript already. <Marker content="🙃" />
