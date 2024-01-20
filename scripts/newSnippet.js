@@ -6,8 +6,8 @@
  * fileName: string - A hyphenated slug for the snippet
  */
 
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 const SNIPPETS_PATH = path.resolve('./src/content/snippets')
 
@@ -28,7 +28,7 @@ category: ''
 
     fs.writeFileSync(
       path.resolve(SNIPPETS_PATH, `${fileName}.mdx`),
-      frontmatter
+      frontmatter,
     )
   } catch (err) {
     console.log(err)

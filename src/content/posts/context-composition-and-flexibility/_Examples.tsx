@@ -1,4 +1,3 @@
-import React from 'react'
 import { OurInput, OurInputStyleProvider } from './_OurInput'
 
 export function Example1() {

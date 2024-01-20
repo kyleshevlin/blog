@@ -1,4 +1,3 @@
-import React from 'react'
 import { Tabs } from './_Tabs'
 import { ITEMS, TabsContentWrap, TabsTriggerInner, TabsWrap } from './_shared'
 

@@ -10,9 +10,9 @@
  * automatic updating
  */
 
-const fs = require('fs')
-const path = require('path')
-const { fromDir } = require('./utils')
+import fs from 'fs'
+import path from 'path'
+import { fromDir } from './utils'
 
 const POSTS_PATH = path.resolve('./src/content/posts')
 
@@ -56,7 +56,7 @@ function fixRelatedPosts() {
   })
 
   Object.entries(filesToDataMap).forEach(
-    ([filename, { slug, relatedPostsSlugs }]) => {
+    ([_filename, { slug, relatedPostsSlugs }]) => {
       relatedPostsSlugs.forEach(rpSlug => {
         const otherPostRelatedPosts = slugToRelatedPostsMap[rpSlug] || []
         const result = otherPostRelatedPosts.includes(slug)
@@ -65,7 +65,7 @@ function fixRelatedPosts() {
           console.log(`${rpSlug} IS MISSING POST ${slug}`)
         }
       })
-    }
+    },
   )
 }
 

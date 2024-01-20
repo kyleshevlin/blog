@@ -6,8 +6,8 @@
  * dirName: string - A hyphenated directory name
  */
 
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 function makePost(startingPath, directoryName, fileName, content = '') {
   if (!directoryName) {
@@ -18,7 +18,7 @@ function makePost(startingPath, directoryName, fileName, content = '') {
     fs.mkdirSync(path.resolve(startingPath, directoryName))
     fs.writeFileSync(
       path.resolve(startingPath, directoryName, fileName),
-      content
+      content,
     )
   } catch (err) {
     console.log(err)
@@ -26,13 +26,8 @@ function makePost(startingPath, directoryName, fileName, content = '') {
 }
 
 function makeFrontmatter(directoryName) {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = (now.getMonth() + 1).toString().padStart(2, '0')
-  const day = now
-    .getDate()
-    .toString()
-    .padStart(2, '0')
+  const now = new Date().toISOString()
+  const [date, _time] = now.split('T')
 
   const title = directoryName
     .split('-')
@@ -44,7 +39,7 @@ function makeFrontmatter(directoryName) {
 
   const content = `
 ---
-date: '${year}-${month}-${day}'
+date: '${date}'
 slug: '${directoryName}'
 title: '${title}'
 subtitle: null

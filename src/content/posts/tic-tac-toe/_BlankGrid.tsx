@@ -1,4 +1,3 @@
-import React from 'react'
 import { newTicTacToeGrid } from './_utils'
 import Grid from './_Grid'
 import { FirstCell } from './_Cell'

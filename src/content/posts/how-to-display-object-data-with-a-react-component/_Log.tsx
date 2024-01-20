@@ -1,5 +1,3 @@
-import React from 'react'
-
 type StringifyArgs = Parameters<typeof JSON.stringify>
 
 type Args = {

@@ -9,11 +9,12 @@ interface Props {
 const { tags } = Astro.props
 ---
 
-<div class="flex items-center gap-4 font-sans">
+<div class="flex items-baseline gap-4 pt-1 font-sans">
   <div class="flex items-center gap-2">
     <span class="text-gray-300">
       <Tag />
     </span>
+
     <span class="text-sm">Tags</span>
   </div>
 
@@ -21,7 +22,7 @@ const { tags } = Astro.props
     {
       tags.map(tag => (
         <a
-          class="text-accent hover:text-accent-dark"
+          class="leading-none text-accent transition-colors hover:text-accent-dark"
           href={`/tags/${toSlug(tag)}`}
         >
           {tag}

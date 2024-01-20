@@ -29,14 +29,18 @@ const { post } = Astro.props
     <div set:html={post.data.excerpt || post.data.description} />
   </div>
 
-  <div class="flex gap-8">
-    <a
-      class="inline-block rounded bg-accent px-4 py-2 font-sans text-sm leading-none text-white shadow-md transition-colors hover:bg-accent-dark"
-      href={`/${post.slug}`}
-    >
-      Read more
-    </a>
+  <div class="flex items-baseline gap-4 md:gap-8">
+    <div class="shrink-0">
+      <a
+        class="inline-block rounded bg-accent px-4 py-2 font-sans text-sm leading-none text-white shadow-md transition-colors hover:bg-accent-dark"
+        href={`/${post.slug}`}
+      >
+        Read more
+      </a>
+    </div>
 
-    {post.data.tags?.length && <PostTags tags={post.data.tags} />}
+    <div class="min-w-0 shrink grow">
+      {post.data.tags?.length && <PostTags tags={post.data.tags} />}
+    </div>
   </div>
 </article>

@@ -3,9 +3,9 @@
  * I currently have, which allows me to go and fix some tags
  */
 
-const fs = require('fs')
-const path = require('path')
-const { fromDir } = require('./utils')
+import fs from 'fs'
+import path from 'path'
+import { fromDir } from './utils'
 
 const POSTS_PATH = path.resolve('./src/content/posts')
 const TAGS_PATTERN = /(?<=tags: )\[.*?\]/gms

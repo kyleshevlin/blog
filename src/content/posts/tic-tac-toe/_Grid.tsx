@@ -1,4 +1,3 @@
-import React from 'react'
 import type { Grid } from './_types'
 import type { Todo } from '../../../types'
 

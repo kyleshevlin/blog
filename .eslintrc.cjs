@@ -30,7 +30,11 @@ module.exports = {
     },
     {
       files: ['*.tsx'],
-      extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended'],
+      extends: [
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+        'plugin:react-hooks/recommended',
+      ],
       plugins: ['react'],
       rules: {
         'react-hooks/exhaustive-deps': 'warn',

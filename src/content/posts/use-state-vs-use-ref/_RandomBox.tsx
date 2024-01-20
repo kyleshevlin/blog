@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from '../../../components/Button'
 import useForceUpdate from '../../../hooks/useForceUpdate'
 import { randomRGB } from '../../../utils'

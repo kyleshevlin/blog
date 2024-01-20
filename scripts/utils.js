@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-function fromDir(startingPath, regexPattern, callback) {
+export function fromDir(startingPath, regexPattern, callback) {
   if (!fs.existsSync) {
     console.error('No directory', startingPath)
     return
@@ -22,8 +22,4 @@ function fromDir(startingPath, regexPattern, callback) {
       callback(filename)
     }
   })
-}
-
-module.exports = {
-  fromDir,
 }
