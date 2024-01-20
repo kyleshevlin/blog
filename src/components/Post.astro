@@ -1,0 +1,146 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import Blockquote from './Blockquote.astro'
+import EditLink from './EditLink.astro'
+import EggheadEmbed from '../components/EggheadEmbed.astro'
+import FinishedReading from './FinishedReading.astro'
+import Gif from '../components/Gif.astro'
+import Hr from './Hr.astro'
+import Image from './Image.astro'
+import Link from './Link.astro'
+import Marker from '../components/Marker.astro'
+import OffsetWrap from '../components/OffsetWrap.astro'
+import PageHeading from './PageHeading.astro'
+import PostAuthor from './PostAuthor.astro'
+import PostBeardStrokes from './PostBeardStrokes.astro'
+import PostH3 from '../components/PostH3.astro'
+import PostH4 from '../components/PostH4.astro'
+import PostTags from './PostTags.astro'
+import Prose from './Prose.astro'
+import TableSimple from './TableSimple.astro'
+import YouTubeEmbed from './YouTubeEmbed.astro'
+import { formatPostDate } from '../utils'
+
+interface Props {
+  entry: CollectionEntry<'posts'>
+  newerPost?: CollectionEntry<'posts'>
+  olderPost?: CollectionEntry<'posts'>
+  relatedPosts: CollectionEntry<'posts'>[]
+}
+
+const { entry, newerPost, olderPost, relatedPosts } = Astro.props
+const { slug } = entry
+const { coverImage, date, subtitle, title, tags = [] } = entry.data
+const formattedDate = formatPostDate(date)
+const { Content: PostContent } = await entry.render()
+---
+
+<div class="flex flex-col gap-8">
+  <article class="post">
+    <Prose>
+      {
+        coverImage && (
+          <div>
+            <img class="block w-full" src={coverImage} />
+          </div>
+        )
+      }
+
+      <div class="flex flex-col gap-2">
+        <div class="flex">
+          <div
+            class="border-b-[3px] border-b-accent px-1 font-sans text-sm leading-chill"
+          >
+            {formattedDate}
+          </div>
+        </div>
+
+        <PostBeardStrokes slug={slug} />
+      </div>
+
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <PageHeading><span set:html={title} /></PageHeading>
+          {subtitle && <div class="font-sans font-bold">{subtitle}</div>}
+        </div>
+
+        <EditLink filePath={`/posts/published/${entry.id}`} />
+      </div>
+
+      <PostContent
+        components={{
+          a: Link,
+          blockquote: Blockquote,
+          EggheadEmbed,
+          Gif,
+          h3: PostH3,
+          h4: PostH4,
+          hr: Hr,
+          Image,
+          Marker,
+          OffsetWrap,
+          TableSimple,
+          YouTubeEmbed,
+        }}
+      />
+    </Prose>
+  </article>
+
+  <div class="my-8">
+    <Hr />
+  </div>
+
+  <FinishedReading slug={slug} />
+
+  <div class="flex flex-col gap-4 font-sans text-lg">
+    {tags.length > 0 && <PostTags tags={tags} />}
+
+    {
+      relatedPosts.length > 0 && (
+        <div class="flex flex-col gap-2">
+          <div class="font-bold">
+            Related {relatedPosts.length === 1 ? 'Post' : 'Posts'}:
+          </div>
+
+          <ul class="flex flex-col gap-2">
+            {relatedPosts.map(post => (
+              <li>
+                <Link href={`/${post.slug}`}>
+                  <span set:html={post.data.title} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    {
+      newerPost && (
+        <div>
+          <span class="font-bold">Newer Post:</span>
+          <Link href={`/${newerPost.slug}`}>
+            <span set:html={newerPost.data.title} />
+          </Link>
+        </div>
+      )
+    }
+
+    {
+      olderPost && (
+        <div>
+          <span class="font-bold">Older Post:</span>
+          <Link href={`/${olderPost.slug}`}>
+            <span set:html={olderPost.data.title} />
+          </Link>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="my-8">
+    <Hr />
+  </div>
+
+  <PostAuthor />
+</div>

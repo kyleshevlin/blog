@@ -1,0 +1,20 @@
+---
+import Container from './Container.astro'
+import Nav from './Nav.astro'
+import ThemeToggle from './ThemeToggle.astro'
+---
+
+<header class="py-4">
+  <Container>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <a class="font-sans" href="/">
+        <h1 class="text-4xl">Kyle Shevlin</h1>
+        <div>Software Engineer</div>
+      </a>
+
+      <ThemeToggle />
+    </div>
+
+    <Nav />
+  </Container>
+</header>

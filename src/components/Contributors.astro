@@ -1,0 +1,109 @@
+---
+type Author = {
+  avatarUrl: string
+  login: string
+  url: string
+}
+
+type AuthorNode = {
+  author: Author
+}
+
+type ContributorData = {
+  data: {
+    repository: {
+      pullRequests: {
+        nodes: AuthorNode[]
+      }
+    }
+  }
+}
+
+async function fetchContributors() {
+  return await fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+      Authorization: `bearer ${import.meta.env.GITHUB_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `{
+        repository(name: "blog", owner: "kyleshevlin") {
+          pullRequests(states: MERGED, last: 100) {
+            nodes {
+              author {
+                avatarUrl(size: 35)
+                login
+                ... on User {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }`,
+    }),
+  }).then(res => res.json() as unknown as ContributorData)
+}
+
+const OMIT_LOGINS = ['kyleshevlin', 'dependabot']
+
+function getContributors(json: ContributorData) {
+  const authors = json.data.repository.pullRequests.nodes.map(
+    node => node.author,
+  )
+  const authorsByLogin = authors.reduce(
+    (acc, author) => {
+      const { login } = author
+
+      if (OMIT_LOGINS.includes(login)) return acc
+      if (acc[login]) return acc
+
+      acc[login] = author
+
+      return acc
+    },
+    {} as Record<string, Author>,
+  )
+
+  return Object.values(authorsByLogin)
+}
+
+const json = await fetchContributors()
+const contributors = getContributors(json)
+---
+
+<div class="flex flex-col gap-4 text-center font-sans">
+  <div>
+    I would like give thanks to those who have contributed fixes and updates to
+    this blog. If you see something that needs some love, you can join them.
+    This blog is open sourced at{' '}
+    <a
+      class="text-accent hover:text-accent-light"
+      href="https://github.com/kyleshevlin/blog"
+      rel="noreferrer"
+      target="_blank"
+    >
+      https://github.com/kyleshevlin/blog
+    </a>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-3">
+    {
+      contributors.map(contributor => {
+        const { avatarUrl, login, url } = contributor
+
+        return (
+          <a href={url}>
+            <span class="sr-only">{url}</span>
+            <img
+              alt={`${login}'s Github Avatar`}
+              src={avatarUrl}
+              title={login}
+            />
+          </a>
+        )
+      })
+    }
+  </div>
+</div>

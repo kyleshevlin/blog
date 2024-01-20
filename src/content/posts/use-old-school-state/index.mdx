@@ -1,0 +1,342 @@
+---
+date: '2020-12-17'
+slug: 'use-old-school-state'
+title: 'Use Old School State'
+subtitle: 'or Bringing Back the Callback'
+description: "Let's kick it old school and create a custom React hook that takes a callback second argument for `setState`."
+excerpt: "<p><strong>Disclaimer</strong>: This might be a bad idea.</p><p>Let's kick it old school and create a custom React hook that takes a callback second argument for <code>setState</code>.</p>"
+tags: ['React', 'JavaScript']
+relatedPostsSlugs: []
+---
+
+import FirstCounter from './_FirstCounter'
+import SecondCounter from './_SecondCounter'
+import FirstDoubleStepper from './_FirstDoubleStepper'
+import SecondDoubleStepper from './_SecondDoubleStepper'
+import ThirdDoubleStepper from './_ThirdDoubleStepper'
+
+**Disclaimer**: I have no idea if this is a good idea. Just something you can do if you want.
+
+If you're like me, you've been writing React for quite some time. While I don't spend much time writing class components these days, <Marker content="I still work with plenty of class components regularly." /> you might recall that you can pass a second argument to `this.setState`, a callback function that is called after the state update.
+
+This callback function was a simple way to sequence some functionality. Set some state, do something once it has happened. What if we could recreate some of that simple magic with hooks? <Marker content="It's not magic. Sadly, with code as with life, it never is." />
+
+Generally, with hooks we would have this as two parts. An instance of `React.useState` to manage the state changes, and an instance of `React.useEffect` to respond when the state changes. It might even be better and simpler to write your code this way (hence my opening disclaimer).
+
+```javascript
+const [state, setState] = React.useState(/* initialState */)
+
+React.useEffect(() => {
+  // do something with `state` here
+}, [state])
+```
+
+We can create a custom hook that encapuslates these two parts. I'll warn you ahead of time. We're going to make a first attempt, run into a problem and fix it later. Let's do this step by step. First our hook function as a wrapper for `useState`:
+
+```javascript
+function useOldSchoolState(initialState) {
+  return React.useState(initialState)
+}
+```
+
+Cool. What's our next requirement? That `setState` allow an optional second argument. We can do this by creating a `wrappedSetState` and returning that.
+
+```javascript
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+
+  const wrappedSetState = React.useCallback((update, callback) => {
+    setState(update)
+
+    if (callback) {
+      callback()
+    }
+  }, [])
+
+  return [state, wrappedSetState]
+}
+```
+
+This looks pretty good, _but_ there's a problem. The `callback` is supposed to run _after_ the state update has taken effect. Which is a perfect word for how we're going to solve this issue, with an `useEffect` hook.
+
+`React.useEffect` always runs _after_ render, and components re-render after a state update. So, if we move the callback to a `useEffect` hook, it will ensure that it runs after our state has updated. We need to come up with a way to store the callback function and call it in the `useEffect` hook.
+
+```javascript
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const callbackRef = React.useRef(null)
+
+  const wrappedSetState = React.useCallback((update, callback) => {
+    setState(update)
+
+    if (callback) {
+      callbackRef.current = callback
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (callbackRef.current) {
+      callbackRef.current()
+      callbackRef.current = null
+    }
+  })
+
+  return [state, wrappedSetState]
+}
+```
+
+Sweet. Now we can run a callback after the state update. Let's make an arbitrary example. A `Counter` that logs out a message.
+
+```jsx
+function Counter() {
+  const [state, setState] = useOldSchoolState(0)
+
+  const inc = () => {
+    setState(
+      s => s + 1,
+      () => {
+        console.log(`Count went up to ${state}`)
+      },
+    )
+  }
+
+  const dec = () => {
+    setState(
+      s => s - 1,
+      () => {
+        console.log(`Count went down to ${state}`)
+      },
+    )
+  }
+
+  return (
+    <div>
+      <div>Count: {state}</div>
+      <div>
+        <Button onClick={inc}>+</Button>
+        <Button onClick={dec}>-</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+However, one might notice there's a small problem, one that would be avoided in the class component version. Can you spot it? <Marker content="Hint: check the console." />
+
+<OffsetWrap>
+  <FirstCounter client:load />
+</OffsetWrap>
+
+In class components, `this` refers to the instance of the component, so if we were to try and get values derived from `this`, such as `this.state` and this occurs in a function called _after_ the state was updated, then we would get the _updated values for `this.state`_. But if we try and access `state` in our callback, it will be incorrect. It will be the whatever `state` was at the time `setState` was called due to the closure created. In other words, we cannot access the updated state by using `state` in the callback function. What if the action we'd like to depends on that updated state?
+
+Remember how `useEffect` runs _after_ the state update triggered a render. This means that the value of `state` inside our `useOldSchoolState` hook is when the effect is run is the `nextState` in comparison to the value of `state` at the time the callback was created and `state` closed over. Thus, if we pass `state` in our `useOldSchoolState` to the callback, we'll have access to the `nextState` in the callback. Like so:
+
+```javascript
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const callbackRef = React.useRef(null)
+
+  const wrappedSetState = React.useCallback((update, callback) => {
+    setState(update)
+
+    if (callback) {
+      callbackRef.current = callback
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (callbackRef.current) {
+      callbackRef.current(state)
+      callbackRef.current = null
+    }
+  }, [state])
+
+  return [state, wrappedSetState]
+}
+```
+
+Now that we are passing the updated state to the callback, let's update our `Counter` component to make use of this.
+
+```jsx
+function Counter() {
+  const [state, setState] = useOldSchoolState(0)
+
+  const inc = () => {
+    setState(
+      s => s + 1,
+      nextState => {
+        console.log(`Count went up to ${nextState}`)
+      },
+    )
+  }
+
+  const dec = () => {
+    setState(
+      s => s - 1,
+      nextState => {
+        console.log(`Count went down to ${nextState}`)
+      },
+    )
+  }
+
+  return (
+    <div>
+      <div>Count: {state}</div>
+      <div>
+        <Button onClick={inc}>+</Button>
+        <Button onClick={dec}>-</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+<OffsetWrap>
+  <SecondCounter client:load />
+</OffsetWrap>
+
+Excellent. Now our `Counter` will log out the correct value in the callback. However, there is yet one more problem with this approach. What happens if we call `setState` inside of our callback, and furthermore, what happens if we provide this second `setState` a callback as well?
+
+Let's make a new component and try it out. We'll make a contrived `DoubleStepper`, but it'll make my point:
+
+```jsx
+function DoubleStepper() {
+  const [state, setState] = useOldSchoolState(0)
+
+  cons step = () => {
+    setState(
+      s => s + 1,
+      ns1 => {
+        console.log('first callback', ns1)
+        setState(
+          s => s + 1,
+          ns2 => {
+            console.log('second callback', ns2)
+          }
+        )
+      }
+    )
+  }
+
+  return (
+    <div>
+      <div>Steps: {state}</div>
+      <Button onClick={step}>Step</Button>
+    </div>
+  )
+}
+```
+
+Let's break that down really quick. When we trigger `step`, the first `setState` shall update the state by `1` and callback with the next state. Inside of that callback, we'll call `setState` again, which will also update the state by `1` and has a callback that should display the second state update.
+
+But does it?
+
+Try it out and find out. Make sure you check the console.
+
+<OffsetWrap>
+  <FirstDoubleStepper client:load />
+</OffsetWrap>
+
+Well, what do you know? It doesn't work right, does it? What's going on? Adding a few `console.log`s to our `useOldSchoolState` code will make this clear:
+
+```jsx
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const callbackRef = React.useRef(null)
+
+  const wrappedSetState = React.useCallback((update, callback) => {
+    console.log('starting wrappedSetState')
+    setState(update)
+
+    if (callback) {
+      console.log('setting callbackRef')
+      callbackRef.current = callback
+    }
+  }, [])
+
+  React.useEffect(() => {
+    console.log('starting effect')
+    if (callbackRef.current) {
+      callbackRef.current(state)
+      console.log('nullifying callbackRef')
+      callbackRef.current = null
+    }
+  }, [state])
+
+  return [state, wrappedSetState]
+}
+```
+
+Now try it.
+
+<OffsetWrap>
+  <SecondDoubleStepper client:load />
+</OffsetWrap>
+
+When we click the button of our `DoubleStepper` component, we see the following logs:
+
+```javascript
+// starting wrappedSetState
+// setting callbackRef
+// starting effect
+// first callback 1
+// starting wrappedSetState
+// setting callbackRef
+// nullifying callbackRef
+// starting effect
+```
+
+Notice that `nullifying callbackRef` only occurs once, when we might expect it to occur twice. What's worse is that our ref is nullified _after_ having set the ref for the next callback, but _before_ that callback has a chance to be called in the next effect. What we need is a way to sequence callbacks in an orderly fashion. What can we do to manage that?
+
+We can add a simple `queue` data structure, and only process one callback at a time in the queue.
+
+```javascript
+function createQueue() {
+  const queue = []
+
+  return {
+    add(item) {
+      queue.unshift(item)
+    },
+    remove() {
+      return queue.pop()
+    },
+    get length() {
+      return queue.length
+    },
+  }
+}
+```
+
+This is a very simple `queue` with no bells and whistles. Let's use it to store callbacks, and then `remove` callbacks one by one instead, like so:
+
+```javascript
+function useOldSchoolState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const queue = React.useRef(createQueue())
+
+  const wrappedSetState = React.useCallback((update, callback) => {
+    setState(update)
+
+    if (callback) {
+      queue.current.add(callback)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (queue.current.length) {
+      queue.current.remove()(state)
+    }
+  }, [queue.current.length, state])
+
+  return [state, wrappedSetState]
+}
+```
+
+<OffsetWrap>
+  <ThirdDoubleStepper client:load />
+</OffsetWrap>
+
+Now, we manage to only run one callback per effect, which in the case of the `DoubleStepper` gets it working as expected. I haven't tested this on even more challenging scenarios, so I can't make guarantees regarding how bulletproof this implementation is, but I am satisfied with the exploration for now.
+
+Admittedly, that was quite a bit of work for a seemingly simple hook, but I think the work was worthwhile. It forced me (and hopefully you) to think about breaking the problem down, and fixing pieces of it step by step.

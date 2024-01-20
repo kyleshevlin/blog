@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content'
+import Content from '../components/Content.astro'
+import PageHeading from '../components/PageHeading.astro'
+import Prose from '../components/Prose.astro'
+import Standard from '../layouts/Standard.astro'
+import { byEntryDate } from '../utils'
+
+const coursesEntries = await getCollection('courses')
+const courses = coursesEntries.toSorted(byEntryDate)
+---
+
+<Standard title="Courses | Kyle Shevlin">
+  <Content showCourseAds={false}>
+    <Prose>
+      <PageHeading>Courses</PageHeading>
+
+      <p>
+        Here you will find all of the courses I have created with links to where
+        you can get them. If you ever have a question about one of my courses,
+        feel free to send me a message on{' '}
+        <a
+          class="text-accent hover:text-accent-dark"
+          href="https://twitter.com/kyleshevlin">Twitter</a
+        > about it and I'll do my best to help you out.
+      </p>
+
+      <div class="mb-24 flex flex-col gap-24">
+        {
+          courses.map(entry => {
+            const { description, logo, title, url } = entry.data
+
+            return (
+              <div class="flex flex-col gap-8 xs:flex-row xs:items-start">
+                <div class="flex justify-center xs:basis-1/4">
+                  <img
+                    class="max-w-[240px]"
+                    src={logo}
+                    alt={`Logo for ${title}`}
+                  />
+                </div>
+                <div class="flex flex-col gap-8 xs:basis-3/4">
+                  <div class="font-sans text-2xl">{title}</div>
+
+                  <div>{description}</div>
+
+                  <div>
+                    <a
+                      class="inline-block rounded bg-accent px-4 py-2 font-sans leading-none text-white shadow-md hover:bg-accent-dark"
+                      href={url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      View the course
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )
+          })
+        }
+      </div>
+    </Prose>
+  </Content>
+</Standard>

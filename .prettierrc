@@ -2,5 +2,14 @@
   "arrowParens": "avoid",
   "semi": false,
   "singleQuote": true,
-  "trailingComma": "es5"
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    }
+  ],
+  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
 }

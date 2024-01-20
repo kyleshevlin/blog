@@ -58,7 +58,7 @@ relatedPostsSlugs: []
   return content
 }
 
-const POSTS_PATH = path.resolve('./src/posts/published')
+const POSTS_PATH = path.resolve('./src/content/posts')
 const dirName = process.argv[2]
 
 makePost(POSTS_PATH, dirName, 'index.mdx', makeFrontmatter(dirName))

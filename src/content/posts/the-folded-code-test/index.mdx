@@ -1,0 +1,101 @@
+---
+date: '2022-01-03'
+slug: 'the-folded-code-test'
+title: 'The &ldquo;Folded Code&rdquo; Test'
+subtitle: null
+description: 'Many text editors allow you to fold, or collapse, blocks of code. I believe we can improve the design of our code by using this to our advantage.'
+excerpt: 'Many text editors allow you to fold, or collapse, blocks of code. I believe we can improve the design of our code by using this to our advantage.'
+tags: ['JavaScript', 'Software Engineering']
+relatedPostsSlugs: []
+---
+
+One underrated feature of code editors is "code folding", the ability to fold a block of code, like this:
+
+<div class="mb-4">
+  <Gif
+    alt="Animation of VSCode collapsing blocks of code from multiple lines, into a single line"
+    gifSrc="/images/folding-code.gif"
+    staticSrc="/images/code-folded-static.jpg"
+  />
+</div>
+
+I use this feature all the time, and recently, it dawned on me that folding your code might help you write better code.
+
+### Why I fold code
+
+When I'm reading code, especially large files, I can find it overwhelming to see lots of code. Even more so when I'm unfamiliar with the code. It's a lot of visual noise and information to take in all at once. In order to reduce this overwhelming sensation, I _literally_ reduce how much code is visible.
+
+If you use [VSCode](https://code.visualstudio.com/), you can collapse code blocks from the keyboard using "chords". A "chord" is a command that requires multiple key combinations to perform. You can fold up to 9 levels of indentation by pressing `cmd + k`, followed by `cmd + <number between 1-9>`. <Marker content="I work on a Mac, please convert <code>cmd</code> to <code>ctrl</code> if you are a Windows user." /> The number you press is the level depth of the collapse. You can un-collapse all levels by performing `cmd + k`, then `cmd + 0`.
+
+Often, when I open up a large file, I'll start by hitting `cmd + k`, then `cmd + 1` or `cmd + 2` to reduce how much code I can see. This allows me to view the file at a higher level. It's seeing the code "forest" and ignoring the details of the code "trees" for a moment.
+
+Looking at code from this vantage point, where much of the implementation details are hidden, begs us to ask a key question: **does the code _still_ describe its purpose at this level?**
+
+I believe <Marker content="Yes, this is my <em>opinion</em>" /> code that is easy to read, understand, and maintain will also be easy to follow at each level you fold. When you fold it to a level where it's unclear what happens inside the block, you _may_ have an opportunity to refactor and improve the code.
+
+I can think of two strong examples where the "folded code" test can be seen in action. First, tests.
+
+Think about a block of tests, as we unfold it, we get a more detailed view of the forest. A completely folded test might only say:
+
+```javascript
+describe('Stack', () => {})
+```
+
+We know that this tests something called `Stack`, which gives us some indication of what we might expect. Unfolding a layer reveals more detail:
+
+```javascript
+describe('Stack', () => {
+  it('should make a new stack', () => {})
+  it('should add an item to the stack', () => {})
+  it('should pop off the top item from the stack', () => {})
+  it('should indicate when the stack is empty', () => {})
+})
+```
+
+And if we go further, we'd see the implementation details of those tests (I'll spare you that for now).
+
+On the flip side, the second example is the corollary to these tests, the `class` that we're testing.
+
+Now, I often prefer [factory functions](what-is-a-factory-function) and think that you can see the same benefits of code folding when writing them, but I believe more people are familiar with classes. Perhaps not in JavaScript, but if you have a background in other languages.
+
+If we were to write a `Stack` class, going layer by layer, you will see that each level of folding reveals more about it:
+
+```javascript
+class Stack {}
+```
+
+Next, we start to reveal the API of the `Stack`:
+
+```javascript
+class Stack {
+  constructor() {}
+  push(item) {}
+  pop() {}
+  isEmpty() {}
+}
+```
+
+At this level, we've revealed what the public API of the class is. If this were a more complicated object, we'd also have some idea of the `protected` or `private` API as well. At the next level, we can see some of the implementation details.
+
+```javascript
+class Stack {
+  constructor() {
+    this.stack = []
+  }
+  push(item) {
+    this.stack.push(item)
+  }
+  pop() {
+    return this.stack.pop()
+  }
+  isEmpty() {
+    return this.stack.length === 0
+  }
+}
+```
+
+Now, you'll have to use your imagination a bit to apply this principle/test <Marker content="Honestly, I don't know what it is. Just a thought that's been in my brain for a few months." /> to your work. The stuff you work on day to day is far more complex than I can fit in an example, but I hope you're getting the gist of what I'm getting at. If you can improve how well your code reads at each level it's folded, you're probably writing code that you and your colleagues can update and maintain easily in the future.
+
+### Summary
+
+Code folding is a way to reduce visual noise and get a higher level perspective on a module's functionality. Strive to make your code understandable even when it's folded through the use of good structure and descriptive variable and function names. Use this "test" as a way to gauge how well you're communicating the intention of your code to your colleagues and future self.

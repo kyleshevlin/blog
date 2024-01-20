@@ -1,0 +1,8 @@
+{
+  "date": "2019-12-18",
+  "title": "Introduction to State Machines and XState",
+  "nickname": "xstate",
+  "description": "Learn all about finite state machines, the XState library and all the problems they solve.",
+  "logo": "/images/StateMachinesXState.png",
+  "url": "https://egghead.io/courses/introduction-to-state-machines-using-xstate"
+}

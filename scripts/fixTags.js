@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const { fromDir } = require('./utils')
 
-const POSTS_PATH = path.resolve('./src/posts/published')
+const POSTS_PATH = path.resolve('./src/content/posts')
 const TAGS_PATTERN = /(?<=tags: )\[.*?\]/gms
 
 function fixTags() {

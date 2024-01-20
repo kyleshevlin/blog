@@ -1,0 +1,38 @@
+---
+import Beard from '../icons/Beard.astro'
+
+interface Props {
+  content: string
+}
+
+const { content } = Astro.props
+---
+
+<button
+  aria-label="Toggle footnote"
+  class="marker-button relative inline-block rounded-full bg-accent p-1 text-white transition-all hover:bg-accent-dark active:top-[1px]"
+  data-content={content}
+  title="Toggle footnote"
+>
+  <span class="sr-only">Toggle footnote</span>
+  <Beard width={12} />
+</button>
+
+<script>
+  const btns = document.querySelectorAll('.marker-button')
+  const footnoteDisplay = document.getElementById('footnote-display')
+  const footnoteDisplayContent = document.getElementById(
+    'footnote-display-content',
+  )
+
+  btns.forEach(btn => {
+    const content = btn.getAttribute('data-content')
+
+    btn.addEventListener('click', () => {
+      if (footnoteDisplayContent && content) {
+        footnoteDisplayContent.innerHTML = content
+        footnoteDisplay?.classList.toggle('hidden')
+      }
+    })
+  })
+</script>

@@ -1,0 +1,162 @@
+---
+date: '2023-05-02'
+slug: 'context-composition-and-flexibility'
+title: 'Context, Composition, and Flexibility'
+subtitle: null
+description: 'Using React Context and component composition, we can achieve both flexibility and different functionality'
+excerpt: "Let's learn how to use React Context and composition to get out of a sticky situation our designers put us in."
+tags: ['React']
+relatedPostsSlugs: ['how-to-use-react-context-effectively']
+---
+
+import { Example1, Example2, Example3 } from './_Examples'
+
+Recently, I had the following situation at work. It has been adapted to be **less** professional and **more** humorous:
+
+---
+
+**Designer**: Hey, you know our `Input` component?
+
+**Me**: Yeah, this one?
+
+<div class="my-8">
+  <Example1 client:only="react" />
+</div>
+
+**Designer**: Yeah, that's the one! Look, I want you to make it so that when the `Input` is optional, it shows a little bit of helper text to the right of label that says `"(optional)"`. Like this:
+
+<div class="my-8">
+  <Example2 client:only="react" />
+</div>
+
+**Me**: Oh, you wouldn't prefer to show an asterisk when it's _required_ like almost every other website in existence? Like this:
+
+<div class="my-8">
+  <Example3 client:only="react" />
+</div>
+
+**Designer**: Well, most of our `Input`s should be required so we felt that this would be less noisy. Don't want to see `*`s everywhere.
+
+**Me**: But every `Input` in all our apps, and all the web actually, is optional **by default**. You have to set the `required` attribute explicitly. Meaning the more likely scenario is seeing `"(optional)"` everywhere.
+
+**Designer**: Yeah... I don't care. Just do it.
+
+---
+
+Now, if you've done software engineering for any significant amount of time, you've probably run into a scenario just like this one. It sucks to be told to do something that you know isn't the right solution.
+
+That said, in this particular scenario, there's a pretty easy way for both of us to win and I'm hoping it will give you some more strategies when you're in a similar situation again in the future. Let me show you how.
+
+### First instincts vs. second thoughts
+
+Given the nature of the change, it would be really tempting to solve it as simply as possible, perhaps like this:
+
+```jsx
+function Input({ id, label, required = false }) {
+  return (
+    <div>
+      <label htmlFor={id}>
+        {label}
+        {!required && ' (optional)'}
+      </label>
+      <input id={id} required={required} />
+    </div>
+  )
+}
+```
+
+This definitely solves the problem, but we know that this isn't a great solution. It's likely to get push back from other teams who want something they're more accustomed to, like an `*` on required fields.
+
+We might be tempted to change it so that `Input` receives a `variant` that determines how to handle this, perhaps like this:
+
+```jsx
+function Input({ id, label, required = false, variant = 'showOptionals' }) {
+  const getHelperText = () => {
+    if (variant === 'showOptionals' && !required) return ' (optional)'
+    if (variant === 'showRequireds' && required) return '*'
+
+    return null
+  }
+
+  return (
+    <div>
+      <label htmlFor={id}>
+        {label}
+        {getHelperText()}
+      </label>
+      <input id={id} required={required} />
+    </div>
+  )
+}
+```
+
+Now, if a team wants to show a more traditional `*` on their required inputs, they can add the `variant="showRequired"` prop. **However**, this would mean needing to add that to _every single `Input` that needs that treatment_. That's laborious, exhausting and tedious.
+
+What if there was a way to apply a `variant` to every input, but only have to write it once?
+
+### Context and composition to the rescue
+
+Let's create an `InputStyleContext` that will pass the `variant` to all consumers automatically.
+
+```javascript
+const InputStyleContext = React.createContext()
+
+function InputStyleProvider({ children, variant = 'none' }) {
+  return (
+    <InputStyleContext.Provider value={variant}>
+      {children}
+    </InputStyleContext.Provider>
+  )
+}
+
+const useInputStyleContext = () => React.useContext(InputStyleContext)
+```
+
+Now that we have that, let's use the custom hook we made to get the `variant` off of context, rather than passed in as a prop to `Input`.
+
+```jsx
+function Input({ id, label, required = false }) {
+  const variant = useInputStyleContext()
+
+  const getHelperText = () => {
+    if (variant === 'showOptionals' && !required) return ' (optional)'
+    if (variant === 'showRequireds' && required) return '*'
+
+    return null
+  }
+
+  return (
+    <div>
+      <label htmlFor={id}>
+        {label}
+        {getHelperText()}
+      </label>
+      <input id={id} required={required} />
+    </div>
+  )
+}
+```
+
+Now we have the option to change the appearance of our `Input`s with a single wrapping component. You want the `"(optional)"` text, do this:
+
+```jsx
+<InputStyleProvider variant="showOptionals">
+  <Input id="name" label="Name" />
+</InputStyleProvider>
+```
+
+Or if you want to show `*` on required fields, change the `variant` to `showRequireds`. It's that simple.
+
+```jsx
+<InputStyleProvider variant="showRequireds">
+  <Input id="name" label="Name" required />
+</InputStyleProvider>
+```
+
+Now we have a solution that has satiated our designer, but gives us some flexibility still. I think that's a win-win.
+
+Try to remember that context and composition might be a good solution for your problem, too.
+
+### And for the record...
+
+The very first form I worked on after this change was, in fact, 5 `Input`s, all optional, all with the `"(optional)"` text next to them. So much for being less noisy! Oh well.

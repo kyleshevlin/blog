@@ -1,0 +1,20 @@
+---
+interface Props {
+  external?: boolean
+  href: string
+}
+
+const { external = false, href } = Astro.props
+
+const additionalProps: Partial<Pick<HTMLAnchorElement, 'rel' | 'target'>> = {}
+if (external) {
+  additionalProps.rel = 'noreferrer'
+  additionalProps.target = '_blank'
+}
+---
+
+<a
+  class="text-accent transition-colors hover:text-accent-dark"
+  href={href}
+  {...additionalProps}><slot /></a
+>

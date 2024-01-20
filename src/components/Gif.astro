@@ -1,0 +1,18 @@
+---
+interface Props {
+  alt: string
+  gifSrc: string
+  staticSrc?: string
+}
+
+const { alt, gifSrc, staticSrc } = Astro.props
+---
+
+<picture>
+  {
+    staticSrc && (
+      <source srcset={staticSrc} media="(prefers-reduced-motion: reduce)" />
+    )
+  }
+  <img srcset={gifSrc} alt={alt} />
+</picture>

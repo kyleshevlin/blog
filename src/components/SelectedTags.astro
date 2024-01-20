@@ -1,0 +1,27 @@
+---
+const TAGS = [
+  { to: 'react', label: 'React' },
+  { to: 'state-machines', label: 'State Machines' },
+  { to: 'functional-programming', label: 'Functional Programming' },
+  { to: 'software-engineering', label: 'Software Engineering' },
+]
+---
+
+<section class="flex flex-col gap-6">
+  <h3 class="font-sans text-2xl">Unsure where to start?</h3>
+
+  <p>Try a post in one of these tagged collections.</p>
+
+  <div class="flex grid-cols-2 grid-rows-2 flex-col gap-4 xs:grid">
+    {
+      TAGS.map(tag => (
+        <a
+          class="flex items-center justify-center rounded bg-accent p-6 text-center text-white shadow-md transition-all hover:bg-accent-dark"
+          href={`/tags/${tag.to}`}
+        >
+          <span class="font-sans text-xl">{tag.label}</span>
+        </a>
+      ))
+    }
+  </div>
+</section>

@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Runtime data
 pids
@@ -55,9 +56,11 @@ typings/
 .env
 .env.*
 
-# gatsby files
-.cache/
-public
+# build output
+dist/
+
+# generated types
+.astro/
 
 # Mac files
 .DS_Store

@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import Content from '../components/Content.astro'
+import Standard from '../layouts/Standard.astro'
+import Post from '../components/Post.astro'
+import { byEntryDate } from '../utils'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postsEntries = await getCollection('posts')
+  const postsSorted = postsEntries.toSorted(byEntryDate)
+
+  return postsSorted.map((entry, idx) => ({
+    params: { slug: entry.slug },
+    props: {
+      entry,
+      newerPost: postsSorted[idx - 1],
+      olderPost: postsSorted[idx + 1],
+      relatedPosts: postsSorted.filter(post =>
+        entry.data.relatedPostsSlugs?.includes(post.slug),
+      ),
+    },
+  }))
+}
+
+interface Props {
+  entry: CollectionEntry<'posts'>
+  newerPost?: CollectionEntry<'posts'>
+  olderPost?: CollectionEntry<'posts'>
+  relatedPosts: CollectionEntry<'posts'>[]
+}
+
+const props = Astro.props
+---
+
+<Standard title={`${props.entry.data.title} | Kyle Shevlin`}>
+  <Content>
+    <Post {...props} />
+  </Content>
+</Standard>

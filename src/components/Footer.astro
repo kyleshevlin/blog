@@ -1,0 +1,60 @@
+---
+import Container from './Container.astro'
+import Contributors from './Contributors.astro'
+import Copyright from './Copyright.astro'
+import Github from '../icons/Github.astro'
+import Twitter from '../icons/Twitter.astro'
+import Rss from '../icons/Rss.astro'
+
+const LINKS = [
+  { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
+  { href: 'https://github.com/kyleshevlin', icon: Github, title: 'Github' },
+  { href: 'https://kyleshevlin.com/rss.xml', icon: Rss, title: 'RSS Feed' },
+]
+---
+
+<footer class="mt-24 bg-gray-900 py-8 text-center text-white dark:bg-gray-800">
+  <Container>
+    <div class="flex flex-col gap-8">
+      <div class="flex justify-center">
+        <div class="max-w-[80ch]">
+          <Contributors />
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+        <a
+          class="font-sans text-accent hover:text-accent-light"
+          href="https://kyleshevlingolf.com"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Looking for my golf content instead?
+        </a>
+      </div>
+
+      <div class="flex items-center justify-center">
+        {
+          LINKS.map(link => {
+            const { href, icon: Icon, title } = link
+
+            return (
+              <a
+                class="inline-block px-4 py-2 text-accent hover:text-accent-light"
+                href={href}
+                title={title}
+              >
+                <span class="sr-only">{href}</span>
+                <Icon fill="currentColor" width={30} />
+              </a>
+            )
+          })
+        }
+      </div>
+
+      <div class="font-sans">
+        <Copyright /> Kyle Shevlin. All Rights Reserved.
+      </div>
+    </div>
+  </Container>
+</footer>

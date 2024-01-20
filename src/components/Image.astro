@@ -1,0 +1,14 @@
+---
+interface Props {
+  alt?: string
+  invertable?: boolean
+  src: string
+  title?: string
+}
+
+const { alt, invertable = false, src, title } = Astro.props
+---
+
+<div class={`flex justify-center ${invertable && 'dark:invert'}`}>
+  <img class="block" alt={alt} src={src} title={title} />
+</div>
