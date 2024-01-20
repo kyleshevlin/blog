@@ -26,7 +26,8 @@
     "prepare": "husky install",
     "preview": "astro preview",
     "start": "astro dev",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
