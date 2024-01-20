@@ -1,5 +1,6 @@
 const noop = () => {}
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function memoize<T extends (...args: any[]) => any>(
   fn: T,
   onCacheHit: (cache: Record<string, ReturnType<T>>) => void = noop,

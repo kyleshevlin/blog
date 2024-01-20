@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '../../../components/Button'
 import { toEventObject, toTransitionObject } from '../../../utils'
 import { BrokenBulbSVG, BulbSVG } from '../../../components/bulbs/BulbSvgs'
+import type { Todo } from '../../../types'
 
 const initialState = {
   current: 'unlit',
@@ -35,7 +36,7 @@ const NEXT_STATE_GRAPH = {
   },
 } as const
 
-const stateReducer = (state: any, event: any) => {
+const stateReducer = (state: Todo, event: Todo) => {
   // @ts-expect-error TODO:
   const nextState = NEXT_STATE_GRAPH[state.current][event.type]
 
@@ -55,20 +56,20 @@ const stateReducer = (state: any, event: any) => {
 }
 
 const DATA_UPDATERS = {
-  CHANGE_COLOR: (data: any, eventObj: any) => ({
+  CHANGE_COLOR: (data: Todo, eventObj: Todo) => ({
     ...data,
     color: eventObj.color,
   }),
   RESET: () => initialState.data,
 }
 
-const dataReducer = (data: any, eventObj: any) => {
+const dataReducer = (data: Todo, eventObj: Todo) => {
   // @ts-expect-error TODO:
   const updater = DATA_UPDATERS[eventObj.type]
   return updater ? updater(data, eventObj) : data
 }
 
-const reducer = (state: any, event: any) => {
+const reducer = (state: Todo, event: Todo) => {
   const eventObj = toEventObject(event)
   const nextState = stateReducer(state, eventObj)
 

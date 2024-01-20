@@ -1,5 +1,6 @@
 import React from 'react'
 import { Input, useNumberInput } from '../../../components/Inputs'
+import type { Todo } from '../../../types'
 
 type ContextValue = {
   radius1: number
@@ -78,7 +79,7 @@ function drawBackground({
   height,
 }: {
   color: string
-  context: any
+  context: Todo
   width: number
   height: number
 }) {
@@ -104,7 +105,7 @@ const getThetaY = (
 
 type DrawSpiroArgs = {
   color: string
-  context: any
+  context: Todo
   cx: number
   cy: number
   radius1: number

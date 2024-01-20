@@ -14,7 +14,7 @@ export default function ChangeExample() {
   )
 }
 
-function Display(props: any) {
+function Display(props: { value: number }) {
   useChangeDebugger(props)
 
   return (

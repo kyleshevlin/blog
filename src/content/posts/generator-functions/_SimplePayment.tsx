@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 import { Input, useInput } from '../../../components/Inputs'
+import type { Todo } from '../../../types'
 
 const compound = (amount: number, rate: number) => amount + amount * rate
 
@@ -67,7 +68,7 @@ export default function SimplePayment() {
   const [principal, onPrincipalChange] = useInput('46000')
   const [rate, onRateChange] = useInput('0.05')
   const [payment, onPaymentChange] = useInput('1500')
-  const [data, setData] = React.useState<any>(null)
+  const [data, setData] = React.useState<Todo>(null)
   const [done, setDone] = React.useState(false)
   const genRef = React.useRef(
     getNewPaymentGenerator(Number(principal), Number(rate), Number(payment)),
