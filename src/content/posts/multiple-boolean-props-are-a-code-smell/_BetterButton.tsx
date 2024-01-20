@@ -15,7 +15,7 @@ export default function BetterButton({
   variant = 'default',
 }) {
   const bs = useSpacing()
-  let backgroundColor = BUTTON_BGS[variant] || BUTTON_BGS.default
+  const backgroundColor = BUTTON_BGS[variant] || BUTTON_BGS.default
 
   const styles = {
     marginRight: bs(1),

@@ -1,8 +1,6 @@
 import React from 'react'
-import { Flex, useSpacing } from '@kyleshevlin/layout'
 
 export default function ResizableBox() {
-  const bs = useSpacing()
   const [width, setWidth] = React.useState(50)
   const [height, setHeight] = React.useState(50)
 

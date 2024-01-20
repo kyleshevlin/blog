@@ -16,11 +16,7 @@ export function MyTweet() {
           June 11, 2021
         </a>
       </blockquote>
-      <script
-        async
-        src="https://platform.twitter.com/widgets.js"
-        charset="utf-8"
-      ></script>
+      <script async src="https://platform.twitter.com/widgets.js"></script>
     </>
   )
 }

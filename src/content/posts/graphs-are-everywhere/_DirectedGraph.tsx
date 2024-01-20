@@ -1,4 +1,3 @@
-import { useSpacing } from '@kyleshevlin/layout'
 import React from 'react'
 
 // The absurd width is partnered with negative margins to create an svg that almost
@@ -28,7 +27,6 @@ export default function DirectedGraph({
   options = {},
 }) {
   options = { ...defaultOptions, ...options }
-  const bs = useSpacing()
   const svgRef = React.useRef(null)
   const isReady = useScript(
     'https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js',

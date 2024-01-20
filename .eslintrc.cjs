@@ -35,6 +35,7 @@ module.exports = {
       rules: {
         'react-hooks/exhaustive-deps': 'warn',
         'react-hooks/rules-of-hooks': 'error',
+        'react/prop-types': 'off',
       },
       settings: {
         react: {
@@ -61,5 +62,13 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+    /**
+     * Use `any` very cautiously
+     */
+    '@typescript-eslint/no-explicit-any': 'warn',
+    /**
+     * this is to ignore a complaint in the astro generated env.d.ts file
+     */
+    '@typescript-eslint/triple-slash-reference': 'off',
   },
 }

@@ -52,18 +52,21 @@ function getContributors(json: ContributorData) {
   const authors = json.data.repository.pullRequests.nodes.map(
     node => node.author,
   )
-  const authorsByLogin = authors.reduce((acc, author) => {
-    const { login } = author
+  const authorsByLogin = authors.reduce(
+    (acc, author) => {
+      const { login } = author
 
-    if (OMIT_LOGINS.includes(login)) return acc
-    if (acc[login]) return acc
+      if (OMIT_LOGINS.includes(login)) return acc
+      if (acc[login]) return acc
 
-    acc[login] = author
+      acc[login] = author
 
-    return acc
-  }, {} as any)
+      return acc
+    },
+    {} as Record<string, Author>,
+  )
 
-  return Object.values(authorsByLogin) as Author[]
+  return Object.values(authorsByLogin)
 }
 
 const json = await fetchContributors()

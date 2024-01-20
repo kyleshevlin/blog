@@ -3,7 +3,6 @@ import Grid from './_Grid'
 import { ButtonCell } from './_Cell'
 import { newTicTacToeGrid } from './_utils'
 import { Button } from '../../../components/Button'
-import { useSpacing } from '@kyleshevlin/layout'
 
 // Simple way to deeply clone an array or object
 const clone = x => JSON.parse(JSON.stringify(x))
@@ -85,7 +84,6 @@ const GAME_STATUS_TEXT = {
 }
 
 export default function Game() {
-  const bs = useSpacing()
   const [state, dispatch] = React.useReducer(reducer, getInitialState())
   const { grid, status, turn } = state
 

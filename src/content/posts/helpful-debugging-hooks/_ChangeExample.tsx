@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
-import { useSpacing } from '@kyleshevlin/layout'
 
 const rng = () => Math.trunc(Math.random() * 100)
 
@@ -16,11 +15,10 @@ export default function ChangeExample() {
 }
 
 function Display(props) {
-  const bs = useSpacing()
   useChangeDebugger(props)
 
   return (
-    <div css={{ marginBottom: bs(0.5) }}>
+    <div className="mb-4">
       <p>Be sure to open the console and see the logged out changes!</p>
       <div>Current Value: {props.value}</div>
     </div>

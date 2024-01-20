@@ -36,7 +36,12 @@ export function Tabs({ items = [] }: { items?: typeof ITEMS }) {
   )
 }
 
-const TabsContext = React.createContext(undefined as any)
+type ContextValue = {
+  selectedValue: string | undefined
+  setSelectedValue: React.Dispatch<string | undefined>
+}
+
+const TabsContext = React.createContext(undefined as unknown as ContextValue)
 
 const useTabsContext = () => React.useContext(TabsContext)
 
