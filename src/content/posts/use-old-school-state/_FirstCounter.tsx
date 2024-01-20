@@ -1,17 +1,24 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-function useOldSchoolState(initialState) {
+type Callback = () => void
+
+function useOldSchoolState<T>(initialState: T) {
   const [state, setState] = React.useState(initialState)
-  const callbackRef = React.useRef(null)
+  const callbackRef = React.useRef<Callback | null>(null)
 
-  const wrappedSetState = React.useCallback((update, callback) => {
-    setState(update)
+  type Update = T | ((currentState: T) => T)
 
-    if (callback) {
-      callbackRef.current = callback
-    }
-  }, [])
+  const wrappedSetState = React.useCallback(
+    (update: Update, callback: Callback) => {
+      setState(update)
+
+      if (callback) {
+        callbackRef.current = callback
+      }
+    },
+    [],
+  )
 
   React.useEffect(() => {
     if (callbackRef.current) {
@@ -20,7 +27,7 @@ function useOldSchoolState(initialState) {
     }
   })
 
-  return [state, wrappedSetState]
+  return [state, wrappedSetState] as const
 }
 
 export default function Counter() {

@@ -4,10 +4,10 @@ import { Input, useNumberInput } from '../../../components/Inputs'
 import memoize from './_memoize'
 
 export default function Factorializer() {
-  const [cache, setCache] = React.useState(null)
+  const [cache, setCache] = React.useState<Record<string, number> | null>(null)
 
   const factorial = memoize(
-    n => {
+    (n: number): number => {
       if (n === 0) return 1
       return n * factorial(n - 1)
     },
@@ -30,6 +30,7 @@ export default function Factorializer() {
   )
 }
 
+// @ts-expect-error TODO:
 function Child({ cache, resetCache, updateCache }) {
   const [result, setResult] = React.useState(0)
   const [value, onChange] = useNumberInput(0)

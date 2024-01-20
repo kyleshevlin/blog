@@ -44,10 +44,13 @@ const NEXT_STATE_GRAPH = {
 }
 
 const GUARDS = {
+  // @ts-expect-error TODO:
   hasFuse: data => data.hasFuse,
 }
 
+// @ts-expect-error TODO:
 const stateReducer = (state, event, data) => {
+  // @ts-expect-error TODO:
   const transitionValue = NEXT_STATE_GRAPH[state.current][event.type]
 
   if (!transitionValue) return
@@ -56,6 +59,7 @@ const stateReducer = (state, event, data) => {
 
   for (const transition of possibleTransitions) {
     const { target, cond = () => true } = transition
+    // @ts-expect-error TODO:
     const condFn = typeof cond === 'string' ? GUARDS[cond] : cond
 
     if (condFn(data, event)) {
@@ -67,16 +71,21 @@ const stateReducer = (state, event, data) => {
 }
 
 const DATA_UPDATERS = {
+  // @ts-expect-error TODO:
   CHANGE_COLOR: (data, eventObj) => ({ ...data, color: eventObj.color }),
   RESET: () => initialState.data,
+  // @ts-expect-error TODO:
   TOGGLE_FUSE: data => ({ ...data, hasFuse: !data.hasFuse }),
 }
 
+// @ts-expect-error TODO:
 const dataReducer = (data, eventObj) => {
+  // @ts-expect-error TODO:
   const updater = DATA_UPDATERS[eventObj.type]
   return updater ? updater(data, eventObj) : data
 }
 
+// @ts-expect-error TODO:
 const reducer = (state, event) => {
   const eventObj = toEventObject(event)
   const nextData = dataReducer(state.data, eventObj)
@@ -116,6 +125,7 @@ export default function HueLightBulb() {
         {(current === 'unlit' || current === 'brokenFuse') && (
           <BulbSVG color="none" />
         )}
+        {/* @ts-expect-error TODO: */}
         {current === 'lit' && <BulbSVG color={COLOR_MAP[data.color]} />}
         {current === 'brokenBulb' && <BrokenBulbSVG />}
       </div>

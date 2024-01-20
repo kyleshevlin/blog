@@ -1,26 +1,12 @@
 import React from 'react'
 import Grid from './_Grid'
 import { ButtonCell } from './_Cell'
-import { newTicTacToeGrid } from './_utils'
+import { NEXT_TURN, checkThree, newTicTacToeGrid } from './_utils'
 import { Button } from '../../../components/Button'
+import { clone } from '../../../utils'
+import type { Action, FlatGrid, Turn, AdvancedState } from './_types'
 
-// Simple way to deeply clone an array or object
-const clone = x => JSON.parse(JSON.stringify(x))
-
-// An enum for the next turn in our game
-const NEXT_TURN = {
-  O: 'X',
-  X: 'O',
-}
-
-const checkThree = (a, b, c) => {
-  if (!a || !b || !c) return false
-  return a === b && b === c
-}
-
-const flatten = array => array.reduce((acc, cur) => [...acc, ...cur], [])
-
-function checkForWin(flatGrid) {
+function checkForWin(flatGrid: FlatGrid) {
   const [nw, n, ne, w, c, e, sw, s, se] = flatGrid
 
   return (
@@ -35,20 +21,20 @@ function checkForWin(flatGrid) {
   )
 }
 
-function checkForDraw(flatGrid) {
+function checkForDraw(flatGrid: FlatGrid) {
   return (
     !checkForWin(flatGrid) &&
     flatGrid.filter(Boolean).length === flatGrid.length
   )
 }
 
-const getInitialState = () => ({
+const getInitialState = (): AdvancedState => ({
   grid: newTicTacToeGrid(),
   status: 'inProgress',
   turn: 'X',
 })
 
-const reducer = (state, action) => {
+const reducer = (state: AdvancedState, action: Action) => {
   if (state.status === 'success' && action.type !== 'RESET') {
     return state
   }
@@ -68,7 +54,7 @@ const reducer = (state, action) => {
 
       grid[y][x] = turn
 
-      const flatGrid = flatten(grid)
+      const flatGrid = grid.flat()
 
       if (checkForWin(flatGrid)) {
         nextState.status = 'success'
@@ -91,14 +77,14 @@ const reducer = (state, action) => {
 
 const GAME_STATUS_TEXT = {
   inProgress: () => null,
-  success: turn => `${turn} won!`,
+  success: (turn: Turn) => `${turn} won!`,
 }
 
 export default function Game() {
   const [state, dispatch] = React.useReducer(reducer, getInitialState())
   const { grid, status, turn } = state
 
-  const handleClick = (x, y) => {
+  const handleClick = (x: number, y: number) => {
     dispatch({ type: 'CLICK', payload: { x, y } })
   }
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-function createQueue() {
-  const queue = []
+function createQueue<T>() {
+  const queue = [] as T[]
 
   return {
-    add(item) {
+    add(item: T) {
       queue.unshift(item)
     },
     remove() {
@@ -17,25 +17,31 @@ function createQueue() {
   }
 }
 
-function useOldSchoolState(initialState) {
+function useOldSchoolState<T>(initialState: T) {
+  type Update = T | ((currentState: T) => T)
+  type Callback = (nextState: T) => void
+
   const [state, setState] = React.useState(initialState)
-  const queue = React.useRef(createQueue())
+  const queue = React.useRef(createQueue<Callback>())
 
-  const wrappedSetState = React.useCallback((update, callback) => {
-    setState(update)
+  const wrappedSetState = React.useCallback(
+    (update: Update, callback: Callback) => {
+      setState(update)
 
-    if (callback) {
-      queue.current.add(callback)
-    }
-  }, [])
+      if (callback) {
+        queue.current.add(callback)
+      }
+    },
+    [],
+  )
 
   React.useEffect(() => {
     if (queue.current.length) {
-      queue.current.remove()(state)
+      queue.current.remove()?.(state)
     }
   }, [queue.current.length, state])
 
-  return [state, wrappedSetState]
+  return [state, wrappedSetState] as const
 }
 
 export default function SecondDoubleStepper() {

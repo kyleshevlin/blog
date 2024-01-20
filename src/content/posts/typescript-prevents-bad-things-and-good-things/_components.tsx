@@ -26,7 +26,7 @@ export function RandomNumber() {
     <div className="flex items-center gap-4 font-sans">
       <Button onClick={handleClick}>Try again</Button>
       <div>State: {state}</div>
-      <div>Response: {text}</div>
+      <div>Response: {String(text)}</div>
     </div>
   )
 }

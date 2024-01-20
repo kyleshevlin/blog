@@ -1,19 +1,25 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-function useOldSchoolState(initialState) {
+function useOldSchoolState<T>(initialState: T) {
+  type Update = T | ((currentState: T) => T)
+  type Callback = (nextState: T) => void
+
   const [state, setState] = React.useState(initialState)
-  const callbackRef = React.useRef(null)
+  const callbackRef = React.useRef<Callback | null>(null)
 
-  const wrappedSetState = React.useCallback((update, callback) => {
-    console.log('starting wrappedSetState')
-    setState(update)
+  const wrappedSetState = React.useCallback(
+    (update: Update, callback: Callback) => {
+      console.log('starting wrappedSetState')
+      setState(update)
 
-    if (callback) {
-      console.log('setting callbackRef')
-      callbackRef.current = callback
-    }
-  }, [])
+      if (callback) {
+        console.log('setting callbackRef')
+        callbackRef.current = callback
+      }
+    },
+    [],
+  )
 
   React.useEffect(() => {
     console.log('starting effect')
@@ -24,7 +30,7 @@ function useOldSchoolState(initialState) {
     }
   }, [state])
 
-  return [state, wrappedSetState]
+  return [state, wrappedSetState] as const
 }
 
 export default function SecondDoubleStepper() {

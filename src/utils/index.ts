@@ -61,6 +61,7 @@ export const randomRGB = (alpha = 1) => {
 
 interface EventObj {
   type: string
+  [key: string]: unknown
 }
 
 export function toEventObject(event: string | EventObj): EventObj {
@@ -77,6 +78,7 @@ export function toArray<T>(value: T) {
 
 interface TransitionObj {
   target: string
+  [key: string]: unknown
 }
 
 export function toTransitionObject(
@@ -84,3 +86,6 @@ export function toTransitionObject(
 ): TransitionObj {
   return typeof transition === 'string' ? { target: transition } : transition
 }
+
+// Simple way to deeply clone an array or object
+export const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x))

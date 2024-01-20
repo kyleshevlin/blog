@@ -14,7 +14,7 @@ export default function ChangeExample() {
   )
 }
 
-function Display(props) {
+function Display(props: any) {
   useChangeDebugger(props)
 
   return (
@@ -25,8 +25,8 @@ function Display(props) {
   )
 }
 
-function usePrevious(value) {
-  const ref = React.useRef()
+function usePrevious<T>(value: T) {
+  const ref = React.useRef<T | undefined>()
 
   React.useEffect(() => {
     ref.current = value
@@ -35,7 +35,7 @@ function usePrevious(value) {
   return ref.current
 }
 
-function useChangeDebugger(value) {
+function useChangeDebugger<T>(value: T) {
   const previousValue = usePrevious(value)
   const changes = getChanges(previousValue, value)
 
@@ -46,7 +46,7 @@ function useChangeDebugger(value) {
   }
 }
 
-function getChanges(previousValue, currentValue) {
+function getChanges<T>(previousValue: T, currentValue: T) {
   // Handle non-null objects
   if (
     typeof previousValue === 'object' &&
@@ -56,9 +56,11 @@ function getChanges(previousValue, currentValue) {
   ) {
     return Object.entries(currentValue).reduce((acc, cur) => {
       const [key, value] = cur
+      // @ts-expect-error TODO:
       const oldValue = previousValue[key]
 
       if (value !== oldValue) {
+        // @ts-expect-error TODO:
         acc.push({
           name: key,
           previousValue: oldValue,

@@ -21,7 +21,7 @@ const defaultOptions = {
 }
 
 export default function DirectedGraph({
-  caption,
+  caption = '',
   data = initialData,
   showNodeIDs = false,
   options = {},
@@ -37,6 +37,7 @@ export default function DirectedGraph({
       return
     }
 
+    // @ts-expect-error TODO:
     const { d3 } = window
 
     const svg = d3
@@ -68,11 +69,15 @@ export default function DirectedGraph({
     const simulation = d3.forceSimulation(data.nodes)
     const linkForce = d3
       .forceLink(data.links)
+      // @ts-expect-error TODO:
       .id(d => d.id)
+      // @ts-expect-error TODO:
       .distance(options.linkDistance)
+      // @ts-expect-error TODO:
       .strength(options.linkStrength)
 
     simulation
+      // @ts-expect-error TODO:
       .force('charge', d3.forceManyBody().strength(options.chargeStrength))
       .force('center', d3.forceCenter(WIDTH / 2, HEIGHT / 2))
       .force('links', linkForce)
@@ -110,23 +115,30 @@ export default function DirectedGraph({
         .append('text')
         .attr('dx', -NODE_RADIUS / 4)
         .attr('dy', NODE_RADIUS / 4)
+        // @ts-expect-error TODO:
         .text(d => d.id)
     }
 
     function tickActions() {
       link
+        // @ts-expect-error TODO:
         .attr('x1', d => d.source.x)
+        // @ts-expect-error TODO:
         .attr('y1', d => d.source.y)
+        // @ts-expect-error TODO:
         .attr('x2', d => d.target.x)
+        // @ts-expect-error TODO:
         .attr('y2', d => d.target.y)
 
       node.attr('transform', nodeTransform)
     }
 
+    // @ts-expect-error TODO:
     function nodeTransform(d) {
       return `translate(${d.x}, ${d.y})`
     }
 
+    // @ts-expect-error TODO:
     function handleDragStart(d) {
       if (!d3.event.active) {
         simulation.alphaTarget(0.3).restart()
@@ -136,6 +148,7 @@ export default function DirectedGraph({
       d.fy = d.y
     }
 
+    // @ts-expect-error TODO:
     function handleDrag(d) {
       d.fx = d3.event.x
       d.fy = d3.event.y
@@ -145,8 +158,11 @@ export default function DirectedGraph({
   }, [
     data,
     isReady,
+    // @ts-expect-error TODO:
     options.chargeStrength,
+    // @ts-expect-error TODO:
     options.linkDistance,
+    // @ts-expect-error TODO:
     options.linkStrength,
     showNodeIDs,
   ])
@@ -173,9 +189,9 @@ export default function DirectedGraph({
   )
 }
 
-const scriptCache = {}
+const scriptCache = {} as Record<string, string>
 
-function useScript(url) {
+function useScript(url: string) {
   const [isReady, setIsReady] = React.useState(false)
 
   React.useEffect(() => {

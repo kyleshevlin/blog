@@ -5,19 +5,23 @@ import { Ball, Canvas, Wrap } from './_shared'
 const GRAVITY = 0.5
 const JUMP_IMPULSE = 12
 
-const BALL_STATE = {
-  idle: 'idle',
-  jumping: 'jumping',
+type State = {
+  ballState: 'idle' | 'jumping'
+  delta: number
+  jumpsRemaining: number
+  position: number
 }
 
-const initialState = {
-  ballState: BALL_STATE.idle,
+const initialState: State = {
+  ballState: 'idle',
   delta: 0,
   jumpsRemaining: 2,
   position: 0,
 }
 
-const reducer = (state, event) => {
+type EventT = 'CLICK' | 'TICK'
+
+const reducer = (state: State, event: EventT): State => {
   switch (event) {
     case 'CLICK': {
       if (state.jumpsRemaining === 0) {

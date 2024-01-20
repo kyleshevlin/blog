@@ -18,6 +18,6 @@ export default function ParentalCounter({ initialValue = 0 }) {
   )
 }
 
-function Counter(props) {
+function Counter(props: React.ComponentProps<typeof CounterUI>) {
   return <CounterUI {...props} />
 }

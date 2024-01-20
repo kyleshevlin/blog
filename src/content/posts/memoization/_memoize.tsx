@@ -1,10 +1,14 @@
 const noop = () => {}
 
-export default function memoize(fn, onCacheHit = noop, onCacheMiss = noop) {
-  let cache = {}
+export default function memoize<T extends (...args: any[]) => any>(
+  fn: T,
+  onCacheHit: (cache: Record<string, ReturnType<T>>) => void = noop,
+  onCacheMiss: (cache: Record<string, ReturnType<T>>) => void = noop,
+) {
+  let cache = {} as Record<string, ReturnType<typeof fn>>
 
-  function memoizedFn(...args) {
-    const key = args.map(JSON.stringify).join('---')
+  function memoizedFn(...args: Parameters<typeof fn>) {
+    const key = args.map(arg => JSON.stringify(arg)).join('---')
 
     if (cache[key] !== undefined) {
       onCacheHit(cache)

@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Item } from './_types'
 
 function ClosedFolder() {
   return (
@@ -28,7 +29,13 @@ function OpenFolder() {
   )
 }
 
-export default function BetterStyledTree({ items, depth = 0 }) {
+export default function BetterStyledTree({
+  items,
+  depth = 0,
+}: {
+  items?: Item[]
+  depth?: number
+}) {
   if (!items || !items.length) {
     return null
   }

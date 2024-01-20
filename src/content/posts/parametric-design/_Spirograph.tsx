@@ -71,18 +71,56 @@ function Controls() {
   )
 }
 
-function drawBackground({ color, context, width, height }) {
+function drawBackground({
+  color,
+  context,
+  width,
+  height,
+}: {
+  color: string
+  context: any
+  width: number
+  height: number
+}) {
   context.fillStyle = color
   context.fillRect(0, 0, width, height)
 }
 
-const getThetaX = (cx, radius1, radius2, ratio, theta) =>
-  cx + radius1 * Math.cos(theta) + radius2 * Math.cos(theta * ratio)
+const getThetaX = (
+  cx: number,
+  radius1: number,
+  radius2: number,
+  ratio: number,
+  theta: number,
+) => cx + radius1 * Math.cos(theta) + radius2 * Math.cos(theta * ratio)
 
-const getThetaY = (cy, radius1, radius2, ratio, theta) =>
-  cy + radius1 * Math.sin(theta) + radius2 * Math.sin(theta * ratio)
+const getThetaY = (
+  cy: number,
+  radius1: number,
+  radius2: number,
+  ratio: number,
+  theta: number,
+) => cy + radius1 * Math.sin(theta) + radius2 * Math.sin(theta * ratio)
 
-function drawSpirograph({ color, context, cx, cy, radius1, radius2, ratio }) {
+type DrawSpiroArgs = {
+  color: string
+  context: any
+  cx: number
+  cy: number
+  radius1: number
+  radius2: number
+  ratio: number
+}
+
+function drawSpirograph({
+  color,
+  context,
+  cx,
+  cy,
+  radius1,
+  radius2,
+  ratio,
+}: DrawSpiroArgs) {
   let x
   let y
   let theta

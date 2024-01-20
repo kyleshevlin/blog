@@ -30,19 +30,25 @@ const NEXT_STATE_GRAPH = {
   },
 }
 
+// @ts-expect-error TODO:
 const stateReducer = (state, event) =>
+  // @ts-expect-error TODO:
   NEXT_STATE_GRAPH[state.current][event.type]
 
 const DATA_UPDATERS = {
+  // @ts-expect-error TODO:
   CHANGE_COLOR: (data, eventObj) => ({ ...data, color: eventObj.color }),
   RESET: () => initialState.data,
 }
 
+// @ts-expect-error TODO:
 const dataReducer = (data, eventObj) => {
+  // @ts-expect-error TODO:
   const updater = DATA_UPDATERS[eventObj.type]
   return updater ? updater(data, eventObj) : data
 }
 
+// @ts-expect-error TODO:
 const reducer = (state, event) => {
   const eventObj = toEventObject(event)
   const nextState = stateReducer(state, eventObj)
@@ -80,6 +86,7 @@ export default function HueLightBulb() {
       title=""
     >
       {current === 'unlit' && <BulbSVG color="none" />}
+      {/* @ts-expect-error TODO: */}
       {current === 'lit' && <BulbSVG color={COLOR_MAP[data.color]} />}
       {current === 'broken' && <BrokenBulbSVG />}
     </BulbWrap>

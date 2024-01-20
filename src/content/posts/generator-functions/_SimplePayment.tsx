@@ -2,11 +2,11 @@ import React from 'react'
 import { Button } from '../../../components/Button'
 import { Input, useInput } from '../../../components/Inputs'
 
-const compound = (amount, rate) => amount + amount * rate
+const compound = (amount: number, rate: number) => amount + amount * rate
 
-const to2 = num => Number(num.toFixed(2))
+const to2 = (num: number) => Number(num.toFixed(2))
 
-function* makePayment(principal, rate, payment) {
+function* makePayment(principal: number, rate: number, payment: number) {
   // Student loans compound daily, so we create a daily interest rate
   // by dividing our annual rate with the number of days in a year
   const dailyInterestRate = rate / 365
@@ -57,14 +57,17 @@ function* makePayment(principal, rate, payment) {
   }
 }
 
-const getNewPaymentGenerator = (principal, rate, payment) =>
-  makePayment(principal, rate, payment)
+const getNewPaymentGenerator = (
+  principal: number,
+  rate: number,
+  payment: number,
+) => makePayment(principal, rate, payment)
 
 export default function SimplePayment() {
-  const [principal, onPrincipalChange] = useInput(46000)
-  const [rate, onRateChange] = useInput(0.05)
-  const [payment, onPaymentChange] = useInput(1500)
-  const [data, setData] = React.useState(null)
+  const [principal, onPrincipalChange] = useInput('46000')
+  const [rate, onRateChange] = useInput('0.05')
+  const [payment, onPaymentChange] = useInput('1500')
+  const [data, setData] = React.useState<any>(null)
   const [done, setDone] = React.useState(false)
   const genRef = React.useRef(
     getNewPaymentGenerator(Number(principal), Number(rate), Number(payment)),

@@ -1,7 +1,17 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-export function CounterUI({ count, increment, decrement, reset }) {
+export function CounterUI({
+  count,
+  increment,
+  decrement,
+  reset,
+}: {
+  count: number
+  increment: () => void
+  decrement: () => void
+  reset: () => void
+}) {
   return (
     <div className="flex flex-col gap-2">
       <div className="font-sans">Count: {count}</div>

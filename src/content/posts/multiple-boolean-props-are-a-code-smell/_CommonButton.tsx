@@ -1,32 +1,26 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
-import { useSpacing } from '@kyleshevlin/layout'
 
 export default function CommonButton({
   children,
   onClick = () => {},
-  primary,
-  warning,
-  danger,
+  primary = false,
+  warning = false,
+  danger = false,
+}: {
+  children: React.ReactNode
+  onClick?: React.ComponentProps<typeof Button>['onClick']
+  primary?: boolean
+  warning?: boolean
+  danger?: boolean
 }) {
-  const bs = useSpacing()
-
-  let backgroundColor = null
-  if (primary) backgroundColor = '#17B890'
-  if (warning) backgroundColor = '#FFD166'
-  if (danger) backgroundColor = '#F0544F'
-
-  const styles = {
-    marginRight: bs(1),
-  }
-
-  if (backgroundColor) {
-    styles.backgroundColor = backgroundColor
-    styles['&:hover'] = { backgroundColor }
-  }
+  let backgroundColor = ''
+  if (primary) backgroundColor = 'bg-green-500 hover:bg-green-500'
+  if (warning) backgroundColor = 'bg-yellow-500 hover:bg-yellow-500'
+  if (danger) backgroundColor = 'bg-red-500 hover:bg-red-500'
 
   return (
-    <Button onClick={onClick} style={styles}>
+    <Button onClick={onClick} className={backgroundColor}>
       {children}
     </Button>
   )

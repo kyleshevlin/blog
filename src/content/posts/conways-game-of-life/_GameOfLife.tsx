@@ -47,7 +47,7 @@ function createSim() {
       state = nextState
       return this
     },
-    toggleCell(rowIdx, colIdx) {
+    toggleCell(rowIdx: number, colIdx: number) {
       state[rowIdx][colIdx] = !state[rowIdx][colIdx]
       state = state.map(row => row.map(x => x))
       return this

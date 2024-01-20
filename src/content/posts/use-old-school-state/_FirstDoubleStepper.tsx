@@ -1,17 +1,23 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-function useOldSchoolState(initialState) {
+function useOldSchoolState<T>(initialState: T) {
+  type Update = T | ((currentState: T) => T)
+  type Callback = (nextState: T) => void
+
   const [state, setState] = React.useState(initialState)
-  const callbackRef = React.useRef(null)
+  const callbackRef = React.useRef<Callback | null>(null)
 
-  const wrappedSetState = React.useCallback((update, callback) => {
-    setState(update)
+  const wrappedSetState = React.useCallback(
+    (update: Update, callback: Callback) => {
+      setState(update)
 
-    if (callback) {
-      callbackRef.current = callback
-    }
-  }, [])
+      if (callback) {
+        callbackRef.current = callback
+      }
+    },
+    [],
+  )
 
   React.useEffect(() => {
     if (callbackRef.current) {
@@ -20,7 +26,7 @@ function useOldSchoolState(initialState) {
     }
   }, [state])
 
-  return [state, wrappedSetState]
+  return [state, wrappedSetState] as const
 }
 
 export default function FirstDoubleStepper() {

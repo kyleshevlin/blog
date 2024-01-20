@@ -1,6 +1,7 @@
 import React from 'react'
+import type { WithChildren } from '../../../types'
 
-export function FirstCell({ children }) {
+export function FirstCell({ children }: WithChildren) {
   return (
     <div className="h-[75px] w-[75px] bg-gray-100 dark:bg-gray-800">
       {children}
@@ -8,7 +9,13 @@ export function FirstCell({ children }) {
   )
 }
 
-export function ButtonCell({ cell, handleClick }) {
+export function ButtonCell({
+  cell,
+  handleClick,
+}: {
+  cell: React.ReactNode
+  handleClick: () => void
+}) {
   return (
     <div className="h-[75px] w-[75px] bg-gray-100 dark:bg-gray-800">
       <button

@@ -15,11 +15,13 @@ const NEXT_STATE_GRAPH = {
 
 const initialState = 'unlit'
 
+// @ts-expect-error TODO:
 const reducer = (state, event) => {
   if (event === 'RESET') {
     return initialState
   }
 
+  // @ts-expect-error TODO:
   const nextState = NEXT_STATE_GRAPH[state][event]
   return nextState !== undefined ? nextState : state
 }

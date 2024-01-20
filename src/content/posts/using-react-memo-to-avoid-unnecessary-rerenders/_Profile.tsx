@@ -1,7 +1,12 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
 
-export function Profile({ name, location }) {
+type Person = {
+  name: string
+  location: string
+}
+
+export function Profile({ name, location }: Person) {
   return (
     <div className="rounded bg-white p-4 dark:bg-gray-900">
       <div className="text-lg font-bold">{name}</div>
@@ -21,7 +26,7 @@ const randomRGBA = () => {
   return `rgba(${r}, ${g}, ${b}, 0.3)`
 }
 
-function RandomProfile({ name, location }) {
+function RandomProfile({ name, location }: Person) {
   return (
     <div
       className="rounded p-4"
@@ -55,7 +60,7 @@ export function Parent() {
   )
 }
 
-function ObjectProfile({ person }) {
+function ObjectProfile({ person }: { person: Person }) {
   const { name, location } = person
 
   return (
@@ -121,8 +126,8 @@ const OtherMemoizedObjectProfile = React.memo(
   ObjectProfile,
   (prevProps, nextProps) => {
     return (
-      prevProps.name === nextProps.name &&
-      prevProps.location === nextProps.location
+      prevProps.person.name === nextProps.person.name &&
+      prevProps.person.location === nextProps.person.location
     )
   },
 )

@@ -16,18 +16,21 @@
   "scripts": {
     "astro": "astro",
     "build": "astro check && astro build",
+    "check": "astro check",
     "dev": "astro dev",
+    "eslint": "eslint \"./src/**/*.{js,jsx,ts,tsx,astro}\" --no-error-on-unmatched-pattern",
     "fixRelatedPosts": "node ./scripts/fixRelatedPosts.js",
     "fixTags": "node ./scripts/fixTags.js",
     "format": "prettier --log-level=error --write \"src/**/*.{js,jsx,ts,tsx,astro}\"",
-    "lint": "eslint ./src",
+    "lint": "npm run eslint && npm run typecheck",
     "newpost": "node ./scripts/newPost.js",
     "newsnippet": "node ./scripts/newSnippet.js",
     "prepare": "husky install",
     "preview": "astro preview",
     "start": "astro dev",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",

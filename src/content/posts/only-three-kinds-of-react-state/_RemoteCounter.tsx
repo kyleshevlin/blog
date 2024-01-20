@@ -1,9 +1,17 @@
 import React from 'react'
 import { CounterUI } from './_CounterUI'
 
-const CounterContext = React.createContext()
+type ContextValue = React.ComponentProps<typeof CounterUI>
 
-export function CounterProvider({ children, initialValue = 0 }) {
+const CounterContext = React.createContext(undefined as unknown as ContextValue)
+
+export function CounterProvider({
+  children,
+  initialValue = 0,
+}: {
+  children: React.ReactNode
+  initialValue?: number
+}) {
   const [count, setCount] = React.useState(initialValue)
 
   const increment = () => setCount(c => c + 1)

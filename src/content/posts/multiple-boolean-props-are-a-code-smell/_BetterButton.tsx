@@ -1,33 +1,26 @@
 import React from 'react'
 import { Button } from '../../../components/Button'
-import { useSpacing } from '@kyleshevlin/layout'
 
 const BUTTON_BGS = {
-  default: null,
-  primary: '#17b890',
-  warning: '#ffd166',
-  danger: '#f0544f',
-}
+  default: '',
+  primary: 'bg-green-500 hover:bg-green-500',
+  warning: 'bg-yellow-500 hover:bg-yellow-500',
+  danger: 'bg-red-500 hover:bg-red-500',
+} as const
 
 export default function BetterButton({
   children,
   onClick = () => {},
   variant = 'default',
+}: {
+  children: React.ReactNode
+  onClick?: React.ComponentProps<typeof Button>['onClick']
+  variant?: keyof typeof BUTTON_BGS
 }) {
-  const bs = useSpacing()
   const backgroundColor = BUTTON_BGS[variant] || BUTTON_BGS.default
 
-  const styles = {
-    marginRight: bs(1),
-  }
-
-  if (backgroundColor) {
-    styles.backgroundColor = backgroundColor
-    styles['&:hover'] = { backgroundColor }
-  }
-
   return (
-    <Button onClick={onClick} style={styles}>
+    <Button onClick={onClick} className={backgroundColor}>
       {children}
     </Button>
   )

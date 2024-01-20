@@ -2,11 +2,11 @@ import React from 'react'
 import { Button } from '../../../components/Button'
 import { Input } from '../../../components/Inputs'
 
-const isOdd = n => Boolean(n % 2)
+const isOdd = (n: number) => Boolean(n % 2)
 
-const collatz = n => (isOdd(n) ? 3 * n + 1 : n / 2)
+const collatz = (n: number) => (isOdd(n) ? 3 * n + 1 : n / 2)
 
-function* collatzSequence(n) {
+function* collatzSequence(n: number) {
   if (isNaN(n)) return "Really? You know that's not a number, right?"
   if (n < 0) {
     return "Think you're tricky, huh? Keep it positive. Numberwise, at least."
@@ -28,13 +28,9 @@ const initialValue = 17
 
 export default function Collatz() {
   const [value, setValue] = React.useState(initialValue)
-  const [sequence, setSequence] = React.useState([])
+  const [sequence, setSequence] = React.useState<(string | number)[]>([])
   const [done, setDone] = React.useState(false)
   const genRef = React.useRef(collatzSequence(Number(value)))
-
-  const handleChange = e => {
-    setValue(e.target.value)
-  }
 
   const resetSequence = () => {
     setSequence([])
@@ -61,9 +57,11 @@ export default function Collatz() {
 
   const handleNext = () => {
     const next = genRef.current.next()
+
     if (next.value !== undefined) {
       setSequence(s => [...s, next.value])
     }
+
     if (next.done) {
       setDone(true)
     }
@@ -81,7 +79,9 @@ export default function Collatz() {
       <div className="flex items-end gap-4">
         <Input
           label="Starting Number"
-          onChange={handleChange}
+          onChange={e => {
+            setValue(Number(e.target.value))
+          }}
           value={value}
           variant="block"
         />

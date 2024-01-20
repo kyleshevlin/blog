@@ -1,24 +1,17 @@
 import React from 'react'
 import Grid from './_Grid'
 import { ButtonCell } from './_Cell'
-import { newTicTacToeGrid } from './_utils'
+import { newTicTacToeGrid, NEXT_TURN } from './_utils'
 import { Button } from '../../../components/Button'
+import { clone } from '../../../utils'
+import type { Action, BaseState } from './_types'
 
-// Simple way to deeply clone an array or object
-const clone = x => JSON.parse(JSON.stringify(x))
-
-// An enum for the next turn in our game
-const NEXT_TURN = {
-  O: 'X',
-  X: 'O',
-}
-
-const getInitialState = () => ({
+const getInitialState = (): BaseState => ({
   grid: newTicTacToeGrid(),
   turn: 'X',
 })
 
-const reducer = (state, action) => {
+const reducer = (state: BaseState, action: Action) => {
   switch (action.type) {
     case 'RESET':
       return getInitialState()
@@ -60,7 +53,7 @@ export default function Game() {
   const [state, dispatch] = React.useReducer(reducer, getInitialState())
   const { grid, turn } = state
 
-  const handleClick = (x, y) => {
+  const handleClick = (x: number, y: number) => {
     dispatch({ type: 'CLICK', payload: { x, y } })
   }
 

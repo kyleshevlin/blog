@@ -1,6 +1,7 @@
 import React from 'react'
+import type { Item } from './_types'
 
-export default function UnstyledTree({ items }) {
+export default function UnstyledTree({ items }: { items?: Item[] }) {
   // our base case, if we have no items, render nothing.
   if (!items || !items.length) {
     return null

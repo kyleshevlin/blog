@@ -1,6 +1,13 @@
 import React from 'react'
+import type { Item } from './_types'
 
-export default function StyledTree({ items, depth = 0 }) {
+export default function StyledTree({
+  items,
+  depth = 0,
+}: {
+  items?: Item[]
+  depth?: number
+}) {
   if (!items || !items.length) {
     return null
   }

@@ -1,6 +1,16 @@
 import React from 'react'
+import type { Grid } from './_types'
+import type { Todo } from '../../../types'
 
-export default function Grid({ Cell, grid, handleClick = () => {} }) {
+export default function Grid({
+  Cell,
+  grid,
+  handleClick = () => {},
+}: {
+  Cell: Todo
+  grid: Grid
+  handleClick?: (x: number, y: number) => void
+}) {
   return (
     // Wrapping the grid with a div of inline-block means that the grid
     // takes up only the space defined by the size of the cells, while
