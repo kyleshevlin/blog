@@ -42,10 +42,18 @@ If I add a few styles, give each component the same props, and render both of th
 <OffsetWrap>
   <div className="flex gap-4">
     <div className="shrink grow basis-1/2">
-      <Profile name="Kyle Shevlin" location="Portland, OR" />
+      <Profile
+        client:only="react"
+        name="Kyle Shevlin"
+        location="Portland, OR"
+      />
     </div>
     <div className="shrink grow basis-1/2">
-      <MemoizedProfile name="Kyle Shevlin" location="Portland, OR" />
+      <MemoizedProfile
+        client:only="react"
+        name="Kyle Shevlin"
+        location="Portland, OR"
+      />
     </div>
   </div>
 </OffsetWrap>
@@ -107,7 +115,7 @@ function Parent({ children }) {
 ```
 
 <OffsetWrap>
-  <Parent client:load />
+  <Parent client:only="react" />
 </OffsetWrap>
 
 Notice that when you click "Force Update", only the regular `Profile` component updates. The memoized version does not. In the right scenarios, this can become a real performance boost.
@@ -169,7 +177,7 @@ function Parent({ children }) {
 Now let's give this set of components a try. Click the "Force Update" button below and pay attention to what updates.
 
 <OffsetWrap>
-  <ObjectParent client:load />
+  <ObjectParent client:only="react" />
 </OffsetWrap>
 
 Both components update! Why does this happen?
@@ -213,7 +221,7 @@ function Parent({ children }) {
 ```
 
 <OffsetWrap>
-  <RefParent client:load />
+  <RefParent client:only="react" />
 </OffsetWrap>
 
 Now our memoized component is back to working as we expect. Because the object's reference is the same with each render, it skips rerendering. It's important to understand this fact, as it might have an impact on how you design your components.
@@ -238,7 +246,7 @@ const MemoizedProfile = React.memo(Profile, personsAreEqual)
 Now, if we use that in our example, we'll see that even without `refs`, our components behave as we expect.
 
 <OffsetWrap>
-  <OtherObjectParent client:load />
+  <OtherObjectParent client:only="react" />
 </OffsetWrap>
 
 ### Summary

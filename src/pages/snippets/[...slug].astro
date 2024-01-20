@@ -10,6 +10,16 @@ import Hr from '../../components/Hr.astro'
 import PostAuthor from '../../components/PostAuthor.astro'
 import EditLink from '../../components/EditLink.astro'
 import PostBeardStrokes from '../../components/PostBeardStrokes.astro'
+import Link from '../../components/Link.astro'
+import Blockquote from '../../components/Blockquote.astro'
+import PostH3 from '../../components/PostH3.astro'
+import PostH4 from '../../components/PostH4.astro'
+import EggheadEmbed from '../../components/EggheadEmbed.astro'
+import Gif from '../../components/Gif.astro'
+import Marker from '../../components/Marker.astro'
+import OffsetWrap from '../../components/OffsetWrap.astro'
+import TableSimple from '../../components/TableSimple.astro'
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const snippetEntries = await getCollection('snippets')
@@ -46,7 +56,22 @@ const formattedSlug = `snippets---${entry.slug}`
           <PostBeardStrokes slug={formattedSlug} />
         </div>
 
-        <PostContent />
+        <PostContent
+          components={{
+            a: Link,
+            blockquote: Blockquote,
+            EggheadEmbed,
+            Gif,
+            h3: PostH3,
+            h4: PostH4,
+            hr: Hr,
+            Image,
+            Marker,
+            OffsetWrap,
+            TableSimple,
+            YouTubeEmbed,
+          }}
+        />
 
         <div class="my-8">
           <Hr />

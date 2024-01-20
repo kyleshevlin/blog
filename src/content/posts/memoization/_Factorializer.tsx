@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '../../../components/Button'
 import { Input, useNumberInput } from '../../../components/Inputs'
 import memoize from './_memoize'
+import type { Todo } from '../../../types'
 
 export default function Factorializer() {
   const [cache, setCache] = React.useState<Record<string, number> | null>(null)
@@ -30,8 +31,7 @@ export default function Factorializer() {
   )
 }
 
-// @ts-expect-error TODO:
-function Child({ cache, resetCache, updateCache }) {
+function Child({ cache, resetCache, updateCache }: Todo) {
   const [result, setResult] = React.useState(0)
   const [value, onChange] = useNumberInput(0)
 
