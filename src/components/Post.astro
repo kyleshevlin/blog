@@ -58,7 +58,7 @@ const { Content: PostContent } = await entry.render()
         <PostBeardStrokes slug={slug} />
       </div>
 
-      <div class="flex items-end justify-between">
+      <div class="flex items-end justify-between gap-4">
         <div>
           <PageHeading><span set:html={title} /></PageHeading>
           {subtitle && <div class="font-sans font-bold">{subtitle}</div>}

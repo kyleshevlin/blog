@@ -5,13 +5,10 @@ import PageHeading from '../components/PageHeading.astro'
 import Standard from '../layouts/Standard.astro'
 import Prose from '../components/Prose.astro'
 import Tag from '../icons/Tag.astro'
+import { byEntryDate } from '../utils'
 
 const posts = await getCollection('posts')
-const byDate = posts.toSorted(
-  (a, b) =>
-    (new Date(b.data.date) as unknown as number) -
-    (new Date(a.data.date) as unknown as number),
-)
+const byDate = posts.toSorted(byEntryDate)
 ---
 
 <Standard title="All Posts | Kyle Shevlin">
