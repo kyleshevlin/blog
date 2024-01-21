@@ -89,7 +89,7 @@ I advise others to avoid defining function return types whenever possible to all
 
 Except in the case of tuples.
 
-As we've seen, it thinks its an array and this is understandable because we don't have _real_ tuples. So taking our `useBool` function, we could add a return type to it.
+As we've seen, TypeScript thinks the return type is an array and this is understandable because we don't have _real_ tuples. So taking our `useBool` function, we could add a return type to it.
 
 ```typescript
 function useBool(initialValue = false): [
