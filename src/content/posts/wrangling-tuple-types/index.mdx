@@ -61,7 +61,7 @@ const result: (
 )[]
 ```
 
-The return type is a non-fixed-length heterogenous array of the union of `boolean` and the shape of our `handlers` object. We'll run into a lot of annoying type issues if we try and use this in a component.
+The return type is a non-fixed-length heterogenous array of the union of `boolean` and the shape of our `handlers` object. Basically, **TypeScript doesn't know the _index_ of our values in the array**. We will run into a lot of annoying type issues if we try and use this in a component.
 
 ```tsx
 function Secret({ message }: { message: string }) {
