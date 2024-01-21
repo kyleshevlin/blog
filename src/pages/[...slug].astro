@@ -31,9 +31,10 @@ interface Props {
 }
 
 const props = Astro.props
+const { description, title } = props.entry.data
 ---
 
-<Standard title={`${props.entry.data.title} | Kyle Shevlin`}>
+<Standard description={description} title={`${title} | Kyle Shevlin`}>
   <Content>
     <Post {...props} />
   </Content>
