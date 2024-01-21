@@ -69,7 +69,16 @@ function Secret({ message }: { message: string }) {
 
   return (
     <div>
+      {/**
+       * TS will error here, saying you can't call
+       * a method on a boolean
+       */}
       <button type="button" onClick={setIsOpen.toggle}>
+        {/**
+         * TS won't yell at you because anything can be truthy
+         * or falsy, but it won't know that `isOpen` is strictly
+         * a boolean
+         */}
         {isOpen ? 'Hide' : 'Reveal'}
       </button>
 
