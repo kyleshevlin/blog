@@ -1,0 +1,152 @@
+---
+date: '2024-01-21'
+slug: 'wrangling-tuple-types'
+title: 'Wrangling Tuple Types'
+subtitle: null
+description: "TypeScript doesn't know whether you're returning an array or a tuple from a function, so let's learn a couple ways we can fix that problem."
+excerpt: null
+tags: ['React', 'TypeScript']
+relatedPostsSlugs: ['what-is-a-tuple']
+---
+
+This is going to be a short and simple TypeScript tip for you about [tuples](/what-is-a-tuple).
+
+At the time of this writing, JavaScript and TypeScript do not officially have a tuple type. [That TC39 proposal is still in the works](https://github.com/tc39/proposal-record-tuple). The best you can do is a fixed-length array.
+
+So let's say we have a function that returns a tuple, like a custom hook:
+
+```typescript
+function useBool(initialValue = false) {
+  const [state, setState] = React.useState(initialValue)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => setState(true),
+      off: () => setState(false),
+      toggle: () => setState(s => !s),
+      reset: () => setState(initialValue),
+    }),
+    [initialValue],
+  )
+
+  return [state, handlers]
+}
+
+const result = useBool()
+```
+
+Returning a tuple is a nice API because it allows the consumer of the `result` to [array destructure](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) the values into custom names whenever it's used. It's a bit nicer doing:
+
+```typescript
+const [isOpen, setIsOpen] = useBool()
+```
+
+That it is to do the object equivalent:
+
+```typescript
+const { state: isOpen, handlers: setIsOpen } = useBool()
+```
+
+That said, what do you think the return type is for our `useBool` function? The answer might surprise you. `result`'s type is:
+
+```typescript
+const result: (
+  | boolean
+  | {
+      on: () => void
+      off: () => void
+      toggle: () => void
+      reset: () => void
+    }
+)[]
+```
+
+The return type is a non-fixed-length heterogenous array of the union of `boolean` and the shape of our `handlers` object. We'll run into a lot of annoying type issues if we try and use this in a component.
+
+```tsx
+function Secret({ message }: { message: string }) {
+  const [isOpen, setIsOpen] = useBool()
+
+  return (
+    <div>
+      <button type="button" onClick={setIsOpen.toggle}>
+        {isOpen ? 'Hide' : 'Reveal'}
+      </button>
+
+      {isOpen && <div>{message}</div>}
+    </div>
+  )
+}
+```
+
+The first error that pops out is `setIsOpen.toggle` might not be a function because it might be a `boolean`. If you continue to examine `isOpen` closer, you'll also find it's not typed as a `boolean`, but rather as the union. You can take a look for yourself in [this TypeScript Playground](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAJQKYEMDG8BmUIjgcilQ3wChTMBXAOw2AmrkoGckAhCCAGwAphrgMYCi4A1EZSRwAvHEwjWASjgBvUnDhoGzeAG0dKGEgA0cVjADKMQ0gC6MxMRgA6Fkis2+AoSPFdJiuQaWtQ6cAAWKNQAJlxIUMwOyOgubgCySCAQPDzK0gB8cDxqGhoMAFxFeYXmHkY8MFABxuqlEJiYlbkyNUiW1vXyXEotpXAwEADmk3Fd1WZ9dUg8iQVwAITMiqOlROZzPQv9nvyCwmISSIEaAL7bcLqnPhf+doGtRDCUUIz6AyYRKKxeLMWykG7kEJhPaULjwWRuDjcXLkCg0OgMOAWJBoT7FOAgJDMZgoSZSG6VFQEokksmVHRQfiTOB3VStKF6YDMADyYCQ1FM5gAkjy+dR7AjWEjeO8NJ9voweK0NAAeaLAABu+WVpRVACNKDAJowYABPPnSABEBqNDEtcAYAGEuMA0ABraQqYWi-nOCbTOI3bVjMYqLm8-lwAD8BAAEsBokh8HBKvhkBrUFx8BCQ3AVQB6G3G7U6jRhn2MABklbz6q1KkJxNJSBuBbr+Rzuvz7dagRuQA).
+
+You and I know that `useBool` returns a tuple, how do we convince TypeScript of that fact?
+
+### The way I used to do it
+
+I advise others to avoid defining function return types whenever possible to allow TypeScript inference to do its thing. There's really know need to be overly prescriptive. Type the inputs, let TS handle the outputs.
+
+Except in the case of tuples.
+
+As we've seen, it thinks its an array and this is understandable because we don't have _real_ tuples. So taking our `useBool` function, we could add a return type to it.
+
+```typescript
+function useBool(initialValue = false): [
+  boolean,
+  {
+    on: () => void
+    off: () => void
+    toggle: () => void
+    reset: () => void
+  },
+] {
+  const [state, setState] = React.useState(initialValue)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => setState(true),
+      off: () => setState(false),
+      toggle: () => setState(s => !s),
+      reset: () => setState(initialValue),
+    }),
+    [initialValue],
+  )
+
+  return [state, handlers]
+}
+```
+
+Now, TypeScript knows that we intend to return a fixed length array and forces us to conform to it. The type checker correctly types `state` and `handlers` throughout our code.
+
+But our solution is a bit verbose and brittle. If we ever make a change to our hook's API, we'll have to manually update the types. Is there a more elegant way? Yes.
+
+### Why didn't I think of this sooner?
+
+A simpler answer to our problem is to add `as const` after our returned tuple, like so:
+
+```typescript
+function useBool(initialValue = false) {
+  const [state, setState] = React.useState(initialValue)
+
+  const handlers = React.useMemo(
+    () => ({
+      on: () => setState(true),
+      off: () => setState(false),
+      toggle: () => setState(s => !s),
+      reset: () => setState(initialValue),
+    }),
+    [initialValue],
+  )
+
+  return [state, handlers] as const
+}
+```
+
+This tells TypeScript that the return value of `useBool` is a `readonly` array. It will never be modified. Because it's `readonly`, TypeScript correctly types `state` and `handlers` anywhere they are used.
+
+It's a dead simple change, and only recently did it occur to me to do it this way. I should have been doing it this way for years. But hopefully I saved you a little trouble learning it the hard way.
+
+### Summary
+
+Unless you tell TypeScript otherwise, it will assume that you're returning an array, not a tuple, from a function. You can either explicitly define a return type, or use `as const` on the return value to inform TypeScript of the correct types.
