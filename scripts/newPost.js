@@ -26,8 +26,7 @@ function makePost(startingPath, directoryName, fileName, content = '') {
 }
 
 function makeFrontmatter(directoryName) {
-  const now = new Date().toISOString()
-  const [date, _time] = now.split('T')
+  const date = new Date().toISOString()
 
   const title = directoryName
     .split('-')

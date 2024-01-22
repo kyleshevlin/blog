@@ -3,7 +3,7 @@ import { defineCollection, z } from 'astro:content'
 const coursesCollection = defineCollection({
   type: 'data',
   schema: z.object({
-    date: z.string().regex(/[0-9]{4}-[0-9]{2}-[0-9]{2}/),
+    date: z.string().datetime(),
     description: z.string(),
     logo: z.string(),
     nickname: z.string(),
@@ -16,7 +16,7 @@ const postsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     coverImage: z.string().optional(),
-    date: z.string().regex(/[0-9]{4}-[0-9]{2}-[0-9]{2}/),
+    date: z.string().datetime(),
     description: z.string().optional(),
     excerpt: z.string().optional().nullable(),
     relatedPostsSlugs: z.array(z.string()).optional(),

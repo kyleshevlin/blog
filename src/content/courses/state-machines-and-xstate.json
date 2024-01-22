@@ -1,5 +1,5 @@
 {
-  "date": "2019-12-18",
+  "date": "2019-12-18T00:00:00.000Z",
   "title": "Introduction to State Machines and XState",
   "nickname": "xstate",
   "description": "Learn all about finite state machines, the XState library and all the problems they solve.",

@@ -43,7 +43,8 @@ const MONTHS = [
   'December',
 ]
 
-export function formatPostDate(date: string) {
+export function formatPostDate(isoString: string) {
+  const [date] = isoString.split('T')
   const [year, month, day] = date.split('-')
 
   return `${MONTHS[parseInt(month, 10) - 1]} ${day}, ${year}`

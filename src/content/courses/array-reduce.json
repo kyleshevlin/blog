@@ -1,5 +1,5 @@
 {
-  "date": "2021-12-01",
+  "date": "2021-12-01T00:00:00.000Z",
   "title": "Array.reduce()",
   "nickname": "array-reduce",
   "description": "Learn the `reduce` method once and for all",
