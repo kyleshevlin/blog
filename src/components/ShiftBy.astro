@@ -1,0 +1,12 @@
+---
+type Props = {
+  x?: number
+  y?: number
+}
+
+const { x = 0, y = 0 } = Astro.props
+---
+
+<div style={`transform: translate(${x}px, ${y}px);`}>
+  <slot />
+</div>

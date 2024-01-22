@@ -5,9 +5,9 @@ import { isEmail } from '../utils'
 
 export function NewsletterSignup() {
   return (
-    <div className="rounded bg-accent p-8 text-white xl:p-12">
+    <div className="rounded bg-accent p-8 text-white shadow xl:p-12">
       <div className="flex flex-col gap-4 xl:gap-6">
-        <div className="font-sans text-2xl text-white xl:text-3xl">
+        <div className="font-sans text-2xl xl:text-3xl">
           Sign up for my newsletter
         </div>
 
