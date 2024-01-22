@@ -16,6 +16,8 @@ tags: ['State Machines']
 title: 'State Machines: Our First XState Machine'
 ---
 
+import { Elevator } from './_Elevator'
+
 In a [previous post](/what-are-state-machines), I explained what a state machine is and how to build one from scratch. In this post, we're going to learn how to make our first state machine using the [XState library](https://xstate.js.org). First step? You guessed it. Install the library into your project.
 
 ```bash
@@ -152,4 +154,6 @@ And with that, we've finished making our first state machine with XState. I hope
 
 If you'd like to see some of this code in action, you can check out this quick CodeSandbox I made below. Using only plain JavaScript, I added some buttons and a little "elevator" that the state machine controls. Try it out. I recommend hitting the "DOWN" button first, the elevator _will_ go through the roof if you don't!
 
-<iframe src="https://codesandbox.io/embed/88nyv28ry0" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<OffsetWrap>
+  <Elevator client:load />
+</OffsetWrap>
