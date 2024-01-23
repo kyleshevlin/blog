@@ -90,3 +90,9 @@ export function toTransitionObject(
 
 // Simple way to deeply clone an array or object
 export const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x))
+
+const HTML_TAGS_PATTERN = /<\/?[a-z]+>/gm
+
+export function sanitize(str: string) {
+  return str.replaceAll(HTML_TAGS_PATTERN, '')
+}

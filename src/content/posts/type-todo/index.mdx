@@ -1,0 +1,50 @@
+---
+date: '2024-01-23T03:47:59.731Z'
+slug: 'type-todo'
+title: 'Type <code>TODO</code>'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['TypeScript']
+relatedPostsSlugs: []
+---
+
+import Tweet from './_tweet.astro'
+
+With tongue firmly in cheek, I tweeted the following:
+
+<div class="flex justify-center">
+  <Tweet />
+</div>
+
+The response the post received was a lot larger than I was expecting, so I thought I'd take a moment to explain why this is both a tip and a joke at the same time.
+
+### Tip: Sometimes `any` is ok
+
+If you've written TypeScript for long enough, then I am willing to bet `any` has come to your rescue a time or two.
+
+Any app of reasonable complexity, especially a codebase that has some age, perhaps still has some JavaScript, will likely have nasty parts that are difficult to type correctly.
+
+Add to this any time pressure or consideration between value created versus the time it's taking to do so, and you'll find yourself in a situation where it is just not worth it to solve that hairy type problem right now. That's where the `TODO` type comes in handy.
+
+```typescript
+type TODO = any
+```
+
+The scenario that prompted me to write the tweet was converting a JavaScript file to TypeScript. I had a value I couldn't get the types right for in the first few minutes. It was a file that was already JavaScript, and thus inherently not type-safe, and it was a file that hadn't been modified in years. Given these factors, using an `any` was appropriate. Making it a `TODO` provides some signal that perhaps a time may come where it can be updated and improved.
+
+### Joke: You shouldn't use `TODO` excessively
+
+While there are appropriate times to use the `TODO` type, it definitely should not be abused. If many parts, or particularly important parts, are littered with `TODO` or `any` types, then you may want to consider if it's possible to devote more time to getting the types correct.
+
+We want to use `any` or `TODO` purposefully, as the very rare escape hatch and a signal that the following code is unsafe. Don't just use them to hide something under the proverbial rug, use them to make it clear that something requires further attention when possible.
+
+### Bonus tip
+
+I use a VSCode extension, [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight), that highlights keywords in your editor. With a few tweaks to the settings, the extension will highlight _every use of `TODO` in your app_. That way, you never visually miss where you have them.
+
+### Summary
+
+Recognize `any` or `TODO` can be useful in a pinch, especially when considering the time/value tradeoff. Do treat them like a real `TODO` and try and fix them when you have time. Use either type sparingly.
+
+Lastly, keep improving your TypeScript skills and you'll find you reach for these types less often.

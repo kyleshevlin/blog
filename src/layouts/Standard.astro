@@ -5,6 +5,7 @@ import Header from '../components/Header.astro'
 import '../styles/globals.css'
 import '../styles/fonts.css'
 import FootnoteDisplay from '../components/FootnoteDisplay.astro'
+import { sanitize } from '../utils'
 
 interface Props {
   /**
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const { description, keywords, title } = Astro.props
+const sanitizedTitle = sanitize(title)
 ---
 
 <html
@@ -34,7 +36,7 @@ const { description, keywords, title } = Astro.props
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta property="og:type" content="website" />
-    <title>{title}</title>
+    <title>{sanitizedTitle}</title>
     <meta property="og:title" content={title} />
     <meta property="twitter:title" content={title} />
     <meta name="apple-mobile-web-app-title" content="Kyle Shevlin's Blog" />
