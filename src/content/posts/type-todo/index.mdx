@@ -3,7 +3,7 @@ date: '2024-01-23T03:47:59.731Z'
 slug: 'type-todo'
 title: 'Type <code>TODO</code>'
 subtitle: null
-description: ''
+description: 'In TypeScript, sometimes <code>any</code> is our best option, but we can go a step further and give ourselves a little more signal than that.'
 excerpt: null
 tags: ['TypeScript']
 relatedPostsSlugs: []
@@ -32,6 +32,8 @@ type TODO = any
 ```
 
 The scenario that prompted me to write the tweet was converting a JavaScript file to TypeScript. I had a value I couldn't get the types right for in the first few minutes. It was a file that was already JavaScript, and thus inherently not type-safe, and it was a file that hadn't been modified in years. Given these factors, using an `any` was appropriate. Making it a `TODO` provides some signal that perhaps a time may come where it can be updated and improved.
+
+Don't forget, you don't have to name it `TODO` either. You can name it something more specific. Perhaps you prefix a typename with `UNSAFE_` or something similar to signal that you've opted out of type safety.
 
 ### Joke: You shouldn't use `TODO` excessively
 
