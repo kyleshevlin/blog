@@ -1,5 +1,6 @@
 ---
 import Content from '../components/Content.astro'
+import Link from '../components/Link.astro'
 import PageHeading from '../components/PageHeading.astro'
 import Standard from '../layouts/Standard.astro'
 ---
@@ -11,10 +12,9 @@ import Standard from '../layouts/Standard.astro'
 
       <p>
         Sorry, you've hit a URL that doesn't exist! That's a bummer. Please try
-        a different URL or perhaps choose one of the blog posts listed below.
+        a different URL or head to <Link href="/all-posts">All Posts</Link> and try
+        and find the page there.
       </p>
-
-      <div>TODO: Suggest 5 posts</div>
     </div>
   </Content>
 </Standard>
