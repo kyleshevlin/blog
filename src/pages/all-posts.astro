@@ -30,7 +30,7 @@ const byDate = posts.toSorted(byEntryDate)
             return (
               <a
                 class="block p-4 hover:bg-gray-100 dark:hover:bg-gray-800"
-                href={post.slug}
+                href={`/${post.slug}`}
               >
                 <div class="font-sans text-accent">
                   <div class="text-2xl" set:html={title} />
