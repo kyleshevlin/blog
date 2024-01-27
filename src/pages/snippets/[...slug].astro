@@ -46,12 +46,14 @@ const formattedSlug = `snippets---${entry.slug}`
   <Content>
     <article>
       <Prose>
-        <div>
-          <div class="font-sans text-xl font-bold">Snippet</div>
+        <div class="flex flex-col gap-2">
+          <div>
+            <div class="font-sans text-xl font-bold">Snippet</div>
 
-          <div class="flex flex-wrap items-baseline justify-between gap-4">
-            <PageHeading>{name}</PageHeading>
-            <EditLink filePath={`/snippets/${entry.id}`} />
+            <div class="flex flex-wrap items-baseline justify-between gap-4">
+              <PageHeading>{name}</PageHeading>
+              <EditLink filePath={`/snippets/${entry.id}`} />
+            </div>
           </div>
 
           <PostBeardStrokes slug={formattedSlug} />
