@@ -1,0 +1,229 @@
+---
+date: '2024-02-26T16:13:32.267Z'
+slug: 'no-outer-margin'
+title: 'No Outer <code>margin</code>'
+subtitle: null
+description: "It is an anti-pattern to add margin to the outermost element of a component. It breaks encapsulation and makes components difficult to reuse. Let's learn what to do instead."
+excerpt: null
+tags: ['React', 'CSS', 'Reusability', 'Anti-patterns']
+relatedPostsSlugs: []
+---
+
+Building reusable components can be challenging to do well, and there are some anti-patterns that are easy to fall into that can make it even more difficult.
+
+One of the most common antipatterns I see is having `margin` (and in some cases, `padding`) on the outermost element of a component. This is an easy mistake to make, but luckily, it's easily avoided once we know what we're looking for.
+
+### What are "outer" `margin`s and `padding`s?
+
+I define "outer" here as `margin`s that extend beyond the `border-box` of the UI. Generally speaking, this would be applying `margin` to the outermost element of a component.
+
+```jsx
+function Card({ children }) {
+  return (
+    // WARNING: Don't do this! It is an outer `margin`!
+    <div style={{ marginBottom: '1rem' }}>{children}</div>
+  )
+}
+
+function EmployeeCard({ name, occupation }) {
+  return (
+    <Card>
+      {/**
+       * This is fine! We can use internal margins for layout,
+       * but there are better ways we'll learn later!
+       */}
+      <div style={{ marginBottom: '1rem' }}>{name}</div>
+      <div>{occupation}</div>
+    </Card>
+  )
+}
+```
+
+In addition to **never** using outer `margin`, we should **never** use `padding` for the same purpose. The outermost element of a component should not have `padding` **unless** that element has a `border` or a `background-color`.
+
+```jsx
+function Card({ children }) {
+  return (
+    // WARNING! Don't do this! It is an outer `padding`!
+    // Without a border or background color, it has
+    // the same appearance/effect as a `margin`
+    <div style={{ paddingBottom: '1rem' }}>{children}</div>
+  )
+}
+
+function BorderCard({ children }) {
+  return (
+    <div
+      style={{
+        border: '1px solid tomato',
+        backgroundColor: 'gray',
+        // This padding is ok because we have styles that extend to the
+        // border-box of our component, thus defining a boundary for
+        // this UI!
+        padding: '1rem',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+```
+
+### What's the big deal? Why is this a problem/anti-pattern?
+
+The problem with outer `margin`s and `padding`s like the examples above is that it breaks encapsulation. I've written about [encapsulation](/encapsulation) before, but never in terms of UI. Essentially, styles like these have an impact on the other components around it. Components with outer `margin`s get their elbows out, [NBA Jam style](https://en.wikipedia.org/wiki/NBA_Jam), knocking around adjacent components.
+
+The impact of these styles often lead to what I call "compensations", essentially workarounds to _undo_ what we've already done. We'll see some examples of this soon.
+
+Not only do outer `margin`s require compensations, they give the underlying component too many responsibilities. External spacing should **never** be the responsibility of a component. Components should only ever be concerned with internal spacing.
+
+### An abstract example
+
+Let's say I have a reusable component called `Item` that looks like this:
+
+```jsx
+function Item() {
+  return <div className="rounded bg-accent p-8" />
+}
+```
+
+<div class="my-4">
+  <div class="rounded bg-accent p-8" />
+</div>
+
+Imagine `Item` is any reusable UI. Perhaps it's an `InfoCard` or a `ListRow` in a list. It doesn't really matter _what_ the specifics of `Item` are, we only need to know that it's a _single unit_ of UI for our purposes.
+
+Let's say I have many `Item`s next to each other. Let's give them different background colors so it's clear which one is which:
+
+<div class="my-4">
+  <div class="rounded bg-accent p-8" />
+  <div class="rounded bg-pink-500 p-8" />
+  <div class="rounded bg-orange-400 p-8" />
+</div>
+
+Now that I have many `Item`s, it's necessary to space them away from each other. It might be very tempting to add a `margin-bottom` to each one, like so:
+
+```jsx
+function Item() {
+  // Notice the `mb-4` class
+  return <div className="mb-4 rounded bg-accent p-8" />
+}
+```
+
+<div class="my-4">
+  <div class="mb-4 rounded bg-accent p-8" />
+  <div class="mb-4 rounded bg-pink-500 p-8" />
+  <div class="mb-4 rounded bg-orange-400 p-8" />
+</div>
+
+That _looks_ fine, but we need to look at it with more scrutiny. What if we add a `border` around the wrapping element? What are we going to see?
+
+<div class="my-4 rounded border-4 border-lime-400">
+  <div class="mb-4 rounded bg-accent p-8" />
+  <div class="mb-4 rounded bg-pink-500 p-8" />
+  <div class="mb-4 rounded bg-orange-400 p-8" />
+</div>
+
+Oof! We have an extra border at the bottom.
+
+It's at this point less experienced devs start making all sorts of "compensations" to handle this situation. If it's dynamically rendered list of `Item`s, we might be tempted to use an `index` in our loop and somehow remove the `margin-bottom` on the last one. <Marker content="Or even apply a wrapping element with a negative <code>margin</code>. Gross." /> We might even go so far as to add the dreaded `marginBottom={false}` prop, a bad case of [Yet Another Prop syndrome](/quit-your-yapping) if I've ever seen one. <Marker content="Seriously, these kinds of props make me want to 🤮" />
+
+```jsx
+// Don't do this. You'll make me cry.
+function Item({ marginBottom = true }) {
+  const mb = marginBottom ? 'mb-4' : ''
+  return <div className={`rounded bg-accent p-8 ${mb}`} />
+}
+```
+
+But what about other scenarios? What are you going to do if you have to put your `Item`s into a `Row`:
+
+<div class="my-4 flex rounded border-4 border-lime-400">
+  <div class="mb-4 rounded bg-accent p-8" />
+  <div class="mb-4 rounded bg-pink-500 p-8" />
+  <div class="mb-4 rounded bg-orange-400 p-8" />
+</div>
+
+Or a `Grid`?
+
+<div class="my-4 grid grid-cols-2 grid-rows-2 rounded border-4 border-lime-400">
+  <div class="mb-4 rounded bg-accent p-8" />
+  <div class="mb-4 rounded bg-pink-500 p-8" />
+  <div class="mb-4 rounded bg-orange-400 p-8" />
+</div>
+
+Are you going to make boolean props for all the margins? I sure hope
+not!
+
+### A concrete example
+
+One of the most common ways I see this with headings. Let's say I have a component for `H2`s in my codebase:
+
+```jsx
+function H2({ children }) {
+  return <h2 className="mb-4 text-xl font-bold">{children}</h2>
+}
+```
+
+That looks like this:
+
+<div class="my-4 bg-gray-100 px-4 py-2 dark:bg-gray-800">
+  <h2 className="mb-4 text-xl font-bold">
+    Using the <code>h2</code>. Notice the space below.
+  </h2>
+</div>
+
+This might seem like a good idea. Headings tend to be in large blocks of text. But what if you want to add metadata around it? What if it's the title of a blog post and you need to put a subtitle right below it, or a date, or timestamp?
+
+<div class="my-4 bg-gray-100 px-4 py-2 dark:bg-gray-800">
+  <h2 className="mb-4 text-xl font-bold">
+    Using the <code>h2</code>
+  </h2>
+  <div class="font-sans text-lg">Uh oh. I'm spaced really far away!</div>
+</div>
+
+Now you're back-pedaling to either undo the `mb-4` class or compensate for it some other way. Better to leave it off entirely and do the proper solution, which we'll discuss next.
+
+### The solution
+
+The solution to this problem is simple, use parent elements or components for layout and spacing.
+
+As I said before, it is never the responsibility of a component to manage its external spacing, only its internal spacing. We can always use a parent element or component to manage the layout of adjacent components.
+
+Regardless of what layout solution you use, whether it's with components with something like [Chakra UI](https://chakra-ui.com/) or classes like [Tailwind](https://tailwindcss.com), I find the best solutions heavily use Flex or Grid containers with `gap` to apply spacing. Let's do that here with our `Item`s:
+
+After removing the `mb-4` class from our `Item`, we can now wrap our items in another element to do the spacing. For example, our `Stack` looks like this:
+
+<div class="my-4 flex flex-col gap-4 rounded border-4 border-lime-400">
+  <div class="rounded bg-accent p-8" />
+  <div class="rounded bg-pink-500 p-8" />
+  <div class="rounded bg-orange-400 p-8" />
+</div>
+
+Our `Row` looks like this:
+
+<div class="my-4 flex gap-4 rounded border-4 border-lime-400">
+  <div class="rounded bg-accent p-8" />
+  <div class="rounded bg-pink-500 p-8" />
+  <div class="rounded bg-orange-400 p-8" />
+</div>
+
+And our `Grid` looks like this:
+
+<div class="my-4 grid grid-cols-2 grid-rows-2 gap-4 rounded border-4 border-lime-400">
+  <div class="rounded bg-accent p-8" />
+  <div class="rounded bg-pink-500 p-8" />
+  <div class="rounded bg-orange-400 p-8" />
+</div>
+
+No matter where we need to put our `Item`, we know we can control how it's laid out in our UI. We've fixed its encapsulation problem and made it more reusable.
+
+### Summary
+
+- No `margin` on the outermost element
+- No `padding` on the outermost element **unless** it has a `border` or `background-color` to visually define the `border-box` boundary of the UI
+- Use parent elements or components to do layout instead
+
+### Other articles
+
+You can't write an article about this topic without giving credit and reference to Max Stoiber's ["Margin considered harmful"](https://mxstbr.com/thoughts/margin/). Give it a read.

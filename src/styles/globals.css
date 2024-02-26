@@ -8,7 +8,7 @@
   }
 
   pre {
-    @apply p-4;
+    @apply my-4 p-4;
   }
 
   .post ol {
