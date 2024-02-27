@@ -13,11 +13,13 @@ import OffsetWrap from '../components/OffsetWrap.astro'
 import PageHeading from './PageHeading.astro'
 import PostAuthor from './PostAuthor.astro'
 import PostBeardStrokes from './PostBeardStrokes.astro'
+import PostPagination from './PostPagination.astro'
 import PostH3 from '../components/PostH3.astro'
 import PostH4 from '../components/PostH4.astro'
 import PostTags from './PostTags.astro'
 import Prose from './Prose.astro'
 import TableSimple from './TableSimple.astro'
+import WorkWithAgathist from './WorkWithAgathist.astro'
 import YouTubeEmbed from './YouTubeEmbed.astro'
 import { formatPostDate } from '../utils'
 
@@ -86,60 +88,20 @@ const { Content: PostContent } = await entry.render()
     </Prose>
   </article>
 
-  <div class="my-8">
-    <Hr />
-  </div>
-
   <FinishedReading slug={slug} />
 
-  <div class="flex flex-col gap-4 font-sans text-lg">
+  <div class="flex flex-col gap-4">
+    <PostPagination
+      newerPost={newerPost}
+      olderPost={olderPost}
+      relatedPosts={relatedPosts}
+    />
+
     {tags.length > 0 && <PostTags tags={tags} />}
-
-    {
-      relatedPosts.length > 0 && (
-        <div class="flex flex-col gap-2">
-          <div class="font-bold">
-            Related {relatedPosts.length === 1 ? 'Post' : 'Posts'}:
-          </div>
-
-          <ul class="flex flex-col gap-2">
-            {relatedPosts.map(post => (
-              <li>
-                <Link href={`/${post.slug}`}>
-                  <span set:html={post.data.title} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      newerPost && (
-        <div>
-          <span class="font-bold">Newer Post:</span>
-          <Link href={`/${newerPost.slug}`}>
-            <span set:html={newerPost.data.title} />
-          </Link>
-        </div>
-      )
-    }
-
-    {
-      olderPost && (
-        <div>
-          <span class="font-bold">Older Post:</span>
-          <Link href={`/${olderPost.slug}`}>
-            <span set:html={olderPost.data.title} />
-          </Link>
-        </div>
-      )
-    }
   </div>
 
   <div class="my-8">
-    <Hr />
+    <WorkWithAgathist />
   </div>
 
   <PostAuthor />

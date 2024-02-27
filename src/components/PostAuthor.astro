@@ -1,3 +1,7 @@
+---
+import Link from './Link.astro'
+---
+
 <div class="flex flex-col items-center gap-8 sm:flex-row">
   <div class="flex max-w-[180px] grow justify-center">
     <img
@@ -7,8 +11,11 @@
     />
   </div>
 
-  <div class="grow-[3]">
-    Kyle Shevlin is a software engineer who specializes in JavaScript,
-    TypeScript, React and frontend web development.
+  <div class="grow-[3] font-sans text-lg">
+    <p>
+      Kyle Shevlin is the founder &amp; lead software engineer of
+      <Link href="https://agath.ist">Agathist</Link>, a software development
+      firm with a mission to build good software with good people.
+    </p>
   </div>
 </div>

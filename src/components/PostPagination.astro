@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import Link from './Link.astro'
+
+type Props = {
+  newerPost?: CollectionEntry<'posts'>
+  olderPost?: CollectionEntry<'posts'>
+  relatedPosts: CollectionEntry<'posts'>[]
+}
+
+const { relatedPosts, newerPost, olderPost } = Astro.props
+---
+
+<div class="flex flex-col gap-4 font-sans">
+  <div class="text-lg font-bold">Want to read more?</div>
+
+  {
+    relatedPosts.length > 0 && (
+      <div class="flex flex-col gap-2">
+        <div class="font-bold">
+          Related {relatedPosts.length === 1 ? 'Post' : 'Posts'}:
+        </div>
+
+        <ul class="flex flex-col gap-2">
+          {relatedPosts.map(post => (
+            <li>
+              <Link href={`/${post.slug}`}>
+                <span set:html={post.data.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    newerPost && (
+      <div>
+        <span class="font-bold">Newer Post:</span>
+        <Link href={`/${newerPost.slug}`}>
+          <span set:html={newerPost.data.title} />
+        </Link>
+      </div>
+    )
+  }
+
+  {
+    olderPost && (
+      <div>
+        <span class="font-bold">Older Post:</span>
+        <Link href={`/${olderPost.slug}`}>
+          <span set:html={olderPost.data.title} />
+        </Link>
+      </div>
+    )
+  }
+</div>

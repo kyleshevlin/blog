@@ -9,12 +9,14 @@ interface Props {
 const { slug } = Astro.props
 ---
 
-<div class="flex flex-col gap-8">
-  <div class="font-sans text-2xl font-bold">Finished reading?</div>
+<div
+  class="flex flex-col gap-4 rounded bg-gray-100 p-8 shadow dark:bg-gray-800"
+>
+  <div class="font-sans text-2xl font-bold">Liked the post?</div>
 
   <div>
-    Liked the post? Give the author a dopamine boost with a few "beard strokes".
-    Click the beard up to 50 times to show your appreciation.
+    Give the author a dopamine boost with a few "beard strokes". Click the beard
+    up to 50 times to show your appreciation.
   </div>
 
   <BeardStrokes client:idle slug={slug}>
