@@ -157,7 +157,7 @@ not!
 
 ### A concrete example
 
-One of the most common ways I see this with headings. Let's say I have a component for `H2`s in my codebase:
+One of the most common ways I see this is with headings. Let's say I have a component for `H2`s in my codebase:
 
 ```jsx
 function H2({ children }) {
@@ -173,7 +173,11 @@ That looks like this:
   </h2>
 </div>
 
-This might seem like a good idea. Headings tend to be in large blocks of text. But what if you want to add metadata around it? What if it's the title of a blog post and you need to put a subtitle right below it, or a date, or timestamp?
+This might seem like a good idea. Headings tend to be found in large blocks of text and doesn't the user agent stylesheet give `h1` through `h6` a `margin-bottom` by default anyways?
+
+Sure, but the web isn't simply long-form text anymore. It's componentized and we need to be able to use our elements in more scenarios than just long-form text.
+
+What if we want to add additional data around it? Perhaps we need to put a subtitle right below it, or a date, or timestamp?
 
 <div class="my-4 bg-gray-100 px-4 py-2 dark:bg-gray-800">
   <h2 className="mb-4 text-xl font-bold">
