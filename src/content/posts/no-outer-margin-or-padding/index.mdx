@@ -126,7 +126,7 @@ That _looks_ fine, but we need to look at it with more scrutiny. What if we add 
 
 Oof! We have an extra border at the bottom.
 
-It's at this point less experienced devs start making all sorts of "compensations" to handle this situation. If it's dynamically rendered list of `Item`s, we might be tempted to use an `index` in our loop and somehow remove the `margin-bottom` on the last one. <Marker content="Or even apply a wrapping element with a negative <code>margin</code>. Gross." /> We might even go so far as to add the dreaded `marginBottom={false}` prop, a bad case of [Yet Another Prop syndrome](/quit-your-yapping) if I've ever seen one. <Marker content="Seriously, these kinds of props make me want to 🤮" />
+It's at this point less experienced devs start making all sorts of "compensations" to handle this situation. If it's a dynamically rendered list of `Item`s, we might be tempted to use an `index` in our loop and somehow remove the `margin-bottom` on the last one. <Marker content="Or even apply a wrapping element with a negative <code>margin</code>. Gross." /> We might even go so far as to add the dreaded `marginBottom={false}` prop, a bad case of [Yet Another Prop syndrome](/quit-your-yapping) if I've ever seen one. <Marker content="Seriously, these kinds of props make me want to 🤮" />
 
 ```jsx
 // Don't do this. You'll make me cry.
