@@ -38,7 +38,7 @@ function formatString(str, formatter) {
   return formatter(str)
 }
 
-const capitalizedHello = formatString('hello', formatter)
+const capitalizedHello = formatString('hello', capitalize)
 console.log(capitalizedHello) // 'Hello'
 ```
 
@@ -205,13 +205,13 @@ One of the most fantastic talks I've ever seen is "Nothing is Something" by [San
 This talk, "Nothing is Something", really explores how dependency injection and object composition is the way to create truly flexible programs. I strongly encourage you to give it a watch:
 
 <div style={{ display: 'flex', justifyContent: 'center' }}>
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/29MAL8pJImQ"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen
-/>
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/29MAL8pJImQ"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
 </div>
