@@ -8,7 +8,7 @@ const { external = false, href } = Astro.props
 
 const additionalProps: Partial<Pick<HTMLAnchorElement, 'rel' | 'target'>> = {}
 if (external) {
-  additionalProps.rel = 'noreferrer'
+  additionalProps.rel = 'noopener noreferrer'
   additionalProps.target = '_blank'
 }
 ---
