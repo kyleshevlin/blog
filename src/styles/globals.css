@@ -4,7 +4,7 @@
 
 @layer base {
   :not(pre) > code {
-    @apply bg-gray-100 dark:bg-gray-700;
+    @apply inline-block bg-gray-100 px-1 dark:bg-gray-700;
   }
 
   pre {

@@ -160,7 +160,7 @@ function reducer(state, action) {
 Object composition differs from function composition in a couple ways:
 
 - For the most part, the objects are merged at a single level. Yes, we can merge at a deeper level in the object, but it has no impact on any of the higher levels of the object.
-- Merging is a destructive act. When one object is merged into another, any key in the second object that matches a key in the first object replaces the first property with the new one.
+- Merging is a destructive act. When one object is merged into another, any key in the second object that matches a key in the first object replaces the first property's value with the second object's value.
 
 Another way that you may have used this form of composition is with style objects:
 
@@ -175,6 +175,9 @@ const dangerButtonStyles = {
   ...primaryButtonStyles,
   backgroundColor: 'red',
 }
+
+console.log(dangerButtonStyles)
+// { backgroundColor: 'red', color: 'white', padding: '1em'}
 ```
 
 Taking this a step further, we might be able to think of CSS class composition as object (merging) composition. Consider these classes:
@@ -198,7 +201,7 @@ If we were to (accidentally) apply both of these styles to an element, the order
 
 <ClassClash />
 
-This occurs because of _where_ our object composition is _really_ occurring. Because our `.danger` class comes after our `.primary` class in our stylesheet, the latter classes values replace the values of the former class when there are matching keys.
+This occurs because of _where_ our object composition is _really_ occurring. Because our `.danger` class comes after our `.primary` class in our stylesheet, the latter class' values replace the values of the former class when there are matching keys.
 
 We always have to be aware of how merging composition may have unintended consequences!
 
@@ -206,13 +209,13 @@ We always have to be aware of how merging composition may have unintended conseq
 
 The main reason I find this important has to do with how easy it is for someone to understand one form of composition versus the other.
 
-I have found that people find object/merging composition far easier to understand, even though it often has more pitfalls. It often provides developers with more "escape hatches" and ways to "throw stuff at the wall until it sticks". In other words, there's often more than one way to achieve the desired result, at the tradeoff of making a destructive mess in the process.
+I have found that people find object/merging composition far easier to understand, even though it often has more pitfalls. It often provides developers with more "escape hatches" and ways to "throw stuff at the wall until it sticks". In other words, there's often more than one way to achieve the desired result, at the tradeoff of potentially making a destructive mess in the process.
 
-On the other hand, function/nesting composition is often superior in terms of strictness of inputs and outputs, but are more difficult for developers to intuit. There's less room trying things to see if it works by design.
+On the other hand, function/nesting composition is often superior in terms of strictness of inputs and outputs, but is more difficult for developers to intuit. There's less room for trying things to see if it works by design.
 
-Be honest with yourself. How well do you know CSS? Do you know precisely what you're doing, or do you need to be able to throw stuff at the wall? There's no shame in the answer, but you might be able to intuit what my future post will be about based on how you respond.
+Be honest with yourself. How well do you know CSS? Do you know precisely what you're doing, or do you need to be able to throw stuff at the wall? There's no shame in the answer, I promised, but you might be able to guess what my future post will be about based on how you respond.
 
-Consider our simple example above with the `Button`. It's so much easier for devs to throw more classes at the CSS, or use the `style` prop, rather than recognize recognize "If I wrap this `Button` in a `Row`, it will achieve the result I'm looking for!" I know devs can get there. I've trained them to do it and seen it happen, but it's not intuitive for many of them.
+Consider our simple example above with the `Button`. It's so much easier for devs to throw more classes at the CSS, or use the `style` prop, rather than recognize recognize, "If I wrap this `Button` in a `Row`, it will achieve the result I'm looking for!" I know devs can get there. I've trained them to do it and seen it happen, but it's not intuitive for many of them.
 
 ### Summary
 
