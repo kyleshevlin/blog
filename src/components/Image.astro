@@ -1,14 +1,25 @@
 ---
 interface Props {
   alt?: string
+  caption?: string
   invertable?: boolean
   src: string
   title?: string
 }
 
-const { alt, invertable = false, src, title } = Astro.props
+const { alt, caption, invertable = false, src, title } = Astro.props
 ---
 
-<div class={`flex justify-center ${invertable && 'dark:invert'}`}>
-  <img class="block" alt={alt} src={src} title={title} />
-</div>
+<figure class="flex flex-col border-2 border-gray-100 dark:border-gray-800">
+  <div class={`${invertable && 'dark:invert'}`}>
+    <img class="block" alt={alt} src={src} title={title} />
+  </div>
+
+  {
+    caption && (
+      <figcaption class="bg-gray-100 p-4 text-center font-sans text-lg dark:bg-gray-800">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
