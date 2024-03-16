@@ -3,6 +3,7 @@ tags: ['D3', 'Data Visualization']
 date: '2016-03-13T00:00:00.000Z'
 slug: 'intro-to-d3-js-and-data-visualization'
 title: 'Intro to D3.js and Data Visualization'
+description: 'Learn how to use `d3`, the popular data visualization library.'
 ---
 
 Recently, I worked my way through the [D3 Intro Course](https://frontendmasters.com/courses/interactive-data-visualization-d3-js/) taught by [Ian Johnson](https://twitter.com/enjalot) over at [Front End Masters](https://frontendmaster.com) and have been practicing what I've learned ever since. I'm not great at it (yet), and I haven't made anything too amazing, but I am getting a better grasp of this awesome library (big thanks to creator [Mike Bostock](https://twitter.com/mbostock) and all his posts/tutorials about it).
@@ -46,7 +47,7 @@ if (!d3.chart) {
   d3.chart = {}
 }
 
-d3.chart.fine_visual = function() {
+d3.chart.fine_visual = function () {
   var data, svg
 
   function chart(container) {
@@ -62,7 +63,7 @@ d3.chart.fine_visual = function() {
     // Code the dynamic elements of our visualization
   }
 
-  chart.data = function(value) {
+  chart.data = function (value) {
     if (!arguments.length) return data
     data = value
     return chart
@@ -71,7 +72,7 @@ d3.chart.fine_visual = function() {
   return chart
 }
 
-d3.json('teammates.json', function(err, teammates) {
+d3.json('teammates.json', function (err, teammates) {
   if (err) {
     return d3
       .select('.js-display')
@@ -106,16 +107,13 @@ var xScale = d3.scale
   .linear()
   .domain([
     0,
-    d3.max(data, function(d) {
+    d3.max(data, function (d) {
       return age(d.birthdate)
     }),
   ])
   .range([0, width])
 
-var xAxis = d3.svg
-  .axis()
-  .scale(xScale)
-  .orient('bottom')
+var xAxis = d3.svg.axis().scale(xScale).orient('bottom')
 
 var xAxisGroup = svg.append('g')
 
@@ -150,7 +148,7 @@ While this isn't the exact code used in the example, it's a good example of show
 The last convention I want to cover is how to add configurable settings on our reusable chart via adding a property to the `chart()` function. You may have noticed above, that we had a small bit of code looked like this:
 
 ```javascript
-chart.data = function(value) {
+chart.data = function (value) {
   if (!arguments.length) return data
   data = value
   return chart
@@ -161,6 +159,20 @@ This bit of code allows our user to get and set the data property for our chart.
 
 Taking these concepts (and adding a few more I leave you to discover), a quick and interesting data visualization can be created. Play around with it a while and explore the code. Fork it on Codepen or make your own, and best of luck as you explore d3.js in the future.
 
-<p class="codepen" data-height="770" data-theme-id="0" data-slug-hash="YqPNeo" data-default-tab="result" data-user="kyleshevlin">See the Pen <a href="http://codepen.io/kyleshevlin/pen/YqPNeo/">d3 Intro - Example for Mingle post</a> by Kyle Shevlin (<a href="http://codepen.io/kyleshevlin">@kyleshevlin</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p
+  class="codepen"
+  data-height="770"
+  data-theme-id="0"
+  data-slug-hash="YqPNeo"
+  data-default-tab="result"
+  data-user="kyleshevlin"
+>
+  See the Pen{' '}
+  <a href="http://codepen.io/kyleshevlin/pen/YqPNeo/">
+    d3 Intro - Example for Mingle post
+  </a>{' '}
+  by Kyle Shevlin (<a href="http://codepen.io/kyleshevlin">@kyleshevlin</a>) on{' '}
+  <a href="http://codepen.io">CodePen</a>.
+</p>
 
 <script src="//assets.codepen.io/assets/embed/ei.js" async></script>

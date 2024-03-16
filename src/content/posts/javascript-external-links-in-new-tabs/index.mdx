@@ -2,6 +2,7 @@
 date: '2016-03-26T00:00:00.000Z'
 slug: 'javascript-external-links-in-new-tabs'
 title: 'JavaScript: External Links in New Tabs'
+description: 'Learn a quick JavaScript tip for opening external links in new tabs.'
 tags: ['JavaScript']
 ---
 
@@ -12,19 +13,21 @@ Now, I've been asked to do this so often that automating this process was long o
 Now, the defining characteristic of an externally pointing link is that it has to be an absolute path and thus start with "http". We can use this to target only those links. Here's how:
 
 ```javascript
-function blankit() {
-  var links = document.getElementsByTagName('a')
+function setTargetBlankOnExternalLinks() {
+  const links = document.getElementsByTagName('a')
 
   for (var i = 0; i < links.length; i++) {
     if (/^http/.test(links[i].getAttribute('href'))) {
-      links[i].setAttribute('target', '_blank')
+      const link = links[i]
+      link.setAttribute('target', '_blank')
+      link.setAttribute('rel', 'noopener noreferrer')
     }
   }
 }
 
-blankit() // call this after the DOM is ready
+setTargetBlankOnExternalLinks() // call this after the DOM is ready
 ```
 
-This is pretty straightforward. Find all the links, loop through them and check if they begin with "http" (The use of `test()` instead of `match()` here is important since `test()` returns a boolean while `match()` returns an array or _null_). This means that relative links are given a pass, and links that happen to have "http" in them elsewhere, such as "/link-to-blog-about-http" don't get mistakenly modified.
+This is pretty straightforward. Find all the links, loop through them and check if they begin with "http" (The use of `test()` instead of `match()` here is important since `test()` returns a boolean while `match()` returns an array or _null_). This means that relative links are given a pass, and links that happen to have "http" in them elsewhere, such as "/link-to-blog-about-http" don't get mistakenly modified.
 
 I hope this helps and saves you some time.

@@ -3,6 +3,7 @@ tags: ['React']
 date: '2017-01-20T00:00:00.000Z'
 slug: 'loading-state-trick-for-stateless-functional-components-in-react'
 title: 'Loading State Trick for Stateless Functional Components in React'
+description: 'Learn how to show a loading indicator for function components in React.'
 ---
 
 I want to share with you a little trick I've been using lately with stateless functional components in React. This is probably really old news to some of you, but I'm hoping there are a few of you who don't know this one yet.
@@ -27,7 +28,7 @@ const DisplayItems = ({ items }) => (
 )
 
 Display.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
 }
 
 export default DisplayItems
@@ -139,7 +140,7 @@ const DisplayItems = ({ items }) => {
 }
 
 Display.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
 }
 
 export default DisplayItems

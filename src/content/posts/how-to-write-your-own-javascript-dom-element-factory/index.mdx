@@ -3,6 +3,7 @@ date: '2017-07-12T00:00:00.000Z'
 slug: 'how-to-write-your-own-javascript-dom-element-factory'
 subtitle: 'A Basic HyperScript h() Function'
 title: 'How to Write Your Own JavaScript DOM Element Factory'
+description: 'Learn how to write a JavaScript DOM element factory function from scratch.'
 tags: ['JavaScript']
 ---
 
@@ -67,7 +68,7 @@ const markup = elFactory(
   'div',
   { class: 'my-component' },
   elFactory('span', {}, 'Hello World!'),
-  ' Thanks for reading my blog!'
+  ' Thanks for reading my blog!',
 )
 
 document.body.appendChild(markup)

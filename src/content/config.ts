@@ -17,7 +17,7 @@ const postsCollection = defineCollection({
   schema: z.object({
     coverImage: z.string().optional(),
     date: z.string().datetime(),
-    description: z.string().optional(),
+    description: z.string(),
     excerpt: z.string().optional().nullable(),
     relatedPostsSlugs: z.array(z.string()).optional(),
     relevantCourseNickname: z.string().optional(),

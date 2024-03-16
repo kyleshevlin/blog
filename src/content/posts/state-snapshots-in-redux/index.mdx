@@ -3,6 +3,7 @@ tags: ['Redux']
 date: '2016-11-16T00:00:00.000Z'
 slug: 'state-snapshots-in-redux'
 title: 'State Snapshots in Redux'
+description: 'Learn how we can store a previous state as a "snapshot" in Redux.'
 coverImage: './images/redux_logo_2.png'
 ---
 
@@ -36,7 +37,7 @@ const initialState = {
   logoIsLight: false,
   footerIsLight: true,
   navIsOpen: false,
-  uiSnapshot: null
+  uiSnapshot: null,
 }
 ```
 
@@ -56,7 +57,7 @@ import {
   OPEN_NAV,
   CLOSE_NAV,
   TAKE_UI_SNAPSHOT,
-  APPLY_UI_SNAPSHOT
+  APPLY_UI_SNAPSHOT,
 } from './actionTypes'
 
 export function openNav() {
