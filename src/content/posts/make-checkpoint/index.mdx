@@ -1,0 +1,41 @@
+---
+date: '2024-03-29T16:01:20.353Z'
+slug: 'make-checkpoint'
+title: 'Make Checkpoint'
+subtitle: 'aka How a Makefile Improves my Side Projects'
+description: 'Learn how to create a simple Makefile to quickly create a "checkpoint" in your Git history when you are rapidly prototyping.'
+excerpt: null
+tags: ['Productivity', 'Prototyping', 'Scripts']
+relatedPostsSlugs: []
+---
+
+When I'm working on production code, I tend to be really good about making atomic commits in `git`. I'm a big fan of using patch commits, `git commit -p`, to be really precise about what I am adding in that commit.
+
+But when I'm prototyping or working on a new side project, **throw that all out the window**!
+
+I'm really bad about it on a side project. I can't tell you how many times I've written entire projects without making a single commit. It's truly laughable. I have to do better, and luckily, it's easy to do so.
+
+I originally learned this tip from [Brandon Dail on Twitter](https://twitter.com/aweary). The tip is to use a `Makefile` to create a script that generates a "checkpoint", a `git commit` with a timestamp.
+
+We'll add a new file to our project named `Makefile`, and then add the following to it:
+
+```make
+checkpoint:
+	@git add -A
+	@git commit -m "checkpoint at $$(date '+%Y-%m-%dT%H:%M:%S%z')"
+	@git push
+	@echo Checkpoint created and pushed to remote
+```
+
+Now, in the terminal, I can run the command `make checkpoint` <Marker content="If you know you will never add another script, you can remove the name <code>checkpoint:</code> from the <code>Makefile</code> and then simplify the command to <code>make</code> in the terminal. It will treat the instructions as the default command and run them." /> and it does the following:
+
+- Stages all the files to be committed
+- Commits them with a message of "checkpoint at &lt;timestamp&gt;"
+- Pushes the branch
+- Logs out that the work is done
+
+It's that simple.
+
+Now when I'm jamming on a new idea, I don't have to worry about my poor committing habits, I can just make checkpoints, which is way better than nothing.
+
+So if you're like me and really lazy about `git` while hacking on something, consider adding this to your next project. Might help you out a little bit.
