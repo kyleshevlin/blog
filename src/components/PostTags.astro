@@ -1,6 +1,7 @@
 ---
 import Tag from '../icons/Tag.astro'
 import { toSlug } from '../utils'
+import Link from './Link.astro'
 
 interface Props {
   tags: string[]
@@ -19,15 +20,6 @@ const { tags } = Astro.props
   </div>
 
   <div class="flex flex-wrap gap-4">
-    {
-      tags.map(tag => (
-        <a
-          class="leading-none text-accent transition-colors hover:text-accent-dark"
-          href={`/tags/${toSlug(tag)}`}
-        >
-          {tag}
-        </a>
-      ))
-    }
+    {tags.map(tag => <Link href={`/tags/${toSlug(tag)}`}>{tag}</Link>)}
   </div>
 </div>
