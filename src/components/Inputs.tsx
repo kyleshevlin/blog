@@ -38,11 +38,12 @@ export function Input({
 export const useInput = (initialValue: string) => {
   const [value, setValue] = React.useState(initialValue)
 
-  const onChange = React.useCallback<
-    React.ChangeEventHandler<HTMLInputElement>
-  >(e => {
-    setValue(e.target.value)
-  }, [])
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value)
+    },
+    [],
+  )
 
   return [value, onChange, setValue] as const
 }
@@ -50,11 +51,12 @@ export const useInput = (initialValue: string) => {
 export const useNumberInput = (initialValue: string | number) => {
   const [value, setValue] = React.useState(Number(initialValue))
 
-  const onChange = React.useCallback<
-    React.ChangeEventHandler<HTMLInputElement>
-  >(e => {
-    setValue(Number(e.target.value))
-  }, [])
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(Number(e.target.value))
+    },
+    [],
+  )
 
   return [value, onChange, setValue] as const
 }

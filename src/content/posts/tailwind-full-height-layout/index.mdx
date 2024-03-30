@@ -1,0 +1,49 @@
+---
+date: '2024-03-30T18:23:51.338Z'
+slug: 'tailwind-minimum-full-height-layout'
+title: 'Tailwind "Minimum Full Height" Layout'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['Tailwind', 'CSS']
+relatedPostsSlugs: []
+---
+
+import { Example } from './_components.tsx'
+
+I've been using [Tailwind CSS](https://tailwindcss.com/) on a lot of projects lately. Almost all my layouts for these projects are some version of the "minimum full height", and I wanted to show you quickly how I do that with Tailwind.
+
+The keys are:
+
+- `html` must be `height: 100%`
+- `body` must be `min-height: 100%`
+- `body` must be a Flex column container
+- `main` (or whatever element you choose) is `flex-grow: 1`
+
+Here are the important pieces of the markup you're looking for:
+
+```html
+<html class="h-full">
+  <body class="flex min-h-full flex-col">
+    <header></header>
+    <main class="grow"></main>
+    <footer></footer>
+  </body>
+</html>
+```
+
+Percentage based heights only work if their parent element is a fixed height. In this case, since the topmost parent is set to the full height of the browser window, we can then also use a percentage based height on its direct child, the `body` element.
+
+Because we want our `body` element to be able to extend _beyond_ the full height of the browser when it has that much content, we only use `min-h-full` on it.
+
+Next, by setting `body` as a Flex column layout, we can use the `flex-grow` property on one of its children to tell the layout engine, "expand this element to any remaining available space". In this case, that's the `main` element.
+
+Thus, with this markup, our `header` and `footer` will take up the amount of space they require, and the `main` element will take up the rest to the full height of the browser if there is too little content to fill the space, and beyond if there is more than enough content.
+
+Here's a small example: <Marker content="A fixed height is used on the outermost <code>div</code> to make it seem like a browser window. A <code>gap</code> is used on the <code>div</code> representing the <code>body</code> element just for visibility." />
+
+<div class="my-8">
+  <Example client:load />
+</div>
+
+And that's it. From there I encourage you to figure out the ["holy grail" layout](<https://en.wikipedia.org/wiki/Holy_grail_(web_design)>) to further develop your skills and understanding.
