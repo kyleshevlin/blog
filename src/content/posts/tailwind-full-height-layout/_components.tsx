@@ -1,4 +1,3 @@
-import React from 'react'
 import { Input, useNumberInput } from '../../../components/Inputs'
 
 export function Example() {
