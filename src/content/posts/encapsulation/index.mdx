@@ -6,7 +6,7 @@ subtitle: 'or the Primary Purpose of Functions'
 description: 'Typically, functions are written for their reusability, but I want to convince you that the reason to reach for a function is to encapsulate a concern.'
 excerpt: 'Typically, functions are written for their reusability, but I want to convince you that the reason to reach for a function is to encapsulate a concern.'
 tags: ['JavaScript', 'React', 'Computer Science', 'Refactoring']
-relatedPostsSlugs: ['use-encapsulation']
+relatedPostsSlugs: ['use-encapsulation', 'why-use-use-reducer']
 ---
 
 This post will be short and sweet, yet it is my sincere hope that after reading this blog post, you will think about functions a little differently than you did before.
@@ -73,7 +73,7 @@ Quite a bit going on in there. It's mostly legible. A programmer can follow what
 ```javascript
 function createBudgetSummary(
   transactions,
-  summaryFormatter = defaultSummaryFormatter
+  summaryFormatter = defaultSummaryFormatter,
 ) {
   const income = getIncome(transactions)
   const spent = getSpent(transactions)
@@ -102,20 +102,22 @@ const formatForUSD = value => {
   }).format(value)
 }
 
-const inflect = (singular, plural = singular + 's') => quantity =>
-  quantity === 1 ? singular : plural
+const inflect =
+  (singular, plural = singular + 's') =>
+  quantity =>
+    quantity === 1 ? singular : plural
 
 const getIncome = transactions => {
   return transactions.reduce(
     (acc, { inflow }) => (inflow ? acc + inflow.amount : acc),
-    0
+    0,
   )
 }
 
 const getSpent = transactions => {
   return transactions.reduce(
     (acc, { outflow }) => (outflow ? acc + outflow.amount : acc),
-    0
+    0,
   )
 }
 

@@ -6,7 +6,7 @@ subtitle: null
 description: 'Learn the concept of a tuple, an ordered, finite list of items that represents an implicit key/value store, and where you might already be using them in JavaScript.'
 excerpt: 'Learn the concept of a tuple, an ordered, finite list of items that represents an implicit key/value store, and where you might already be using them in JavaScript.'
 tags: ['JavaScript', 'React', 'React Hooks']
-relatedPostsSlugs: []
+relatedPostsSlugs: ['wrangling-tuple-types']
 ---
 
 As a JavaScript developer, we don't have an official `Tuple` data type like we do `Array` or `Object`, but that doesn't mean we don't have tuples in our code. In a post I'm working on, I realized I have several tuples in my code and it might be worth taking a minute to explain what a tuple is.
@@ -69,7 +69,7 @@ function useSwitch(initialState = false) {
         setState(s => !s)
       },
     }),
-    []
+    [],
   )
 
   return [state, handlers]
@@ -104,10 +104,10 @@ Compare this to typing a custom React hook that returns `state` and `handlers` a
 type SwitchTuple = [
   state: boolean,
   handlers: {
-    on: () => void;
-    off: () => void;
-    toggle: () => void;
-  }
+    on: () => void
+    off: () => void
+    toggle: () => void
+  },
 ]
 
 function useSwitch(initialState = false): SwitchTuple {
@@ -115,11 +115,17 @@ function useSwitch(initialState = false): SwitchTuple {
 
   const handlers = React.useMemo(
     () => ({
-      on: () => { setState(true) },
-      off: () => { setState(false) },
-      toggle: () => { setState(s => !s) }
+      on: () => {
+        setState(true)
+      },
+      off: () => {
+        setState(false)
+      },
+      toggle: () => {
+        setState(s => !s)
+      },
     }),
-    []
+    [],
   )
 
   return [state, handlers]

@@ -6,7 +6,12 @@ subtitle: null
 description: 'Learn how to use React Context effectively in your web applications by using custom hooks and memoization.'
 excerpt: 'Learn how to use React Context effectively in your web applications by using custom hooks and memoization.'
 tags: ['React', 'React Hooks', 'JavaScript']
-relatedPostsSlugs: []
+relatedPostsSlugs:
+  [
+    'careful-with-context-composition',
+    'context-composition-and-flexibility',
+    'updating-state-with-a-component',
+  ]
 ---
 
 React Context has always been a somewhat controversial tool. It was an experimental API for the longest time, but was eventually made a standard part of the API. Now with React Hooks, React Context is easier to use than ever, but that also makes it easy to use poorly. In this post, I want to go over how I personally use React Context. I think you'll find it succinct and useful.
@@ -109,7 +114,7 @@ export function ThemeProvider({ children }) {
         setTheme(s => (s === 'light' ? 'dark' : 'light'))
       },
     }),
-    []
+    [],
   )
 
   return (
@@ -203,7 +208,7 @@ function Header() {
         <button onClick={toggle}>Toggle theme</button>
       </header>
     ),
-    [theme, toggle]
+    [theme, toggle],
   )
 }
 ```
