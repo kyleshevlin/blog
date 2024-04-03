@@ -47,3 +47,13 @@ Here's a small example: <Marker content="A fixed height is used on the outermost
 </div>
 
 And that's it. From there I encourage you to figure out the ["holy grail" layout](<https://en.wikipedia.org/wiki/Holy_grail_(web_design)>) to further develop your skills and understanding.
+
+### Update - 2024-04-03
+
+Multiple people on Twitter pointed out that it might be better to use `h-dvh` instead of `h-full` on the `html` element, and they're correct. In some cases, most likely ones involving mobile browsers, it might be better to use `h-dvh`.
+
+For those unfamiliar like I was, `dvh` stands for "dynamic viewport height". I found [this solid dev.to article breaking down the various units](https://dev.to/frehner/css-vh-dvh-lvh-svh-and-vw-units-27k4), so I don't have to.
+
+On mobile screens, `h-dvh` will track the full height and adjust if any other UI obstructs the viewport, such as the native navigation and such. So anything pinned to the bottom like our `footer` is, will track along with the viewport resizing as those bits of UI change.
+
+So give `h-dvh` a try if you find `h-full` doesn't do the trick.
