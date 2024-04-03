@@ -15,13 +15,18 @@ function makePost(startingPath, directoryName, fileName, content = '') {
   }
 
   try {
+    console.log('Creating directory...')
     fs.mkdirSync(path.resolve(startingPath, directoryName))
+
+    console.log('Creating new post file...')
     fs.writeFileSync(
       path.resolve(startingPath, directoryName, fileName),
       content,
     )
+
+    console.log('Complete!')
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
