@@ -5,7 +5,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import { fromDir } from './utils'
+import { fromDir } from './utils.js'
 
 const POSTS_PATH = path.resolve('./src/content/posts')
 const TAGS_PATTERN = /(?<=tags: )\[.*?\]/gms
