@@ -1,0 +1,78 @@
+---
+date: '2024-05-04T16:39:19.136Z'
+slug: 'align-items-center-vs-text-align-center'
+title: '<code>align-items: center</code> vs. <code>text-align: center</code>'
+subtitle: 'aka Understanding <code>flex</code> columns better'
+description: 'Learn when to use align-items: center or text-align: center in Flex columns.'
+excerpt: 'Let me show you one of the most common things I see people get confused about when working the Flex columns.'
+tags: ['React', 'CSS', 'Tailwind']
+relatedPostsSlugs: []
+---
+
+For going on three years now, I've been working daily in an environment where all the code that I write has to support both React and React Native. People unfamiliar with what it takes to support both platforms might not realize a few restrictions you must deal with. One of them is this: Flexbox is your _only_ layout option.
+
+That's right. No tables. No grids. No _anything_ else. Flexbox is all you got.
+
+Because of this, there's a common mistake I've seen developers make over and over I want to demonstrate and fix.
+
+In React Native, every element at a fundamental level is a `View` or a `Text`. Thus, when creating components that work across platforms, we have to use these `View` and `Text` components on web, too. Generally, this is accomplished through a library like [react-native-web](https://necolas.github.io/react-native-web/), which renders the correct underlying component depending on the platform.
+
+It's important to know that there is one key difference between a `View` and a `div`: a `View` is _not_ a `block` level element.`View` is a `flex` container with `flex-direction` set to `column`.
+
+With that in mind, now I'm going to show you two very similar examples, and I want you to spot the difference.
+
+<div class="my-8 flex flex-col gap-4 md:flex-row">
+  <div class="flex grow flex-col items-center rounded-xl border-2 p-4">
+    <span class="font-sans">Lorem ipsum</span>
+  </div>
+  <div class="flex grow flex-col rounded-xl border-2 p-4">
+    <span class="text-center font-sans">Lorem ipsum</span>
+  </div>
+</div>
+
+Did you spot it? What about now?
+
+<div class="my-8 flex flex-col gap-4 md:flex-row">
+  <div class="flex grow flex-col items-center rounded-xl border-2 p-4">
+    <span class="font-sans">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+      fermentum, arcu id faucibus accumsan, turpis ex interdum est, eget
+      tristique odio odio eget nibh.
+    </span>
+  </div>
+  <div class="flex grow flex-col rounded-xl border-2 p-4">
+    <span class="text-center font-sans">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+      fermentum, arcu id faucibus accumsan, turpis ex interdum est, eget
+      tristique odio odio eget nibh.
+    </span>
+  </div>
+</div>
+
+You see the difference? The left example is a `flex` `column` with `align-items` set to `center` and the right example has the `text-align` set to `center`. This is a small thing that's easy to overlook, but can have you scratching your head later trying to get things to align the way you'd like.
+
+When the text is short, it can seem like which CSS you use doesn't matter, but if we were to add a background to the text in our first two examples, we'd notice the difference right away.
+
+<div class="my-8 flex flex-col gap-4 md:flex-row">
+  <div class="flex grow flex-col items-center rounded-xl border-2 p-4">
+    <span class="bg-pink-500 font-sans text-white">Lorem ipsum</span>
+  </div>
+  <div class="flex grow flex-col rounded-xl border-2 p-4">
+    <span class="bg-pink-500 text-center font-sans text-white">
+      Lorem ipsum
+    </span>
+  </div>
+</div>
+
+When we change `align-items` to `center`, we shrink all the children to their minimum content width. For text that is shorter than the width of its container, it will appear the same as `text-align: center`, but will behave differently once our text starts to wrap.
+
+Choosing to set `align-items` to `center` may also result in attempting to compensate for it further down by setting a child's `width` to `100%`.
+
+<div class="my-8 flex flex-col items-center gap-4 rounded-xl border-2 p-4">
+  <div class="bg-pink-500 font-sans text-white">This is an example title</div>
+  <div class="w-full bg-pink-500 font-sans text-white">
+    This is an example paragraph with the width set to 100%.
+  </div>
+</div>
+
+This is a simple thing to get confused about and only notice later when you're making a lot of compensations on the children to get things aligned correctly. Hopefully by seeing this simple example, the gears will start turning and you'll spot when you might need to use one or the other, or even sometimes both.
