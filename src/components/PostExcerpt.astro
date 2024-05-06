@@ -19,7 +19,9 @@ const { post } = Astro.props
       <div class="leading-none" set:html={post.data.title} />
       {
         post.data.subtitle && (
-          <div class="text-lg font-bold">{post.data.subtitle}</div>
+          <div class="text-lg font-bold">
+            <span set:html={post.data.subtitle} />
+          </div>
         )
       }
     </a>

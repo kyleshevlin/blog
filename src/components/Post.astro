@@ -63,7 +63,13 @@ const { Content: PostContent } = await entry.render()
       <div class="flex items-end justify-between gap-4">
         <div>
           <PageHeading><span set:html={title} /></PageHeading>
-          {subtitle && <div class="font-sans font-bold">{subtitle}</div>}
+          {
+            subtitle && (
+              <div class="font-sans font-bold">
+                <span set:html={subtitle} />
+              </div>
+            )
+          }
         </div>
 
         <EditLink filePath={`/content/posts/${entry.id}`} />
