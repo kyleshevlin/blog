@@ -66,7 +66,9 @@ When the text is short, it can seem like which CSS you use doesn't matter, but i
 
 When we change `align-items` to `center`, we shrink all the children to their minimum content width. For text that is shorter than the width of its container, it will appear the same as `text-align: center`, but will behave differently once our text starts to wrap.
 
-Choosing to set `align-items` to `center` may also result in attempting to compensate for it further down by setting a child's `width` to `100%`.
+My main reason for pointing this out is that I so often see unnecessary compensations on the `children` of a Flex container. Yes, sometimes it might be easier to set a particular `align-items` on the parent, and then use `align-self` on a child to make an adjustment. That's why the CSS property exists, but often these compensations are unnecessary entirely.
+
+For example, if we use `align-items: center` instead of setting the `text-align` on the title, and we later have an element that we need to take up the full width, we might compensate by setting it's `width` to `100%`.
 
 <div class="my-8 flex flex-col items-center gap-4 rounded-xl border-2 p-4">
   <div class="bg-pink-500 font-sans text-white">This is an example title</div>
@@ -74,5 +76,9 @@ Choosing to set `align-items` to `center` may also result in attempting to compe
     This is an example paragraph with the width set to 100%.
   </div>
 </div>
+
+We could avoid that simply by setting `text-align: center` on the title instead.
+
+If you peek under the hood at the Tailwind for that example, you'll see we've added two classes when one would have done the job. Do this enough times across an app, and the number of unnecessary styles can really grow.
 
 This is a simple thing to get confused about and only notice later when you're making a lot of compensations on the children to get things aligned correctly. Hopefully by seeing this simple example, the gears will start turning and you'll spot when you might need to use one or the other, or even sometimes both.
