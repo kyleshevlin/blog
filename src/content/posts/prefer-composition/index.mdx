@@ -1,0 +1,225 @@
+---
+date: '2024-05-17T21:12:18.885Z'
+slug: 'prefer-multiple-compositions'
+title: 'Prefer Multiple Compositions'
+subtitle: 'aka Prefer Understandability and Maintainability Over Absolute DRYness'
+description: "The flexibility of JavaScript and React means there are lots of ways to achieve the same result. Let's consider why we might choose one way over another when it comes to React. Specifically, when to choose a more verbose solution with composition over the DRYest code possible."
+excerpt: null
+tags: ['React', 'JavaScript', 'TypeScript', 'Refactoring']
+relatedPostsSlugs:
+  [
+    'managing-cyclomatic-complexity',
+    'just-enough-fp-composition',
+    'patterns-for-functions-with-conditionals',
+    'when-elses-make-your-code-worse',
+  ]
+---
+
+Consider the following _absurdly_ simple example:
+
+```jsx
+function VideoControls() {
+  const { isPlaying, play, pause } = useVideoControls()
+
+  return (
+    <Button onPress={isPlaying ? pause : play}>
+      <Icon name={isPlaying ? 'pause' : 'play'} />
+      <Button.Text>{isPlaying ? 'Pause' : 'Play'}</Button.Text>
+    </Button>
+  )
+}
+```
+
+We have ourselves a `Button` that presumably controls the state of a video. It's not that complicated and probably very similar to many components you've seen over time.
+
+This is a valid way to write _this_ component. With something this simple, there's not a lot of concern regarding the implementation.
+
+That said, if we think about the pattern more broadly, that is the pattern of _handling all conditions in a single composition_, I think we can start to see some weaknesses in writing code this way.
+
+The thing that makes me question whether we should use the single composition pattern here is that we have three conditionally rendered pieces that all are based on the same value. In my experience, when many decisions hinge on a single value, **it's better to prefer multiple compositions, even when it's more verbose, than to do so much conditional handling inline**.
+
+If we prefer composition, our `VideoControls` will look like this:
+
+```jsx
+function VideoControls() {
+  const { isPlaying, play, pause } = useVideoControls()
+
+  if (isPlaying) {
+    return (
+      <Button onPress={pause}>
+        <Icon name="pause" />
+        <Button.Text>Pause</Button.Text>
+      </Button>
+    )
+  }
+
+  return (
+    <Button onPress={play}>
+      <Icon name="play" />
+      <Button.Text>Play</Button.Text>
+    </Button>
+  )
+}
+```
+
+You can even take it a step further easily:
+
+```jsx
+function VideoControls() {
+  const { isPlaying } = useVideoControls()
+
+  return isPlaying ? <PauseButton /> : <PlayButton />
+}
+
+function PauseButton() {
+  const { pause } = useVideoControls()
+
+  return (
+    <Button onPress={pause}>
+      <Icon name="pause" />
+      <Button.Text>Pause</Button.Text>
+    </Button>
+  )
+}
+
+function PlayButton() {
+  const { play } = useVideoControls()
+
+  return (
+    <Button onPress={play}>
+      <Icon name="play" />
+      <Button.Text>Play</Button.Text>
+    </Button>
+  )
+}
+```
+
+Now, in an example like this, you might argue that this looks worse. "I don't like early returns!", "I don't like small components!" I can hear some people say.
+
+Yes, the example of a single `Button` might be a bit too rudimentary for us to be overly concerned with how we write it, but it exemplifies common choices we make in far more complicated components.
+
+Because JavaScript and React are so flexible, we can tend not to give much thought to how we organize our code for maintainability. We see a problem _there_, we put an inline fix _there_. Job done.
+
+But as the product gets more complicated, we can start to lose velocity when there are lots of "little conditionals" littered about. It's less obvious which branch of logic you are in. Are these conditionals related? Are they not? Often, we need to read almost every line of code to figure it out.
+
+But if we prefer multiple compositions like we did in the second and third example, notice what we accomplished. We went from three conditionals to just a single one. I would argue that the code is much simpler and we have made it a lot harder to introduce bugs. How easy would it be to reverse a ternary accidentally?
+
+If you're not already convinced that composition leads to better components, let's consider some more examples.
+
+What if we're fetching data on the client? Sure, there might be parts of the UI that need to be there regardless of the state of the data fetching, but often times we could write entirely separate compositions that map nicely to each state we could be in.
+
+```jsx
+function DataView() {
+  const { data, error, isLoading } = useGetMyData()
+
+  if (isLoading) {
+    return <LoadingComposition />
+  }
+
+  if (error) {
+    return <ErrorComposition error={error} />
+  }
+
+  if (isEmpty(data)) {
+    return <EmptyComposition />
+  }
+
+  return <SuccessComposition data={data} />
+}
+```
+
+Preferring composition also works nicely with objects that share a [discriminated union](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#discriminating-unions). I'm working on a streaming app for a client at the moment. The `Stream` can be in several `phase`s: `'created' | 'live' | 'ended'`. The screens for these different `phase`s can be quite different. The following is an extremely pared down version of some of the different UI rendered per `phase`. I could write some code like this:
+
+```tsx
+function StreamDisplay({ stream }: { stream: Stream }) {
+  const { phase } = stream
+
+  let additionalClasses = ''
+
+  if (phase === 'ended') {
+    additionalClasses = 'justify-center items-center'
+  }
+
+  if (phase === 'created') {
+    additionalClasses = 'justify-end'
+  }
+
+  return (
+    <View className={`relative flex flex-1 flex-col ${additionalClasses}`}>
+      {phase === 'live' && (
+        <View className="absolute right-4 top-4">
+          <VideoControls />
+        </View>
+      )}
+
+      {phase === 'ended' && <Text>Stream has ended.</Text>}
+
+      {phase === 'created' && <GoLiveButton />}
+    </View>
+  )
+}
+```
+
+I hope you agree with me, that this is all over the place. We're changing Flex properties based on `phase`, we're conditionally rendering buttons and text and all sorts of other stuff. It's accurate, but I think it's way more convoluted than necessary. We don't need to write our components _this_ DRY. I'd much rather repeat myself a bit, and make it much easier to read, maintain and update. Like so:
+
+```tsx
+function StreamDisplay({ stream }: { stream: Stream }) {
+  const { phase } = stream
+
+  if (phase === 'created') {
+    return (
+      <View className="flex flex-1 flex-col justify-end">
+        <GoLiveButton />
+      </View>
+    )
+  }
+
+  if (phase === 'ended') {
+    return (
+      <View className="flex flex-1 flex-col items-center justify-center">
+        <Text>Stream has ended.</Text>
+      </View>
+    )
+  }
+
+  if (phase === 'live') {
+    return (
+      <View className="relative flex-1">
+        <View className="absolute right-4 top-4">
+          <VideoControls />
+        </View>
+      </View>
+    )
+  }
+
+  return null
+}
+```
+
+And if I'm being honest, I probably actually write it like this:
+
+```tsx
+function StreamDisplay({ stream }: { stream: Stream }) {
+  switch (stream.phase) {
+    case 'created':
+      return <StreamCreated stream={stream} />
+
+    case 'ended':
+      return <StreamEnded stream={stream} />
+
+    case 'live':
+      return <StreamLive stream={stream} />
+
+    default:
+      return null
+  }
+}
+```
+
+My point is simple. Even if we have to write a few more wrapping elements, by favoring composition, we make the code **wildly** more understandable and maintainable. You spend absolutely _no_ time trying to figure out if you're in the correct component or not.
+
+If our `Stream` ever gets another phase, we just make another composition. If the `live` phase needs an update, we don't need to hunt through `StreamDisplay` and make sure we don't break anything for the `created` and `ended` phases. We can go straight to `StreamLive` and add it.
+
+I hope this post elucidates some of the challenges you might have felt but not verbalized in working with lots of little conditionals in your code. Preferring multiple compositions can make your work a lot more understandable and maintainable, and now you know how to do it.
+
+There are several related posts below that I think you'll enjoy, check them out if you have time.
