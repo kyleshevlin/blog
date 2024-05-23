@@ -1,0 +1,195 @@
+---
+date: '2024-05-23T15:51:54.205Z'
+slug: 'design-system-retrospective'
+title: 'Design System Retrospective'
+subtitle: 'What I learned and what I would do differently'
+description: "I built a cross platform (React & React Native) design system at my last company. I'm in the middle of building another one for a client. Let me tell you what I learned, decisions I regret, and what I'm doing differently this time."
+excerpt: null
+tags: ['React', 'Design Systems', 'CSS', 'Tailwind']
+relatedPostsSlugs: []
+---
+
+import { Button } from '../../../components/Button.tsx'
+
+Before starting [Agathist](https://agath.ist), I worked for a couple years at a healthcare startup on the "Frontend Platform" team. My job was to build and design the tooling and internal libraries we would use to develop all of the frontend clients for the company.
+
+All of my work involved one unique constraint: everything has to work on both React web _and_ React Native.
+
+This presents a lot of challenges and I could write a lot of blog posts about them, but today I want to share what I think was my biggest mistake with the design system, why I think so, and what I'd do differently.
+
+### What problems were we solving?
+
+Before we get into the design system, I think it's important to discuss what problems we were trying to solve by making one.
+
+Here were the main issues:
+
+#### Inconsistency
+
+None of their products were visually consistent. You could easily see 4 different eras of styling throughout their products. It was visually unappealing. They wanted a system that could be used across their apps to unify their feel and user experience.
+
+#### Developer velocity
+
+The developers were very slow to build and release features. One of the reasons <Marker content="Though honestly, not remotely the biggest reason" /> is that new features were written with bespoke CSS, via `styled-components`, and none of it was type-safe or systematized. When you're manually writing styles for everything, you're going to be slow.
+
+#### A dumpster fire of an existing "design system"
+
+An attempt at a design system already existed. It started off with the intentions of being a small UI library, but quickly became the place all code was developed. <Marker content="This is because it was too painful to build in the apps themselves. There was a lot of work that needed to be done to modernize the infrastructure of the apps and get to a better, faster developer experience." /> There were several problems with this model, but most notably it became tightly coupled. There were data fetching calls in the library, there was business logic every where. It was no longer a library, but an awkward, vestigial appendage of the existing apps.
+
+There were more problems to be solved by the new design system, but those are the main ones.
+
+### My solution
+
+I could solve all three of these problems by making a new design system that eliminated any need for bespoke CSS, was completely type-safe, and never tightly coupled.
+
+The way I chose to do this was to develop a set of components in the same vein as [Chakra UI](https://v2.chakra-ui.com/). If you're unfamiliar with Chakra, it is a set of composable components, all built on a base primitive of a `Box`. `Box` has a large set of props that are mappable to styles. Props regarding margin, padding, background color, etc.
+
+I, too, built us a `Box` on top of the [React Native Web project](https://necolas.github.io/react-native-web/), but I made all of the props conform to our design system. For example, we had a palette of `colors`, and rather than have you pass the color value to the `Box`, I had you write the color _key_ and did the mapping under the hood for you. Like so:
+
+```jsx
+<Box backgroundColor="gray-300">
+  <Text>I am some example text.</Text>
+</Box>
+```
+
+We mapped _every_ prop to keys so you could never deviate. Border radiuses, border thicknesses, padding sizes, gap sizes, etc. Everything had to be done thru the props system. It was awesome because you got Intellisense autocomplete and type errors when you did something wrong.
+
+We made many other components on top of `Box`. Components like `Row` and `Stack` and `Button`, `Input`, `Textarea`, etc. The entire system was built around composing `Box`es and other primitives like `Pressable` and `Text`. It was a rock solid foundation. It was robust. You could not break it or screw it up. It was very fast to use and scaled exceptionally well.
+
+It just had one problem.
+
+**Lots of people struggle to build things compositionally.**
+
+The company severely lacked frontend talent, as it had historically over indexed on fullstack devs who were really backend devs. So many of these people just couldn't wrap their head around how to properly arrange and compose these components to get the layouts they needed. They were so used to solving everything with some truly tragic CSS that they were quagmired by composition, incapable of seeing an alternative ways to achieve the layouts they needed.
+
+Let me give you an overly simple example to explain.
+
+### Using composition to design
+
+In a world where you must support React and React Native, you only have one layout mechanism: Flexbox. Flexbox is an inherently compositional system. The styles of the parent affect the styles of the children. Composition is how we change the layout of children.
+
+When I first arrived, the designers had the idea of having a `width` variant on the `Button`. They wanted `Button`s that were just a little bigger than the text, we could call it an `inline-block` button, and they wanted `Button`s that expanded the full width of their parent. They were adamant that they needed two sizes.
+
+"No, you don't. You only need one size," I said boldly. They were a bit shocked and confused. And then I showed them this.
+
+Here are two `Button`s:
+
+<div class="my-8">
+  <OffsetWrap>
+    <div class="flex flex-col gap-4">
+      <Button onClick={() => {}}>Click me</Button>
+
+      <div class="flex flex-row">
+        <Button onClick={() => {}}>Click me</Button>
+      </div>
+    </div>
+
+  </OffsetWrap>
+</div>
+
+Stylistically, there is nothing different about them. I didn't change their markup at all or give them different classes. All I did was change what Flex context each `Button` is in.
+
+```jsx
+<Stack>
+  <Button onPress={() => {}}>Click me</Button>
+
+  <Row>
+    <Button onPress={() => {}}>Click me</Button>
+  </Row>
+</Stack>
+```
+
+A `Stack` is a Flex `column` context, a `Row` a Flex `row` context. The default `align-items` in a Flex context is `stretch`. This means children of a Flex `column` parent behave similar to `block` level elements. They fill the full width of their parent.
+
+On the other hand, children of a Flex `row` parent behave like `inline` or `inline-block` elements. They shrink to the size of their minimum content width.
+
+The designers were a bit stunned that they could have both buttons _just by changing the context they were rendered in_.
+
+But this was a challenge for devs. They we're quick to grasp that the fastest way to have an `inline-block` button was to wrap it in a `Row`. Even _after_ I did multiple demos and wrote examples in our documentation. It never became intuitive for them.
+
+I'd have people ask me, "What if I want multiple buttons of the same width next to each other?"
+
+Easy. More composition:
+
+```jsx
+<Row>
+  <Row.Item grow={1} shrink={1}>
+    <Button onPress={() => {}}>Click me</Button>
+  </Row.Item>
+
+  <Row.Item grow={1} shrink={1}>
+    <Button onPress={() => {}}>Click me</Button>
+  </Row.Item>
+
+  <Row.Item grow={1} shrink={1}>
+    <Button onPress={() => {}}>Click me</Button>
+  </Row.Item>
+</Row>
+```
+
+<div class="my-8">
+  <OffsetWrap>
+    <div class="flex flex-row gap-4">
+      <div class="flex shrink grow flex-col">
+        <Button>Click me</Button>
+      </div>
+      <div class="flex shrink grow flex-col">
+        <Button>Click me</Button>
+      </div>
+      <div class="flex shrink grow flex-col">
+        <Button>Click me</Button>
+      </div>
+    </div>
+  </OffsetWrap>
+</div>
+
+Every Flex container came with an `.Item` compound component that we could use to apply values like `grow`, `shrink`, `basis`, or `alignSelf` to. It enabled us to compose any arrangement we needed.
+
+Taking it a step further, I could wrap the `children` of a Flex container under the hood with `Flex.Item`s and give them a nice API like this:
+
+```jsx
+<Row childrenGrow={1} childrenShrink={1}>
+  <Button onPress={() => {}}>Click me</Button>
+  <Button onPress={() => {}}>Click me</Button>
+  <Button onPress={() => {}}>Click me</Button>
+</Row>
+```
+
+This manner of composing things applied to other ways of styling and manipulating elements, too. For example, `box-shadow`s in React Native are a giant pain in the ass, so I made a `Shadow` component that you just wrapped other components in that did all the iOS and Android magic under the hood.
+
+```jsx
+<Shadow>
+  <Card>{/* other stuff */}</Card>
+</Shadow>
+```
+
+The whole system depended on this ability to compose components together to achieve what we desired. It really was a solid system and something I was proud of.
+
+### So what was the problem?
+
+The main problem was there are [two types of composition](/two-types-of-composition), and most people are ok at object composition, and aren't very good at functional composition.
+
+The struggles with this kind of composition made me realize something: **many devs don't write styles from a deep, rooted place of knowledge and know exactly what they need to write to make it do what they want; they write code by throwing stuff at the wall until it sticks.**
+
+I promise you, that's not an insult. I was the one who failed. Not the other devs.
+
+Even though writing `styled-components` with bespoke CSS over and over was really slow and led to literally thousands of unnecessary lines of styling, it had one major benefit: **people could easily try stuff**.
+
+Yes, they wrote a lot of redundant styles. Yes, there were tons of poor choices made. But they could kinda make it work. The user wouldn't really know it was a pile of hot, unmaintainable garbage under the hood, and it would be someone else's mess to deal with later.
+
+The problem with the Chakra UI-like system was there were almost no escape hatches in the entire system. You either had to really understand how to compose your way to a solution, or you were stuck. There wasn't enough surface area for anyone to throw something at the wall. **That was entirely on purpose. It solved our original problems, but it meant many devs struggled to adapt**.
+
+### What I would do differently
+
+After a while, I came to recognize the struggle devs were having. No amount of training or documentation seemed to be helping either. Some of them just weren't getting it and didn't really care to try and learn the system anyways. I felt like I had failed them. <Marker content="Even if, realistically, I hadn't" />
+
+It got me thinking. It took me a while to figure it out, but I realized what I would do differently. If I could go back and do it again, I would have built the design system around `Tailwind`/`NativeWind` instead.
+
+My main reasoning goes like this: Fewer devs struggle to compose objects or tokens than they do functions. I would be giving up some of the restrictiveness that ensured rightness we had with the Chakra UI-style design system, but I'd make it far simpler for devs to try things out. To throw things at the wall again. Our codebase would receive more sub-optimally written features, but at least they would have features.
+
+I think this path would have been an easier leap from the bespoke CSS of `styled-components` to composing `Tailwind` classes.
+
+Now, there are challenges with this approach, too. In the last couple of months, I have built another cross platform design system (and their apps) for a client that's following this approach. `Nativewind` is imperfect, <Marker content="And at the time we started, we had to use the unofficially released v4 which is not something I would generally recommend or do." /> and we've had to build a lot of components from scratch with the approach, but overall, the other devs are at least able to try things and move forward.
+
+### Summary
+
+Some people will always struggle with using functional composition to build what they need to build. They need more escape hatches. Making the right tradeoff regarding how restrictive the system was may have made it easier to adopt for many devs. Going forward, I'll consider this more deeply in my decisions.
