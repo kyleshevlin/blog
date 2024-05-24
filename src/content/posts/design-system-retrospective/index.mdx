@@ -59,7 +59,7 @@ It just had one problem.
 
 **Lots of people struggle to build things compositionally.**
 
-The company severely lacked frontend talent, as it had historically over indexed on fullstack devs who were really backend devs. So many of these people just couldn't wrap their head around how to properly arrange and compose these components to get the layouts they needed. They were so used to solving everything with some truly tragic CSS that they were quagmired by composition, incapable of seeing an alternative ways to achieve the layouts they needed.
+The company severely lacked frontend talent, as it had historically over indexed on fullstack devs who were really backend devs. So many of these people just couldn't wrap their head around how to properly arrange and compose these components to get the layouts they needed. They were so used to solving everything with some truly tragic CSS that they were quagmired by composition, incapable of seeing alternative ways to achieve the layouts they needed.
 
 Let me give you an overly simple example to explain.
 
@@ -182,7 +182,7 @@ The problem with the Chakra UI-like system was there were almost no escape hatch
 
 After a while, I came to recognize the struggle devs were having. No amount of training or documentation seemed to be helping either. Some of them just weren't getting it and didn't really care to try and learn the system anyways. I felt like I had failed them. <Marker content="Even if, realistically, I hadn't" />
 
-It got me thinking. It took me a while to figure it out, but I realized what I would do differently. If I could go back and do it again, I would have built the design system around `Tailwind`/`NativeWind` instead.
+I spent a lot of time thinking about the new problem I had created, and I eventually realized what I would do differently. If I could go back and do it again, I would have built the design system around `Tailwind`/`NativeWind` instead.
 
 My main reasoning goes like this: Fewer devs struggle to compose objects or tokens than they do functions. I would be giving up some of the restrictiveness that ensured rightness we had with the Chakra UI-style design system, but I'd make it far simpler for devs to try things out. To throw things at the wall again. Our codebase would receive more sub-optimally written features, but at least they would have features.
 
