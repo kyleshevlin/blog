@@ -12,26 +12,7 @@ I can't tell you how many times I've needed some binary (boolean) state manageme
 Copy/paste this and change it to suit whatever needs you have.
 
 ```typescript
-type UseBoolHandlers = {
-  /**
-   * Set state to true
-   */
-  on: () => void;
-  /**
-   * Set state to false
-   */
-  off: () = void;
-  /**
-   * Toggle state
-   */
-  toggle: () => void;
-  /**
-   * Reset to `initialState`
-   */
-  reset: () => void;
-}
-
-function useBool(initialState = false): [boolean, Handlers] {
+function useBool(initialState = false) {
   const [state, setState] = React.useState(initialState)
 
   const handlers = React.useMemo(
@@ -52,6 +33,6 @@ function useBool(initialState = false): [boolean, Handlers] {
     [initialState]
   )
 
-  return [state, handlers]
+  return [state, handlers] as const
 }
 ```
