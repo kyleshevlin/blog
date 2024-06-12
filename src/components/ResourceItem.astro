@@ -15,7 +15,7 @@ const { author, title, url } = Astro.props
 <article class="flex flex-col gap-4">
   <header>
     <PostH4>
-      <Link href={url}>{title}</Link>
+      <Link external href={url}>{title}</Link>
     </PostH4>
 
     <p class="font-sans text-sm">By {author}</p>
