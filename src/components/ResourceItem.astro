@@ -1,0 +1,27 @@
+---
+import Link from './Link.astro'
+import PostH4 from './PostH4.astro'
+import Prose from './Prose.astro'
+
+type Props = {
+  author: string
+  title: string
+  url: string
+}
+
+const { author, title, url } = Astro.props
+---
+
+<article class="flex flex-col gap-4">
+  <header>
+    <PostH4>
+      <Link external href={url}>{title}</Link>
+    </PostH4>
+
+    <p class="font-sans text-sm">By {author}</p>
+  </header>
+
+  <Prose>
+    <slot />
+  </Prose>
+</article>
