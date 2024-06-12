@@ -1,0 +1,188 @@
+---
+import Content from '../components/Content.astro'
+import PageHeading from '../components/PageHeading.astro'
+import PostH3 from '../components/PostH3.astro'
+import Prose from '../components/Prose.astro'
+import ResourceItem from '../components/ResourceItem.astro'
+import Standard from '../layouts/Standard.astro'
+---
+
+<Standard title="Impactful Resources | Kyle Shevlin">
+  <Content>
+    <Prose>
+      <PageHeading>Impactful Resources</PageHeading>
+
+      <p>
+        I am often asked what books, talks and other resources I would recommend
+        others take a look at. This is a collection of the resources that have
+        had the greatest impact on how I approach programming and work.
+      </p>
+
+      <p>
+        I plan to add to this list over time as I remember important resources
+        or discover new ones. Be sure to give it a visit from time to time.
+      </p>
+
+      <PostH3>Books</PostH3>
+
+      <div class="flex flex-col gap-12">
+        <ResourceItem
+          author="Martin Fowler"
+          title="Refactoring: Improving the Design of Existing Code"
+          url="https://martinfowler.com/books/refactoring.html"
+        >
+          <p>
+            This book is <em>easily</em> the most impactful book I have ever read
+            and dramatically changed how I approach writing code, making changes,
+            making commits, PRs, testing, etc. In truth, this book deserves an entire
+            blog post of its own, but I'll share just a bit here.
+          </p>
+          <p>
+            Most people use the word "refactoring" incorrectly. There is a very
+            small and specific definition of "refactor" we ought to use. A
+            "refactor" is when we change the organization of the code without
+            changing the functionality of the code. I think of it a lot like
+            solving math problems. We can modify the equation, so long as it
+            remains equivalent, such as adding a number to both sides. This
+            implies that in order to refactor anything we must first have the
+            code under tests. How else can we be certain that the code is
+            functionally the same?
+          </p>
+          <p>
+            Once we have tests, then our objective in a refactor is to go from
+            "green to green". We rearrange and reorganize the code so that we're
+            able to achieve our future goals while doing nothing to change the
+            current behavior. That means you don't commit anything extra. No
+            little fixes here. No tweaks there. Just the refactor.
+          </p>
+          <p>
+            What's amazing about being this strict about refactoring is that you
+            gain some super powers. The latter half of the book is a collection
+            of refactor recipes. Step by step instructions on how to transform
+            this to that and back again. It's just like the math formulas I was
+            talking about. How to shift from here to there without breaking
+            anything.
+          </p>
+          <p>
+            You need to grab this book. I own the first edition, which is in
+            Java. I've never even written Java and it's that helpful. There's a
+            second edition now that's rewritten in JavaScript that will probably
+            be a lot more accessible to most of you.
+          </p>
+        </ResourceItem>
+
+        <ResourceItem
+          author="Michael C. Feathers"
+          title="Working Effectively with Legacy Code"
+          url="https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052"
+        >
+          <p>
+            This book goes hand in hand with "Refactoring". <em>Most</em> of the
+            work we do is on brownfield code and having a strategy to safely update
+            it is vital.
+          </p>
+          <p>
+            The reason it goes with "Refactoring" so well is Feathers'
+            definition of "legacy code". "Legacy code" is any code that isn't
+            under test.
+          </p>
+          <p>
+            "Woah, Kyle, that's a little drastic. I just wrote this code
+            yesterday, it couldn't possibly be 'legacy code'," you say. To which
+            I would say, without tests, you can't prove that the code does what
+            you expect, and you certainly can't prove that it's stayed the same
+            over time. The tests are what make it safe to touch and change.
+          </p>
+          <p>
+            I highly recommend reading this book. As someone who's had to "swap
+            an engine out while flying the plane" several times in my career,
+            this book was essentially for being able to do that confidently and
+            safely.
+          </p>
+        </ResourceItem>
+
+        <ResourceItem
+          author="Brian Lonsdorf"
+          title="Professor Frisby's Mostly Adequate Guide to Functional Programming"
+          url="https://mostly-adequate.gitbook.io/mostly-adequate-guide"
+        >
+          <p>
+            This book was my gateway into functional programming, and learning
+            even the smallest amount of it drastically changed the way I
+            approach problems. It has informed not only how I write functions,
+            but how I compose UIs, build up complexity in systems, even how I
+            test my code.
+          </p>
+          <p>
+            This book is what inspired my functional programming course and all
+            my blog posts on the topic. It's a really accessible intro to the
+            topic and it's written in JavaScript, so most of you should be able
+            to follow along easily. I just reread it for a third time this past
+            winter and I still learned a few things.
+          </p>
+        </ResourceItem>
+
+        <ResourceItem
+          author="Sandi Metz"
+          title="Practical Object-Oriented Design: An Agile Primer Using Ruby"
+          url="https://www.poodr.com/"
+        >
+          <p>
+            You have to understand two things: I have hardly written any Ruby in
+            my career, and I have never worked on a codebase that was truly
+            object-oriented. This book is so good it makes me think I could
+            enjoy doing both.
+          </p>
+          <p>
+            POODR (as the books is commonly referred to) is such a solid
+            introduction to the concepts of object-oriented programming that
+            anyone can read it, regardless of their knowledge of Ruby. It helped
+            me realize that object-oriented programming, when done well, is
+            remarkably similar to functional programming. Insert the "They're
+            the same picture" meme here.
+          </p>
+          <p>
+            I think if you read this book, you'll come away with better ideas of
+            how to abstract complex problems into simple and reasonable
+            solutions.
+          </p>
+        </ResourceItem>
+      </div>
+
+      <PostH3>Talks</PostH3>
+
+      <div class="flex flex-col gap-12">
+        <ResourceItem
+          author="Sandi Metz"
+          title="Nothing is Something"
+          url="https://www.youtube.com/watch?v=OMPfEXIlTVE"
+        >
+          <p>
+            I have rewatched this talk probably half a dozen times at least. It
+            is that good. It transformed the way I think about writing
+            functions, components and abstractions in general. This talk is the
+            reason I prefer to dependency inject anything that could create a
+            side-effect into my components, such as <code>Math.random()</code> as
+            a <code>randomizer</code> parameter, or a <code>now</code> or <code
+              >today</code
+            > parameter, instead of calling <code>new Date()</code> in a function.
+          </p>
+        </ResourceItem>
+
+        <ResourceItem
+          author="Sandi Metz"
+          title="All the Little Things"
+          url="https://www.youtube.com/watch?v=8bZh5LMaSmE"
+        >
+          <p>
+            In this talk, Sandi Metz talks to us about cyclomatic complexity and
+            how to refactor complex code. She demonstrates and encourages us to
+            not be afraid of <em>temporarily increasing complexity</em> to ultimately
+            get to a simpler system. She works through the "Gilded Rose Kata" as
+            part of the talk and was a real eye opener to me.
+          </p>
+        </ResourceItem>
+      </div>
+    </Prose>
+  </Content>
+</Standard>
