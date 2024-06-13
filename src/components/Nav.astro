@@ -11,7 +11,11 @@ const LINKS = [
   { href: '/impactful-resources', title: 'Impactful Resources' },
 ].map(link => ({
   ...link,
-  isCurrentPage: link.href === pathname,
+  /**
+   * I've noticed that on the actual prod site, the pathname is always
+   * appended with a `/`, so adding an additional check for that
+   */
+  isCurrentPage: link.href === pathname || link.href + '/' === pathname,
 }))
 ---
 
