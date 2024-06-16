@@ -1,0 +1,160 @@
+---
+date: '2024-06-15T02:34:01.115Z'
+slug: 'responsive-design-and-composition'
+title: 'Responsive Design and Composition'
+subtitle: null
+description: 'Responsive UI can be very challenging to write well and can often lead to some of the nastiest code you have ever encountered. Learn how to use multiple compositions to make responsive design a whole lot cleaner and easier.'
+excerpt: null
+tags: ['React', 'CSS', 'Tailwind', 'Refactoring']
+relatedPostsSlugs: ['prefer-multiple-compositions', 'facade-pattern']
+---
+
+import { Presenter } from './_components.tsx'
+
+Do me a favor. Change the width of your browser while watching the UI below. Go really narrow, and go really wide.
+
+<div class="my-8">
+  <OffsetWrap>
+    <Presenter
+      client:only="react"
+      name="Kyle Shevlin"
+      description="Kyle is the founder and lead engineer of Agathist, a software firm dedicated to building good software with good people."
+      role="Founder & Lead Engineer"
+      image="/images/kyle-headshot.jpg"
+    />
+  </OffsetWrap>
+</div>
+
+You see what changed? The spatial relationship between the `image`, `description`, and `role` changed. Some font sizes and weights changed. The amount of border radius on the image changed, too.
+
+I recently came across this exact responsive layout in a client's codebase. The UI changes aren't unreasonable. I can agree that it's a better layout given the size constraints. But if you try and achieve this with a single composition of elements and classes, you're going to have to do some wild CSS shenanigans to make it work.
+
+**And that's exactly what they had done.**
+
+Here's a pared down version of what I came across in the codebase. I've removed a lot of the stylistic classes, and left you mostly with the classes needed for the UI changes across breakpoints. Hope you're good at reading Tailwind classes (which isn't the problem at all; this would be a CSS mess, too):
+
+```tsx
+function Presenter({ description, image, name, role }) {
+  return (
+    <figure className="grid grid-cols-[auto,1fr] items-center gap-x-4 gap-y-8 sm:grid-cols-12 sm:grid-rows-[1fr,auto,auto,1fr] sm:gap-x-10">
+      <div className="col-span-2 text-xl sm:col-span-7 sm:col-start-6 sm:row-start-2">
+        {description}
+      </div>
+
+      <div className="col-start-1 row-start-2 overflow-hidden rounded-xl sm:col-span-5 sm:row-span-full sm:rounded-3xl">
+        <Image
+          src={image}
+          className="h-12 w-12 object-cover sm:h-auto sm:w-full"
+        />
+      </div>
+
+      <figcaption className="text-sm sm:col-span-7 sm:row-start-3 sm:text-base">
+        <span className="font-bold">{name}</span>
+        <span className="hidden font-bold sm:inline">, </span>
+        <br className="sm:hidden" />
+        <span className="sm:font-bold">{role}</span>
+      </figcaption>
+    </figure>
+  )
+}
+```
+
+So yeah... **do you want to maintain this?**
+
+Yeah, I didn't think so.
+
+**Now look**, I understand why this happens. It's really easy to empathize with the challenge the original dev or devs faced in making this work. They were clever enough to come up with a grid layout that could accommodate their needs.
+
+That said, they made this way harder than it has to be. But how could they have know there is an easier way hidden just below the surface? There are two clues here that make it clear what we should do instead.
+
+First, the layout of the elements changes. It would be one thing if all their spatial relationships remained the same. The `name` stays above the `image`. The `description` always has `name` and `role` beneath it. But it doesn't. The layout changes. I mean, they went so far as to have a `br` element that is removed from the page! You know were up to something weird if that's happening. All of this should be a signal that maybe we want to solve this with [multiple compositions](/prefer-multiple-compositions) instead.
+
+Second, there are lots of "little conditionals" here if you look closely. Just because you don't see the keyword `if`, doesn't mean they aren't there. Everywhere we see `sm:`, we can think of that as a conditional. "If we are at a breakpoint larger than `sm`, do this". I see 17 conditionals in the code example. That's way too many!
+
+What if I told you we only need two?
+
+### Multiple compositions to the rescue
+
+When we have the same condition many times lower in our tree of components and elements, we can often lift it up higher and reduce how many times it needs to be checked. <Marker content="That trick applies to a lot more than just components, too. Use it in your functions and watch them get simpler." />
+
+In our case, we can turn `Presenter` into a [facade](facade-pattern), that renders either a `PresenterNarrow` or `PresenterWide` composition.
+
+First, the facade:
+
+```tsx
+function Presenter(props) {
+  return (
+    <div>
+      <div className="sm:hidden">
+        <PresenterNarrow {...props} />
+      </div>
+
+      <div className="hidden sm:block">
+        <PresenterWide {...props} />
+      </div>
+    </div>
+  )
+}
+```
+
+**Isn't that simpler?!** Now that we can guarantee what context each sub-composition will render in, we can arrange the elements without all the wild grid shenanigans to get the job done, and make a few reusable pieces we can use across compositions as well.
+
+First, our shared pieces. The bigger `name` and `description` components:
+
+```tsx
+function Name({ children }) {
+  return <h2 className="font-sans text-2xl font-bold">{children}</h2>
+}
+
+function Description({ children }) {
+  return <div className="font-sans text-lg">{children}</div>
+}
+```
+
+Next, our `PresenterNarrow` composition:
+
+```tsx
+function PresenterNarrow({ description, image, name, role }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <Name>{name}</Name>
+      <Description>{description}</Description>
+
+      <div className="flex flex-col gap-2">
+        <img className="h-12 w-12 rounded-xl" src={image} alt={name} />
+
+        <div>
+          <div className="font-sans text-sm font-bold">{name}</div>
+          <div className="font-sans text-sm">{role}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+And finally our `PresenterWide` composition:
+
+```tsx
+function PresenterWide({ description, image, name, role }) {
+  return (
+    <div className="flex items-center gap-12">
+      <div className="flex w-[40%] shrink-0 flex-col gap-4">
+        <Name>{name}</Name>
+        <img className="w-full rounded-3xl" src={image} alt={name} />
+      </div>
+
+      <div className="flex grow flex-col gap-4">
+        <Description>{description}</Description>
+        <div className="font-sans font-bold">
+          {name}, {role}
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+How much easier is that code to read, understand, and maintain?! **Bonus**, if you need to make a change, you can go directly to the component that needs it. You don't have to figure out where in the single composition you have to tweak to get it to work correctly.
+
+So the next time you're struggling with a component that is challenging to make responsive, consider making multiple compositions, one for each layout, and then move the responsive condition up the tree to render the appropriate sub-composition when necessary. I think you'll find your life got a little bit easier doing it that way.
