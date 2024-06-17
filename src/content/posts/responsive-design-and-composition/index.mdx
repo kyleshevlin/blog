@@ -67,7 +67,7 @@ Yeah, I didn't think so.
 
 That said, cleverness is not the answer. <Marker content="It rarely is." /> They made this way harder than it has to be. But how could they have known there is an easier way hidden just below the surface? There are two clues here that make it clear what we should do instead.
 
-First, the layout of the elements changes. It would be one thing if all their spatial relationships remained the same. The `name` stays above the `image`. The `description` always has `name` and `role` beneath it. But it doesn't. The layout changes. I mean, they went so far as to have a `br` element that is removed from the page! You know were up to something weird if that's happening. All of this should be a signal that maybe we want to solve this with [multiple compositions](/prefer-multiple-compositions) instead.
+First, the layout of the elements changes. It would be one thing if all their spatial relationships remained the same. The `name` stays above the `image`. The `description` always has `name` and `role` beneath it. But it doesn't. The layout changes. I mean, they went so far as to have a `br` element that is removed from the page! You know we're up to something weird if that's happening. All of this should be a signal that maybe we want to solve this with [multiple compositions](/prefer-multiple-compositions) instead.
 
 Second, there are lots of "little conditionals" here if you look closely. Just because you don't see the keyword `if`, doesn't mean they aren't there. Everywhere we see `sm:`, we can think of that as a conditional. "If we are at a breakpoint larger than `sm`, do this". I see 17 conditionals in the code example. That's way too many!
 
