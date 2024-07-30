@@ -1,0 +1,75 @@
+---
+date: '2024-07-30T15:27:23.568Z'
+slug: 'prefer-alphabetized-object-keys'
+title: 'Prefer Alphabetized Object Keys'
+subtitle: null
+description: "Small efforts can add up to big gains, given enough time. That's how I feel about alphabetizing my object keys. By always sorting them, I increase the speed at which I can read, and even write, code."
+excerpt: null
+tags: ['JavaScript', 'TypeScript', 'React']
+relatedPostsSlugs: []
+---
+
+When it's been a while since I've written a post and I need to get back at it, I like to pick something I can write really quickly and publish right away. So here's one of the quickest tips I have for you: whenever order is not important, **prefer to alphabetize the keys of your objects**.
+
+As a dev, you spend a lot of time reading code. Anything we can do to increase the speed and efficiency of reading and scanning the code can have a big return on investment in the long run. Alphabetizing the keys of your objects is one of the simplest and easiest ways you can do this.
+
+This shouldn't really be controversial, especially for developers with any knowledge of algorithms and data structures. What's the fastest way to search through an array? **Have it pre-sorted**. That's what alphabetizing does. It's a default sort for every object in your codebase.
+
+But it's more than scanning, it also speeds up writing. If you always alphabetize your keys, you never have to ask yourself, "Where should I add this?" You pick a name, and you slot it in. You keep the keys sorted.
+
+Now, imagine you've done this for an entire codebase. Every prop, every object type, interface, map, and dictionary is alphabetically sorted. Because of this order, you save a second or two every time you have to look for a key. You do this multiple times a day, you do this for a full year. It sounds silly, but you might have saved a few hours over the course of a year.
+
+### What about logical groupings?
+
+There's a reason I use the word "prefer" in the title of these posts. There may be a time where the order of keys matters, or putting them in a "logical" grouping might be better. If that is the case, I like to indicate that with a comment and possibly some whitespace.
+
+```javascript
+// WARNING: ORDER HERE MATTERS!
+const obj = {
+  foo: 1,
+  bar: 2,
+  baz: 3,
+}
+
+// Or
+
+const styles = {
+  backgroundColor: 'papayawhip',
+  color: 'black',
+  fontSize: '1em',
+
+  // Positioning
+  position: 'absolute',
+  top: 0,
+  left: 0,
+}
+```
+
+The point is, exceptions can be made, but they should be _exceptions_.
+
+### How do I make this easy to do?
+
+There are ESLint rules you can use to enforce and fix this, but I've never been on a team that used it, and I'm not sure this is a hill I'd care to die on either. Instead, I just alphabetize keys as I do my work **with a simple key combination**.
+
+Now, if you use VSCode, I think it might have a default sorting key combo, but I have mine bound to `cmd + shift + a` (`a` is for "alphabetize"). Like so:
+
+```json
+{
+  "key": "cmd+shift+a",
+  "command": "editor.action.sortLinesAscending"
+}
+```
+
+All I have to do is highlight a group of key/value pairs, hit the key combo, and it's done.
+
+<Gif
+  alt="Keys of an object getting highlighted, then alphabetized"
+  gifSrc="/images/alphabetizeKeys.gif"
+  staticSrc="/images/alphabetizeKeysStatic.jpg"
+/>
+
+### Wrap up
+
+I don't think is a life-altering tip. If you never alphabetize an object in your life, you'll be fine. But for me, it saves a good amount of time and energy reading and writing code.
+
+We don't talk a lot about code style guidelines these days. Not since Prettier came on to the scene. In general, that's a good thing, but having some small rules & principles like this one, even if they're only for you with no real impact to others, can make your code more consistent, and consistency leads to speed over time.

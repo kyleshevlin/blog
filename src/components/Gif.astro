@@ -8,7 +8,7 @@ interface Props {
 const { alt, gifSrc, staticSrc } = Astro.props
 ---
 
-<picture>
+<picture class="flex justify-center">
   {
     staticSrc && (
       <source srcset={staticSrc} media="(prefers-reduced-motion: reduce)" />
