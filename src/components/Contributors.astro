@@ -69,8 +69,15 @@ function getContributors(json: ContributorData) {
   return Object.values(authorsByLogin)
 }
 
-const json = await fetchContributors()
-const contributors = getContributors(json)
+let contributors: Author[] = []
+let errorMessage = ''
+try {
+  const json = await fetchContributors()
+  contributors = getContributors(json)
+} catch (err) {
+  console.error(err)
+  errorMessage = 'There was an error fetching the contributors.'
+}
 ---
 
 <div class="flex flex-col gap-4 text-center font-sans">
@@ -88,22 +95,26 @@ const contributors = getContributors(json)
     </a>
   </div>
 
-  <div class="flex flex-wrap justify-center gap-3">
-    {
-      contributors.map(contributor => {
-        const { avatarUrl, login, url } = contributor
+  {errorMessage && <div class="text-contra">{errorMessage}</div>}
 
-        return (
-          <a href={url}>
-            <span class="sr-only">{url}</span>
-            <img
-              alt={`${login}'s Github Avatar`}
-              src={avatarUrl}
-              title={login}
-            />
-          </a>
-        )
-      })
-    }
-  </div>
+  {
+    contributors.length > 0 && (
+      <div class="flex flex-wrap justify-center gap-3">
+        {contributors.map(contributor => {
+          const { avatarUrl, login, url } = contributor
+
+          return (
+            <a href={url}>
+              <span class="sr-only">{url}</span>
+              <img
+                alt={`${login}'s Github Avatar`}
+                src={avatarUrl}
+                title={login}
+              />
+            </a>
+          )
+        })}
+      </div>
+    )
+  }
 </div>
