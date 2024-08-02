@@ -3,8 +3,151 @@ date: '2024-08-02T02:28:47.453Z'
 slug: 'composable-flourishes'
 title: 'Composable Flourishes'
 subtitle: null
-description: ''
+description: 'Learn how we can use composition to create subtle, pleasant animations that can be used on any component in our applications.'
 excerpt: null
-tags: ['React']
+tags: ['Astro', 'JavaScript', 'CSS']
 relatedPostsSlugs: []
 ---
+
+If you've read my blog in recent history, then you're probably aware that I'm a big fan of composition. There's almost nothing you can't solve with enough wrapping HTML elements, functions, or components. <Marker content="Depending on what you're working on, of course." />
+
+One way that composition really shines is in adding "flourishes" around your UI, subtle animations that make the site feel less static and flat. Let's build one of these as an [Astro component](https://astro.build) to demonstrate how easy it can be. <Marker content="You can easily do the same in React, but I leave that as an exercise for the reader." />
+
+### Our component
+
+We're going to build a composable `FadeIn` component. We'll be able to wrap _any_ UI we want with it, and fade it in to view as it comes into the viewport. Let's start by setting up the markup portion of the Astro component.
+
+```astro
+<div class="fade-in-element">
+  <slot />
+</div>
+```
+
+Yep. That's it!
+
+All we want to do is create a wrapping element for our content. Now, we'll add a some styles to it that will be our animation.
+
+```astro
+<div class="fade-in-element">
+  <slot />
+</div>
+
+<style>
+  .fade-in-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
+  }
+
+  .fade-in-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+```
+
+By default, our component isn't visible. We'll need to add the `.visible` class to it to change that. Let's do that now.
+
+```astro
+/* same markup and styles... */
+
+<script>
+  const fadeInElements = document.querySelectorAll('.fade-in-element')
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+    },
+  )
+
+  fadeInElements.forEach(element => {
+    observer.observe(element)
+  })
+</script>
+```
+
+With this script, we gather all the `FadeIn` components, observe them for intersecting the viewport, and add the `.visible` class when they come into view. We can tweak the threshold to adjust how much of the element must be in view to animate, and we can play with the styles to achieve different animations.
+
+One last touch we might like to add is a `delay` for when several items are next to each other and we want their animations to cascade a bit.
+
+To do this, we can add a `delay` prop to our component.
+
+```astro
+---
+type Props = {
+  delay?: number
+}
+
+const { delay = 0 } = Astro.props
+---
+
+<div class="fade-in-element" style={`transition-delay: ${delay}ms;`}>
+  <slot />
+</div>
+```
+
+Now, we can literally wrap anything in our app and get that subtle fade in animation. Look at the boxes below fade in. Refresh the page if necessary to retrigger the animation.
+
+<div class="grid grid-cols-3 gap-4">
+  {[0, 1, 2].map(num => (
+    <FadeIn delay={num * 200}>
+      <div class="aspect-square rounded-xl bg-accent" />
+    </FadeIn>
+  ))}
+</div>
+
+### Additional things to consider
+
+I don't always love being absolutely thorough in my blog posts. I think it can detract from the lesson to go down all the rabbit holes available. That said, I think there are two things to consider with these flourishes that are pretty important:
+
+#### `prefers-reduced-motion`
+
+We can make the flourishes more accessible to those who don't like screen motion by making a small change to our styles.
+
+```astro
+<style>
+  .fade-in-element {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in-element {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+    }
+
+    .fade-in-element.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+```
+
+This makes the element visible by default, but if they have no preference, applies the styles in the media query.
+
+#### No JavaScript
+
+This ones a bit more tricky, but you want to make sure your content is still visible if the user has JavaScript turned off. Here are the steps I would take to do that:
+
+- Add the class `no-js` to the `html` element
+- In the `<head>` element, add a small `<script>` that removes the `no-js` class
+- Update styles that would be affected by the presence of a `no-js` class
+
+### Wrap up
+
+Composition gives us the opportunity to make some simple reusable flourishes that can add some pleasant movement to our sites. I encourage you to experiment with this technique for other things. Perhaps you can try scaling or rotations. The possibilities are almost endless, so have fun.

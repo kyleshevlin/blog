@@ -1,0 +1,55 @@
+---
+type Props = {
+  delay?: number
+}
+
+const { delay = 0 } = Astro.props
+---
+
+<div class="fade-in-element" style={`transition-delay: ${delay}ms`}>
+  <slot />
+</div>
+
+<script>
+  const fadeInElements = document.querySelectorAll('.fade-in-element')
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+    },
+  )
+
+  fadeInElements.forEach(element => {
+    observer.observe(element)
+  })
+</script>
+
+<style>
+  .fade-in-element {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in-element {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+    }
+
+    .fade-in-element.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
