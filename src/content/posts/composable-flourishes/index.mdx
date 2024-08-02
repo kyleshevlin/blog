@@ -11,7 +11,17 @@ relatedPostsSlugs: []
 
 If you've read my blog in recent history, then you're probably aware that I'm a big fan of composition. There's almost nothing you can't solve with enough wrapping HTML elements, functions, or components. <Marker content="Depending on what you're working on, of course." />
 
-One way that composition really shines is in adding "flourishes" around your UI, subtle animations that make the site feel less static and flat. Let's build one of these as an [Astro component](https://astro.build) to demonstrate how easy it can be. <Marker content="You can easily do the same in React, but I leave that as an exercise for the reader." />
+One way that composition really shines is in adding "flourishes" around your UI, subtle animations that make the site feel less static and flat. Look at the boxes below fade in. Refresh the page if necessary to retrigger the animation.
+
+<div class="my-8 grid grid-cols-3 gap-4">
+  {[0, 1, 2].map(num => (
+    <FadeIn delay={num * 200}>
+      <div class="aspect-square rounded-xl bg-accent" />
+    </FadeIn>
+  ))}
+</div>
+
+Let's build this effect as an [Astro component](https://astro.build) to demonstrate how easy it can be. <Marker content="You can easily do the same in React, but I leave that as an exercise for the reader." />
 
 ### Our component
 
@@ -96,15 +106,7 @@ const { delay = 0 } = Astro.props
 </div>
 ```
 
-Now, we can literally wrap anything in our app and get that subtle fade in animation. Look at the boxes below fade in. Refresh the page if necessary to retrigger the animation.
-
-<div class="grid grid-cols-3 gap-4">
-  {[0, 1, 2].map(num => (
-    <FadeIn delay={num * 200}>
-      <div class="aspect-square rounded-xl bg-accent" />
-    </FadeIn>
-  ))}
-</div>
+Now, we can literally wrap anything in our app and get that subtle fade in animation.
 
 ### Additional things to consider
 
