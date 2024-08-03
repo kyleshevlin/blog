@@ -106,7 +106,21 @@ const { delay = 0 } = Astro.props
 </div>
 ```
 
-Now, we can literally wrap anything in our app and get that subtle fade in animation.
+Now, we can literally wrap anything in our app and get that subtle fade in animation. For example, the code for boxes at the top of this post looks like this:
+
+```astro
+<div class="grid grid-cols-3 gap-4">
+  {
+    [0, 1, 2].map(num => (
+      <FadeIn delay={num * 200}>
+        <div class="aspect-square rounded-xl bg-accent" />
+      </FadeIn>
+    ))
+  }
+</div>
+```
+
+It's not hard to imagine how you could replace the inner `div` with other components in your application.
 
 ### Additional things to consider
 
