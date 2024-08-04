@@ -74,6 +74,22 @@ const sanitizedTitle = sanitize(title)
         document.documentElement.classList.add(theme)
       }
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      is:inline
+      src="https://www.googletagmanager.com/gtag/js?id=G-KQXTXFPW3V"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+
+      function gtag() {
+        window.dataLayer.push(arguments)
+      }
+
+      gtag('js', new Date())
+      gtag('config', 'G-KQXTXFPW3V')
+    </script>
   </head>
 
   <body
