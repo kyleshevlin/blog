@@ -6,6 +6,7 @@ import '../styles/globals.css'
 import '../styles/fonts.css'
 import FootnoteDisplay from '../components/FootnoteDisplay.astro'
 import { sanitize } from '../utils'
+import Analytics from '../components/Analytics.astro'
 
 interface Props {
   /**
@@ -75,26 +76,22 @@ const sanitizedTitle = sanitize(title)
       }
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      is:inline
-      src="https://www.googletagmanager.com/gtag/js?id=G-KQXTXFPW3V"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || []
-
-      function gtag() {
-        window.dataLayer.push(arguments)
-      }
-
-      gtag('js', new Date())
-      gtag('config', 'G-KQXTXFPW3V')
-    </script>
+    <Analytics />
   </head>
 
   <body
     class="relative flex min-h-full flex-col bg-white leading-chill text-gray-900 dark:bg-gray-900 dark:text-gray-50"
   >
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5CXT8HV8"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div class="flex min-h-full grow flex-col">
       <Header />
 

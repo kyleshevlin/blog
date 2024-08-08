@@ -1,0 +1,53 @@
+---
+slug: 'shift-by'
+name: 'ShiftBy'
+description: 'A component for compositionally adjusting an element to pixel perfect alignment'
+category: 'Astro'
+---
+
+<Note>
+
+Credit where credit is due! I originally learned this technique from Josh W.
+Comeau. [His component snippet is a React component](https://www.joshwcomeau.com/snippets/react-components/shift-by/). Mine is an Astro
+component. I'm adding this simply to have code that I can copy/paste for _either_ framework in the future, via his site or mine.
+
+</Note>
+
+Sometimes, for one reason or another, an element in our UI might refuse to align properly. `ShiftBy` is a way to wrangle it into alignment.
+
+Simply wrap your component with a `ShiftBy` and make pixel adjustments, positively or negatively.
+
+```astro
+---
+type Props = {
+  /**
+   * Adjusts the children left and right.
+   * Negative values go left, positive values go right
+   */
+  x?: number
+  /**
+   * Adjusts the children up and down.
+   * Negative values go up, positive values go down
+   */
+  y?: number
+}
+
+const { x = 0, y = 0 } = Astro.props
+---
+
+<div style={`transform: translate(${x}px, ${y}px)`}>
+  <slot />
+</div>
+```
+
+And use it like so:
+
+```astro
+---
+import { Icon, ShiftBy } from '~/components'
+---
+
+<ShiftBy x={1} y={-3}>
+  <Icon name="search" />
+</ShiftBy>
+```

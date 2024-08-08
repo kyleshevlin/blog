@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from 'astro'
 import { getCollection, type CollectionEntry } from 'astro:content'
-import Standard from '../../layouts/Standard.astro'
 import Content from '../../components/Content.astro'
-import Prose from '../../components/Prose.astro'
 import PageHeading from '../../components/PageHeading.astro'
+import Prose from '../../components/Prose.astro'
+import Standard from '../../layouts/Standard.astro'
 import { toSlug } from '../../utils'
 
 export const getStaticPaths: GetStaticPaths = async () => {

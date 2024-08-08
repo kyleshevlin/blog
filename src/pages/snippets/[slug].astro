@@ -11,6 +11,7 @@ import Hr from '../../components/Hr.astro'
 import Image from '../../components/Image.astro'
 import Link from '../../components/Link.astro'
 import Marker from '../../components/Marker.astro'
+import Note from '../../components/Note.astro'
 import OffsetWrap from '../../components/OffsetWrap.astro'
 import PageHeading from '../../components/PageHeading.astro'
 import PostAuthor from '../../components/PostAuthor.astro'
@@ -18,9 +19,9 @@ import PostBeardStrokes from '../../components/PostBeardStrokes.astro'
 import PostH3 from '../../components/PostH3.astro'
 import PostH4 from '../../components/PostH4.astro'
 import Prose from '../../components/Prose.astro'
-import Standard from '../../layouts/Standard.astro'
 import TableSimple from '../../components/TableSimple.astro'
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro'
+import Standard from '../../layouts/Standard.astro'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const snippetEntries = await getCollection('snippets')
@@ -70,6 +71,7 @@ const formattedSlug = `snippets---${entry.slug}`
             hr: Hr,
             Image,
             Marker,
+            Note,
             OffsetWrap,
             TableSimple,
             YouTubeEmbed,
