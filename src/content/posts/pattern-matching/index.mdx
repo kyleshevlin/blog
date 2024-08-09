@@ -17,14 +17,14 @@ Before you go further, you should understand `switch` statements pretty well. If
 
 ### What is "pattern matching"?
 
-I first encountered "pattern matching" when I started to learn [ReasonML](https://reasonml.github.io/) a few years ago. In ReasonML, a strongly typed functional language, you have _variants_. A variant, is one type in a set of types. With ReasonML's `switch`, when we pass in a value, we can respond differently based on the variant of that value. <Marker content="That's right. We can switch on a type, don't even need a real value to return something." /> On their home page, they share this example:
+I first encountered "pattern matching" when I started to learn [ReasonML](https://reasonml.github.io/) a few years ago. In ReasonML, a strongly typed functional language, you have _variants_. A variant is a union type, but unlike TypeScript, we can have conditional logic based on the _type_ of value passed in, not just the value itself. This is a really powerful mechanism for handling conditional functionality in our programs.
+
+With ReasonML's `switch`, when we pass in a value, we look at the value's type and choose different logical paths accordingly. On their home page, they share this example:
 
 ```reason
-// Variants
 type schoolPerson = Teacher | Director | Student(string);
 
 let greeting = person =>
-  // Pattern matching switch
   switch (person) {
   | Teacher => "Hey Professor!"
   | Director => "Hello Director."
@@ -32,6 +32,23 @@ let greeting = person =>
   | Student(anyOtherName) => "Hey, " ++ anyOtherName ++ "."
   }
 ```
+
+<Note>
+
+The syntax highlighter I am using, [Shiki](https://shiki.style), doesn't currently support ReasonML. If you know where I can find a Textmate grammar for ReasonML, let me know and I'll make a pull request to the project. As a stopgap measure, here's the equivalent code written in OCaml, which is what the ReasonML syntax is based on.
+
+```ocaml
+type school_person = Teacher | Director | Student of string
+
+let greeting person =
+  match person with
+  | Teacher -> "Hey Professor!"
+  | Director -> "Hello Director."
+  | Student "Richard" -> "Still here Ricky?"
+  | Student any_other_name -> "Hey, " ^ any_other_name ^ "."
+```
+
+</Note>
 
 This mechanism quickly becomes the most robust way of doing conditional logic as you use the language. As you work with it, you get comfortable thinking in variants instead of thinking in `if/else`s or ternaries. But ReasonML's `switch` and JavaScript's `switch` are a bit different, so how can we recreate some of this magic in JavaScript?
 
@@ -144,3 +161,7 @@ If you want an idea to get started with, you might try to solve the "Gilded Rose
 There is a TC39 proposal to add pattern matching to JavaScript, but it's been stalled at Stage 1 for quite some time. You can find the [proposal repo here](https://github.com/tc39/proposal-pattern-matching).
 
 There is an interesting package called [`safety-match`](https://github.com/suchipi/safety-match) created by my Webflow coworker [@suchipi](https://twitter.com/suchipi). Check it out if you're interested in pattern matching with TypeScript.
+
+Another popular TypeScript package for pattern matching is [`ts-pattern`](https://github.com/gvergnaud/ts-pattern). It's highlighted feature is that it can be _exhuastive_, ensuring every possible type case is covered.
+
+**Update:** Years after writing this post, I decided to try and make a simple, type-safe pattern matching library of my own. I called it `kase`. It's not remarkably more useful than simply using `switch (true)`, but it was an interesting exercise that involved some TypeScript shenanigans with the "builder pattern". You can find it here: [https://github.com/kyleshevlin/kase](https://github.com/kyleshevlin/kase)
