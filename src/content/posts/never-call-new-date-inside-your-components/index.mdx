@@ -1,0 +1,46 @@
+---
+date: '2024-08-10T19:12:27.157Z'
+slug: 'never-call-new-date-inside-your-components'
+title: 'Never Call <code>new Date()</code> Inside Your Components'
+subtitle: null
+description: ''
+excerpt: null
+tags: ['React']
+relatedPostsSlugs: []
+---
+
+import { Form1 } from './_components.tsx'
+
+As I've gotten older, I've started talking more in preferences than absolutes, so that should indicate how strongly I feel about this.
+
+I have a simple React component, a form with a single input, that is rendered with today's date.
+
+```jsx
+// simplest way to take a new Date() to 'YYYY-MM-DD' format
+function formatDate(date: Date) {
+  return date.toISOString().split('T')[0]
+}
+
+function MyForm() {
+  const today = formatDate(new Date())
+  const [date, setDate] = React.useState(today)
+
+  return (
+    <input
+      type="date"
+      onChange={e => {
+        setDate(e.target.value)
+      }}
+      value={date}
+    />
+  )
+}
+```
+
+<Form1 client:load />
+
+How would I visually regression test this?
+
+Every time this component is built for visual regression, the date will change. If you've ever made a Storybook story with a component that called `new Date()` in it, you've felt this pain.
+
+The reason this happens is because `new Date()` is a _side effect_. We don't want to create side effects inside our functions. You get the same problem if you call something like `Math.random()` inside your function.
