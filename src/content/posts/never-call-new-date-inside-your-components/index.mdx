@@ -1,46 +1,196 @@
 ---
-date: '2024-08-10T19:12:27.157Z'
+date: '2024-08-20T19:12:27.157Z'
 slug: 'never-call-new-date-inside-your-components'
 title: 'Never Call <code>new Date()</code> Inside Your Components'
 subtitle: null
-description: ''
+description: 'Calling impure functions with side effects like <code>new Date()</code> or <code>Math.random()</code> is a disaster waiting to happen. Learn what to do instead.'
 excerpt: null
-tags: ['React']
+tags: ['React', 'JavaScript', 'TypeScript', 'Functional Programming']
 relatedPostsSlugs: []
 ---
 
-import { Form1 } from './_components.tsx'
+import { DiceRoll, Form1 } from './_components.tsx'
 
-As I've gotten older, I've started talking more in preferences than absolutes, so that should indicate how strongly I feel about this.
+As I've gotten older, I find myself arguing less often and discussing code more in terms of preferences than absolutes. That should indicate how strongly I feel about this.
 
-I have a simple React component, a form with a single input, that is rendered with today's date.
+I need our community as a whole to stop calling `new Date()` and other impure functions inside our components, especially when setting initial state. <Marker content="Yes, there are probably times where it is safe to do so, but you should have a really good understanding of pure and impure functions before you do." /> You're making life harder for yourself.
+
+I have a simple React component, a single date input that defaults to today's date.
 
 ```jsx
-// simplest way to take a new Date() to 'YYYY-MM-DD' format
+// A simple way to set a new Date() to 'YYYY-MM-DD' format
+// but use whatever method or lib you prefer
 function formatDate(date: Date) {
   return date.toISOString().split('T')[0]
 }
 
-function MyForm() {
+function MyDateInput() {
   const today = formatDate(new Date())
   const [date, setDate] = React.useState(today)
 
   return (
-    <input
-      type="date"
-      onChange={e => {
-        setDate(e.target.value)
-      }}
-      value={date}
-    />
+    <label>
+      <span>Date</span>
+
+      <input
+        type="date"
+        onChange={e => {
+          setDate(e.target.value)
+        }}
+        value={date}
+      />
+    </label>
   )
 }
 ```
 
+You can see it in action here:
+
 <Form1 client:load />
 
-How would I visually regression test this?
+Ask yourself a question: **How would you visually regression test this?**
 
-Every time this component is built for visual regression, the date will change. If you've ever made a Storybook story with a component that called `new Date()` in it, you've felt this pain.
+The answer is **you don't**. Not in its current state.
 
-The reason this happens is because `new Date()` is a _side effect_. We don't want to create side effects inside our functions. You get the same problem if you call something like `Math.random()` inside your function.
+Every time this component is first rendered for testing, the date will (potentially) be different. This is the definition of a flaky test. When I first arrived at one of my previous companies, they had a date input similar to this that they simply updated _every single time the Chromatic visual regression test ran_. It was extremely disappointing to see.
+
+The reason this changes should be obvious, but for the sake of providing all context possible, it happens because `new Date()` is an impure function. Every time we call it, we get a different response. That's essentially the opposite of what we want to have happen in a test. In a test, we want the same inputs to always produce the same outputs.
+
+Because we're calling an impure function in our component, our component itself has become impure. How do we fix this?
+
+By passing the impure function (or the result of the impure function) in as a prop instead.
+
+```jsx
+function MyDateInput({ today }) {
+  const [date, setDate] = React.useState(today)
+
+  return (
+    <label>
+      <span>Date</span>
+
+      <input
+        type="date"
+        onChange={e => {
+          setDate(e.target.value)
+        }}
+        value={date}
+      />
+    </label>
+  )
+}
+
+function MyForm() {
+  return (
+    <form>
+      <MyDate today={formatDate(new Date())} />
+    </form>
+  )
+}
+```
+
+Now, testing is dead simple, just pass any formatted date into it.
+
+```javascript
+test('MyDateInput', () => {
+  const result = render(<MyDateInput today="2024-08-20" />)
+  const input = result.getByLabelText('Date')
+
+  expect(input.value).toEqual('2024-08-20')
+})
+```
+
+**Note** that this allows us to pass in a _static_ date into a visual regression test, eliminating the issue of a new date being rendered each time we build the suite.
+
+### A step further
+
+I like to take this pattern a step further and use [default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters) in this situation. The most common use case of our input will be passing in `formatDate(new Date())`, so we should just bake it in for a better developer experience.
+
+```jsx
+function MyDateInput({ today = formatDate(new Date()) }) {
+  const [date, setDate] = React.useState(today)
+
+  return (
+    <label>
+      <span>Date</span>
+
+      <input
+        type="date"
+        onChange={e => {
+          setDate(e.target.value)
+        }}
+        value={date}
+      />
+    </label>
+  )
+}
+```
+
+Now, we have the best of both worlds. We have a component we can treat as a pure function by passing the `today` prop in, or we can make use of the default. I think of this as a form of [dependency injection](/dependency-injection-and-default-parameters) and have covered the topic before.
+
+### Let's make another example
+
+Another common impure function you might see in components (or functions in general) is `Math.random()`. For these instances, I like to use a `randomizer` argument, with `Math.random` set to the default. Consider a `DiceRoll` component.
+
+```jsx
+const rollDice = () => Math.ceil(Math.random() * 6)
+
+function DiceRoll() {
+  const [state, setState] = React.useState(rollDice())
+
+  const roll = () => {
+    setState(rollDice())
+  }
+
+  return (
+    <div>
+      <button onClick={roll}>Roll dice</button>
+      <Dice number={state} />
+    </div>
+  )
+}
+```
+
+Now, I've made this component with a bit of indirection, extracting the `rollDice` function, but our same principles apply. `rollDice` is an impure function because of `Math.random`, therefore `DiceRoll` is an impure component because of `rollDice`. Let's make both `rollDice` and our component pure functions with default parameters.
+
+```jsx
+const rollDice = (randomizer = Math.random) => Math.ceil(randomizer() * 6)
+
+function DiceRoll({ randomizer = Math.random }) {
+  const [state, setState] = React.useState(rollDice(randomizer))
+
+  const roll = () => {
+    setState(rollDice(randomizer))
+  }
+
+  return (
+    <div>
+      <button onClick={roll}>Roll dice</button>
+      <Dice number={state} />
+    </div>
+  )
+}
+```
+
+Now, we could easily write unit and integration tests for our functions.
+
+```javascript
+test('rollDice', () => {
+  // We do need to pass in a `randomizer` that returns values
+  // in the range of Math.random
+  expect(rollDice(() => 0.01)).toEqual(1)
+  expect(rollDice(() => 0.99)).toEqual(6)
+})
+
+test('DiceRoll', () => {
+  const result = render(<DiceRoll randomizer={() => 0.99} />)
+
+  // `getByText` or whatever way we need to check the value of the dice
+  expect(result.getByText(6)).toBeInTheDocument()
+})
+```
+
+<DiceRoll client:load />
+
+### Wrap up
+
+We don't want to set initial state with impure functions in our components. It makes testing difficult. Instead, pass in the impure function (or its result) as an argument/prop. This will will give us the ability to pass in a pure function as a substitute in a test.

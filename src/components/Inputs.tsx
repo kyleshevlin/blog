@@ -2,18 +2,18 @@ import React from 'react'
 
 type InputProps = {
   label: string
-  value: string | number
   onChange: React.ChangeEventHandler<HTMLInputElement>
   type?: HTMLInputElement['type']
+  value: string | number
   variant?: 'inline' | 'block'
   [key: string]: unknown
 }
 
 export function Input({
   label,
-  value,
   onChange,
   type = 'text',
+  value,
   variant = 'inline',
   ...rest
 }: InputProps) {
@@ -24,12 +24,12 @@ export function Input({
     >
       <span className="font-sans font-bold">{label}</span>
       <input
+        {...rest}
         className={`${type !== 'range' && 'px-2 py-1'} rounded bg-white font-serif text-black`}
         id={label}
+        onChange={onChange}
         type={type}
         value={value}
-        onChange={onChange}
-        {...rest}
       />
     </label>
   )
