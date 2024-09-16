@@ -1,0 +1,148 @@
+---
+name: 'React Native Layout components'
+description: 'Copy/pasteable layout components for React Native'
+category: 'React Native'
+---
+
+I kind of can't stand the pattern in React Native of all the styles at the bottom of the file. Especially since so many of them are repeated over and over and over. I much prefer to have something closer to the source, and if you're not using something like [Nativewind](https://nativewind.dev), here's a compositional approach.
+
+This is a `Flex` component with helper compositions of `Row` and `Stack`. Each of them also has a compound component accessed as `.Item` to quickly add Flex properties to children.
+
+```tsx
+import * as React from 'react'
+import { View, ViewStyle } from 'react-native'
+import { useSpacing } from './SpacingContext'
+
+export interface FlexProps {
+  align?: ViewStyle['alignItems']
+  children: React.ReactNode
+  direction?: ViewStyle['flexDirection']
+  gap?: ViewStyle['gap']
+  justify?: ViewStyle['justifyContent']
+  wrap?: ViewStyle['flexWrap']
+}
+
+export function Flex({
+  align: alignItems,
+  children,
+  direction = 'row',
+  gap,
+  justify: justifyContent,
+  wrap: flexWrap,
+}: FlexProps) {
+  /**
+   * Remove this code if you don't use the SpacingContext component
+   * described later in this article.
+   **/
+  const spacing = useSpacing()
+
+  if (gap) {
+    if (typeof gap === 'number') {
+      gap = spacing(gap)
+    }
+  }
+  /* End of SpacingContext dependent code */
+
+  return (
+    <View
+      style={{
+        alignItems,
+        display: 'flex',
+        flexDirection: direction,
+        flexWrap,
+        gap,
+        justifyContent,
+      }}
+    >
+      {children}
+    </View>
+  )
+}
+
+export function Row(props: Omit<FlexProps, 'direction'>) {
+  return <Flex {...props} direction="row" />
+}
+
+export function Stack(props: Omit<FlexProps, 'direction'>) {
+  return <Flex {...props} direction="column" />
+}
+
+export interface FlexItemProps {
+  align?: ViewStyle['alignSelf']
+  basis?: ViewStyle['flexBasis']
+  children: React.ReactNode
+  flex?: ViewStyle['flex']
+  grow?: ViewStyle['flexGrow']
+  shrink?: ViewStyle['flexShrink']
+}
+
+function FlexItem({
+  align: alignSelf,
+  basis: flexBasis,
+  children,
+  flex,
+  grow: flexGrow,
+  shrink: flexShrink,
+}: FlexItemProps) {
+  return (
+    <View
+      style={{
+        alignSelf,
+        flexBasis,
+        flex,
+        flexGrow,
+        flexShrink,
+      }}
+    >
+      {children}
+    </View>
+  )
+}
+
+Flex.Item = FlexItem
+Row.Item = FlexItem
+Stack.Item = FlexItem
+```
+
+### `SpacingContext`
+
+As you can see above, I utilize a `SpacingContext`. This allows me to "factorize" my spacing in my app, similar to how [ShevyJS](/shevyjs) works and Tailwind as well. Instead of providing an exact pixel value, you can provide `SpacingContext` with a "spacing function".
+
+For example, if you wanted to use a `4px` grid like Tailwind, you could give it: `(value = 0) => value * 4`. Then supplying `<Flex gap={1}>` results in `4px` gaps between your items.
+
+```tsx
+import * as React from 'react'
+
+function identity<T>(x: T) {
+  return x
+}
+
+export type SpacingValue = number | undefined
+export type SpacingFunction = (value: SpacingValue) => SpacingValue
+
+const SpacingContext = React.createContext<SpacingFunction>(identity)
+
+export interface SpacingProviderProps {
+  children: React.ReactNode
+  spacing: SpacingFunction
+}
+
+export function SpacingProvider({
+  children,
+  spacing = identity,
+}: SpacingProviderProps) {
+  return (
+    <SpacingContext.Provider value={spacing}>
+      {children}
+    </SpacingContext.Provider>
+  )
+}
+
+export const useSpacing = () => React.useContext(SpacingContext)
+```
+
+### Why?
+
+I've written several posts on this, so I won't go into it at length, but simply put, composition leads to speed and consistency. It's much faster to reuse layout components over and over than to write `flex: 1` yet again in a `styles` object.
+
+You also gain some semantic clarity. Instead of yet another `View`, you get `Row` or `Stack` that adds some context to your code.
