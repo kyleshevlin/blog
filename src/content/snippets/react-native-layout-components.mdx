@@ -17,6 +17,7 @@ export interface FlexProps {
   align?: ViewStyle['alignItems']
   children: React.ReactNode
   direction?: ViewStyle['flexDirection']
+  flex?: ViewStyle['flex']
   gap?: ViewStyle['gap']
   justify?: ViewStyle['justifyContent']
   wrap?: ViewStyle['flexWrap']
@@ -26,6 +27,7 @@ export function Flex({
   align: alignItems,
   children,
   direction: flexDirection,
+  flex,
   gap,
   justify: justifyContent,
   wrap: flexWrap,
@@ -48,6 +50,7 @@ export function Flex({
       style={{
         alignItems,
         display: 'flex',
+        flex,
         flexDirection,
         flexWrap,
         gap,
