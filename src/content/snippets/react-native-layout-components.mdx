@@ -25,7 +25,7 @@ export interface FlexProps {
 export function Flex({
   align: alignItems,
   children,
-  direction = 'row',
+  direction: flexDirection,
   gap,
   justify: justifyContent,
   wrap: flexWrap,
@@ -48,7 +48,7 @@ export function Flex({
       style={{
         alignItems,
         display: 'flex',
-        flexDirection: direction,
+        flexDirection,
         flexWrap,
         gap,
         justifyContent,
@@ -102,6 +102,32 @@ function FlexItem({
 Flex.Item = FlexItem
 Row.Item = FlexItem
 Stack.Item = FlexItem
+```
+
+### Example
+
+```tsx
+function MyCard({ title, onCancel, onSave }) {
+  return (
+    <Stack gap={4}>
+      <Heading>{title}</Heading>
+
+      <Row align="center" gap={4}>
+        <Row.Item flex={1}>
+          <Button onPress={onCancel} variant="text">
+            Cancel
+          </Button>
+        </Row.Item>
+
+        <Row.Item flex={1}>
+          <Button onPress={onCancel} variant="primary">
+            Cancel
+          </Button>
+        </Row.Item>
+      </Row>
+    </Stack>
+  )
+}
 ```
 
 ### `SpacingContext`
