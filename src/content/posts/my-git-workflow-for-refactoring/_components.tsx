@@ -36,9 +36,10 @@ export function ExampleButton({
 }
 
 /** WE CHANGED THIS ONE BELOW IF YOU'RE LOOKING AT THIS ON GITHUB */
-type Variant = 'primary' | 'secondary'
+type Variant = 'danger' | 'primary' | 'secondary'
 
 const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
+  danger: { backgroundColor: 'red', color: 'white' },
   primary: PRIMARY_STYLES,
   secondary: SECONDARY_STYLES,
 }
