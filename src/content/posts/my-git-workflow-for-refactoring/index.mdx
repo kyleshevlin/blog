@@ -3,9 +3,9 @@ date: '2024-09-29T16:34:56.407Z'
 slug: 'my-git-workflow-for-refactoring'
 title: 'My <code>git</code> Workflow for Refactoring'
 subtitle: null
-description: ''
+description: 'Refactoring is a key part of my development process. Let me show you the <code>git</code> workflow I use to make refactoring a simple part of my feature building process.'
 excerpt: null
-tags: []
+tags: ['Git', 'Software Engineering', 'Productivity']
 relatedPostsSlugs: []
 ---
 
@@ -112,7 +112,7 @@ Assuming we have tests ready to go in our `main` branch, we'll start by creating
 git checkout -b refactor-button
 ```
 
-Now that we're on new branch, we can make our changes. Adding a `danger` variant will be very cumbersome if we have to deal with booleans. [Booleans are a poor choice for representing finite states]() and could lead to weird situations that leak implementation details.
+Now that we're on new branch, we can make our changes. Adding a `danger` variant will be very cumbersome if we have to deal with booleans. [Booleans are a poor choice for representing finite states](/multiple-boolean-props-are-a-code-smell) and could lead to weird situations that leak implementation details.
 
 A better choice than an `isSecondary` prop, is a `variant` prop that takes a string. We'll use TypeScript to define this string as a union of our variants, like so:
 
