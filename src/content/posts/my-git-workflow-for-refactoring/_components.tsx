@@ -1,3 +1,5 @@
+import React from 'react'
+
 type Props = {
   children: React.ReactNode
   onClick?: () => void
@@ -21,6 +23,37 @@ export function ExampleButton({
   type = 'button',
 }: Props) {
   const variantStyles = isSecondary ? SECONDARY_STYLES : PRIMARY_STYLES
+
+  return (
+    <button
+      onClick={onClick}
+      style={{ ...SHARED_STYLES, ...variantStyles }}
+      type={type}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** WE CHANGED THIS ONE BELOW IF YOU'RE LOOKING AT THIS ON GITHUB */
+type Variant = 'primary' | 'secondary'
+
+const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
+  primary: PRIMARY_STYLES,
+  secondary: SECONDARY_STYLES,
+}
+
+type PropsWithVariant = Pick<Props, 'children' | 'onClick' | 'type'> & {
+  variant?: Variant
+}
+
+export function ExampleButtonWithVariant({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'primary',
+}: PropsWithVariant) {
+  const variantStyles = VARIANT_TO_STYLES[variant]
 
   return (
     <button
