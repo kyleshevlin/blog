@@ -8,41 +8,47 @@ interface Props {
 }
 
 const { post } = Astro.props
+const { slug, data } = post
+const { title, subtitle, excerpt, description, tags } = data
 ---
 
 <article class="flex flex-col gap-8">
   <div class="flex flex-col gap-4">
     <a
       class="flex flex-col gap-2 font-sans text-3xl text-inherit transition-all hover:text-accent"
-      href={`/${post.slug}`}
+      href={`/${slug}`}
     >
-      <div class="leading-none" set:html={post.data.title} />
+      <div class="leading-none" set:html={title} />
       {
-        post.data.subtitle && (
+        subtitle && (
           <div class="text-lg font-bold">
-            <span set:html={post.data.subtitle} />
+            <span set:html={subtitle} />
           </div>
         )
       }
     </a>
 
-    <PostBeardStrokes slug={post.slug} />
+    <PostBeardStrokes slug={slug} />
 
-    <div set:html={post.data.excerpt || post.data.description} />
+    <div set:html={excerpt || description} />
   </div>
 
   <div class="flex items-baseline gap-4 md:gap-8">
     <div class="shrink-0">
       <a
         class="inline-block rounded bg-accent px-4 py-2 font-sans text-sm leading-none text-white shadow-md transition-colors hover:bg-accent-dark"
-        href={`/${post.slug}`}
+        href={`/${slug}`}
       >
         Read more
       </a>
     </div>
 
-    <div class="min-w-0 shrink grow">
-      {(post.data.tags ?? []).length > 0 && <PostTags tags={post.data.tags} />}
-    </div>
+    {
+      tags && tags.length > 0 && (
+        <div class="min-w-0 shrink grow">
+          <PostTags tags={tags} />
+        </div>
+      )
+    }
   </div>
 </article>
