@@ -30,3 +30,13 @@
     @apply my-2;
   }
 }
+
+@layer utilities {
+  .row {
+    @apply flex flex-row;
+  }
+
+  .stack {
+    @apply flex flex-col;
+  }
+}

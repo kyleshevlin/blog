@@ -1,0 +1,207 @@
+---
+date: '2024-09-29T16:34:56.407Z'
+slug: 'my-git-workflow-for-refactoring'
+title: 'My <code>git</code> Workflow for Refactoring'
+subtitle: null
+description: ''
+excerpt: null
+tags: []
+relatedPostsSlugs: []
+---
+
+import { ExampleButton } from './_components'
+
+If you've followed me for any significant amount of time, then you might know that [Refactoring by Martin Fowler](https://martinfowler.com/books/refactoring.html) is the most influential book on writing software I have ever read. It fundamentally changed my approach towards writing code.
+
+One particular way the book influenced me led to a change in my `git` workflow. Adopting this strategy made it easier for me to refactor code, build upon that change, and get it reviewed quicker than ever. If you work in an organization that uses pull requests and code reviews, I believe this workflow will help you do the same.
+
+The gist of my workflow is this:
+
+- Make a branch for only the refactoring work, submit the PR
+- Then, make a branch _off of the refactoring branch, not `main`_ for your feature work, and _set the base to the refactoring branch_ when you submit the PR
+
+### Some groundwork first
+
+Before we get into the finer details of this workflow, I want to provide a little more context as to why I think it's a good idea to make changes this way.
+
+First, I think it's a really bad habit to refactor _and_ make changes in the same pull request. This practice is extremely common, but it comes with some major downsides:
+
+- It's not really a refactor, by definition <Marker content="The definition of a refactor requires that the functionality of the program <em>doesn't</em> change. Thus, adding changes to the same PR breaks this definition. You've really just made two changes, which goes to my next point." />
+- It's harder to differentiate between what was refactored vs. what was added, what was necessary to change and what wasn't
+- It creates large PRs, which are more likely to be "rubber stamped" and therefore, more error prone <Marker content="I realize for some devs this is a <em>feature</em>. Creating big PRs to might make it easier to get PR approval due to human laxity, but that doesn't make it right." />
+
+Second, I recognize that many organizations' processes are designed to incentivize large PRs. Anything from compliance requiring separate tickets for every change (so you just stuff it all into one ticket), to the overwhelming pressure to pump out features. I understand there are factors working against you sometimes. My hope is that this strategy fits in that system, as it has for me.
+
+So without further ado, let's break this bad habit and explore this workflow now.
+
+### Our example
+
+I figured it would be best to work through an example to demonstrate the process. Our codebase has a rudimentary `Button` component. It currently has two implicit variants, a `primary` and `secondary` style. Let's look at how it was implemented.
+
+```tsx
+const SHARED_STYLES = {
+  borderRadius: 9999,
+  fontFamily: 'sans-serif',
+  padding: '0.35em 1em',
+}
+
+const PRIMARY_STYLES = { backgroundColor: 'blue', color: 'white' }
+const SECONDARY_STYLES = { backgroundColor: 'lightGray', color: 'black' }
+
+type Props = {
+  children: React.ReactNode
+  onClick: () => void
+  isSecondary?: boolean
+  type?: 'button' | 'submit' | 'reset'
+}
+
+function Button({
+  children,
+  onClick,
+  isSecondary = false,
+  type = 'button',
+}: Props) {
+  const variantStyles = isSecondary ? SECONDARY_STYLES : PRIMARY_STYLES
+
+  return (
+    <button
+      onClick={onClick}
+      style={{ ...SHARED_STYLES, ...variantStyles }}
+      type={type}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+We can use our `Button` component like so:
+
+```tsx
+<Button onClick={() => {}}>Primary Button</Button>
+<Button onClick={() => {}} isSecondary>Secondary Button</Button>
+```
+
+And it looks like:
+
+<OffsetWrap>
+  <div class="row justify-center gap-4">
+    <ExampleButton client:load>Primary button</ExampleButton>
+    <ExampleButton client:load isSecondary>
+      Secondary button
+    </ExampleButton>
+  </div>
+</OffsetWrap>
+
+Now that we know our starting point, let's consider our task. We need to add a third variant, the `danger` button, without regressions. **How should we do this?**
+
+### Step 0: Write some tests
+
+In the [Refactoring book](https://martinfowler.com/books/refactoring.html), Fowler makes it clear that a proper refactor changes the organization and structure of the code without changing its functionality. In order to verify that no functionality has changed, we need tests in place that can assert the correct behavior.
+
+In the case of our buttons, we'd have functional tests ensuring the button worked when clicked, or didn't when disabled, etc. We'd also be well served to have visual regression tests, perhaps with something like [Storybook](https://storybook.js.org/). So before we go refactoring, make sure you can verify that everything works exactly as it did before.
+
+If you do need to write some tests, I recommend making this PR first. You can then build your refactor branch off of the testing branch, similar to how we're going to make our feature branch off of our refactoring branch later on.
+
+### Step 1: Refactor
+
+Assuming we have tests ready to go in our `main` branch, we'll start by creating a branch off of `main` for our refactor:
+
+```
+git checkout -b refactor-button
+```
+
+Now that we're on new branch, we can make our changes. Adding a `danger` variant will be very cumbersome if we have to deal with booleans. [Booleans are a poor choice for representing finite states]() and could lead to weird situations that leak implementation details.
+
+A better choice than an `isSecondary` prop, is a `variant` prop that takes a string. We'll use TypeScript to define this string as a union of our variants, like so:
+
+```tsx
+type Variant = 'primary' | 'secondary'
+
+type Props = {
+  children: React.ReactNode
+  onClick: () => void
+  type?: 'button' | 'submit' | 'reset'
+  variant?: Variant
+}
+```
+
+Now that we've added `Variant` to our types, we can make objects that use `Variant` as a key to create maps for our styles, like so:
+
+```tsx
+const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
+  primary: { backgroundColor: 'blue', color: 'white' },
+  secondary: { backgroundColor: 'lightGray', color: 'black' },
+}
+```
+
+And we can now use that map in our component:
+
+```tsx
+function Button({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'primary',
+}: Props) {
+  const variantStyles = VARIANT_TO_STYLES[variant]
+
+  return (
+    <button
+      onClick={onClick}
+      style={{ ...SHARED_STYLES, ...variantStyles }}
+      type={type}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+From this point, we can `git add` our changes and `commit` them.
+
+```
+git add .
+git commit -m "refactor button with variants"
+git push origin refactor-button
+```
+
+After pushing our branch to remote, we can make a PR for our changes.
+
+### Step 2: Adding our `danger` variant
+
+Before we make our additional changes, we're going to make a new branch _off of our refactoring branch_. So ensuring we are currently on the `refactor-button` branch, we can then make our new on:
+
+```
+git checkout -b update-button-with-danger-variant
+```
+
+Our work is fairly straightforward from here. We'll add `'danger'` to our `Variant` type:
+
+```tsx
+type Variant = 'danger' | 'primary' | 'secondary'
+```
+
+We'll add `danger` styles to our style map:
+
+```tsx
+const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
+  danger: { backgroundColor: 'red', color: 'white' },
+  primary: { backgroundColor: 'blue', color: 'white' },
+  secondary: { backgroundColor: 'lightGray', color: 'black' },
+}
+```
+
+And we're done! That's literally all we have to do to add our new variant.
+
+From here, we can `add`, `commit` and `push` our changes:
+
+```
+git add .
+git commit -m "add danger variant to button"
+git push origin update-button-with-danger-variant
+```
+
+Up to now, all of this work has been the same, but we need to make a key change with our PR. We need to change the base from the `main` branch to our `refactor-button` branch. Take a look at the "Files Changed" tab when we do. Notice, only the changes we've made _since the refactor_ are there.
+
+If we had kept the `main` branch as base, then we'd see changes from both the refactoring and our `danger` addition. This makes sense because we made our updates on a branch that was made from the `refactor-button` branch. But by changing the base, we're able to only see the diff between the `refactor-button` branch and our current branch. We've shrunk the `git diff` considerably, and hopefully shrunk the time to review each PR considerably, too.

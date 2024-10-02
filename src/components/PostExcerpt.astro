@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import PostTags from './PostTags.astro'
 import PostBeardStrokes from './PostBeardStrokes.astro'
+import PostTags from './PostTags.astro'
 
 interface Props {
   post: CollectionEntry<'posts'>
@@ -42,7 +42,7 @@ const { post } = Astro.props
     </div>
 
     <div class="min-w-0 shrink grow">
-      {post.data.tags?.length && <PostTags tags={post.data.tags} />}
+      {(post.data.tags ?? []).length > 0 && <PostTags tags={post.data.tags} />}
     </div>
   </div>
 </article>
