@@ -9,6 +9,7 @@ tags: []
 relatedPostsSlugs: []
 ---
 
+import Image from '../../../components/Image.astro'
 import { ExampleButton } from './_components'
 
 If you've followed me for any significant amount of time, then you might know that [Refactoring by Martin Fowler](https://martinfowler.com/books/refactoring.html) is the most influential book on writing software I have ever read. It fundamentally changed my approach towards writing code.
@@ -202,6 +203,16 @@ git commit -m "add danger variant to button"
 git push origin update-button-with-danger-variant
 ```
 
-Up to now, all of this work has been the same, but we need to make a key change with our PR. We need to change the base from the `main` branch to our `refactor-button` branch. Take a look at the "Files Changed" tab when we do. Notice, only the changes we've made _since the refactor_ are there.
+Up to now, all of this work has been the same, but we need to make a key change with our PR. We need to change the base from the `main` branch to our `refactor-button` branch.
+
+<div class="my-8">
+  <Image
+    src="/images/changing-base-for-pr.jpg"
+    alt="The Github PR interface with a circle and arrow pointing to the dropdown you would use to change the base for a PR."
+    caption="Change the base to your refactoring branch"
+  />
+</div>
+
+Take a look at the "Files Changed" tab when we do. Notice, only the changes we've made _since the refactor_ are there.
 
 If we had kept the `main` branch as base, then we'd see changes from both the refactoring and our `danger` addition. This makes sense because we made our updates on a branch that was made from the `refactor-button` branch. But by changing the base, we're able to only see the diff between the `refactor-button` branch and our current branch. We've shrunk the `git diff` considerably, and hopefully shrunk the time to review each PR considerably, too.
