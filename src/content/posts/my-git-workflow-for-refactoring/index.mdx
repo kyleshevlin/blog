@@ -10,7 +10,7 @@ relatedPostsSlugs: []
 ---
 
 import Image from '../../../components/Image.astro'
-import { ExampleButton } from './_components'
+import { ExampleButton, ExampleButtonWithVariant } from './_components'
 
 If you've followed me for any significant amount of time, then you might know that [Refactoring by Martin Fowler](https://martinfowler.com/books/refactoring.html) is the most influential book on writing software I have ever read. It fundamentally changed my approach towards writing code.
 
@@ -195,6 +195,18 @@ const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
 
 And we're done! That's literally all we have to do to add our new variant.
 
+<OffsetWrap>
+  <div class="row justify-center gap-4">
+    <ExampleButtonWithVariant>Primary button</ExampleButtonWithVariant>
+    <ExampleButtonWithVariant variant="secondary">
+      Secondary button
+    </ExampleButtonWithVariant>
+    <ExampleButtonWithVariant variant="danger">
+      Danger button
+    </ExampleButtonWithVariant>
+  </div>
+</OffsetWrap>
+
 From here, we can `add`, `commit` and `push` our changes:
 
 ```
@@ -207,7 +219,7 @@ Up to now, all of this work has been the same, but we need to make a key change 
 
 <div class="my-8">
   <Image
-    src="/images/changing-base-for-pr.jpg"
+    src="/images/git-workflow/changing-base-for-pr.jpg"
     alt="The Github PR interface with a circle and arrow pointing to the dropdown you would use to change the base for a PR."
     caption="Change the base to your refactoring branch"
   />
@@ -215,4 +227,40 @@ Up to now, all of this work has been the same, but we need to make a key change 
 
 Take a look at the "Files Changed" tab when we do. Notice, only the changes we've made _since the refactor_ are there.
 
+<div class="my-8">
+  <Image
+    src="/images/git-workflow/git-diff.jpg"
+    alt="The git diff in the PR of our addition"
+    caption="Notice the small diff because we changed the base"
+  />
+</div>
+
 If we had kept the `main` branch as base, then we'd see changes from both the refactoring and our `danger` addition. This makes sense because we made our updates on a branch that was made from the `refactor-button` branch. But by changing the base, we're able to only see the diff between the `refactor-button` branch and our current branch. We've shrunk the `git diff` considerably, and hopefully shrunk the time to review each PR considerably, too.
+
+I should be clear, if there are any tests we need to add for our new feature, we should add them now as well.
+
+### Step 3: Review & Merge
+
+At this point, we've submitted two PRs, which may seem like twice the work for code reviewers, but I would say it's actually less than the amount of work of a single PR.
+
+If both of these changes were in a single PR, you'd have to verify that both the refactor was done correctly, and that the addition worked correctly. There's additional work of review buried in this integration.
+
+When we split them into 2 PRs, they become simple verifications. The refactoring PR simply asks us to verify the tests continue to pass. If they do, then we're ok (assuming the quality of the tests).
+
+The second PR simply asks if we've implemented the new feature. It would be easy to spot if we made an unrelated or additional changes at this stage that need to be addressed.
+
+In the review process, you may realize that there are updates you need to make to the refactoring branch. This is not a problem. Checkout your refactoring branch, make your changes, commit and push. Once you've done that, you can switch to your feature branch, and `git rebase` the refactoring branch on to it. This will move the commits of your feature branch to after the commits of the refactoring branch, maintaining the correct history. You can fix any conflicts that arise here, though they should be relatively small and few.
+
+Once your PRs have been reviewed, merge the refactoring branch first. This will automatically update the base of your feature branch back to `main`, allowing you to easily merge that branch in as well.
+
+### Summary
+
+Refactoring is a part of writing quality code, and while our processes might not make it as easy to do as we like, there are strategies we can take to make them as easy on ourselves and others to review.
+
+If we can build the habit of making our refactoring PR first, and building our feature on top of that branch, we can start to make code changes and reviews easier for everyone we work with.
+
+I hope you find this `git` workflow useful. Let me know if you or your team starts to adopt something like this.
+
+### Additional resources
+
+While I believe they have recently changed their product offering a bit, their is a tool out there that can do a lot of this automatically for you. It's called [Graphite](https://graphite.dev/) and I encourage you to check it out. I'm not the most persuasive person, so I've never tried to convince a team to try it, but I think it could be very useful to a team willing to adopt it.
