@@ -197,11 +197,13 @@ And we're done! That's literally all we have to do to add our new variant.
 
 <OffsetWrap>
   <div class="row justify-center gap-4">
-    <ExampleButtonWithVariant>Primary button</ExampleButtonWithVariant>
-    <ExampleButtonWithVariant variant="secondary">
+    <ExampleButtonWithVariant client:load>
+      Primary button
+    </ExampleButtonWithVariant>
+    <ExampleButtonWithVariant client:load variant="secondary">
       Secondary button
     </ExampleButtonWithVariant>
-    <ExampleButtonWithVariant variant="danger">
+    <ExampleButtonWithVariant client:load variant="danger">
       Danger button
     </ExampleButtonWithVariant>
   </div>
