@@ -86,7 +86,7 @@ We can use our `Button` component like so:
 And it looks like:
 
 <OffsetWrap>
-  <div class="row justify-center gap-4">
+  <div class="stack sm:row gap-4 sm:justify-center">
     <ExampleButton client:load>Primary button</ExampleButton>
     <ExampleButton client:load isSecondary>
       Secondary button
@@ -196,7 +196,7 @@ const VARIANT_TO_STYLES: Record<Variant, React.CSSProperties> = {
 And we're done! That's literally all we have to do to add our new variant.
 
 <OffsetWrap>
-  <div class="row justify-center gap-4">
+  <div class="stack md:row gap-4 md:justify-center">
     <ExampleButtonWithVariant client:load>
       Primary button
     </ExampleButtonWithVariant>
