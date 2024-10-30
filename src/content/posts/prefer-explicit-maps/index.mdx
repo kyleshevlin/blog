@@ -1,0 +1,148 @@
+---
+date: '2024-10-30T16:19:36.572Z'
+slug: 'prefer-explicit-maps'
+title: 'Prefer Explicit Maps'
+subtitle: null
+description: "Sometimes we write unnecessary complexity without realizing it. Let's see how we often do this with ternaries and learn how using a map will remove complexity and improve maintainability."
+excerpt: null
+tags: ['TypeScript', 'JavaScript']
+relatedPostsSlugs:
+  ['enumerate-dont-booleanate', 'managing-cyclomatic-complexity']
+---
+
+This tip is a bit of a weird one. I genuinely don't think others will like it, but I hope you'll hear me out. At the very least, it might make you think a bit.
+
+I'm a big fan of [enumerated states](/enumerate-dont-booleanate). In TypeScript, a great way to represent this is a union of strings. Let's start with a basic one.
+
+```typescript
+type Theme = 'light' | 'dark'
+```
+
+It might be tempting to make this a boolean, given that there are only two states, but bear with me.
+
+Now, let's make a `ThemeContext` we could use throughout our app.
+
+```tsx
+const ThemeContext = React.createContext<Theme>('light')
+
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = React.useState<Theme>('light')
+
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+}
+```
+
+So far, so good. Now, let's add a `toggleTheme` function to the context and export that. We'll need to make some adjustments.
+
+```tsx
+type ThemeContextValue = {
+  theme: Theme
+  toggleTheme: () => void
+}
+
+// ...
+
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // ...
+
+  const toggleTheme = React.useCallback(() => {
+    // Here's the line to pay attention to
+    setTheme(currentTheme === 'light' ? 'dark' : 'light')
+  })
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+```
+
+Do you see this line?
+
+```typescript
+setTheme(currentTheme === 'light' ? 'dark' : 'light')
+```
+
+To use the parlance of the kids, I lowkey hate this line.
+
+I'm not opposed to ternaries, but not all ternaries are the same. Some ternaries represent legitimate binary choices: `if` this, `else` that. But some ternaries are really "implicit maps".
+
+A "map" is a data structure that pairs keys to values with a one-to-one relationship. This `key` always gives me this `value`. For example, we could create a `THEME_LABEL_MAP` if we needed to associate strings with our themes, like so:
+
+```typescript
+const THEME_LABEL_MAP: Record<Theme, string> = {
+  dark: 'Dark',
+  light: 'Light',
+}
+```
+
+You can see we've established a one-to-one relationship between the key, a `Theme`, and a string. Our ternary from above does this, too, but not explicitly. If you squint hard enough, you can maybe see the `NEXT_THEME` map hidden in there. <Marker content="Astute readers might realize that we've created the world's smallest cyclical graph with <code>NEXT_THEME</code>, and I just think that's fun." />
+
+```typescript
+const NEXT_THEME: Record<Theme, Theme> = {
+  dark: 'light',
+  light: 'dark',
+}
+```
+
+And this is actually how I prefer to write this code. Now our `toggleTheme` function will look a bit different:
+
+```typescript
+const toggleTheme = () => {
+  setTheme(currentTheme => NEXT_THEME[currentTheme])
+}
+```
+
+Doesn't that read nicely? Our map is practically a function, it's so elegant.
+
+**"But why, Kyle? This seems like overkill!"**
+
+Maybe it is. But let's say I had to add a third `Theme`: `high-contrast`. What does our ternary look like then?
+
+```typescript
+const toggleTheme = () => {
+  setTheme(currentTheme =>
+    currentTheme === 'light'
+      ? 'dark'
+      : currentTheme === 'dark'
+        ? 'high-contrast'
+        : 'light',
+  )
+}
+```
+
+I mean, to be fair, we could probably ditch the ternary and make it a bit nicer:
+
+```typescript
+const toggleTheme = () => {
+  setTheme(currentTheme => {
+    if (currentTheme === 'light') return 'dark'
+    if (currentTheme === 'dark') return 'high-contrast'
+    return 'light'
+  })
+}
+```
+
+But why go through all of that, when we could just update the map?
+
+```typescript
+const NEXT_THEME: Record<Theme, Theme> = {
+  dark: 'high-contrast',
+  'high-contrast': 'light',
+  light: 'dark',
+}
+```
+
+Our `toggleTheme` function doesn't have to change at all. `NEXT_THEME[currentTheme]` just keeps working. <Marker content="Although, perhaps it should be called <code>cycleTheme</code> to be more accurate." /> **Bonus points**: we didn't change the [cyclomatic complexity](/managing-cyclomatic-complexity) of our code at all either.
+
+If we learn to pay attention, we can start to recognize situations where using an explicit map might be a simpler way for us to write and maintain our code.
+
+### Key takeaways
+
+- Consider when enumerating states might serve you better than a boolean
+- Consider using explicit maps to reduce complexity and improve maintainability
+
+### "Why didn't you use `new Map()`?"
+
+Just to address anyone who might ask this: Yes, we could use `new Map()` to create "real" maps. However, I find the most compelling reason to use a `Map` is if you need to use something other than a string for a `key`s. Given that we were using strings for `key`s, I think its more appropriate and simple to just use an object literal.
