@@ -1,0 +1,28 @@
+---
+import Content from '../components/Content.astro'
+import Link from '../components/Link.astro'
+import PageHeading from '../components/PageHeading.astro'
+import Prose from '../components/Prose.astro'
+import Standard from '../layouts/Standard.astro'
+---
+
+<Standard title="Contact | Kyle Shevlin">
+  <Content>
+    <Prose>
+      <PageHeading>Contact</PageHeading>
+
+      <p>
+        If you need to get in touch with me, you can find me on <Link
+          href="https://bsky.app/profile/kyleshevlin.com"
+          external
+        >
+          {'BlueSky'}
+        </Link>,
+        <Link href="https://www.linkedin.com/in/kyleshevlin/" external>
+          {'LinkedIn'}
+        </Link>, or you can email me at
+        <Link href="mailto:kyle@kyleshevlin.com">kyle@kyleshevlin.com</Link>.
+      </p>
+    </Prose>
+  </Content>
+</Standard>

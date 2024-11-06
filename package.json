@@ -37,7 +37,7 @@
     "@astrojs/mdx": "^2.0.4",
     "@astrojs/react": "^3.0.9",
     "@astrojs/rss": "^4.0.2",
-    "@astrojs/sitemap": "^3.0.4",
+    "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.0",
     "@kyleshevlin/layout": "^0.6.0",
     "@nanostores/react": "^0.7.1",

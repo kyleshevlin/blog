@@ -1,13 +1,17 @@
 ---
+import BlueSky from '../icons/BlueSky.astro'
+import Github from '../icons/Github.astro'
+import Rss from '../icons/Rss.astro'
 import Container from './Container.astro'
 import Contributors from './Contributors.astro'
 import Copyright from './Copyright.astro'
-import Github from '../icons/Github.astro'
-import Twitter from '../icons/Twitter.astro'
-import Rss from '../icons/Rss.astro'
 
 const LINKS = [
-  { href: 'https://twitter.com/kyleshevlin', icon: Twitter, title: 'Twitter' },
+  {
+    href: 'https://bsky.app/profile/kyleshevlin.com',
+    icon: BlueSky,
+    title: 'BlueSky',
+  },
   { href: 'https://github.com/kyleshevlin', icon: Github, title: 'Github' },
   { href: 'https://kyleshevlin.com/rss.xml', icon: Rss, title: 'RSS Feed' },
 ]
