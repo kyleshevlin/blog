@@ -36,7 +36,15 @@
     @apply flex flex-row;
   }
 
+  .row-reverse {
+    @apply flex flex-row-reverse;
+  }
+
   .stack {
     @apply flex flex-col;
+  }
+
+  .stack-reverse {
+    @apply flex flex-col-reverse;
   }
 }

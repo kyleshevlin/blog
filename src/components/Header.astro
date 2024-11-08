@@ -6,15 +6,17 @@ import ThemeToggle from './ThemeToggle.astro'
 
 <header class="py-4">
   <Container>
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <a class="font-sans" href="/">
-        <h1 class="text-4xl">Kyle Shevlin</h1>
-        <div>Software Engineer</div>
-      </a>
+    <div class="stack gap-4">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <a class="font-sans" href="/">
+          <h1 class="text-4xl">Kyle Shevlin</h1>
+          <div>Software Engineer</div>
+        </a>
 
-      <ThemeToggle />
+        <ThemeToggle />
+      </div>
+
+      <Nav />
     </div>
-
-    <Nav />
   </Container>
 </header>
