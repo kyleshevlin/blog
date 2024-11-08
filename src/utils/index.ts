@@ -100,3 +100,7 @@ export function sanitize(str: string) {
     .replaceAll('&rdquo;', '"')
     .replaceAll('&amp;', '&')
 }
+
+export function inflect(singular: string, plural = `${singular}s`) {
+  return (count: number) => (count === 1 ? singular : plural)
+}
