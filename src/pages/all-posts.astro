@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
+import { AllPostsList } from '../components/AllPostsList'
 import Content from '../components/Content.astro'
 import PageHeading from '../components/PageHeading.astro'
-import Standard from '../layouts/Standard.astro'
 import Prose from '../components/Prose.astro'
-import Tag from '../icons/Tag.astro'
+import Standard from '../layouts/Standard.astro'
 import { byEntryDate } from '../utils'
 
 const posts = await getCollection('posts')
@@ -17,42 +17,11 @@ const byDate = posts.toSorted(byEntryDate)
       <PageHeading>All Posts</PageHeading>
 
       <p>
-        Here is a list of the title, subtitle, and tags of all of my posts. Use
-        a good old fashioned "find" in your browser (cmd+f or ctrl+f) to search
-        for keywords.
+        Here is a list of all of my posts. Use the input below to filter posts
+        by title, subtitle, description, or tags.
       </p>
 
-      <div class="-ml-4 flex flex-col">
-        {
-          byDate.map(post => {
-            const { subtitle, title } = post.data
-
-            return (
-              <a
-                class="block p-4 hover:bg-gray-100 dark:hover:bg-gray-800"
-                href={`/${post.slug}`}
-              >
-                <div class="font-sans text-accent">
-                  <div class="text-2xl" set:html={title} />
-                  <div class="font-bold">{subtitle}</div>
-                </div>
-
-                {post.data.tags?.length && (
-                  <div class="flex items-center gap-4 pt-2 font-sans">
-                    <span class="text-gray-300">
-                      <Tag />
-                    </span>
-
-                    {post.data.tags.map(tag => (
-                      <span>{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </a>
-            )
-          })
-        }
-      </div>
+      <AllPostsList client:load posts={byDate} />
     </Prose>
   </Content>
 </Standard>

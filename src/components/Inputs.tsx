@@ -19,13 +19,13 @@ export function Input({
 }: InputProps) {
   return (
     <label
-      className={`flex gap-2 ${variant === 'block' ? 'flex-col items-start' : 'items-baseline'}`}
+      className={`flex gap-2 ${variant === 'block' ? 'flex-col' : 'items-baseline'}`}
       htmlFor={label}
     >
       <span className="font-sans font-bold">{label}</span>
       <input
         {...rest}
-        className={`${type !== 'range' && 'px-2 py-1'} rounded bg-white font-serif text-black`}
+        className={`${type !== 'range' && 'px-2 py-1'} rounded border border-gray-400 bg-white font-serif text-black`}
         id={label}
         onChange={onChange}
         type={type}
