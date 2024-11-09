@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import Content from '../components/Content.astro'
+import Link from '../components/Link.astro'
 import PageHeading from '../components/PageHeading.astro'
 import Prose from '../components/Prose.astro'
 import Standard from '../layouts/Standard.astro'
@@ -18,28 +19,26 @@ const courses = coursesEntries.toSorted(byEntryDate)
       <p>
         Here you will find all of the courses I have created with links to where
         you can get them. If you ever have a question about one of my courses,
-        feel free to send me a message on{' '}
-        <a
-          class="text-accent hover:text-accent-dark"
-          href="https://twitter.com/kyleshevlin">Twitter</a
-        > about it and I'll do my best to help you out.
+        please visit my <Link href="/contact">Contact page</Link> to find ways to
+        reach out.
       </p>
 
-      <div class="mb-24 flex flex-col gap-24">
+      <div class="stack mb-24 gap-8">
         {
           courses.map(entry => {
             const { description, logo, title, url } = entry.data
 
             return (
-              <div class="flex flex-col gap-8 xs:flex-row xs:items-start">
+              <div class="flex flex-col gap-8 rounded border-2 border-gray-200 bg-white p-8 shadow-md dark:border-slate-700 dark:bg-slate-800 xs:flex-row xs:items-center">
                 <div class="flex justify-center xs:basis-1/4">
                   <img
-                    class="max-w-[240px]"
+                    class="block h-auto w-full max-w-[240px]"
                     src={logo}
                     alt={`Logo for ${title}`}
                   />
                 </div>
-                <div class="flex flex-col gap-8 xs:basis-3/4">
+
+                <div class="stack gap-6 xs:basis-3/4">
                   <div class="font-sans text-2xl">{title}</div>
 
                   <div>{description}</div>

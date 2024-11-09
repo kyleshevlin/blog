@@ -25,7 +25,7 @@ export function Input({
       <span className="font-sans font-bold">{label}</span>
       <input
         {...rest}
-        className={`${type !== 'range' && 'px-2 py-1'} rounded border border-gray-400 bg-white font-serif text-black`}
+        className={`${type !== 'range' && 'px-2 py-1'} rounded border-2 border-gray-300 bg-white font-serif text-black`}
         id={label}
         onChange={onChange}
         type={type}

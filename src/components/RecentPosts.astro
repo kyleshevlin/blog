@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content'
-import Prose from './Prose.astro'
+import { byEntryDate, inflect } from '../utils'
+import Link from './Link.astro'
 import PostExcerpt from './PostExcerpt.astro'
-import { byEntryDate } from '../utils'
+import Prose from './Prose.astro'
 
 const posts = await getCollection('posts')
 const postsByDate = posts.toSorted(byEntryDate)
@@ -13,25 +14,30 @@ const latest10 = postsByDate.slice(0, 10)
   <Prose>
     <h3 class="font-sans text-2xl">Recent Posts</h3>
 
-    <ol class="flex flex-col gap-16">
+    <ol class="flex flex-col gap-12">
       {
         latest10.map(post => (
-          <li>
+          <li class="border-b-2 border-gray-200 pb-12 dark:border-slate-700">
             <PostExcerpt post={post} />
           </li>
         ))
       }
     </ol>
 
+    <div>
+      Displaying the latest {latest10.length} of {posts.length}
+      {inflect('post')(posts.length)}
+    </div>
+
     <div
-      class="mt-8 flex flex-col gap-4 rounded bg-gray-100 p-8 shadow-md dark:bg-gray-800"
+      class="flex flex-col gap-4 rounded bg-gray-100 p-8 text-center shadow-md dark:bg-gray-800"
     >
       <div class="font-sans text-2xl">Looking for more posts?</div>
 
       <div>
-        For a list of all of my posts, visit the <a href="/all-posts"
-          >All Posts</a
-        > page.
+        For a list of all of my posts, visit the <Link href="/all-posts">
+          {'All Posts'}
+        </Link> page.
       </div>
 
       <a
