@@ -32,23 +32,27 @@ const LINKS = [
 <footer class="mt-24 bg-gray-900 py-8 text-center text-white dark:bg-gray-800">
   <div class="px-6 md:px-12">
     <div class="stack gap-8 lg:gap-12">
-      <div class="flex justify-center">
-        <div class="max-w-[80ch]">
-          <Contributors />
+      <div class="stack xl:row gap-8 lg:gap-12 xl:justify-between xl:gap-16">
+        <div class="flex justify-center">
+          <div class="max-w-[80ch]">
+            <Contributors />
+          </div>
         </div>
-      </div>
 
-      <div class="stack gap-2 font-sans">
-        <div class="text-lg font-bold">Sitemap</div>
+        <div class="stack gap-2 font-sans xl:items-start">
+          <div class="text-lg font-bold">Sitemap</div>
 
-        <div class="row flex-wrap justify-center gap-3 lg:gap-6">
-          {
-            SITEMAP.map(item => {
-              const { href, title } = item
+          <div
+            class="row flex-wrap justify-center gap-3 lg:gap-6 xl:justify-start"
+          >
+            {
+              SITEMAP.map(item => {
+                const { href, title } = item
 
-              return <Link href={href}>{title}</Link>
-            })
-          }
+                return <Link href={href}>{title}</Link>
+              })
+            }
+          </div>
         </div>
       </div>
 

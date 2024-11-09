@@ -80,7 +80,7 @@ try {
 }
 ---
 
-<div class="flex flex-col gap-4 text-center font-sans">
+<div class="flex flex-col gap-4 text-center font-sans xl:text-left">
   <div>
     I would like give thanks to those who have contributed fixes and updates to
     this blog. If you see something that needs some love, you can join them.
@@ -99,7 +99,7 @@ try {
 
   {
     contributors.length > 0 && (
-      <div class="flex flex-wrap justify-center gap-3">
+      <div class="flex flex-wrap justify-center gap-3 xl:justify-start">
         {contributors.map(contributor => {
           const { avatarUrl, login, url } = contributor
 
