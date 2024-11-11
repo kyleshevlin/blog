@@ -34,20 +34,13 @@ Let's imagine the "Test Your Might" game is a human brain, and we have a task to
   decay={0.1}
   impulse={100}
   subtitle="Neurotypical Brain"
-  threshold={70}
 />
 
 The meter quickly has sufficient dopamine to begin the task, plenty above the threshold. Very little effort was required to get started, and the rate of decay is quite slow.
 
 Let's consider the same situation with the ADHD brain.
 
-<TestYourMight
-  client:load
-  decay={2.5}
-  impulse={5}
-  subtitle="ADHD Brain"
-  threshold={70}
-/>
+<TestYourMight client:load decay={2.5} impulse={5} subtitle="ADHD Brain" />
 
 Notice the brain struggles to get to the threshold and falls quickly below it. We need to keep clicking the button inorder to keep stimulating the brain above the focus threshold.
 
@@ -61,7 +54,6 @@ There are four ways we can "encourage" an ADHD brain to get focused, some positi
   impulse={5}
   simulationModifiers={true}
   subtitle="ADHD Brain with Stimulation Modifiers"
-  threshold={70}
 />
 
 Accumulating modifiers has a positive impact on our ability to reach the threshold and reduce the decay of our dopamine loss. However, we have to be really careful how we deploy these. For people with ADHD, the damage of living in a state of constant urgency to get things done can be significant.
@@ -77,7 +69,6 @@ There are times where no amount of modifiers will do anything. Nothing will allo
   impulse={2}
   simulationModifiers={true}
   subtitle="ADHD Brain in Executive Dysfunction"
-  threshold={70}
 />
 
 ### Hyperfocus
@@ -93,7 +84,6 @@ Hyperfixating occurs when our system gets stuck. Yes, it's pegged above the thre
   decay={-10}
   impulse={100}
   subtitle="ADHD Brain in Hyperfocus"
-  threshold={70}
 />
 
 I might suggest you refresh the page now. That bar _will_ grow forever.
@@ -102,4 +92,4 @@ I might suggest you refresh the page now. That bar _will_ grow forever.
 
 As with any metaphor, this one is imperfect, but I hope it provides some context for the people in your life struggling with ADHD. Imagine having to "test your focus" each and every day. It might help you understand why people with ADHD are far more likely to be clinically depressed. We don't just have less dopamine, but we unless we're fortunate enough to find work that aligns with our stimulation modifiers, we spend most of our lives fighting with ourselves to get stimulated enough to do what we need to do.
 
-I may update this post in the future, or write something about how to work with your neurodivergent teammates, but this is all the focus I have for now. Hope you understand.
+I may update this post in the future, or write something about how I built this little game with React, or how to work with your neurodivergent teammates better, but this is all the focus I have for now. Hope you understand.
