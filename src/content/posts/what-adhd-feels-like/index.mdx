@@ -1,0 +1,105 @@
+---
+date: '2024-11-11T16:48:05.922Z'
+slug: 'what-adhd-feels-like-to-me'
+title: 'What ADHD Feels Like to Me'
+subtitle: null
+description: 'While we have made great progress in understanding ADHD, it can still be difficult for some to grasp the impact it has on those who struggle with it. Let me show you what having ADHD sometimes feels like to me with a simple interactive game.'
+excerpt: null
+tags: ['Thoughts', 'Productivity']
+relatedPostsSlugs: []
+---
+
+import { TestYourMight } from './_components'
+
+When I was a kid, I used to go to my neighbor's house to play Mortal Kombat on their Sega Genesis. Occasionally between fights, you'd get to play a mini-game called "Test Your Might". I've been thinking about this game a lot.
+
+In the game, your character stood before a block of material, such as wood, stone, or diamond, and attempted to break it in half. Your "might" was a power bar, and your job was to mash the buttons fast enough to charge the power bar before the time limit expired and your character slammed their fist into the material. As the materials got harder, the difficulty of charging the bar got harder.
+
+It dawned on me, that this is a pretty good metaphor for **working with ADHD**.
+
+### A non-exhaustive primer on ADHD
+
+For those of you who don't know much about ADHD, it stands for ["Attention Deficit Hyperactivity Disorder"](https://en.wikipedia.org/wiki/Attention_deficit_hyperactivity_disorder). It's not really an accurate name anymore given what we understand about the disorder now. A more apt name might be "Dopamine Dysregulation Disorder". Fundamentally, the ADHD brain has lower levels of dopamine and struggles to regulate what little dopamine it has.
+
+We all need certain amounts of dopamine to function. Most brains produce an adequate amount of this on their own, which enables them to function with relative ease. There's a task to do, they do it. There isn't much need for inputs such as interest or deadlines (more about those later). The brain has what it needs to focus on, begin, and execute the task.
+
+Since the ADHD brain has so little dopamine, it must constantly seek out stimulation in an attempt to trigger itself to produce more so that it can meet the threshold required to function. This is why almost all ADHD medication is a stimulant. It works by activating your brain to produce more dopamine, which allows you to focus because you no longer need to manually produce it yourself.
+
+ADHD has been unfortunately portrayed in media and culture as a disorder that leads to easy distraction. Who hasn't heard someone yell, "Squirrel!" as a joke about those with ADHD? In reality, people with ADHD aren't distracted because they are undisciplined. Our brains are distracted because our base levels of dopamine are not sufficient enough, and so our brains are constantly seeking new stimuli to achieve the levels we need.
+
+Let's imagine the "Test Your Might" game is a human brain, and we have a task to do. If the game was a neurotypical brain, it might look like the following. Give the button a few clicks to watch the meter grow:
+
+<TestYourMight
+  client:load
+  decay={0.1}
+  impulse={100}
+  subtitle="Neurotypical Brain"
+  threshold={70}
+/>
+
+The meter quickly has sufficient dopamine to begin the task, plenty above the threshold. Very little effort was required to get started, and the rate of decay is quite slow.
+
+Let's consider the same situation with the ADHD brain.
+
+<TestYourMight
+  client:load
+  decay={2.5}
+  impulse={5}
+  subtitle="ADHD Brain"
+  threshold={70}
+/>
+
+Notice the brain struggles to get to the threshold and falls quickly below it. We need to keep clicking the button inorder to keep stimulating the brain above the focus threshold.
+
+### Stimulation Modifiers
+
+There are four ways we can "encourage" an ADHD brain to get focused, some positive, some negative: **novelty, intrinsic interest, challenge, and urgency**. <Marker content="I remember this with the mnemonic NICU." /> In the context of our game, we can think of these as "stimulation modifiers". We can tweak and adjust them and watch how it changes our ability to stimulate the brain across the threshold.
+
+<TestYourMight
+  client:load
+  decay={2.5}
+  impulse={5}
+  simulationModifiers={true}
+  subtitle="ADHD Brain with Stimulation Modifiers"
+  threshold={70}
+/>
+
+Accumulating modifiers has a positive impact on our ability to reach the threshold and reduce the decay of our dopamine loss. However, we have to be really careful how we deploy these. For people with ADHD, the damage of living in a state of constant urgency to get things done can be significant.
+
+### Executive Dysfunction
+
+There are times where no amount of modifiers will do anything. Nothing will allow the ADHD brain to focus, **even if it desperately wants to focus**.
+
+<TestYourMight
+  client:load
+  decay={80}
+  executiveDysfunction={true}
+  impulse={2}
+  simulationModifiers={true}
+  subtitle="ADHD Brain in Executive Dysfunction"
+  threshold={70}
+/>
+
+### Hyperfocus
+
+Many of you have probably heard of "hyperfocus", and perahaps heard it called a super power. In the right scenario, it can certainly lead to prodigous amounts of productivity, but it often comes with some severe negative side effects as well.
+
+It might not be obvious, especially to those obsessed with productivity, but a certain amount of attention decay is a good thing. You need to remember to do things like eat, go to the bathroom, manage your life, etc. A person in hyperfocus forgets to do all of those things. Full disclosure, when I'm in that state, it feels downright violent to be asked to context switch.
+
+Hyperfixating occurs when our system gets stuck. Yes, it's pegged above the threshold, but there is no reset button. The only way for it to decay is for the system to run out of resources and crash.
+
+<TestYourMight
+  client:load
+  decay={-10}
+  impulse={100}
+  subtitle="ADHD Brain in Hyperfocus"
+  threshold={70}
+/>
+
+I might suggest you refresh the page now. That bar _will_ grow forever.
+
+### Closing thoughts
+
+As with any metaphor, this one is imperfect, but I hope it provides some context for the people in your life struggling with ADHD. Imagine having to "test your focus" each and every day. It might help you understand why people with ADHD are far more likely to be clinically depressed. We don't just have less dopamine, but we unless we're fortunate enough to find work that aligns with our stimulation modifiers, we spend most of our lives fighting with ourselves to get stimulated enough to do what we need to do.
+
+I may update this post in the future, or write something about how to work with your neurodivergent teammates, but this is all the focus I have for now. Hope you understand.
