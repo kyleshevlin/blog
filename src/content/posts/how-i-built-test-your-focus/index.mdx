@@ -1,0 +1,367 @@
+---
+date: '2024-11-15T03:13:17.471Z'
+slug: 'how-i-built-test-your-focus'
+title: 'How I Built "Test Your Focus"'
+subtitle: null
+description: 'In my previous post, I used a "Test Your Focus" mini-game as a metaphor for describing my ADHD. Let&apos;s learn how to build it using React.'
+excerpt: null
+tags: ['React', 'JavaScript', 'TypeScript']
+relatedPostsSlugs: ['what-adhd-feels-like-to-me', 'simulation-pattern']
+---
+
+import { TestYourFocus } from './_components'
+
+[In my previous post](/what-adhd-feels-like-to-me), I use a mini-game as a metaphor for how it feels to have ADHD. I thought we could learn how to build that game with React. Let's get started.
+
+Let's start with defining our component and building out some of the UI. I'm going to break out the parts more than I usually would just for the sake of making it clear which piece is which.
+
+```tsx
+import { Button, Heading } from '~/ui'
+
+const METER_HEIGHT = 300 // Adjust to your liking
+
+function Wrap({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function Meter({ height, value }: { height: number; value: number }) {
+  return (
+    <div
+      style={{
+        border: '2px solid #e5e5e5',
+        height,
+        position: 'relative',
+        width: 50,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: '#33a1cc',
+          bottom: 0,
+          height: `${value}%`,
+          left: 0,
+          position: 'absolute',
+          transition: 'height 66ms ease',
+          width: '100%',
+        }}
+      />
+    </div>
+  )
+}
+
+function TestYourFocus() {
+  return (
+    <Wrap>
+      <Heading>Test Your Focus</Heading>
+
+      <Meter height={METER_HEIGHT} value={0} />
+
+      <Button onClick={() => {}}>Click</Button>
+    </Wrap>
+  )
+}
+```
+
+Here, we've established the basic units of our mini-game, the power meter that will display the level and the button we'll use to try and move the meter above the threshold.
+
+Now let's try and design the state management of our game. I'm a big fan of using "event-driven" state management in situations like this, so we'll use `useReducer`. You can feel free to replace this with whatever state management you prefer. The concepts will be roughly the same.
+
+The first thing we need for our game is to track a `value`. This value will translate to the current height of the powered up portion of the meter. To that end, you could just as easily name it `power` or `level` or whatever makes sense to you.
+
+```tsx
+type State = {
+  /**
+   * The current value of the meter
+   */
+  value: number
+}
+
+// I always write my "initialState" as a factory function
+// so as to ensure I get a new object any time I call it
+// and don't accidentally reference the same object in
+// different components
+const getInitialState = () => ({
+  value: 0,
+})
+
+// We'll add these soon
+type Action = any
+
+function reducer(state: State, action: Action): State {
+  return state
+}
+```
+
+We can add that to our component like so:
+
+```tsx
+function TestYourFocus() {
+  const [state, dispatch] = React.useReducer(getInitialState())
+
+  return (
+    <Wrap>
+      <Heading>Test Your Focus</Heading>
+
+      <Meter height={METER_HEIGHT} value={state.value} />
+
+      <Button onClick={() => {}}>Click</Button>
+    </Wrap>
+  )
+}
+```
+
+Now that we have our `value` wired up, we need to consider how that value changes. We know that when the user clicks the button, the `value` should increase, but how and how much? We also know that we need that value to decay, but what's the mechanism for triggering that?
+
+We're going to use a concept I covered in my [post on simulations](/simulation-pattern) and implement a `TICK` action. With each `TICK`, we'll calculate the next `value`, and utilize `impulse` and `decay` states to do so.
+
+```tsx
+type State = {
+  /**
+   * The rate the value will be decreased each tick
+   */
+  decay: number
+  /**
+   * How much the value will be increased with each input
+   */
+  impulse: number
+  /**
+   * The current value of the meter
+   */
+  value: number
+}
+
+function getInitialState({
+  decay,
+  impulse,
+}: Pick<State, 'decay' | 'impulse'>): State {
+  return {
+    decay,
+    impulse,
+    value: 0,
+  }
+}
+
+type Action = { type: 'TICK' }
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'TICK': {
+      // We want to clamp the bottom range of our values to 0
+      const nextValue = Math.max(0, state.value - state.decay)
+
+      return { state, value: nextValue }
+    }
+
+    default:
+      return state
+  }
+}
+```
+
+And with this change to `getInitialState`, we can now add `decay` and `impulse` as props to our component, so that we can fiddle with them and make different tests of focus.
+
+```tsx
+type Props = Pick<State, 'decay' | 'impulse'>
+
+function TestYourFocus({ decay, impulse }: Props) {
+  const [state, dispatch] = React.useReducer(
+    getInitialState({ decay, impulse }),
+  )
+
+  //...
+}
+```
+
+So far, we've added the `decay` to our `value`, but we didn't add anything that dispatches our `TICK` action, so let's do that next. We want our `TICK` to occur on an interval, so we'll use `setInterval` in a `useEffect` hook to make this happen.
+
+```tsx
+// This will be our interval in ms. You can adjust the
+// denominator to increase or decrease the TICK rate
+const FPS = 1000 / 15
+
+// In case you're a real stickler about not recreating
+// new objects all the time, you can do this
+const TICK = { type: 'TICK' }
+
+// ...
+
+function TestYourFocus({ decay, impulse }: Props) {
+  //...
+
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      dispatch(TICK)
+    }, FPS)
+
+    return () => clearInterval(id)
+  }, [])
+
+  // ...
+}
+```
+
+Now, at a rate of roughly 15 times a second, our `TICK` is dispatched and our state updated. The last piece we need to add is an `Action` to add the `impulse` to our value.
+
+```tsx
+type Action = { type: 'TICK' } | { type: 'CLICK' }
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    // ...
+
+    case 'CLICK': {
+      // Let's clamp the max value at the full height of the meter
+      const nextValue = Math.min(100, state.value + state.impulse)
+
+      return { ...state, value: nextValue }
+    }
+
+    // ...
+  }
+}
+
+// ...
+
+function TestYourFocus({ decay, impulse }: Props) {
+  // ...
+
+  const handleClick = React.useCallback(() => {
+    dispatch({ type: 'CLICK' })
+  }, [])
+
+  // ...
+  return (
+    // ...
+
+    <Button onClick={handleClick}>Click</Button>
+
+    // ...
+  )
+}
+```
+
+And now we can play the most rudimentary form of our game.
+
+<TestYourFocus client:load decay={1.5} impulse={10} />
+
+### Optimizations
+
+There are a few quick optimizations we can make to our game. First, as it stands, our `Meter` is re-rendering with every `TICK`, even if we're not playing the game. Let's memoize the component, that way when the `value` is pegged at `0` because we aren't playing, it won't rerender.
+
+```tsx
+const Meter = React.memo(function Meter({
+  height,
+  value,
+}: {
+  height: number
+  value: number
+}) {
+  //... same implementation
+})
+```
+
+Second, we're currently sending `TICK`s to our `reducer` 15 times a second, regardless if we are playing or not. Let's add a game `status` to our state and stop `TICK`ing unless it's `running`.
+
+```tsx
+type Status = 'idle' | 'running'
+
+type State = {
+  decay: number
+  impulse: number
+  status: Status
+  value: number
+}
+
+function getInitialState({
+  decay,
+  impulse,
+}: Pick<State, 'decay' | 'impulse'>): State {
+  return {
+    decay,
+    impulse,
+    status: 'idle',
+    value: 0,
+  }
+}
+
+// ...
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'TICK': {
+      const nextValue = Math.min(0, state.value - state.decay)
+
+      return {
+        ...state,
+        status: nextValue ? 'running' : 'idle',
+        value: nextValue,
+      }
+    }
+
+    case 'CLICK': {
+      const nextValue = Math.max(100, state.value + state.impulse)
+
+      return {
+        ...state,
+        status: 'running',
+        value: nextValue,
+      }
+    }
+
+    default:
+      return state
+  }
+}
+
+// ...
+
+function TestYourFocus({ decay, impulse }: Props) {
+  const [state, dispatch] = React.useReducer(
+    reducer,
+    getInitialState({ decay, impulse }),
+  )
+  const { status } = state
+
+  // ...
+
+  React.useEffect(() => {
+    if (status === 'idle') return
+
+    const id = setInterval(() => {
+      dispatch(TICK)
+    }, FPS)
+
+    return () => clearInterval(id)
+  }, [status])
+
+  // ...
+}
+```
+
+Now we no longer `TICK` unless the game is `running`, which should reduce re-renders as well.
+
+### Next steps
+
+Here's a non-exhaustive list of ideas you could implement next:
+
+- Add a `threshold` and determine if the game has been `won`
+- Add a `timer` and `countdown`
+- Add multiplayer with something like [PartyKit]()
+- Add "modifiers" like I did in my ADHD post
+
+I'm sure you can think of even more.
+
+### Full code
+
+As with everything in my blog, the code for this is open source and [you can find it here](https://github.com/kyleshevlin/blog/blob/main/src/content/posts/how-i-built-test-your-focus/_components.tsx).

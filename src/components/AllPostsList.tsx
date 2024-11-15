@@ -100,7 +100,7 @@ export function AllPostsList({ posts }: { posts: CollectionEntry<'posts'>[] }) {
                         </ShiftBy>
                       </span>
 
-                      {post.data.tags.map(tag => (
+                      {post.data.tags.map((tag: string) => (
                         <span key={tag}>{tag}</span>
                       ))}
                     </div>
