@@ -41,11 +41,17 @@ function Meter({ height, value }: { height: number; value: number }) {
     <div
       style={{
         border: '2px solid #e5e5e5',
+        // We want a defined height so that we can use
+        // a percentage height on the child div
         height,
         position: 'relative',
         width: 50,
       }}
     >
+      {/**
+       * This is the part of the meter that will grow
+       * We anchor it to the bottom of the wrapping div
+       */}
       <div
         style={{
           backgroundColor: '#33a1cc',
@@ -253,6 +259,10 @@ function TestYourFocus({ decay, impulse }: Props) {
 ```
 
 And now we can play the most rudimentary form of our game.
+
+```tsx
+<TestYourFocus decay={1.5} impulse={10} />
+```
 
 <TestYourFocus client:load decay={1.5} impulse={10} />
 
