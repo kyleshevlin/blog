@@ -6,7 +6,8 @@ subtitle: null
 description: 'In my previous post, I used a "Test Your Focus" mini-game as a metaphor for describing my ADHD. Let&apos;s learn how to build it using React.'
 excerpt: null
 tags: ['React', 'JavaScript', 'TypeScript']
-relatedPostsSlugs: ['what-adhd-feels-like-to-me', 'simulation-pattern']
+relatedPostsSlugs:
+  ['what-adhd-feels-like-to-me', 'why-use-use-reducer', 'simulation-pattern']
 ---
 
 import { TestYourFocus } from './_components'
@@ -75,7 +76,7 @@ function TestYourFocus() {
 
 Here, we've established the basic units of our mini-game, the power meter that will display the level and the button we'll use to try and move the meter above the threshold.
 
-Now let's try and design the state management of our game. I'm a big fan of using "event-driven" state management in situations like this, so we'll use `useReducer`. You can feel free to replace this with whatever state management you prefer. The concepts will be roughly the same.
+Now let's try and design the state management of our game. I'm a big fan of using ["event-driven" state management in situations like this](/why-use-use-reducer), so we'll use `useReducer`. It may seem like overkill, given we won't be adding all the actions and state I used in the previous post, so feel free to replace this with whatever state management you prefer. The concepts will be roughly the same.
 
 The first thing we need for our game is to track a `value`. This value will translate to the current height of the powered up portion of the meter. To that end, you could just as easily name it `power` or `level` or whatever makes sense to you.
 
