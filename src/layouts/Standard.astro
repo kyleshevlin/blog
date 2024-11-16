@@ -38,8 +38,8 @@ const sanitizedTitle = sanitize(title)
     <meta name="generator" content={Astro.generator} />
     <meta property="og:type" content="website" />
     <title>{sanitizedTitle}</title>
-    <meta property="og:title" content={title} />
-    <meta property="twitter:title" content={title} />
+    <meta property="og:title" content={sanitizedTitle} />
+    <meta property="twitter:title" content={sanitizedTitle} />
     <meta name="apple-mobile-web-app-title" content="Kyle Shevlin's Blog" />
     <meta property="og:site_name" content="Kyle Shevlin's Blog" />
     <meta name="author" content="Kyle Shevlin" />
