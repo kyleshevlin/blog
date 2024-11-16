@@ -17,7 +17,7 @@ function getFilteredPosts(posts: CollectionEntry<'posts'>[], search: string) {
       ${post.data?.tags?.join(' ')}
     `.toLowerCase()
 
-    return allText.includes(search.toLowerCase())
+    return allText.toLowerCase().includes(search.toLowerCase())
   })
 }
 
@@ -62,7 +62,7 @@ export function AllPostsList({ posts }: { posts: CollectionEntry<'posts'>[] }) {
 
       {filteredPosts.length > 0 ? (
         <div className="stack gap-2">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-gray-700 dark:text-gray-200">
             Displaying {filteredPosts.length}{' '}
             {inflect('post')(filteredPosts.length)}
           </div>
@@ -74,22 +74,28 @@ export function AllPostsList({ posts }: { posts: CollectionEntry<'posts'>[] }) {
               return (
                 <a
                   key={post.slug}
-                  className="stack block gap-2 p-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="stack block gap-2 p-4 transition-colors hover:bg-gray-100  dark:hover:bg-gray-800"
                   href={`/${post.slug}`}
                 >
                   <div className="font-sans text-accent">
-                    <div
+                    <HighlightedHTML
+                      html={title}
+                      search={search}
                       className="text-2xl"
-                      dangerouslySetInnerHTML={{ __html: title }}
                     />
-                    <div className="font-bold">{subtitle}</div>
+                    {subtitle && (
+                      <HighlightedHTML
+                        html={subtitle}
+                        search={search}
+                        className="font-bold"
+                      />
+                    )}
                   </div>
 
-                  <div
-                    className="text-gray-700"
-                    dangerouslySetInnerHTML={{
-                      __html: post.data.description || post.data.excerpt || '',
-                    }}
+                  <HighlightedHTML
+                    html={post.data.description || post.data.excerpt || ''}
+                    search={search}
+                    className="text-gray-700 dark:text-gray-200"
                   />
 
                   {post.data.tags?.length && (
@@ -101,7 +107,7 @@ export function AllPostsList({ posts }: { posts: CollectionEntry<'posts'>[] }) {
                       </span>
 
                       {post.data.tags.map((tag: string) => (
-                        <span key={tag}>{tag}</span>
+                        <HighlightedHTML key={tag} html={tag} search={search} />
                       ))}
                     </div>
                   )}
@@ -114,5 +120,69 @@ export function AllPostsList({ posts }: { posts: CollectionEntry<'posts'>[] }) {
         <div>No posts found</div>
       )}
     </div>
+  )
+}
+
+const highlightHTML = (html: string, search: string): string => {
+  if (!search?.trim() || !html) return html
+
+  // Escape special characters in search term
+  const escapedSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+  // Create a temporary container
+  const tempDiv = document.createElement('div')
+  tempDiv.innerHTML = html
+
+  // Function to highlight text in a node
+  const highlightTextNode = (textNode: Text) => {
+    const regex = new RegExp(`(${escapedSearch})`, 'gi')
+    const text = textNode.textContent || ''
+    if (!regex.test(text)) return
+
+    const wrapper = document.createElement('span')
+    wrapper.innerHTML = text.replace(
+      regex,
+      '<mark class="bg-yellow-300 px-0.5">$1</mark>',
+    )
+
+    textNode.parentNode?.replaceChild(wrapper, textNode)
+  }
+
+  // Recursive function to process all text nodes
+  const processNode = (node: Node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      highlightTextNode(node as Text)
+      return
+    }
+
+    const children = Array.from(node.childNodes)
+    children.forEach(processNode)
+  }
+
+  // Process all nodes
+  processNode(tempDiv)
+
+  return tempDiv.innerHTML
+}
+
+function HighlightedHTML({
+  html,
+  search,
+  className,
+}: {
+  html: string
+  search: string
+  className?: string
+}) {
+  const highlightedContent = React.useMemo(
+    () => highlightHTML(html, search),
+    [html, search],
+  )
+
+  return (
+    <div
+      className={className}
+      dangerouslySetInnerHTML={{ __html: highlightedContent }}
+    />
   )
 }
