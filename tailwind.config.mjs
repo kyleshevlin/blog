@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import defaultTheme from 'tailwindcss/defaultTheme'
+import { toHSLA } from './src/utils'
 
 export default {
   content: [
@@ -12,14 +13,14 @@ export default {
     extend: {
       colors: {
         accent: {
-          DEFAULT: 'hsl(197 60% 50%)',
-          dark: 'hsl(197 60% 45%)',
-          light: 'hsl(197 60% 55%)',
+          DEFAULT: toHSLA(200, 73, 48),
+          dark: toHSLA(200, 73, 44),
+          light: toHSLA(200, 73, 52),
         },
         contra: {
-          DEFAULT: 'hsl(347 87% 60%)',
-          dark: 'hsl(347 87% 55%)',
-          light: 'hsl(347 87% 65%)',
+          DEFAULT: toHSLA(347, 87, 60),
+          dark: toHSLA(347, 87, 55),
+          light: toHSLA(347, 87, 65),
         },
       },
       fontFamily: {
@@ -35,5 +36,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/container-queries')],
 }

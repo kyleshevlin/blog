@@ -104,3 +104,12 @@ export function sanitize(str: string) {
 export function inflect(singular: string, plural = `${singular}s`) {
   return (count: number) => (count === 1 ? singular : plural)
 }
+
+export function toHSLA(
+  hue: number,
+  saturation: number,
+  luminosity: number,
+  alpha = 1,
+) {
+  return `hsla(${hue} ${saturation}% ${luminosity}% / ${alpha})`
+}

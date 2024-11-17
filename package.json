@@ -41,6 +41,7 @@
     "@astrojs/tailwind": "^5.1.0",
     "@kyleshevlin/layout": "^0.6.0",
     "@nanostores/react": "^0.7.1",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "@xstate/react": "^3.2.2",

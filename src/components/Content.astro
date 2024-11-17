@@ -21,9 +21,9 @@ const { courseNickname, showCourseAds = true } = Astro.props
       <div class="flex flex-col gap-12">
         <Agathist />
 
-        <NewsletterSignup client:visible />
-
         {showCourseAds && <CourseAds courseNickname={courseNickname} />}
+
+        <NewsletterSignup client:visible />
       </div>
     </div>
   </div>
