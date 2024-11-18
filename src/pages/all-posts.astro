@@ -17,8 +17,9 @@ const byDate = posts.toSorted(byEntryDate)
       <PageHeading>All Posts</PageHeading>
 
       <p>
-        Here is a list of all of my posts. Use the input below to filter posts
-        by title, subtitle, description, or tags.
+        Here is a list of all of my posts, sorted by the date they were
+        published. Use the input below to filter posts by title, subtitle,
+        description, or tags.
       </p>
 
       <AllPostsList client:load posts={byDate} />
