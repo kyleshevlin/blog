@@ -12,7 +12,14 @@ const latest10 = postsByDate.slice(0, 10)
 
 <section>
   <Prose>
-    <h3 class="font-sans text-2xl">Recent Posts</h3>
+    <div>
+      <h3 class="font-sans text-2xl">Recent Posts</h3>
+
+      <div class="font-sans">
+        Displaying the latest {latest10.length} of {posts.length}
+        {inflect('post')(posts.length)}
+      </div>
+    </div>
 
     <ol class="flex flex-col gap-12">
       {
@@ -23,11 +30,6 @@ const latest10 = postsByDate.slice(0, 10)
         ))
       }
     </ol>
-
-    <div>
-      Displaying the latest {latest10.length} of {posts.length}
-      {inflect('post')(posts.length)}
-    </div>
 
     <div
       class="flex flex-col gap-4 rounded bg-gray-100 p-8 text-center shadow-md dark:bg-gray-800"
