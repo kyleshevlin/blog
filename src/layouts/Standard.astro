@@ -25,6 +25,7 @@ interface Props {
 
 const { description, keywords, title } = Astro.props
 const sanitizedTitle = sanitize(title)
+const sanitizedDescription = description ? sanitize(description) : undefined
 ---
 
 <html
@@ -49,9 +50,9 @@ const sanitizedTitle = sanitize(title)
           <meta
             name="description"
             property="og:description"
-            content={description}
+            content={sanitizedDescription}
           />
-          <meta name="twitter:description" content={description} />
+          <meta name="twitter:description" content={sanitizedDescription} />
         </>
       )
     }
