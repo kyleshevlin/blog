@@ -5,13 +5,13 @@ import { isEmail } from '../utils'
 
 export function NewsletterSignup() {
   return (
-    <div className="rounded bg-accent p-8 text-white shadow-md xl:p-10">
+    <div className="rounded bg-gradient-to-br from-rose-500 via-pink-500 to-accent p-8 text-white shadow-md xl:p-10">
       <div className="flex flex-col gap-4 xl:gap-6">
         <div className="font-sans text-2xl leading-none xl:text-3xl">
           Sign up for my newsletter
         </div>
 
-        <div className="text-gray-100">
+        <div>
           Let&apos;s chat some more about TypeScript, React, and frontend web
           development. Unsubscribe at any&nbsp;time.
         </div>
@@ -146,7 +146,7 @@ function SignupForm() {
         return 'Retry'
 
       default:
-        return 'Submit'
+        return 'Sign Up'
     }
   }
 
@@ -196,7 +196,7 @@ function SignupForm() {
           </div>
 
           <button
-            className="w-full rounded bg-white p-4 font-sans leading-none text-accent shadow-md transition-all hover:bg-gray-100"
+            className="w-full rounded bg-white px-4 py-3.5 font-sans text-lg font-bold uppercase leading-none text-accent shadow-md transition-all hover:bg-gray-100"
             type="submit"
           >
             {getSubmitButtonText()}

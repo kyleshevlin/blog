@@ -22,7 +22,6 @@ import PostPagination from './PostPagination.astro'
 import PostTags from './PostTags.astro'
 import Prose from './Prose.astro'
 import TableSimple from './TableSimple.astro'
-import WorkWithAgathist from './WorkWithAgathist.astro'
 import YouTubeEmbed from './YouTubeEmbed.astro'
 
 interface Props {
@@ -114,9 +113,7 @@ const { Content: PostContent } = await entry.render()
     {tags.length > 0 && <PostTags tags={tags} />}
   </div>
 
-  <div class="my-8">
-    <WorkWithAgathist />
+  <div class="mt-8">
+    <PostAuthor />
   </div>
-
-  <PostAuthor />
 </div>

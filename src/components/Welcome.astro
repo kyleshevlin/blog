@@ -1,44 +1,34 @@
 ---
 import Link from './Link.astro'
+import Marker from './Marker.astro'
 import Prose from './Prose.astro'
 ---
 
 <section>
   <Prose>
     <p class="font-sans text-3xl font-bold">
-      Hi, I'm Kyle Shevlin, founder and lead software engineer of{' '}
-      <Link external href="https://agath.ist">Agathist</Link>, a software
-      consultancy that specializes in web applications built with <Link
+      Hi, I'm Kyle Shevlin! I'm a software engineer with expertise in <Link
         external
         href="https://react.dev"
       >
         React
-      </Link>, <Link external href="https://astro.build">Astro</Link> and <Link
+      </Link>, <Link external href="https://astro.build">Astro</Link>, <Link
         external
         href="https://typescriptlang.org"
       >
         TypeScript
-      </Link>.
+      </Link> and frontend web development.
     </p>
     <p>
       I am also a writer, speaker and coding instructor. This is my personal
       site where I share all the content I create.
     </p>
     <p>
-      I primarily write articles and create courses, focusing on breaking
-      software concepts down to their fundamentals. Check out one of my posts or
-      courses (or all of them). If you like what you read, then sign up for my
-      newsletter, too.
+      I write articles and create courses that focus on breaking software
+      concepts down to their fundamentals. Check out one of my posts or courses. <Marker
+        content="Or all of them."
+      /> If you like what you read, then sign up for my newsletter, too.
     </p>
-    <p>
-      <strong> If you're looking to hire me and my team</strong>, send an email
-      to <Link href="mailto:kyle@agath.ist">kyle@agath.ist</Link>. If you need
-      to reach me regarding something else, then check the <Link
-        href="/contact"
-      >
-        {'Contact page'}
-      </Link> to find ways to do so.
-    </p>
-    <p>Enjoy your time here and thank you.</p>
+    <p>I hope you enjoy your time here and thank you for visiting.</p>
   </Prose>
 </section>
