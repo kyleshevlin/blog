@@ -431,7 +431,7 @@ const donutFormMachine = Machine(chart)
 Now, let's bring that machine into our component with the `useMachine` hook.
 
 ```javascript
-export default DonutForm() {
+export default function DonutForm() {
   const [value, setValue] = React.useState('')
   const [current, send] = useMachine(donutFormMachine)
 }
