@@ -50,9 +50,9 @@ async function postNewSubscriber({
       },
     )
 
-    if (!response.ok) return Promise.reject()
-
     const json = await response.json()
+
+    if (!response.ok) return Promise.reject(json)
 
     return Promise.resolve(json)
   } catch (error) {
@@ -89,7 +89,18 @@ const signupMachine = createMachine(
           id: 'submitData',
           src: 'submitData',
           onDone: 'success',
-          onError: 'failure',
+          onError: [
+            {
+              target: 'alreadySubscribed',
+              cond: (_, event) => event.data.code === 'email_already_exists',
+            },
+            { target: 'failure' },
+          ],
+        },
+      },
+      alreadySubscribed: {
+        on: {
+          ...submitEvent,
         },
       },
       error: {
@@ -100,7 +111,7 @@ const signupMachine = createMachine(
       success: {},
       failure: {
         on: {
-          RETRY: 'submitting',
+          ...submitEvent,
         },
       },
     },
@@ -142,6 +153,7 @@ function SignupForm() {
           </>
         )
 
+      case state.matches('alreadySubscribed'):
       case state.matches('failure'):
         return 'Retry'
 
@@ -163,6 +175,13 @@ function SignupForm() {
     <div className="flex flex-col gap-4">
       {state.matches('error') && (
         <ErrorWrap>Invalid name or email. Please try again.</ErrorWrap>
+      )}
+
+      {state.matches('alreadySubscribed') && (
+        <ErrorWrap>
+          You&apos;re already subscribed to the newsletter. Please check your
+          inbox to confirm your subscription.
+        </ErrorWrap>
       )}
 
       {state.matches('failure') && (
@@ -230,7 +249,7 @@ function Dots() {
 
 function ErrorWrap({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded bg-red-500 p-4 font-sans text-white">
+    <div className="rounded bg-white/90 p-4 font-sans text-lg text-red-500 shadow-md">
       {children}
     </div>
   )
