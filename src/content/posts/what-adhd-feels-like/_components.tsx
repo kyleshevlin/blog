@@ -21,6 +21,10 @@ type State = {
     urgency: number
   }
   status: Status
+  understimulated: boolean
+  understimulatedClickCount: number
+  understimulatedClickCountLimit: number
+  understimulatedIndex: number
   value: number
 }
 
@@ -28,10 +32,12 @@ const getInitialState = ({
   decay,
   executiveDysfunction,
   impulse,
+  understimulated,
 }: {
   decay: number
   executiveDysfunction: boolean
   impulse: number
+  understimulated: boolean
 }): State => ({
   decay,
   executiveDysfunction,
@@ -45,6 +51,10 @@ const getInitialState = ({
     urgency: 0,
   },
   status: 'idle',
+  understimulated,
+  understimulatedClickCount: 0,
+  understimulatedClickCountLimit: Math.ceil(Math.random() * 10),
+  understimulatedIndex: Math.floor(Math.random() * 5),
   value: 0,
 })
 
@@ -54,7 +64,7 @@ function normalizeImpulse(value: number) {
 
 type Action =
   | { type: 'TICK' }
-  | { type: 'CLICK' }
+  | { type: 'CLICK'; payload: { index?: number } }
   | { type: 'UPDATE_MODIFIER'; payload: { key: string; value: number } }
 
 function reducer(state: State, action: Action): State {
@@ -73,9 +83,32 @@ function reducer(state: State, action: Action): State {
     }
 
     case 'CLICK': {
+      const { index } = action.payload
+
+      if (state.understimulated && index !== state.understimulatedIndex) {
+        return state
+      }
+
+      let nextClickCount = state.understimulatedClickCount
+      let nextLimit = state.understimulatedClickCountLimit
+      let nextIndex = state.understimulatedIndex
+
+      if (state.understimulated && index === nextIndex) {
+        nextClickCount++
+
+        if (nextClickCount >= state.understimulatedClickCountLimit) {
+          nextClickCount = 0
+          nextLimit = Math.ceil(Math.random() * 10)
+          nextIndex = Math.floor(Math.random() * 5)
+        }
+      }
+
       return {
         ...state,
         status: 'running',
+        understimulatedClickCount: nextClickCount,
+        understimulatedClickCountLimit: nextLimit,
+        understimulatedIndex: nextIndex,
         value: Math.min(
           100,
           state.value + normalizeImpulse(state.impulse + state.modifiedImpulse),
@@ -117,7 +150,6 @@ function reducer(state: State, action: Action): State {
 
 // Let's not recreate objects we don't need to
 const TICK: Action = { type: 'TICK' }
-const CLICK: Action = { type: 'CLICK' }
 
 type TestYourMightProps = {
   decay: number
@@ -125,6 +157,7 @@ type TestYourMightProps = {
   impulse: number
   simulationModifiers?: boolean
   subtitle: string
+  understimulated?: boolean
 }
 
 export function TestYourMight({
@@ -133,14 +166,15 @@ export function TestYourMight({
   impulse,
   simulationModifiers = false,
   subtitle,
+  understimulated = false,
 }: TestYourMightProps) {
   const [state, dispatch] = React.useReducer(
     reducer,
-    getInitialState({ decay, executiveDysfunction, impulse }),
+    getInitialState({ decay, executiveDysfunction, impulse, understimulated }),
   )
 
-  const handleClick = React.useCallback(() => {
-    dispatch(CLICK)
+  const handleClick = React.useCallback((index?: number) => {
+    dispatch({ type: 'CLICK', payload: { index } })
   }, [])
 
   React.useEffect(() => {
@@ -203,7 +237,17 @@ export function TestYourMight({
         </div>
       )}
 
-      <Button onClick={handleClick}>Click</Button>
+      {understimulated ? (
+        <div className="row gap-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Button key={index} onClick={() => handleClick(index)}>
+              Click
+            </Button>
+          ))}
+        </div>
+      ) : (
+        <Button onClick={handleClick}>Click</Button>
+      )}
     </div>
   )
 }

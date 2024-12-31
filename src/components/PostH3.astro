@@ -1,3 +1,7 @@
-<h3 class="mt-4 font-sans text-2xl">
+---
+const props = Astro.props
+---
+
+<h3 class="mt-4 font-sans text-2xl" {...props}>
   <slot />
 </h3>
