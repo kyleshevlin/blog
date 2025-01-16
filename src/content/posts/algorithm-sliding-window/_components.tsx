@@ -1,4 +1,5 @@
 import React from 'react'
+import { ShiftBy } from '../../../components/ShiftBy'
 
 const items = [0, 1, 2, 3, 4, 5, 6, 7]
 
@@ -49,7 +50,7 @@ export function SlidingWindowVisual() {
   }, [end, start])
 
   return (
-    <div className="stack items-center gap-4 py-2 font-sans">
+    <div className="stack items-center gap-4 py-2 font-mono">
       <div className="row justify-center gap-4 py-2">
         {beforeWindow.length > 0 &&
           beforeWindow.map(item => <Item key={item}>{item}</Item>)}
@@ -71,8 +72,8 @@ export function SlidingWindowVisual() {
 
 function Item({ children }: { children: React.ReactNode }) {
   return (
-    <div className="stack h-8 w-8 items-center justify-center rounded bg-accent text-white md:h-16 md:w-16">
-      {children}
+    <div className="stack h-8 w-8 items-center justify-center rounded bg-accent leading-none text-white md:h-16 md:w-16">
+      <ShiftBy y={1}>{children}</ShiftBy>
     </div>
   )
 }
