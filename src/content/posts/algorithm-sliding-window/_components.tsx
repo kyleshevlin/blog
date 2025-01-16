@@ -50,7 +50,7 @@ export function SlidingWindowVisual() {
   }, [end, start])
 
   return (
-    <div className="stack items-center gap-4 py-2 font-mono">
+    <div className="stack items-center gap-4 py-2">
       <div className="row justify-center gap-4 py-2">
         {beforeWindow.length > 0 &&
           beforeWindow.map(item => <Item key={item}>{item}</Item>)}
@@ -65,14 +65,14 @@ export function SlidingWindowVisual() {
           afterWindow.map(item => <Item key={item}>{item}</Item>)}
       </div>
 
-      <div>A mock visual of the sliding window</div>
+      <div className="font-sans">A mock visual of the sliding window</div>
     </div>
   )
 }
 
 function Item({ children }: { children: React.ReactNode }) {
   return (
-    <div className="stack h-8 w-8 items-center justify-center rounded bg-accent leading-none text-white md:h-16 md:w-16">
+    <div className="stack h-8 w-8 items-center justify-center rounded bg-accent font-mono leading-none text-white md:h-16 md:w-16">
       <ShiftBy y={1}>{children}</ShiftBy>
     </div>
   )
