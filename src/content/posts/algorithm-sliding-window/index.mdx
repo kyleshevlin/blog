@@ -1,0 +1,121 @@
+---
+date: '2025-01-16T18:32:25.356Z'
+slug: 'algorithm-sliding-window'
+title: 'Algorithm: Sliding Window'
+subtitle: null
+description: "Let's learn a technique useful in string or array problems called the 'sliding window', where we use two pointers to expand and contract a subview of our data."
+excerpt: null
+tags: ['Data Structures and Algorithms', 'JavaScript', 'TypeScript']
+relatedPostsSlugs: []
+---
+
+I've decided to go back on the job hunt and this has me getting prepared for technical interviews. To do this, I've been practicing [Leetcode](https://leetcode.com) problems. Yes, I'm not a big fan of this style of interviewing either, but you have to be prepared for whatever might come.
+
+I recently ran into a problem that used a technique I've never used before, a "sliding window", and I wanted to write a quick post about it, both to solidify it in my memory and hopefully teach you something new.
+
+### The Problem
+
+I'm going to borrow this [straight from their site](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-interview-150): Given a string `s`, find the length of the longest substring without repeating characters. Here's an example:
+
+```
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", once we get to "a" at index 3, we have a repeating character, and no other substring is longer
+```
+
+Hopefully that makes sense. They have other examples at the link above. Don't scroll down if you want to go and try it for yourself first.
+
+### The Solution
+
+We're going to implement a "sliding window". That is, we're going to look at a slice of our string, tracking the left and right sides of our "window" as we go through it. We move the left and right edges of our window to adjust how much of the string we can "view". You can also do this trick with items in an array.
+
+The key is to manage two pointers, a `start` index and an `end` index. We're going to loop over the `end` with a `for` loop, and then check if we need to advance our `start` within that loop. This way, the right side of our window keeps expanding, and when necessary, we shrink the left side, too.
+
+Let's write our function:
+
+```javascript
+function lengthOfLongestSubstring(str) {
+  // We'll make a map of character and track the index we last saw them
+  const lastSeen = new Map()
+
+  // We need to track the longest substring we've found so far that meets our conditions
+  let maxLength = 0
+
+  // initialize our start index
+  let start = 0
+
+  // Our loop will advance the right side of our window
+  for (let end = 0; end < str.length; end++) {
+    // get the character at the rightmost side of our window
+    // we've already looked at anything left of it
+    const char = str[end]
+
+    // We're going to check our Map and see if we have that character
+    // And if the index we found it at is inside the left side of our window
+    if (lastSeen.has(char) && lastSeen.get(char) >= start) {
+      // If we found that character in our window, that's a repeat
+      // Because it's a repeat, we can shrink the left side of our window to the
+      // index just past that character
+      start = lastSeen.get(char) + 1
+    }
+
+    // We need to track our current character now
+    lastSeen.set(char, end)
+
+    // And we can update our maxLength, keep it if our current length is less
+    maxLength = Math.max(maxLength, end - start + 1)
+  }
+
+  return maxLength
+}
+```
+
+### Why is this the best way to handle this solution?
+
+A naive approach might be something like:
+
+- Start at the first letter
+- Expand until we hit a duplicate
+- Track the `maxLength`
+
+Something like:
+
+```javascript
+function lengthOfLongestSubstring(str) {
+  let maxLength = 0
+
+  for (let i = 0; i < str.length; i++) {
+    for (let j = i + 1; j < str.length; j++) {
+      const sub = str.slice(i, j)
+
+      // let's at least check a substring longer than our max so far
+      if (sub.length < maxLength) continue
+
+      // fastest way I know to get unique characters
+      const charsSet = new Set(sub.split(''))
+
+      // Unequal sizes means a repeated character
+      if (sub.length !== charsSet.size) {
+        // This breaks the inner loop, advancing the outer one
+        break
+      }
+
+      maxLength = Math.max(maxLength, j - i)
+    }
+  }
+
+  return maxLength
+}
+```
+
+While this will eventually solve our problem, it's inefficient. The issue with this algorithm is that it cycles through substrings we've checked before. Ones that we know won't yield better results.
+
+For example, if I was testing the string `abcb` using this approach, we'd start at `a` and get a length of `3` when we hit the second `b`. Then we would move the `i` index, starting at the first `b` and check `b`, `bc` and `bcb` again, failing at the same spot.
+
+With the sliding window technique, we're able to move the left side of our window all the way _past_ the repeated character, ensuring we're never checking a substring we have already seen before.
+
+### Summary
+
+Some problems benefit from checking a "window" of the string or array. Manage two pointers. Use a loop for the `end` pointer, and advance the `start` pointer as necessary within that loop.
+
+Hope this technique helps you out some time, maybe even lands you a job! Wish me luck on my interviews, too.
