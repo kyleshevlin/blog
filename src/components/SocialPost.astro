@@ -1,0 +1,66 @@
+---
+import ShiftBy from './ShiftBy.astro'
+
+type Props = {
+  authorHandle?: string
+  authorName: string
+  authorProfile?: string
+  avatarUrl?: string
+  content: string
+  date?: string
+}
+
+const { authorHandle, authorName, authorProfile, avatarUrl, content, date } =
+  Astro.props
+const trimmed = content.trim()
+
+const AuthorWrap = authorProfile ? 'a' : 'div'
+const authorWrapProps = authorProfile
+  ? {
+      class: 'block',
+      href: authorProfile,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    }
+  : {}
+---
+
+<div
+  class="stack gap-8 rounded-lg border-2 border-accent p-4 pb-6 font-sans shadow-md"
+>
+  <div class="row items-start gap-2">
+    {
+      avatarUrl && (
+        <ShiftBy y={4}>
+          <AuthorWrap {...authorWrapProps}>
+            <img
+              alt={authorName}
+              class="h-10 w-10 rounded-full"
+              src={avatarUrl}
+            />
+          </AuthorWrap>
+        </ShiftBy>
+      )
+    }
+
+    <div class="stack grow">
+      <AuthorWrap {...authorWrapProps}>
+        <span class="text-lg font-bold leading-none">{authorName}</span>
+
+        {
+          authorHandle && (
+            <span class="leading-none text-gray-500">{authorHandle}</span>
+          )
+        }
+
+        {
+          date && (
+            <span class="leading-none text-gray-500">&nbsp;&bull; {date}</span>
+          )
+        }
+      </AuthorWrap>
+
+      <div class="max-w-prose whitespace-pre leading-none">{trimmed}</div>
+    </div>
+  </div>
+</div>

@@ -17,14 +17,23 @@ relatedPostsSlugs:
   ]
 ---
 
+import SocialPost from '../../../components/SocialPost.astro'
 import JumpingBall from './_JumpingBall'
-import MikesTweet from './_MikesTweet'
 import ReducerJumpingBall from './_ReducerJumpingBall'
 
-A while back now, my buddy [Mike Hartington](https://twitter.com/mhartington)
+A while back now, my buddy [Mike Hartington](https://bsky.app/profile/mhartington.io)
 asked this:
 
-<MikesTweet />
+<SocialPost
+  authorName="Mike Hartington"
+  authorHandle="@mhartington.io"
+  authorProfile="https://bsky.app/profile/mhartington.io"
+  avatarUrl="https://cdn.bsky.app/img/avatar/plain/did:plc:7kwylbxx56yro6aqz3oh5d2s/bafkreih5czye4acyme3j5ckt4bmwkypwqyqcq4mgecjq55g2lavdy573n4@jpeg"
+  date="2022-02-12"
+  content={`Random question for my react friends...
+
+Is useReducer something folks use/like?`}
+/>
 
 I gave a brief answer in the replies, but thought I'd write a bit more about it here. If you've come across my blog before, much of what I'm going to write in this post will relate to other posts of mine, such as [`useEncapsulation`](/use-encapsulation) and [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and more. There's a lot of overlap, so please check them out if you haven't. Forgive me if this all sounds familiar.
 

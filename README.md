@@ -21,4 +21,4 @@ I am just going to come out and say it. It is totally possible that an open sour
 
 ## Thanks
 
-If you're here and reading this, I just want to say thank you. I hope you find something useful here. If you do, please tweet about what you read and learned. It's the best way to share it with others.
+If you're here and reading this, I just want to say thank you. I hope you find something useful here. If you do, please share about it on your platform of choice. It's the best way for others to discover it, too.
