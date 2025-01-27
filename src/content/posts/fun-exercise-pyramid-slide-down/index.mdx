@@ -1,0 +1,156 @@
+---
+date: '2025-01-27T17:15:10.040Z'
+slug: 'fun-coding-exercise-pyramid-slide-down'
+title: 'Fun Coding Exercise: Pyramid Slide Down'
+subtitle: null
+description: 'Sharing a fun coding exercise I came across and what the solution taught me. Plus, a few bonus steps you can take in the solution, too.'
+excerpt: null
+tags: ['Data Structures and Algorithms', 'JavaScript', 'TypeScript']
+relatedPostsSlugs: []
+---
+
+I was doing some more interview prep this past week, this time using an app called [Codewars](https://codewars.com), when I came across a "kata" <Marker content="That's what they call the exercises." /> that stood out to me.
+
+The reason it caught my eye is not only that the solution is far simpler than I originally thought, but it also involves a little "divergent thinking" (not to be confused with "neurodivergent thinking"). Let's look at the problem. Then I'll give you my original thoughts on the problem, followed by the solution.
+
+### The problem
+
+If you want to try out the problem before reading this article, you can find it at: [https://www.codewars.com/kata/551f23362ff852e2ab000037/train/javascript](https://www.codewars.com/kata/551f23362ff852e2ab000037/train/javascript)
+
+You are given a `pyramid`. That is a two-dimensional array of length `n`, where the length of each row is 1 more than the previous row. An example would look like this:
+
+```javascript
+const pyramid = [[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]]
+```
+
+If we "center" those, we can see the pyramid a bit better
+
+```
+   3
+  7 4
+ 2 4 6
+8 5 9 3
+```
+
+Our goal is to calculate the greatest sum of numbers from "sliding" down the pyramid. The slide can only reach adjacent numbers and must always go down one row at a time. In our example here, the best path is `3, 7, 4, 9`, like so:
+
+```
+  /3/
+  \7\ 4
+ 2 \4\ 6
+8 5 \9\ 3
+```
+
+How do we solve this?
+
+### My initial thoughts
+
+When I first saw the problem, because the structure of the values resembled a graph or a tree, I thought perhaps the answer was to use [Djikstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) on a graph of the numbers. We could use sums as the weights on the node's edges. Seems clever enough.
+
+While this approach would eventually work, there are a couple problems with it. First, we'd have to run the algorithm from the top node to every bottom node. Taking up at least `n`, where `n` is the length of the last array, time.
+
+It's also likely that we would be recalculating many of the same routes over and over, so we'd need to take extra steps with caching to ensure we had an optimal solution.
+
+But it turns out the solution is much simpler than all of that.
+
+### The solution
+
+There's a common strategy in these types of problems called "dynamic programming". It's an intimidating name, but it really means breaking the problem down into much smaller sub-problems, solving them, and then using those solutions to arrive at the solution for our big problem.
+
+In regards to pyramid, what's the smaller problem we need to solve? Hint: this is where "divergent thinking" comes into play.
+
+I'll give you a moment...
+
+The key insight is to realize we don't have to _slide down_ the pyramid like the problem title suggests. We're not actually skiing it. Instead, we can think divergently, coming up with multiple ways to examine and think about the same problem, and realize something can come _up_ the pyramid instead.
+
+Rather than start at the top, what if we break the problem down into solving the greatest sums _up_ the mountain at each level. So our sub problem becomes, "What are the greatest sums we can achieve between the last two rows?"
+
+Let's write this out:
+
+```javascript
+function greatestSlide(pyramid) {
+  // We're going to start at the second to last row,
+  // By decrementing, we'll work our way _up_ the pyramid rows
+  for (let row = pyramid.length - 2; row >= 0; row--) {}
+}
+```
+
+Then with each row, we're going to replace the current value with the greatest sum achieved by adding the two possible values from the row below. That looks like this:
+
+```javascript
+function greatestSlide(pyramid) {
+  for (let row = pyramid.length - 2; row >= 0; row--) {
+    // Iterate over each item in the row
+    for (let col = 0; col < pyramid[row].length; col++) {
+      // Replace the value with the greatest sum possible
+      pyramid[row][col] += Math.max(
+        // This is the item down to the left (has the same column index)
+        pyramid[row + 1][col],
+        // This is the item down to the right
+        pyramid[row + 1][col + 1],
+      )
+    }
+  }
+
+  // By the time we've done this for the entire pyramid, the very top
+  // is now the value of the greatest sum possible
+  return pyramid[0][0]
+}
+```
+
+And that's our solution. By finding the greatest sums possible going up the pyramid, by the time we hit the peak, we're guaranteed the answer.
+
+I just love that the solution was simple and literally required flipping the problem on its head.
+
+Sometimes the hardest step in solving a problem is just figuring out how to think about it correctly, and this problem is a good reminder to look at it from all angles.
+
+### Optional steps
+
+One of the first things I _don't_ like about this solution is that we modify the `pyramid` passed in. Assuming your program allowed for it, I would copy the `pyramid` before doing the work:
+
+```javascript
+function greatestSlide(pyramid) {
+  const copy = pyramid.map(row => row.slice())
+  // ...
+}
+```
+
+Another thing that could be fun if you were building a visualization, or simply trying to debug it would be to turn `greatestSlide` into a [generator function](/generator-functions).
+
+By turning it into a generator function, we're able to `yield` out our pyramid and different stages and see the transformation. Like so:
+
+```javascript
+function* greatestSlide(pyramid) {
+  const copy = pyramid.map(row => row.slice())
+  yield copy
+
+  for (let row = copy.length - 2; row >= 0; row--) {
+    for (let col = 0; col < copy[row].length; col++) {
+      copy[row][col] += Math.max(copy[row + 1][col], copy[row + 1][col + 1])
+    }
+
+    // This will just show us the modified portion of the pyramid,
+    // making it easy to see the sums work their way up from the bottom
+    yield copy.slice(0, row + 1)
+  }
+
+  return copy[0][0]
+}
+
+const generator = greatestSlide([[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]])
+
+for (const state of generator) {
+  console.log(state)
+}
+
+// [[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]]
+// [[3], [7, 4], [10, 13, 15]]
+// [[3], [20, 19]]
+// [[23]]
+```
+
+Hopefully you can see how the values sum their way up the pyramid.
+
+### Conclusion
+
+I recognize that perhaps you might not find that as interesting as I did, but hopefully I didn't bore you either. We don't often face problems quite like this in web development, so I find it a good exercise to stretch the brain from time to time. You never know what you might learn.
