@@ -12,29 +12,25 @@ relatedPostsSlugs:
   ]
 ---
 
+import SocialPost from '../../../components/SocialPost.astro'
+
 A couple weeks back now, I was starting to write a blog post to recap my 2018. I thought it would be a good idea to reference my goals for 2018 and started to review that post when I discovered something interesting. As I was reading a paragraph, I noticed some words that didn't sound like my voice. As I read further, there was a link to an air compressor. I assure you, I don't own an air compressor (yet) and I certainly would never put it in my article about my 2018 goals.
 
 That's when I realized that I had been hacked. Fuck.
 
 Here's a tweet thread regaling my woes that evening as I discovered the hacker had been changing my posts for _four whole months_!
 
-<blockquote class="twitter-tweet" data-lang="en">
-  <p lang="en" dir="ltr">
-    This really makes me feel good. I&#39;m working on a blog post and
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorHandle="@kyleshevl.in"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  avatarUrl="/images/kyle-headshot.jpg"
+  date="2018-12-29"
+  content="This really makes me feel good. I'm working on a blog post and
     referencing an old post of mine when I noticed that there was copy I
     DEFINITELY did not put in the post. Turns out the post was updated 4 weeks
-    ago. FUCK. <a href="https://t.co/hiLooSj0mX">pic.twitter.com/hiLooSj0mX</a>
-  </p>
-  &mdash; Kyle Shevlin (@kyleshevlin){' '}
-  <a href="https://twitter.com/kyleshevlin/status/1078805204542345216?ref_src=twsrc%5Etfw">
-    December 29, 2018
-  </a>
-</blockquote>
-<script
-  async
-  src="https://platform.twitter.com/widgets.js"
-  charset="utf-8"
-></script>
+    ago. FUCK."
+/>
 
 I never did find the exact point of weakness that the hacker used to get in and mess with my stuff, but I suspect it comes from my inattentiveness to updating plugins and WordPress itself. It would be nice to be able to trust something like that to be secure, but it seems weaknesses are found and exploited regularly.
 

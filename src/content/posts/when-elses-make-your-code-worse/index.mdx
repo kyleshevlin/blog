@@ -10,6 +10,8 @@ relatedPostsSlugs:
   ['managing-cyclomatic-complexity', 'prefer-multiple-compositions']
 ---
 
+import SocialPost from '../../../components/SocialPost.astro'
+
 Prefer a video lesson? Watch it instead.
 
 <EggheadEmbed
@@ -19,20 +21,14 @@ Prefer a video lesson? Watch it instead.
 
 Recently, I wrote a tweet that got some attention about not needing `else`s in your code. Some people got a bit upset about that. Here's that tweet.
 
-<blockquote class="twitter-tweet" data-lang="en">
-  <p lang="en" dir="ltr">
-    Random, lukewarm (as opposed to hot) take: You really don&#39;t need the
-    `else` keyword in JavaScript. Any scenario you&#39;d think to use it, I
-    might argue there&#39;s a better, and possibly simpler, way. *searches for
-    smoking embers of a former fire emoji*
-  </p>
-  &mdash; Kyle Shevlin (@kyleshevlin) <a href="https://twitter.com/kyleshevlin/status/1131674209287979008?ref_src=twsrc%5Etfw">May 23, 2019</a>
-</blockquote>
-<script
-  async
-  src="https://platform.twitter.com/widgets.js"
-  charset="utf-8"
-></script>
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  authorHandle="@kyleshevl.in"
+  avatarUrl="/images/kyle-headshot.jpg"
+  date="2019-05-23"
+  content="Random, lukewarm (as opposed to hot) take: You really don't need the `else` keyword in JavaScript. Any scenarion you'd think to use it, I might argue there's a better, and possibly simpler, way. *searches for the smoking embers of a former fire emoji*"
+/>
 
 I still stand by what I said, and I recently came across some code that was a good example of what I was talking about. The code looked like this (more or less):
 

@@ -8,10 +8,20 @@ type Props = {
   avatarUrl?: string
   content: string
   date?: string
+  postImageUrl?: string
+  postImageAlt?: string
 }
 
-const { authorHandle, authorName, authorProfile, avatarUrl, content, date } =
-  Astro.props
+const {
+  authorHandle,
+  authorName,
+  authorProfile,
+  avatarUrl,
+  content,
+  date,
+  postImageUrl,
+  postImageAlt,
+} = Astro.props
 const trimmed = content.trim()
 
 const AuthorWrap = authorProfile ? 'a' : 'div'
@@ -25,9 +35,7 @@ const authorWrapProps = authorProfile
   : {}
 ---
 
-<div
-  class="stack gap-8 rounded-lg border-2 border-accent p-4 pb-6 font-sans shadow-md"
->
+<div class="rounded-lg border-2 border-accent p-4 pb-6 font-sans shadow-md">
   <div class="row items-start gap-2">
     {
       avatarUrl && (
@@ -43,24 +51,36 @@ const authorWrapProps = authorProfile
       )
     }
 
-    <div class="stack grow">
-      <AuthorWrap {...authorWrapProps}>
-        <span class="text-lg font-bold leading-none">{authorName}</span>
+    <div class="stack shrink grow gap-4">
+      <div>
+        <AuthorWrap {...authorWrapProps}>
+          <span class="text-lg font-bold leading-none">{authorName}</span>
 
-        {
-          authorHandle && (
-            <span class="leading-none text-gray-500">{authorHandle}</span>
-          )
-        }
+          {
+            authorHandle && (
+              <span class="leading-none text-gray-500">{authorHandle}</span>
+            )
+          }
 
-        {
-          date && (
-            <span class="leading-none text-gray-500">&nbsp;&bull; {date}</span>
-          )
-        }
-      </AuthorWrap>
+          {
+            date && (
+              <span class="leading-none text-gray-500">
+                &nbsp;&bull; {date}
+              </span>
+            )
+          }
+        </AuthorWrap>
 
-      <div class="max-w-prose whitespace-pre leading-none">{trimmed}</div>
+        <div class="max-w-prose">
+          <div class="whitespace-pre-wrap leading-snug">{trimmed}</div>
+        </div>
+      </div>
+
+      {
+        postImageUrl && (
+          <img alt={postImageAlt} class="rounded-lg" src={postImageUrl} />
+        )
+      }
     </div>
   </div>
 </div>

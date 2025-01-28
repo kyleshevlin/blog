@@ -9,13 +9,20 @@ tags: ['TypeScript']
 relatedPostsSlugs: []
 ---
 
-import Tweet from './_tweet.astro'
+import SocialPost from '../../../components/SocialPost.astro'
 
 With tongue firmly in cheek, I tweeted the following:
 
-<div class="flex justify-center">
-  <Tweet />
-</div>
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorHandle="@kyleshevl.in"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  avatarUrl="/images/kyle-headshot.jpg"
+  content="Perhaps my favorite TypeScript tip"
+  date="2024-01-22"
+  postImageUrl="/images/type-todo-any.png"
+  postImageAlt="type TODO = any"
+/>
 
 The response the post received was a lot larger than I was expecting, so I thought I'd take a moment to explain why this is both a tip and a joke at the same time.
 

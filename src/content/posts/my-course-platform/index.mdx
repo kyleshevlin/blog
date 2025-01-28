@@ -10,11 +10,24 @@ relatedPostsSlugs: []
 relevantCourseNickname: 'array-reduce'
 ---
 
-import { MyTweet } from './_MyTweet'
+import SocialPost from '../../../components/SocialPost.astro'
 
 So I had a wild idea a _while_ back now:
 
-<MyTweet />
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorHandle="@kyleshevl.in"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  avatarUrl="https://cdn.bsky.app/img/avatar/plain/did:plc:h4qem3f3cz6yvs3r3xvs634g/bafkreig7fzbknganveoij56depkm4dxax3yo2cudxf6mase23vccmqn5xa@jpeg"
+  date="2021-06-14"
+  content={`
+I'm starting a new project today. I'm going to build a mini-course on Array.reduce()!
+
+I've seen a lot of confusion about this method, and I'd like to help people out.
+
+For added difficulty, I'm going to try and get it done in just a week.
+`}
+/>
 
 You may have noticed that it's been a little more than a week since I wrote that tweet. 😅
 

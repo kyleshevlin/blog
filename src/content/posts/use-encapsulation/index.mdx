@@ -14,7 +14,7 @@ relatedPostsSlugs:
   ]
 ---
 
-import RelatedTweet from './_RelatedTweet'
+import SocialPost from '../../../components/SocialPost.astro'
 
 **Update November 22nd, 2021:** I added a recording of my CascadiaJS on this topic to the end of this post. Enjoy!
 
@@ -22,7 +22,18 @@ import RelatedTweet from './_RelatedTweet'
 
 Recently, I shared this tweet:
 
-<RelatedTweet />
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorHandle="@kyleshevl.in"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  avatarUrl="/images/kyle-headshot.jpg"
+  date="2020-11-23"
+  content={`
+🔥 take I haven't fully thought through incoming: Every use of useEffect should be in a custom hook with a damn good name.
+
+It's frequently difficult to read & comprehend intention of the code when effects are strewn about. Better to encapsulate and provide context.
+`}
+/>
 
 This tweet was my response to some refactoring of our codebase, but having more than a month now to practice this a few more times, I'm convinced this pattern is the right way to go. I'll go further and say **most uses of React hooks should be encapsulated in a custom hook**, and I'm going to try and convince you of that on this post.
 
