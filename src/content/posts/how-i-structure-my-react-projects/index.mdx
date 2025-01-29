@@ -9,11 +9,31 @@ tags: ['React']
 relatedPostsSlugs: []
 ---
 
-import { MyTweet } from './_MyTweet'
+import SocialPost from '../../../components/SocialPost.astro'
 
 Recently, my friend Chance and I had this exchange on Twitter:
 
-<MyTweet client:load />
+<SocialPost
+  authorName="Chance Strickland"
+  authorHandle="@chance.dev"
+  authorProfile="https://bsky.app/profile/chance.dev"
+  avatarUrl="https://cdn.bsky.app/img/avatar/plain/did:plc:ka6432pfe364n2kjrfhi7aro/bafkreib6ezxyvfqhf63242ir67o47u4cepbct55umevxlnhduh7yslc25a@jpeg"
+  date="2021-06-11"
+  content={`I've been teaching workshops on React for a few months now, and one thing almost every team asks about at some point is folder structure and "best practices"`}
+/>
+
+<SocialPost
+  authorName="Kyle Shevlin"
+  authorHandle="@kyleshevl.in"
+  authorProfile="https://bsky.app/profile/kyleshevl.in"
+  avatarUrl="/images/kyle-headshot.jpg"
+  date="2021-06-11"
+  content={`
+Do you shrug and go "it really doesn't matter, just pick one and be consistent"?
+
+Cause that's what I would do.
+`}
+/>
 
 It's true. It really doesn't matter. That said, I'm going to share a few of my preferences and why they are what they are.
 
