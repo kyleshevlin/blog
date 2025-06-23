@@ -1,0 +1,116 @@
+---
+date: '2025-06-23T15:20:35.843Z'
+slug: 'prefer-gaps-to-margins'
+title: 'Prefer Gaps To Margins'
+subtitle: null
+description: 'Prefer using gaps to margins when it comes to your component layouts.'
+excerpt: 'I often try and say things with a little more nuance than this, but I think using gaps is superior to margins in pretty much every single way. You should be using them more in your apps than you are.'
+tags: ['Frontend', 'Design Systems', 'CSS']
+relatedPostsSlugs: ['no-outer-margin']
+---
+
+Preferring gaps to margins is so obvious to me that it's honestly challenging to write about it. What is there to argue? It just makes sense.
+
+Yet experience has taught me that it doesn't "just make sense" to many others, so I'm going to try and make my case.
+
+Margins and gaps are two different ways to space apart adjacent elements, however there are some key differences to note.
+
+Margins are applied to an element, either thru CSS or composition, and create a boundary around it such that the element itself can get no closer to any other element than the boundary. We can think of this relationship as child-to-sibling or child-to-outside-world layout strategy.
+
+Gaps, on the other hand, are a way for a Flex or Grid container to space out the children it contains. Each gap is applied between adjacent sibling elements. We can think of this as a parent-to-children layout strategy.
+
+Both can be used to space out elements, but whether we choose one or the other really depends on how you answer the following question: **whose responsibility is it for spacing, the parent or the child**?
+
+I'll make no qualms, I fall entirely in the "parents should control the layout of children" camp. I make heavy use of composition in my apps for this very purpose, and I'm perfectly comfortable doing this either with layout components or with utility classes.
+
+### Why I dislike margins
+
+There are a few reasons I think margins are a poor choice for laying out sibling components. Let's set aside the fact that any layout achieved with margins can be achieved with Flex + gaps instead and let's focus on issues with margins themselves.
+
+First, margins require us to wrap each child individually, and often with excessive care. Let's say I have three items I want to have in vertical column:
+
+```jsx
+<div>
+  <Item1 class="mb-4" />
+  <Item2 class="mb-4" />
+  <Item3 />
+</div>
+```
+
+It may not seem like a lot of code, but we've had to manually add classes _and_ we have to remember not to add it to the final element.
+
+The issue arises should we ever need to add, remove, or move elements in this list. We now have to manually move classes.
+
+But let's say we get wise and instead of hand-writing these components, we choose to derive them from data instead. We'll programmatically render the list, but we'll still have to make a caveat for not adding the final margin:
+
+```jsx
+<div>
+  {items.map((item, idx) => (
+    <Item
+      key={item.id}
+      class={idx !== items.length - 1 ? "mb-4" : ""}
+      item={item}
+    />
+  )}
+</div>
+```
+
+What a completely unnecessary bit of code to write when we can use gaps instead?
+
+```jsx
+<div class="flex flex-col gap-4">
+  {items.map(item => (
+    <Item key={item.id} item={item} />
+  ))}
+</div>
+```
+
+Better still, let's say that list of items should be in a row at a different breakpoint. What's easier? Manually removing and replacing all the margin classes, or simply changing the direction of the parent container?
+
+What code would you prefer, this?
+
+```jsx
+<div>
+  {items.map((item, idx) => (
+    <Item
+      key={item.id}
+      // At the medium break point, items should have a right
+      // margin now. Ignoring the fact that we'd have to change
+      // them to be inline-block or the parent div to a flex
+      // row to get them to layout side by side
+      class={idx !== items.length - 1 ? "mb-4 md:mb-0 md:mr-4" : ""}
+      item={item}
+    />
+  )}
+</div>
+```
+
+Or this?
+
+```jsx
+<div class="flex flex-col gap-4 md:flex-row">
+  {items.map(item => (
+    <Item key={item.id} item={item} />
+  ))}
+</div>
+```
+
+The answer should be glaringly obvious.
+
+Let's add one more wrinkle to margins: "vertical margin collapse". I'm not going to spend a lot of time explaining what it is, [Josh W. Comeau wrote a fantastic article about it you can read](https://www.joshwcomeau.com/css/rules-of-margin-collapse/), but I'm not a big fan of relying upon it in component systems.
+
+It's true, you can build systems that use margin collapse as a way to "create sane default spacing", but I'd argue you spend more time making compensatory classes or CSS to undo the margins than having the defaults are worth. If you find yourself writing CSS classes setting margins to `0` or writing a bunch of `my-0` classes in your code, you probably have a component system that's really difficult to compose.
+
+### Why I love gaps
+
+I don't even think this sections needs a lot of exposition, so I'll give you the bullet points.
+
+- Gaps are automatic. No matter how many items you add, they just keep getting added in the right spot. **Even if your list is of length 1, you never have to worry about an incorrect gap getting applied.**
+
+- Gaps are literally less code to write, added once on a parent, no need for children to share classes to share a margin top or bottom, no need for nth-selectors, etc.
+
+- Gaps work for both vertical and horizontal spacing. If your items wrap, there's no need to add additional margin classes to make sure they align on rows correctly. And you never need outer negative margins to ensure inner spacing works!
+
+### Final thoughts
+
+Gaps are superior to margins in pretty much every way. I'd rather an app be full of tiny stacks and rows with gaps than deal with margins any day of the week. Combine this concept with my [No Outer Margin](/no-outer-margin) post to make your component system more robust.
