@@ -246,7 +246,7 @@ export function TestYourMight({
           ))}
         </div>
       ) : (
-        <Button onClick={handleClick}>Click</Button>
+        <Button onClick={() => handleClick()}>Click</Button>
       )}
     </div>
   )
