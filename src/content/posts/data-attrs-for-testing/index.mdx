@@ -1,0 +1,74 @@
+---
+date: '2025-11-21T18:37:54.186Z'
+slug: 'data-attributes-for-testing'
+title: '<code>data</code> Attributes for Testing'
+subtitle: null
+description: 'Sometimes our tests are too imperative and know too much about the implementation details of the component. Learn how `data` attributes might be able to help you out.'
+excerpt: null
+tags: ['React', 'Vue']
+relatedPostsSlugs: []
+---
+
+I don't know if this is the world's best idea, but given the situation I'm faced with, it's the best one I've got.
+
+At my place of work, we have a design system partially built with custom web components. Given how web components are implemented, occasionally there's an attribute or piece of data we would like to test for that is in the shadow DOM. This poses a small problem for testing.
+
+I want to keep my tests as declarative as possible, but to get that information I have to imperatively reach into the shadow DOM. I don't like this. Especially if there's any chance we might change the implementation of the component. I want the tests to keep passing, so long as we haven't changed the public interface.
+
+As it stands, we sometimes have to search through the shadow DOM to find the right shadow part of an element we want to test. This requires making a special selector for those parts, and means our tests can be break if we make a change to the implementation.
+
+For example, we have a button component that can be passed an `href` or `to` prop and it will render as an `a` tag in the shadow DOM. If I want to look at the resulting `href`, I have to use our custom `shadowPart` selector to get that element. I'd rather not have to do that.
+
+The way I've gotten around this is by lifting important attributes that otherwise would be buried in the shadow DOM as `data-*` attributes on the root element. In the case of that `href`, I lift it to a `data-href` attribute.
+
+The dev uses the component like so:
+
+```jsx
+<OurButton href="/some/url">Click me</OurButton>
+```
+
+And the DOM looks something like this:
+
+```html
+<our-button data-href="/some/url">
+  <!-- in the shadow DOM -->
+  <a href="/some/url" part="base">Click me</a>
+</our-button>
+```
+
+The tests go from looking like this:
+
+```javascript
+expect(wrapper.getByTestId('our-button').shadowPart('base')).toHaveAttribute(
+  'href',
+  '/some/url',
+)
+```
+
+To something like this:
+
+```javascript
+expect(wrapper.getByTestId('our-button')).toHaveAttribute(
+  'data-href',
+  '/some/url',
+)
+```
+
+Notice I don't need the `shadowPart` selector anymore. If, like we're considering, we drop the custom web component and revert to regular DOM elements, the test will still pass.
+
+You can do this on a number of components for any number of attributes or props. For example, our button has the following `data-*` attributes:
+
+- `data-loading`
+- `data-href`
+- `data-variant`
+- `data-size`
+
+And there are more, but that's enough for you to see how the pattern can be implemented.
+
+These data attributes remain stable while other implementation details change. I'll give you another example that might apply to you.
+
+Before I added the `data-variant` and `data-size` attributes, our tests would look for specific classnames on the button to ensure that a prop was applied properly. The problem with this was if we migrate our system to use something like Tailwind, then all of these tests would break, even if the public interface hadn't changed.
+
+By verifying that the data attribute is correct (and assuming all functionality remains the same), we can keep our tests passing even if we make changes under the hood.
+
+So give it a try. If you're in a situation where you have some challenging components to test, you might find the `data-*` attributes pattern to be helpful.
