@@ -1,0 +1,84 @@
+---
+date: '2025-12-20T00:14:23.800Z'
+slug: 'nothing-is-something'
+title: 'Nothing is Something'
+subtitle: "aka please go watch Metz's talk, I'm begging you"
+description: ''
+excerpt: null
+tags: ['JavaScript', 'TypeScript']
+relatedPostsSlugs: []
+---
+
+I really need more people to watch ["Nothing is Something" by Sandi Metz](https://www.youtube.com/watch?v=OMPfEXIlTVE) so I don't get weird looks when I apply its lessons to my code.
+
+I was dealing with a problem like the following today. Imagine you got an object of key/value pairs, where the key is a bit of state and the value transforms that state somehow.
+
+```typescript
+// Just some arbitrary state for our example
+type State = {
+  count: number
+  createdAt: Date
+  isActive: boolean
+  name: string
+}
+
+type Transform = <T>(x: T) => T
+
+const STATE_TRANSFORMS: Partial<Record<keyof State, Transform>> = {
+  count: x => x * 2,
+  name: x => x.toUpperCase(),
+}
+```
+
+The transforms themselves aren't terribly important, but notice that I don't have a transformation for every key in the `State` type.
+
+Now, if you were to make a function to run those transforms, you might be tempted to do:
+
+```typescript
+function transformStates(state: State) {
+  const nextState: State = {}
+
+  for (const key of state) {
+    const transform = STATE_TRANSFORMS[key]
+
+    // This handles the condition at the last possible moment
+    // and it results in two separate ways of managing the state
+    if (transform) {
+      nextState[key] = transform(state[key])
+    } else {
+      nextState[key] = state[key]
+    }
+  }
+
+  return nextState
+}
+```
+
+But I prefer to do this instead:
+
+```javascript
+const identity = x => x
+
+function transformStates(state) {
+  const nextState = {}
+
+  for (const key of state) {
+    // Condition is handled a step earlier and we've narrowed
+    // the type of `transform` from `Transform | undefined`
+    // to just `Transform`, simplifying the next step
+    const transform = STATE_TRANSFORMS[key] ?? identity
+
+    nextState[key] = transform(state[key])
+  }
+
+  return nextState
+}
+```
+
+Because, as the title of the talk suggests, doing nothing _is_ doing something.
+
+You might argue that I'm making unnecessary function calls here, but I think it's a worthwhile trade-off for simpler code.
+
+We can use this pattern of identifying the "nothing", aka the default behavior, and providing the functionality for it as a way to simplify our code, primarily by reducing excessive conditionals which tends to be the source of complexity.
+
+Please watch the talk. You'll be a better programmer for it.
