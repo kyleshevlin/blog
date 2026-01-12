@@ -1,0 +1,258 @@
+---
+date: '2026-01-11T18:14:40.236Z'
+slug: 'async-data'
+title: '<code>AsyncData</code>'
+subtitle: 'aka a functor that might be worth knowing'
+description: "We've talked about enumerating states. We've talked about using state machines. Now let's talk about functors. For managing state, that is."
+excerpt: null
+tags: ['Functional Programming', 'TypeScript', 'JavaScript', 'React']
+relatedPostsSlugs: []
+---
+
+Over the years, I've had an interest in modeling state problems as accurately as possible. I submit posts like [Enumerate, Don't Booleanate](/enumerate-dont-booleanate) and my many posts on [state machines](/tags/state-machines) as evidence. I can't stand allowing impossible states or [leaking implementation details](/multiple-boolean-props-are-a-code-smell) when there's a better way.
+
+I thought I had reached the zenith of my state representation journey, but I was wrong.
+
+I recently decided to revisit functional programming and really dove into understanding monads, functors, etc. even more than I have in the past. I've been learning [Gleam](https://gleam.run) for fun, and writing my own little beginner's functional programming library to help ingrain the concepts. <Marker content="I haven't published it yet. It's not even at version 0.1.0." /> As part of my research, I've been closely studying the [Boxed library](https://boxed.cool) and the data types it implements. That's how I came across the `AsyncData` data type.
+
+There is some context that I think would be very helpful for you to understand why I find `AsyncData` so interesting, but including it here would take a lot of words. Instead, I'm going to list the concepts here for you to look up: <Marker content="Hopefully, I get around to writing my own posts about them some day." />
+
+- Discriminated unions, check out [here](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) and [here](/discriminated-unions-and-destructuring-in-typescript)
+- Functors, check out [here](https://mostly-adequate.gitbook.io/mostly-adequate-guide/ch08#my-first-functor)
+
+### Representing async data, imperatively
+
+I'm going to assume that most of you reading this have used the `fetch` method to get some data from an API.
+
+```typescript
+function getData() {
+  return fetch('/some/url').then(res => res.json())
+}
+
+const result = await getData()
+```
+
+When we fetch data, we generally need to manage some state about that data fetch so that we can respond to the various states it's in. I'm going to keep using plain JavaScript for my example, but you can imagine what it might look like for your framework of choice.
+
+```typescript
+let loading = false
+let error = null
+let data = null
+
+async function getData() {
+  // reset state from previous fetch
+  error = null
+
+  // start managing this loading state
+  loading = true
+
+  fetch('/some/url')
+    .then(res => res.json())
+    .then(d => {
+      data = d
+    })
+    .catch(err => {
+      error = err
+    })
+    .finally(() => {
+      loading = false
+    })
+}
+```
+
+This works, but it's a lot of manual setup (often repeated many times in a codebase) and it allows for possible impossible states if written poorly. The fact that there are three variables to manage the state means that somewhere in our code we might check for `loading`, `data`, or `error` in some incorrect way that leads to us showing an `error` when we should be `loading` or already have some `data`. <Marker content="Notice I didn't reset the data. Maybe you do or don't want to do that." /> It's prone to human error and can be avoided.
+
+We can make this better by enumerating the states. I won't go so far as using a state machine, though I could. Instead, I'll use a discriminated union to represent the possible states instead.
+
+```typescript
+type State<Data> =
+  | { status: 'not-asked' }
+  | { status: 'loading' }
+  | { status: 'failure'; message: string }
+  | { status: 'success'; data: Data }
+
+let state: State = { status: 'not-asked' }
+
+async function getData<Data>() {
+  state = { status: 'loading' }
+
+  fetch('/some/url')
+    .then(res => res.json())
+    .then(d => {
+      state = { status: 'success', data: d as Data }
+    })
+    .catch(err => {
+      state = { status: 'failure', message: err.message }
+    })
+}
+```
+
+This is way better than before. We only have one variable that manages all our state. We never have to reset state before fetching, and we can't possibly have an impossible state downstream. The use of the discriminated union also means TypeScript will narrow our types for us based on `status`, too.
+
+```typescript
+if (state.status === 'success') {
+  // TypeScript knows state.data is the type Data here
+}
+```
+
+If you stopped at this point, that would be great. Your codebase would improve just from this step. But there's a subtle way that this is inaccurate that I hadn't noticed.
+
+But this is where `AsyncData` and its friend, `Result`, come in.
+
+### `AsyncData` and `Result`
+
+What if instead of a type, we used a functor to represent our discriminated union? And what if we separated the concerns of the async process from the concerns of which "data" we received at the same time? That could be pretty cool.
+
+Let's start by implementing `AsyncData`. It's a Sum type made up of three sub-types: `NotAsked`, `Loading` and `Done`. We can setup some classes <Marker content="Ironic. I know." /> to make this work:
+
+```typescript
+type Tag = 'NotAsked' | 'Loading' | 'Done'
+
+class AsyncData<T> {
+  #tag: Tag
+  #value: T
+
+  constructor(tag: Tag, value: T) {
+    this.#tag = tag
+    this.#value = value
+  }
+
+  static NotAsked() {
+    return new NotAsked()
+  }
+
+  static Loading() {
+    return new Loading()
+  }
+
+  static Done<U>(value: U) {
+    return new Done(value)
+  }
+}
+
+class NotAsked extends AsyncData<never> {
+  constructor() {
+    super('NotAsked', undefined as never)
+  }
+}
+
+class Loading extends AsyncData<never> {
+  constructor() {
+    super('Loading', undefined as never)
+  }
+}
+
+class Done<T> extends AsyncData<T> {
+  constructor(value: T) {
+    super('Done', value)
+  }
+}
+```
+
+That's not our full implementation, but let's see how we'd use this instead in our `fetch` example:
+
+```typescript
+let state = AsyncData.NotAsked()
+
+function getData() {
+  state = AsyncData.Loading()
+
+  fetch('/some/url')
+    .then(res => res.json())
+    .then(data => {
+      state = AsyncData.Done(data)
+    })
+    .catch(error => {
+      state = AsyncData.Done(error)
+    })
+}
+```
+
+Now, if you're paying attention, you might think, "Kyle, that's objectively worse. You're passing `data` and `error` to the `Done` state and we can't discriminate between the two." You'd be right, but stay with me. We're going to make two more changes that will set your mind at ease.
+
+Now, I called `AsyncData` a functor because it is. We could implement `map` and `map` would only interact with the `value` when it's `Done`, otherwise it's a noop. But more interesting to our purposes is [pattern matching](/pattern-matching). We're going to implement a `match` method.
+
+```typescript
+class AsyncData<T> {
+  // same as before... new stuff below
+  isNotAsked(): this is NotAsked {
+    this.#tag === 'NotAsked'
+  }
+
+  isLoading(): this is Loading {
+    this.#tag === 'Loading'
+  }
+
+  isDone(): this is Done<T> {
+    this.#tag === 'Done'
+  }
+
+  // Here's the good stuff
+  match<A, B, C>({
+    NotAsked,
+    Loading,
+    Done,
+  }: {
+    NotAsked: () => A
+    Loading: () => B
+    Done: (value: T) => C
+  }): A | B | C {
+    if (this.isNotAsked()) NotAsked()
+    if (this.isLoading()) Loading()
+    if (this.isDone()) Done(this.#value)
+  }
+}
+```
+
+Our `match` method takes an object with three keys that match our possible sub-types, whose value is the function to call if the data happens to be in that particular state. Now we have a rock-solid way of responding to `AsyncData` as it changes, such as:
+
+```tsx
+type State = AsyncData<Result<Data, Error>>
+
+function MyDataDisplay() {
+  const [state, setState] = React.useState<State>(AsyncData.NotAsked())
+
+  React.useEffect(() => {
+    function getData() {
+      setState(AsyncData.Loading())
+
+      fetch('/some/url')
+        .then(res => res.json())
+        .then(data => {
+          setState(AsyncData.Done(Result.Ok(data)))
+        })
+        .catch(error => {
+          setState(AsyncData.Done(Result.Error(error)))
+        })
+    }
+
+    getData()
+  }, [])
+
+  return state.match({
+    NotAsked: () => null,
+    Loading: () => <div>Loading...</div>,
+    Done: result =>
+      result.match({
+        Ok: data => <DataViz data={data} />,
+        Error: error => (
+          <div>Whoops! Something went wrong: {error.message}</div>
+        ),
+      }),
+  })
+}
+```
+
+See what I did there?! Sure, I threw a curveball at you with the `Result` data type, but I bet you can figure it out. We've now completely separated the async process from that state of the data or error that was returned. That's a wholly separate concern, nicely managed with the `Result` type. And the pattern matching is just so clean (not to mention type-safe).
+
+Now we have a singular, reusable data type that we can use whenever we have an async process. No more imperative variables or states to setup, and no discriminated TypeScript unions to write either. Just our one, singular `AsyncData` state. I think that's really cool.
+
+### Do I expect to ever use this?
+
+In one of my projects? Sure. But in my day-to-day work, no.
+
+What I find cool and interesting doesn't often make it into the product I'm working on. I find it pretty difficult to convince people to try something like this, so I wouldn't stress about it if you like the pattern and can't use it either. Take satisfaction in knowing an _even better way_ to represent some of the state in your app.
+
+If you do want to try using this, I recommend checking out [Boxed](https://boxed.cool). It has the `AsyncData` and `Result` types you need as well as some examples. Check it out.
+
+If I ever finish that library I'm writing, I'll let you know.
