@@ -1,16 +1,16 @@
 ---
-interface Props {
-  external?: boolean
+type Props = {
   href: string
 }
 
-const { external = false, href } = Astro.props
+const EXTERNAL_HREF = /^https?:\/\//
 
-const additionalProps: Partial<Pick<HTMLAnchorElement, 'rel' | 'target'>> = {}
-if (external) {
-  additionalProps.rel = 'noopener noreferrer'
-  additionalProps.target = '_blank'
-}
+const { href } = Astro.props
+
+const additionalProps: Partial<Pick<HTMLAnchorElement, 'rel' | 'target'>> =
+  EXTERNAL_HREF.test(href)
+    ? { rel: 'noopener noreferrer', target: '_blank' }
+    : {}
 ---
 
 <a
