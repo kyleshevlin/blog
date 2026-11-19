@@ -68,6 +68,25 @@ const sanitizedDescription = description ? sanitize(description) : undefined
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
+    <!--
+      Preload the above-the-fold fonts so they aren't discovered only after the
+      stylesheet is parsed, which shrinks the fallback-font flash on first visit
+    -->
+    <link
+      rel="preload"
+      href="/fonts/DroidSerif-Regular-webfont.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/catamaran-regular-webfont.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <script is:inline>
       const THEME_STORAGE_KEY = 'kyleshevlin:theme'
       const theme = localStorage.getItem(THEME_STORAGE_KEY)
