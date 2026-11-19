@@ -2,3 +2,19 @@
   from = "https://kyleshevlin.netlify.com/*"
   to = "https://kyleshevlin.com/:splat"
   force = true
+
+# Netlify's default `max-age=0, must-revalidate` forces the browser to
+# revalidate fonts on every navigation. Combined with `font-display: swap`,
+# that renders each page in a fallback font until the 304 comes back, causing
+# a full-page reflow. Font filenames aren't hashed, so rename a font file if
+# it ever changes.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Astro content-hashes these filenames, so they're safe to cache forever
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
