@@ -1,6 +1,7 @@
 import React from 'react'
 
 type InputProps = {
+  helperText?: string
   label: string
   onChange: React.ChangeEventHandler<HTMLInputElement>
   type?: HTMLInputElement['type']
@@ -10,6 +11,7 @@ type InputProps = {
 }
 
 export function Input({
+  helperText,
   label,
   onChange,
   type = 'text',
@@ -22,7 +24,15 @@ export function Input({
       className={`flex gap-2 ${variant === 'block' ? 'flex-col' : 'items-baseline'}`}
       htmlFor={label}
     >
-      <span className="font-sans font-bold">{label}</span>
+      <span className="flex flex-col font-sans">
+        <span className="font-bold">{label}</span>
+
+        {helperText && (
+          <span className="text-sm text-gray-500 dark:text-gray-300">
+            {helperText}
+          </span>
+        )}
+      </span>
       <input
         {...rest}
         className={`${type !== 'range' && 'px-2 py-1'} rounded border-2 border-gray-300 bg-white font-serif text-black`}
